@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pond Planner | TreatYourselfDiscounts</title>
+<meta name="description" content="Your day, week and notes in one place.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-page="planner" id="top">
+<header class="site-header"><div class="header-inner"><a class="brand" href="index.html">TreatYourselfDiscounts<small>Welcome to the Pond!</small></a><button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="main-nav-list">Menu</button><nav class="main-nav" aria-label="Main navigation"><ul id="main-nav-list"><li><a href="index.html">Home</a></li><li><a href="deals.html">Today's Deals</a></li><li><a href="recipes.html">Lucy's Recipes</a></li><li><a href="korean.html">Korean Corner</a></li><li><a href="travel.html">Travel</a></li><li><a href="planner.html" aria-current="page">Planner</a></li><li><a href="books.html">Book Nook</a></li><li><a href="pantry.html">Pantry</a></li><li><a href="countdowns.html">Countdowns</a></li><li><a href="news.html">Pond Post</a></li><li><a href="about.html">About</a></li><li><a href="search.html">Search</a></li></ul></nav></div></header>
+<main class="wrap">
+<h1>Pond Planner</h1>
+<p>Your day, week and notes in one place.</p>
+<p><strong>Sunday, November 15, 2026</strong></p>
+<section class="card"><h2>Add an event</h2>
+<form id="event-form"><label for="event-title">Event</label><input id="event-title" required placeholder="e.g. Birthday lunch"><label for="event-date">Date</label><input id="event-date" type="date" value="2026-11-15"><p><button class="btn" type="submit">Add event</button></p></form>
+<ul class="plain-list" id="event-list"></ul><p id="event-empty" class="muted">No events yet — add your first one above.</p></section>
+<section class="card"><h2>Quick note</h2>
+<form id="note-form"><label for="note-text">Write a quick note</label><input id="note-text" required placeholder="Write a quick note"><p><button class="btn" type="submit">Add note</button></p></form>
+<ul class="plain-list" id="note-list"></ul><p id="note-empty" class="muted">No notes yet — write your first one above.</p></section>
+<section class="card"><h2>This week's checklist — November 15 to 21</h2>
+<form id="task-form"><label for="task-text">Add a task</label><input id="task-text" required placeholder="e.g. Buy birthday gift"><p><button class="btn" type="submit">Add task</button></p></form>
+<ul class="plain-list" id="task-list"></ul><p id="task-empty" class="muted">No checklist items yet — add your first task above.</p></section>
+<section class="card"><h2>Draw</h2><p>Your doodle pad — draw anything you like.</p>
+<canvas id="doodle" width="560" height="300" aria-label="Doodle pad"></canvas>
+<p><button class="btn btn-secondary" type="button" data-pen="#0f766e" data-size="4">Pen</button> <button class="btn btn-secondary" type="button" data-pen="#0f766e" data-size="12">Marker</button> <button class="btn btn-secondary" type="button" data-pen="#e11d48" data-size="8">Brush</button> <button class="btn btn-secondary" type="button" data-pen="#f59e0b" data-size="8">Rainbow</button> <button class="btn btn-secondary" type="button" data-pen="#ffffff" data-size="20">Eraser</button> <button class="btn btn-secondary" type="button" id="doodle-undo">Undo (clear)</button> <button class="btn btn-secondary" type="button" id="doodle-clear">Clear</button> <button class="btn" type="button" id="doodle-save">Save drawing</button></p></section>
+<section class="card"><h2>Lucky Duck</h2><p>Tap the duck for a surprise.</p><p><button class="btn btn-yellow" id="lucky-duck" type="button">Roll the dice</button></p><p id="lucky-msg"></p></section>
+
+</main>
+<footer class="site-footer"><div class="footer-inner">
+<p><strong>TreatYourselfDiscounts</strong> — Feather your nest, happy hunting!</p>
+<ul>
+<li><a href="about.html">About the Pond</a></li><li><a href="deals.html">Today's Deals</a></li><li><a href="recipes.html">Lucy's Recipes</a></li><li><a href="korean.html">Korean Corner</a></li><li><a href="travel.html">Travel</a></li><li><a href="planner.html">Planner</a></li><li><a href="books.html">Book Nook</a></li><li><a href="pantry.html">Pantry</a></li><li><a href="countdowns.html">Countdowns</a></li><li><a href="news.html">Pond Post</a></li><li><a href="search.html">Search the Pond</a></li>
+</ul>
+<p>Some links on this page are affiliate links. If you shop through them, I may earn a small commission. It never costs you extra, and it keeps the Pond swimming.</p>
+<p>© 2026 TreatYourselfDiscounts™. All rights reserved.</p>
+</div></footer>
+<script src="app.js"></script>
+</body>
+</html>

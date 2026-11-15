@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Book Nook | TreatYourselfDiscounts</title>
+<meta name="description" content="Your books, shelves and star ratings, all in one nook.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-page="books" id="top">
+<header class="site-header"><div class="header-inner"><a class="brand" href="index.html">TreatYourselfDiscounts<small>Welcome to the Pond!</small></a><button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="main-nav-list">Menu</button><nav class="main-nav" aria-label="Main navigation"><ul id="main-nav-list"><li><a href="index.html">Home</a></li><li><a href="deals.html">Today's Deals</a></li><li><a href="recipes.html">Lucy's Recipes</a></li><li><a href="korean.html">Korean Corner</a></li><li><a href="travel.html">Travel</a></li><li><a href="planner.html">Planner</a></li><li><a href="books.html" aria-current="page">Book Nook</a></li><li><a href="pantry.html">Pantry</a></li><li><a href="countdowns.html">Countdowns</a></li><li><a href="news.html">Pond Post</a></li><li><a href="about.html">About</a></li><li><a href="search.html">Search</a></li></ul></nav></div></header>
+<main class="wrap">
+<h1>Book Nook</h1>
+<p>Your books, shelves and star ratings, all in one nook.</p>
+<p id="book-count" class="muted"></p>
+<label for="book-shelf">Shelf</label>
+<select id="book-shelf"><option>All</option><option>Currently Reading</option><option>Want to Read</option><option>Finished</option><option>Favorites</option><option>On Hold</option></select>
+<ul class="plain-list" id="book-list"></ul>
+<section class="card"><h2>Add a book</h2>
+<form id="book-form">
+<label for="book-title">Title</label><input id="book-title" required placeholder="e.g. Dune">
+<label for="book-author">Author</label><input id="book-author" placeholder="e.g. Frank Herbert">
+<label for="book-shelf-new">Shelf</label><select id="book-shelf-new"><option>Currently Reading</option><option>Want to Read</option><option>Finished</option><option>Favorites</option><option>On Hold</option></select>
+<label for="book-stars">Stars (1 to 5)</label><select id="book-stars"><option>5</option><option>4</option><option>3</option><option>2</option><option>1</option></select>
+<p><button class="btn" type="submit">Add book</button></p></form></section>
+<p class="small muted">Three books are already on your shelves to get you started. Add your own below, and they are saved in this browser.</p>
+
+</main>
+<footer class="site-footer"><div class="footer-inner">
+<p><strong>TreatYourselfDiscounts</strong> — Feather your nest, happy hunting!</p>
+<ul>
+<li><a href="about.html">About the Pond</a></li><li><a href="deals.html">Today's Deals</a></li><li><a href="recipes.html">Lucy's Recipes</a></li><li><a href="korean.html">Korean Corner</a></li><li><a href="travel.html">Travel</a></li><li><a href="planner.html">Planner</a></li><li><a href="books.html">Book Nook</a></li><li><a href="pantry.html">Pantry</a></li><li><a href="countdowns.html">Countdowns</a></li><li><a href="news.html">Pond Post</a></li><li><a href="search.html">Search the Pond</a></li>
+</ul>
+<p>Some links on this page are affiliate links. If you shop through them, I may earn a small commission. It never costs you extra, and it keeps the Pond swimming.</p>
+<p>© 2026 TreatYourselfDiscounts™. All rights reserved.</p>
+</div></footer>
+<script src="app.js"></script>
+</body>
+</html>
