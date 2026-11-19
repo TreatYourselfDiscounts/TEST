@@ -2,38 +2,1201 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Today&#x27;s Deals | TreatYourselfDiscounts</title>
-<meta name="description" content="The strongest live deals from every brand, refreshed every morning. Prices can change at the store.">
-<link rel="stylesheet" href="style.css">
-</head>
-<body data-page="deals" id="top">
-<header class="site-header"><div class="header-inner"><a class="brand" href="index.html">TreatYourselfDiscounts<small>Welcome to the Pond!</small></a><button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="main-nav-list">Menu</button><nav class="main-nav" aria-label="Main navigation"><ul id="main-nav-list"><li><a href="index.html">Home</a></li><li><a href="deals.html" aria-current="page">Today's Deals</a></li><li><a href="recipes.html">Lucy's Recipes</a></li><li><a href="korean.html">Korean Corner</a></li><li><a href="travel.html">Travel</a></li><li><a href="planner.html">Planner</a></li><li><a href="books.html">Book Nook</a></li><li><a href="pantry.html">Pantry</a></li><li><a href="countdowns.html">Countdowns</a></li><li><a href="news.html">Pond Post</a></li><li><a href="about.html">About</a></li><li><a href="search.html">Search</a></li></ul></nav></div></header>
-<main class="wrap">
-<h1>Today's Deals</h1>
-<p>The strongest live deals from every brand, refreshed every morning. Prices can change at the store.</p>
-<p class="stamp" id="updated-stamp">Checked November 15, 2026 — prices can change at the store.</p>
-<div class="card"><div class="search-row">
-<div class="grow"><label for="deal-search">Search today's deals</label><input id="deal-search" type="search" placeholder="Try lego, stanley, air fryer"></div>
-<div><label for="deal-store">Store</label><select id="deal-store"><option>All</option><option>Amazon</option><option>Walmart</option><option>Nike</option><option>Rorry</option></select></div>
-<div><label for="deal-sort">Sort by</label><select id="deal-sort"><option value="best">Best deals</option><option value="pct">Biggest % off</option><option value="low">Lowest price</option><option value="high">Highest price</option><option value="az">A to Z</option></select></div>
-</div>
-<p><label><input type="checkbox" id="deal-fav-only" style="width:auto;min-height:44px;"> Favorites only</label></p>
-<p><button class="btn" id="load-deals" type="button">Load new deals</button> <button class="btn btn-secondary" id="deal-clear" type="button">Clear filters</button></p>
-<p class="small muted">Every Shop Deal button below is a real link to the retailer. Tap it and it opens the store in a new tab.</p></div>
-<div class="deal-grid" id="deal-grid"></div>
-<section class="card"><h2>Shop by brand</h2><p>These are brand links, not fake deals. Each one opens that brand's own search or store.</p><ul class="plain-list"><li><a href="https://www.amazon.com/" target="_blank" rel="sponsored noopener">Amazon</a></li><li><a href="https://www.walmart.com/" target="_blank" rel="sponsored noopener">Walmart</a></li><li><a href="https://www.target.com/" target="_blank" rel="sponsored noopener">Target</a></li><li><a href="https://www.ebay.com/" target="_blank" rel="sponsored noopener">eBay</a></li><li><a href="https://www.amazon.com/s?k=Temu" target="_blank" rel="sponsored noopener">Temu</a></li><li><a href="https://www.amazon.com/s?k=AliExpress" target="_blank" rel="sponsored noopener">AliExpress</a></li><li><a href="https://www.amazon.com/s?k=Shein" target="_blank" rel="sponsored noopener">Shein</a></li><li><a href="https://www.amazon.com/s?k=QVC" target="_blank" rel="sponsored noopener">QVC</a></li><li><a href="https://www.amazon.com/s?k=HSN" target="_blank" rel="sponsored noopener">HSN</a></li><li><a href="https://www.amazon.com/s?k=Kohl&#x27;s" target="_blank" rel="sponsored noopener">Kohl&#x27;s</a></li><li><a href="https://www.amazon.com/s?k=Best+Buy" target="_blank" rel="sponsored noopener">Best Buy</a></li><li><a href="https://www.amazon.com/s?k=Macy&#x27;s" target="_blank" rel="sponsored noopener">Macy&#x27;s</a></li><li><a href="https://www.amazon.com/s?k=CVS" target="_blank" rel="sponsored noopener">CVS</a></li><li><a href="https://www.amazon.com/s?k=Disney" target="_blank" rel="sponsored noopener">Disney</a></li><li><a href="https://www.amazon.com/s?k=Crocs" target="_blank" rel="sponsored noopener">Crocs</a></li><li><a href="https://www.amazon.com/s?k=Wayfair" target="_blank" rel="sponsored noopener">Wayfair</a></li><li><a href="https://www.amazon.com/s?k=H&amp;M" target="_blank" rel="sponsored noopener">H&amp;M</a></li></ul></section>
-<p class="muted">Some links on this page are affiliate links. If you shop through them, I may earn a small commission.</p>
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#ffd94d">
+<meta name="description" content="Today's verified deals from every TreatYourselfDiscounts brand, refreshed every morning. Welcome to the Pond!">
+<meta property="og:title" content="Today's Deals | TreatYourselfDiscounts™">
+<meta property="og:description" content="Today's verified deals from every TreatYourselfDiscounts brand, refreshed every morning. Welcome to the Pond!">
+<meta property="og:image" content="/images/corners/duck-deals.jpg">
+<meta property="og:url" content="/deals">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Today's Deals | TreatYourselfDiscounts™">
+<meta name="twitter:description" content="Today's verified deals from every TreatYourselfDiscounts brand, refreshed every morning. Welcome to the Pond!">
+<meta name="twitter:image" content="/images/corners/duck-deals.jpg">
+<title>Today's Deals | TreatYourselfDiscounts™</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body { overflow-x: clip; /* clip, not hidden: hidden makes a scroll container and breaks the sticky top bar (Nov 13, 2026) */ }
+  body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #d9f0f7; color: #23414d; }
+  .app { max-width: 430px; margin: 0 auto; min-height: 100vh; background: #bfe6f2; box-shadow: 0 0 24px rgba(35,65,77,.12); padding-bottom: 32px; }
+  .tyd-pill { display: none !important; }
+  header.top { text-align: center; margin: 10px 16px 4px; }
+  header.top .duck { width: 76px; height: 76px; border-radius: 50%; border: 3px solid #ffd94d; background: #ffd94d; }
+  header.top .sub { margin: 6px 0 0; color: #3f6b7a; font-size: 15px; line-height: 1.5; }
+  .back { color: #1f5f74; font-weight: 700; text-decoration: none; font-size: 14px; display: inline-block; margin: 14px 16px 0; }
+  h1 { margin: 0; font-size: 26px; letter-spacing: .2px; }
+  .tagline { margin: 8px 0 0; font-size: 15px; color: #3f6b7a; line-height: 1.45; }
+  .social-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; padding: 16px 16px 0; }
+  .soc-btn { width: 48px; height: 48px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; text-decoration: none; box-shadow: 0 4px 10px rgba(35,65,77,.18); transition: transform .2s ease; }
+  .soc-btn:hover { transform: translateY(-2px); }
+  .soc-btn svg { width: 26px; height: 26px; display: block; }
+  .soc-discord { background: #5865F2; }
+  .soc-instagram { background: linear-gradient(45deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5); }
+  .soc-tiktok { background: #000000; }
+  .soc-pinterest { background: #E60023; }
+  .links { padding: 20px 16px 0; display: flex; flex-direction: column; gap: 12px; }
+  .thumb { width: 56px; height: 56px; object-fit: cover; border-radius: 14px; flex-shrink: 0; }
+  .sidebar { padding: 20px 16px 0; }
+  .side-title { margin: 0; font-size: 17px; font-weight: 800; color: #1f5f74; }
+  .side-note { margin: 4px 0 12px; font-size: 13px; color: #4a6b78; }
+  .howto-note { padding: 0 16px; }
+  .side-links { display: flex; gap: 8px; overflow-x: auto; padding: 0 16px 4px 0; }
+  .side-links a { white-space: nowrap; text-decoration: none; color: #1f5f74; font-size: 14px; font-weight: 700; background: #fff; border: 2px solid #ffe066; border-radius: 999px; padding: 8px 14px; }
+  .side-links a span { font-weight: 400; opacity: .6; }
+  .foot-links { text-align: center; padding: 18px 24px 0; font-size: 13px; }
+  .foot-links a { color: #1f5f74; font-weight: 700; text-decoration: none; margin: 0 8px; }
+  details > summary { list-style: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+  details > summary::-webkit-details-marker { display: none; }
+  details > summary .chev { font-size: 16px; color: #1f5f74; flex-shrink: 0; margin-left: 12px; transition: transform 0.2s; }
+  details:not([open]) > summary .chev { transform: rotate(-90deg); }
+  details .card { margin-bottom: 16px; }
+  details .card:last-child { margin-bottom: 0; }
+  .deal { display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; background: #fff; border-radius: 14px; padding: 10px 14px; margin: 0 0 16px 24px; box-shadow: 0 2px 8px rgba(35,65,77,.06); }
+  .deal .thumb { width: 44px; height: 44px; object-fit: cover; border-radius: 12px; flex-shrink: 0; }
+  .deal .name { font-weight: 700; font-size: 14px; }
+  .deal .offer { font-size: 13px; color: #4a6b78; }
+  /* v307: solid white + solid border, not the two-layer gradient (same forced-dark victim as the cards). */
+  .search-row input { width: 100%; box-sizing: border-box; font-size: 15px; padding: 12px 16px; border-radius: 999px; border: 2px solid #bcd9e4; background: #fff; outline: none; color: #23414d; }
+  #no-results { text-align: center; color: #4a6b78; margin: 8px 0; }
+  .filter-row { display: flex; gap: 8px; margin: 0 0 16px; }
+  .filter-row label { flex: 1; font-size: 13px; font-weight: 700; color: #4a6b78; }
+  .filter-row select { width: 100%; margin-top: 4px; font-size: 14px; padding: 10px 12px; border-radius: 999px; border: 2px solid #bcd9e4; background: #fff; color: #23414d; outline: none; }
+  /* v307: explicit dark rules for the select and the card name (its text is light in dark mode, its background must be dark too). */
+  html[data-theme="dark"] .filter-row select { background: var(--tyd-acc-dark, #172635) !important; color: #eefaff !important; border-color: #2e4a5f !important; }
+  html[data-theme="dark"] .card .name { color: #eefaff !important; }
+  .brand-side { margin-top: 16px; }
+  .brand-side h3 { font-size: 13px; color: #4a6b78; margin: 0 0 8px; letter-spacing: .04em; text-transform: uppercase; }
+  .brand-list { display: flex; gap: 8px; overflow-x: auto; padding: 0 16px 4px 0; }
+  @media (max-width: 759px) {
+    /* On phones the Brand and Sort dropdowns stack full-width so their
+       labels are never clipped (Lucy, Nov 13, 2026: "Pond order" showed
+       as "Pond c..."). */
+    .filter-row { flex-direction: column; }
+    .filter-row label { flex: none; }
+  }
+  .brand-row { display: flex; align-items: center; gap: 8px; background: #fff; border: 2px solid #ffe066; border-radius: 999px; padding: 8px 14px; text-decoration: none; color: #23414d; font-weight: 700; font-size: 14px; white-space: nowrap; flex-shrink: 0; }
+  /* v261: explicit page-level dark-mode chip colors (do not rely on site-nav.js injection alone). Solid backgrounds only, no gradients, so a phone browser cannot mangle them into black. */
+  html[data-theme="dark"] .sidebar .brand-row { background: #172635 !important; border-color: #2e4a5f !important; color: #eefaff !important; }
+  html[data-theme="dark"] .sidebar .side-links a { background: #172635 !important; border-color: #2e4a5f !important; color: #eefaff !important; }
+  .brand-row img { height: 24px; max-width: 84px; object-fit: contain; }
+  /* Dark mode (Lucy, Nov 13, 2026): the Deal Math card goes dark but its
+     text colors are inline dark teal, so the question was unreadable.
+     Lighten all of them in dark mode. */
+  html[data-theme="dark"] #dealmath { background: #172635 !important; border-color: #2e4a5f !important; }
+  html[data-theme="dark"] #dealmath h2 { color: #eefaff !important; }
+  html[data-theme="dark"] #dealmath p { color: #c9f0fc !important; }
+  html[data-theme="dark"] #dm-q { color: #ffd94d !important; }
+  html[data-theme="dark"] #dm-msg { color: #c9f0fc !important; }
+  html[data-theme="dark"] #dm-opts button.dm-right { background: #1d4a2c !important; color: #d9f2e2 !important; border-color: #7cc79b !important; }
+  html[data-theme="dark"] #dm-opts button.dm-wrong { background: #5a1f1f !important; color: #fdecec !important; border-color: #f0b4b4 !important; }
+  html[data-theme="dark"] #dm-cats button.dm-cat-on { color: #6b5900 !important; }
+  @media (min-width: 760px) {
+    .app { max-width: 920px; }
+    .layout { display: flex; gap: 28px; align-items: flex-start; padding: 0 16px; }
+    .sidebar { width: 210px; flex-shrink: 0; position: sticky; top: 16px; padding: 20px 6px 12px 0; max-height: calc(100vh - 32px); overflow-y: auto; scrollbar-width: thin; }
+    .brand-list { flex-direction: column; overflow: visible; }
+    .brand-row { width: 100%; box-sizing: border-box; white-space: normal; }
+    .side-links { flex-direction: column; overflow: visible; }
+    .content { flex: 1; min-width: 0; }
+    main.links { padding: 20px 0 0; }
+  }
+  /* Share to the Shack (v312): a brand card's Share button is a
+     sibling of the card link (a button inside the <a> would be invalid
+     HTML), so the card is wrapped in a positioned div and the button
+     sits on the card's bottom-right corner. */
+  .tyd-sharewrap { position: relative; }
+  .tyd-sharewrap > [data-shack-share] { position: absolute; right: 10px; bottom: 10px; z-index: 2; }
+  /* v261: brand cards use a solid background and border (the two-layer gradient could mangle to black on a phone browser, same as the chips). */
+  .card { display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; background: #fff; border: 2px solid #ffe066; border-radius: 18px; padding: 14px 16px; box-shadow: 0 2px 8px rgba(35,65,77,.06); }
+  .card:active { background: #f2fafc; }
+  .card .info { flex: 1; min-width: 0; }
+  /* v261: brand card thumbnail (logo/product image, 48px). White chip background so dark logos stay readable in dark mode too. */
+  .card .brand-thumb { width: 48px; height: 48px; border-radius: 12px; object-fit: contain; background: #fff; border: 1px solid #dceef5; flex-shrink: 0; padding: 4px; box-sizing: border-box; }
+  /* v307: product photo on brand cards (the brand page's own hero product image), next to the logo thumb. */
+  .card .brand-photo { width: 72px; height: 72px; object-fit: cover; border-radius: 12px; flex-shrink: 0; border: 1px solid #dceef5; background: #eaf7fb; }
+  /* Spin the Pond + Drop a deal (Lucy, Nov 14, 2026). */
+  /* v307: solid, not a gradient (the spin card text sits on this background; a forced-dark recolor turns a gradient panel black with the dark text still on it). */
+  .spin-card { background: #fff8d6; border: 2px solid #ffe066; border-radius: 16px; padding: 16px; margin: 0 0 16px 24px; text-align: center; }
+  .spin-card h2 { margin: 0 0 4px; font-size: 20px; color: #1f5f74; }
+  .spin-card p { margin: 0 0 12px; font-size: 14px; color: #4a6b78; line-height: 1.5; }
+  .spin-btn { background: #ffd94d; border: 2px solid #e8b93c; color: #6b5900; font-weight: 800; font-size: 16px; border-radius: 999px; padding: 12px 24px; cursor: pointer; font-family: inherit; }
+  .spin-btn:disabled { opacity: .6; cursor: wait; }
+  .spin-result { margin-top: 12px; text-align: left; }
+  .spin-result .deal { margin: 0; }
+  .spin-result .spin-again { margin-top: 10px; text-align: center; }
+  .drop-card { background: #fff; border: 2px solid #bcd9e4; border-radius: 16px; padding: 16px; margin: 0 0 16px 24px; }
+  .drop-card h2 { margin: 0 0 4px; font-size: 18px; color: #1f5f74; }
+  .drop-card p { margin: 0 0 12px; font-size: 14px; color: #4a6b78; line-height: 1.5; }
+  .drop-card label { display: block; font-size: 13px; font-weight: 700; color: #1f5f74; margin: 10px 0 4px; }
+  .drop-card input, .drop-card textarea { width: 100%; box-sizing: border-box; font-size: 15px; padding: 10px 12px; border-radius: 10px; border: 2px solid #bcd9e4; font-family: inherit; color: #23414d; }
+  .drop-card textarea { min-height: 64px; resize: vertical; }
+  .drop-card .err { color: #b04a4a; font-size: 13px; font-weight: 700; min-height: 18px; margin: 6px 0 0; }
+  .drop-card .ok { color: #2e7d32; font-size: 13.5px; font-weight: 700; margin: 6px 0 0; }
+  .drop-row { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border: 1.5px solid #d9edf4; border-radius: 12px; margin-bottom: 8px; background: #fff; }
+  .drop-row .dinfo { flex: 1; min-width: 0; }
+  .drop-row .dname { font-weight: 800; font-size: 14.5px; color: #1f5f74; }
+  .drop-row .dmeta { font-size: 12.5px; color: #4a6b78; margin-top: 2px; }
+  .drop-row .drop-del { background: none; border: none; color: #b04a4a; font-size: 16px; cursor: pointer; padding: 4px; flex: none; }
+  html[data-theme="dark"] .spin-card { background: #172635; border-color: #2e4a5f; }
+  html[data-theme="dark"] .spin-card h2 { color: #c9f0fc; }
+  html[data-theme="dark"] .spin-card p { color: #bcd6e4; }
+  html[data-theme="dark"] .drop-card { background: #172635; border-color: #2e4a5f; }
+  html[data-theme="dark"] .drop-card h2, html[data-theme="dark"] .drop-card label { color: #c9f0fc; }
+  html[data-theme="dark"] .drop-card p { color: #bcd6e4; }
+  html[data-theme="dark"] .drop-card input, html[data-theme="dark"] .drop-card textarea { background: #101e2c; border-color: #2e4a5f; color: #eefaff; }
+  html[data-theme="dark"] .drop-row { background: #101e2c; border-color: #2e4a5f; }
+  html[data-theme="dark"] .drop-row .dname { color: #eefaff; }
+  html[data-theme="dark"] .drop-row .dmeta { color: #bcd6e4; }
+  html[data-theme="dark"] .drop-row .drop-del { color: #f0b4b4; }
+  html[data-theme="dark"] .card .brand-thumb { background: #fff !important; border-color: #dceef5 !important; }
+  html[data-theme="dark"] .card .brand-photo { border-color: #2e4a5f !important; background: #23414d !important; }
+  .card .name { font-weight: 700; font-size: 16px; }
+  .card .offer { font-size: 13.5px; color: #5a7d8a; margin-top: 2px; }
+  .chip { display: inline-block; margin-top: 6px; font-size: 12px; font-weight: 700; letter-spacing: .4px; color: #6b5310; background: #fff3bf; border: 1px dashed #f0c93e; padding: 3px 8px; border-radius: 8px; }
+  .arrow { font-size: 20px; color: #8fb6c2; flex-shrink: 0; }
+  .section-title { text-align: center; font-size: 19px; color: #1f5f74; margin: 4px 0 4px; }
+  .nest { font-weight: 700; color: #1f5f74; margin: 14px 0 0; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .footer-duck-v4{display:block;margin:0 auto 6px;height:84px;width:84px;border-radius:50%;object-fit:cover;border:3px solid #ffd94d;background:#ffd94d;filter:drop-shadow(0 3px 5px rgba(35,65,77,.25));animation:pondfloat 6s ease-in-out infinite;}
+  .footer-duck { display: block; margin: 0 auto 6px; height: 84px; width: auto; filter: drop-shadow(0 3px 5px rgba(35,65,77,.25)); }
+  footer { text-align: center; font-size: 12.5px; color: #4a6b78; padding: 24px 24px 0; line-height: 1.5; }
 
-</main>
-<footer class="site-footer"><div class="footer-inner">
-<p><strong>TreatYourselfDiscounts</strong> — Feather your nest, happy hunting!</p>
-<ul>
-<li><a href="about.html">About the Pond</a></li><li><a href="deals.html">Today's Deals</a></li><li><a href="recipes.html">Lucy's Recipes</a></li><li><a href="korean.html">Korean Corner</a></li><li><a href="travel.html">Travel</a></li><li><a href="planner.html">Planner</a></li><li><a href="books.html">Book Nook</a></li><li><a href="pantry.html">Pantry</a></li><li><a href="countdowns.html">Countdowns</a></li><li><a href="news.html">Pond Post</a></li><li><a href="search.html">Search the Pond</a></li>
-</ul>
-<p>Some links on this page are affiliate links. If you shop through them, I may earn a small commission. It never costs you extra, and it keeps the Pond swimming.</p>
-<p>© 2026 TreatYourselfDiscounts™. All rights reserved.</p>
-</div></footer>
-<script src="app.js"></script>
+  @keyframes pondfloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+  
+  .card { transition: transform .25s ease, box-shadow .25s ease; }
+  .card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(35,65,77,.14); }
+  .deal { transition: transform .25s ease, box-shadow .25s ease; }
+  .deal:hover { transform: translateY(-2px); }
+  .footer-duck { animation: pondfloat 6s ease-in-out infinite; }
+  @media (prefers-reduced-motion: reduce) { header, .footer-duck, .play-banner { animation: none; } .card, .deal { transition: none; } }
+
+  /* v307: solid colors, not gradients — same forced-dark reason as the cards; shades sampled from the old gradients. */
+  /* Seamless card rhythm (Nov 15, 2026): the banner now uses the brand
+     .card's own box — same 2px #ffe066 border, 18px radius, 14px 16px
+     padding, 0 2px 8px shadow, no side margins — so its edges line up with
+     the brand cards in the same flex column (12px gap) instead of sitting
+     narrower with a heavier shadow like a pasted-in box. Yellow kept. */
+  .play-banner { display: flex; align-items: center; gap: 12px; margin: 0; padding: 14px 16px; border-radius: 18px; text-decoration: none; color: #14505f; background: #ffe9a8; border: 2px solid #ffe066; box-shadow: 0 2px 8px rgba(35,65,77,.06); animation: pondfloat 7s ease-in-out infinite; transition: transform .25s ease, box-shadow .25s ease; }
+  .play-banner:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(35,65,77,.14); }
+  .play-banner.recipes-banner { background: #dff2e2; border-color: #9ed3a6; }
+  .play-banner.protect-banner { background: #cfeef8; border-color: #7fc4dd; }
+  html[data-theme="dark"] .play-banner { background: #23414d !important; border-color: #2e4a5f !important; color: #eefaff !important; }
+  html[data-theme="dark"] .play-banner .play-text span { color: #bcd6e4 !important; }
+  html[data-theme="dark"] .play-banner .play-arrow { color: #ffd94d !important; }
+  .play-banner .play-emoji { font-size: 30px; line-height: 1; }
+  .play-banner .play-text { flex: 1; min-width: 0; }
+  .play-banner .play-text b { display: block; font-size: 16.5px; }
+  .play-banner .play-text span { font-size: 13px; color: #3f6b7a; }
+  .play-banner .play-arrow { font-size: 24px; color: #1f5f74; flex-shrink: 0; align-self: center; line-height: 1; }
+  /* LEGO banner (Nov 15, 2026): the title wrapped mid-phrase on phone
+     ("LEGO Deals — 19 sets on / sale"). "🧱 LEGO Deals" is now one
+     unbreakable unit and "— 181 deals on sale" is a second one, so the only
+     break point is the space between them: the count drops to its own line
+     instead of splitting. Duck, text and chevron stay vertically centered
+     (flex align-items:center on .play-banner, chevron pinned with
+     flex-shrink:0 + align-self:center). No colors set here, so the existing
+     dark-mode .play-banner rules still govern both modes. */
+  .play-banner.lego-banner .play-text b { line-height: 1.35; }
+  .play-banner.lego-banner .play-title-main { white-space: nowrap; }
+  .play-banner.lego-banner .play-title-sub { white-space: nowrap; }
+  .account-bar { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 12px 16px 0; background: #fff; border: 2px solid var(--tyd-acc-bd2, #ffe066); border-radius: 999px; padding: 7px 8px 7px 15px; box-shadow: 0 2px 8px rgba(35,65,77,.08); }
+  .account-bar .ab-label { font-weight: 800; font-size: 13.5px; color: #1f5f74; white-space: nowrap; }
+  .account-bar .ab-state { display: flex; align-items: center; gap: 7px; min-width: 0; }
+  .account-bar .ab-who { font-size: 12.5px; color: #3f6b7a; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 150px; }
+  .ab-btn { display: inline-block; background: #1f5f74; color: #fff; font-weight: 800; font-size: 13px; text-decoration: none; border: none; cursor: pointer; font-family: inherit; border-radius: 999px; padding: 7px 14px; white-space: nowrap; }
+  .ab-btn.ab-alt { background: #fff3b0; color: #6b5900; }
+
+  .topdeals { margin: 20px 0 4px; }
+  .td-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .topdeals h2 { margin: 0; font-size: 21px; color: #1f5f74; }
+  .td-search { color: #1f5f74; font-weight: 800; font-size: 13.5px; text-decoration: none; }
+  .td-sub { color: #3f6b7a; font-size: 13.5px; line-height: 1.5; margin: 6px 0 12px; }
+  .tdgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(158px, 1fr)); gap: 10px; }
+  .tdcard { background: #fff; border-radius: 14px; padding: 10px; display: flex; flex-direction: column; gap: 8px; box-shadow: 0 2px 6px rgba(35,65,77,.08); }
+  .tdcard img { width: 100%; height: 108px; object-fit: cover; border-radius: 10px; background: #eaf7fb; display: block; margin-bottom: 6px; }
+  .tdbrand { font-size: 10.5px; font-weight: 800; color: #8a7a2e; text-transform: uppercase; letter-spacing: .5px; }
+  .tdname { font-weight: 700; font-size: 14px; line-height: 1.3; margin-top: 2px; }
+  .tdoffer { color: #1e5c33; font-weight: 700; font-size: 13px; margin-top: 3px; line-height: 1.35; }
+  .tdsave { background: #fff3b0; border: none; border-radius: 999px; padding: 6px 11px; font-weight: 800; font-size: 12px; cursor: pointer; color: #6b5900; font-family: inherit; display: inline-block; }
+  .td-load { color: #3f6b7a; font-size: 14px; grid-column: 1 / -1; }
+</style>
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="apple-touch-icon-v2.png">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="TreatYourself">
+<meta name="robots" content="noindex,nofollow">
+<link rel="stylesheet" href="pond-travel.css">
+<script>window.__TYD_PREVIEW__=true;</script>
+</head>
+<body>
+<div class="app">
+<div class="tyd-pagehead">
+  <a class="tyd-ph-home" href="index.html">&larr; The Pond</a>
+  <a class="tyd-ph-search" href="search.html">🔍 Search the Pond</a>
+</div>
+
+  
+  <header class="top">
+    <img class="duck" src="images/corners/duck-deals.jpg" onerror="this.onerror=null;this.src='icon-512.png';" alt="The Pond duck">
+    <h1>🔥 Today's Deals</h1>
+    <p class="sub">Verified deals, codes and price drops from every brand in the Pond, refreshed every morning.</p>
+  </header>
+  <p class="howto-note" style="font-size:13px;color:#4a6b78;margin:0 0 12px;">🔥 Browse the verified deals, use the search and filters to find what you want, then tap a deal to open it.</p>
+  <div class="layout">
+    <nav class="sidebar">
+      <p class="side-title">Shop by category</p>
+      <p class="side-note">Pond picks, not endless aisles.</p>
+      <div class="side-links">
+        <a href="#brands">Brand Deals <span>14</span></a>
+        <a href="#postpartum">Postpartum Picks <span>9</span></a>
+        <a href="#shop">Shop The Pond <span>5</span></a>
+        <a href="lego.html">🧱 LEGO Deals <span>125</span></a>
+        <a href="home-goods.html">🏡 Home Goods <span>36</span></a>
+        <a href="tech.html">💻 Tech <span>31</span></a>
+        <a href="beauty.html">💄 Beauty <span>16</span></a>
+        <a href="baby.html">👶 Baby <span>15</span></a>
+        <a href="viral.html">🔥 Viral Deals <span>29</span></a>
+        <a href="index.html">Pond Home <span>&#8250;</span></a>
+      </div>
+    <div class="brand-side">
+      <h3>Shop by brand</h3>
+      <div class="brand-list">
+        <a class="brand-row" href="brands/bur-bur.html"><img class="brand-logo" src="https://burbur.com/cdn/shop/files/BLACKlogo_9fe2987e-c0d1-4e25-87ac-274fd6fc4dac.png?v=1726160671" alt="" onerror="this.remove()">Bur Bur</a>
+        <a class="brand-row" href="brands/rorry.html"><img class="brand-logo" src="https://rorry.com/cdn/shop/files/IMG_202503146858_565x628_4594e37a-1f72-462f-9c2d-77016d43e64b.jpg?v=1741932872" alt="" onerror="this.remove()">Rorry</a>
+        <a class="brand-row" href="brands/fanttik.html"><img class="brand-logo" src="https://fanttik.com/cdn/shop/files/a2ef603fbf313567e18bc28e0e280ee2_96be3f40-c8e8-4681-b0d9-bc1253f6ae9d.png?v=1761643404&width=2048" alt="" onerror="this.remove()">Fanttik</a>
+        <a class="brand-row" href="brands/glocusent.html"><img class="brand-logo" src="https://glocusent.com/cdn/shop/files/2_fe161971-dd8b-4497-afe4-0432f24af773.png?crop=center&height=1230&v=1757663890&width=410" alt="" onerror="this.remove()">Glocusent</a>
+        <a class="brand-row" href="brands/soundcore.html"><img class="brand-logo" src="https://cdn.shopify.com/s/files/1/0501/7678/6607/files/logo-d_f9a37426-3dd4-4c03-9591-0da953d1f997_600x.png?v=1681962161" alt="" onerror="this.remove()">Soundcore</a>
+        <a class="brand-row" href="brands/aurzen.html"><img class="brand-logo" src="https://aurzen.com/cdn/shop/files/Aurzen-Identity-Kit_Logo_Gold_120x.png?v=1723713535" alt="" onerror="this.remove()">Aurzen</a>
+        <a class="brand-row" href="brands/lotus-and-luna.html"><img class="brand-logo" src="https://www.lotusandluna.com/cdn/shop/files/HORIZONTAL_LOGO_BLACK_1_a95458ff-b9bc-46c8-bb7b-a19cae950b9e_1600x.png?v=1727396860" alt="" onerror="this.remove()">Lotus and Luna</a>
+        <a class="brand-row" href="brands/seeq.html"><img class="brand-logo" src="https://seeqsupply.com/cdn/shop/files/logo-seeq.png?v=1741233889&width=600" alt="" onerror="this.remove()">SEEQ</a>
+        <a class="brand-row" href="brands/mellow-sleep.html"><img class="brand-logo" src="https://mellowsleep.com/cdn/shop/files/plush_plum_86a2bfe3-29ec-4ac6-8473-655c22112954.png?v=1771248481&width=600" alt="" onerror="this.remove()">Mellow Sleep</a>
+        <a class="brand-row" href="brands/ridge.html"><img class="brand-logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Ridge_company_logo.svg/250px-Ridge_company_logo.svg.png" alt="" onerror="this.remove()">Ridge</a>
+        <a class="brand-row" href="brands/im8-health.html"><img class="brand-logo" src="https://im8health.com/cdn/shop/files/Header-Logo-New.svg?v=1729066833&width=600" alt="" onerror="this.remove()">IM8 Health</a>
+        <a class="brand-row" href="brands/weekend-sleepover.html"><img class="brand-logo" src="https://www.weekendsleepover.com/cdn/shop/files/FULL_STACK.png?v=1770490174&width=1200" alt="" onerror="this.remove()">Weekend Sleepover</a>
+        <a class="brand-row" href="brands/ryze.html"><img class="brand-logo" src="https://www.ryzesuperfoods.com/cdn/shop/files/LinkedIn_Actual_Profile_Picture_1_1.png?v=1777312333" alt="" onerror="this.remove()">Ryze</a>
+        <a class="brand-row" href="brands/zawina-morocco.html"><img class="brand-logo" src="https://www.zawinamorocco.com/cdn/shop/files/ZM_Brown_Logo2_e5245841-694b-43df-9ed0-76b8038f2a3d.png?v=1751139093" alt="" onerror="this.remove()">Zawina Morocco</a>
+      </div>
+    </div>
+    </nav>
+    <div class="content">
+  <main class="links">
+    <div class="search-row" id="brands"><input id="deal-search" type="search" placeholder="Search deals..." aria-label="Search deals"></div>
+    <p id="no-results" hidden>No deals match your search.</p>
+    <div class="filter-row"><label>Brand <select id="brand-category" aria-label="Filter brands by kind"><option value="">All brands</option><option value="fashion">Fashion</option><option value="beauty">Beauty</option><option value="tech">Tech</option><option value="wellness">Wellness</option><option value="home">Home and Sleep</option></select></label><label>Sort <select id="brand-sort" aria-label="Sort brands"><option value="linktree">Pond picks</option><option value="az">A to Z</option><option value="za">Z to A</option></select></label></div>
+    <p class="deal-count" id="deal-count" style="font-size:13px;color:#4a6b78;margin:0 0 4px;">14 brand deals, refreshed every morning.</p>
+    <a class="play-banner lego-banner" href="lego.html">
+      <img src="images/corners/duck-deals.jpg" alt="" style="width:48px;height:48px;border-radius:50%;border:2px solid #ffd94d;object-fit:cover;flex-shrink:0;" onerror="this.remove()">
+      <span class="play-text"><b><span class="play-title-main">🧱 LEGO Deals</span> <span class="play-title-sub">— 125 deals on sale</span></b><span>Verified LEGO sets and more from LEGO.com, Walmart and Target, up to 60% off. Checked November 18, 2026.</span></span>
+      <span class="play-arrow" aria-hidden="true">&#8250;</span>
+    </a>
+    <div class="spin-card" id="spin-card">
+      <h2>🎡 Spin the Pond</h2>
+      <p>Cannot decide? Let the duck pick a deal for you. One spin, one random Pond deal.</p>
+      <button type="button" class="spin-btn" id="spin-btn">🎡 Spin for a deal</button>
+      <div class="spin-result" id="spin-result" aria-live="polite"></div>
+    </div>
+    <div class="drop-card" id="drop-card">
+      <h2>📮 Drop a deal</h2>
+      <p>Found a deal the Pond should know about? Drop it here. Lucy and the mods check every submission before it goes live.</p>
+      <button type="button" class="spin-btn" id="drop-toggle" style="font-size:14px;padding:10px 18px;">📮 Drop a deal</button>
+      <div id="drop-form" style="display:none;margin-top:12px;">
+        <label for="dr-title">Deal title *</label>
+        <input id="dr-title" type="text" placeholder="Like: 40% off the Mellow comforter">
+        <label for="dr-store">Store / brand *</label>
+        <input id="dr-store" type="text" placeholder="Like: Mellow Sleep, Amazon, Target">
+        <label for="dr-details">Deal details *</label>
+        <textarea id="dr-details" placeholder="Like: Full/Queen comforter $119.99, was $209.99, code TYD15OFF"></textarea>
+        <label for="dr-link">Link (optional)</label>
+        <input id="dr-link" type="url" placeholder="https://...">
+        <label for="dr-name">Your name (optional)</label>
+        <input id="dr-name" type="text" placeholder="Like: DuckFan42, or leave blank to stay anonymous">
+        <p class="err" id="dr-err"></p>
+        <p class="ok" id="dr-ok" style="display:none;"></p>
+        <div style="margin-top:10px;">
+          <button type="button" class="spin-btn" id="dr-submit" style="font-size:14px;padding:10px 18px;">Send it to the Pond</button>
+        </div>
+      </div>
+      <div id="drop-mine" style="margin-top:12px;"></div>
+    </div>
+    <a class="card" data-category="beauty" href="brands/bur-bur.html" target="_blank" rel="noopener">
+      <img class="brand-thumb" src="https://burbur.com/cdn/shop/files/BLACKlogo_9fe2987e-c0d1-4e25-87ac-274fd6fc4dac.png?v=1726160671" alt="" loading="lazy" onerror="this.remove()">
+      <span class="info"><span class="name">Bur Bur Hair Care</span><br><span class="offer">15% off</span><br><span class="chip">Code: TYD15</span><br><button type="button" data-clip-code="TYD15" data-brand="Bur Bur Hair Care" data-slug="bur-bur">📌 Clip code</button></span>
+      <img class="brand-photo" src="https://cdn.shopify.com/s/files/1/0588/9841/5771/files/STYLING_CREAM.jpg?v=1790621316&width=900" alt="" loading="lazy" onerror="this.remove()">
+      <span class="arrow" aria-hidden="true">&#8250;</span>
+    </a><a class="card" data-category="tech" href="brands/rorry.html" target="_blank" rel="noopener">
+      <img class="brand-thumb" src="https://rorry.com/cdn/shop/files/IMG_202503146858_565x628_4594e37a-1f72-462f-9c2d-77016d43e64b.jpg?v=1741932872" alt="" loading="lazy" onerror="this.remove()">
+      <span class="info"><span class="name">Rorry Chargers</span><br><span class="offer">10% off</span><br><span class="chip">Code: TYD10</span><br><button type="button" data-clip-code="TYD10" data-brand="Rorry Chargers" data-slug="rorry">📌 Clip code</button></span>
+      <img class="brand-photo" src="https://rorry.com/cdn/shop/files/RORRY-AuraDock_-M2-5000mAh-4in1-ChargingStation-with-MagSafe-Power-Bank-pink.jpg?v=1793352674&width=1200" alt="" loading="lazy" onerror="this.remove()">
+      <span class="arrow" aria-hidden="true">&#8250;</span>
+    </a><a class="card" data-category="tech" href="brands/fanttik.html" target="_blank" rel="noopener">
+      <img class="brand-thumb" src="https://fanttik.com/cdn/shop/files/a2ef603fbf313567e18bc28e0e280ee2_96be3f40-c8e8-4681-b0d9-bc1253f6ae9d.png?v=1761643404&width=2048" alt="" loading="lazy" onerror="this.remove()">
+      <span class="info"><span class="name">Fanttik</span><br><span class="offer">Shop Fanttik</span></span>
+      <img class="brand-photo" src="https://fanttik.com/cdn/shop/files/9_535c6730-aea8-4ae7-a592-96ad568b1101.jpg?v=1786358127&width=1200" alt="" loading="lazy" onerror="this.remove()">
+      <span class="arrow" aria-hidden="true">&#8250;</span>
+    </a><a class="card" data-category="home" href="brands/glocusent.html" target="_blank" rel="noopener">
+      <img class="brand-thumb" src="https://glocusent.com/cdn/shop/files/2_fe161971-dd8b-4497-afe4-0432f24af773.png?crop=center&height=1230&v=1757663890&width=410" alt="" loading="lazy" onerror="this.remove()">
+      <span class="info"><span class="name">Glocusent Reading Lights</span><br><span class="offer">Shop Glocusent</span></span>
+      <img class="brand-photo" src="https://glocusent.com/cdn/shop/files/a13-neck_light_4.jpg?v=1773992320&width=900" alt="" loading="lazy" onerror="this.remove()">
+      <span class="arrow" aria-hidden="true">&#8250;</span>
+    </a><a class="card" data-category="tech" href="brands/soundcore.html" target="_blank" rel="noopener">
+      <img class="brand-thumb" src="https://cdn.shopify.com/s/files/1/0501/7678/6607/files/logo-d_f9a37426-3dd4-4c03-9591-0da953d1f997_600x.png?v=1681962161" alt="" loading="lazy" onerror="this.remove()">
+      <span class="info"><span class="name">Soundcore</span><br><span class="offer">Extra 20% off full-price items</span><br><span class="chip">Code: AFSC20</span><br><button type="button" data-clip-code="AFSC20" data-brand="Soundcore" data-slug="soundcore">📌 Clip code</button></span>
+      <img class="brand-photo" src="https://us.soundcore.com/cdn/shop/files/A3388Z11_DTC_listing_image_TD01_US_V1_59c18857-9355-46ac-ac07-48f92411ed6a.png?v=1763430064&width=900" alt="" loading="lazy" onerror="this.remove()">
+      <span class="arrow" aria-hidden="true">&#8250;</span>
+    </a><a class="card" data-category="tech" href="brands/aurzen.html" target="_blank" rel="noopener">
+      <img class="brand-thumb" src="https://aurzen.com/cdn/shop/files/Aurzen-Identity-Kit_Logo_Gold_120x.png?v=1723713535" alt="" loading="lazy" onerror="this.remove()">
+      <span class="info"><span class="name">Aurzen Projectors</span><br><span class="offer">10% off</span><br><span class="chip">Code: CJ10</span><br><button type="button" data-clip-code="CJ10" data-brand="Aurzen Projectors" data-slug="aurzen">📌 Clip code</button></span>
+      <img class="brand-photo" src="https://aurzen.com/cdn/shop/files/Aurzen_ZIP_Tri-Fold_Portable_Projector_-_Titanium_Gold.webp?v=1776421892&width=900" alt="" loading="lazy" onerror="this.remove()">
+      <span class="arrow" aria-hidden="true">&#8250;</span>
+    </a><a class="card" data-category="fashion" href="brands/lotus-and-luna.html" target="_blank" rel="noopener">
+      <img class="brand-thumb" src="https://www.lotusandluna.com/cdn/shop/files/HORIZONTAL_LOGO_BLACK_1_a95458ff-b9bc-46c8-bb7b-a19cae950b9e_1600x.png?v=1727396860" alt="" loading="lazy" onerror="this.remove()">
+      <span class="info"><span class="name">Lotus and Luna</span><br><span class="offer">20% off</span></span>
+      <img class="brand-photo" src="https://cdn.shopify.com/s/files/1/1134/8440/files/XHLB017_ORN_1_2d249b49-2b7c-401a-a51a-7f763bb784f9.jpg?v=1794517752&width=900" alt="" loading="lazy" onerror="this.remove()">
+      <span class="arrow" aria-hidden="true">&#8250;</span>
+    </a><a class="card" data-category="wellness" href="brands/seeq.html" target="_blank" rel="noopener">
+      <img class="brand-thumb" src="https://seeqsupply.com/cdn/shop/files/logo-seeq.png?v=1741233889&width=600" alt="" loading="lazy" onerror="this.remove()">
+      <span class="info"><span class="name">SEEQ Clear Protein</span><br><span class="offer">30% off first Subscribe & Save order</span></span>
+      <img class="brand-photo" src="https://seeqsupply.com/cdn/shop/files/1_144b9381-0a1c-4797-b800-c37806c09565.jpg?v=1791923727&width=1200" alt="" loading="lazy" onerror="this.remove()">
+      <span class="arrow" aria-hidden="true">&#8250;</span>
+    </a><a class="card" data-category="home" href="brands/mellow-sleep.html" target="_blank" rel="noopener">
+      <img class="brand-thumb" src="https://mellowsleep.com/cdn/shop/files/plush_plum_86a2bfe3-29ec-4ac6-8473-655c22112954.png?v=1771248481&width=600" alt="" loading="lazy" onerror="this.remove()">
+      <span class="info"><span class="name">Mellow Sleep</span><br><span class="offer">15% off through this link</span></span>
+      <img class="brand-photo" src="https://mellowsleep.com/cdn/shop/files/Hero_41351ffa-55da-45af-9ad0-9281919a7cd1.jpg?v=1771959104&width=1200" alt="" loading="lazy" onerror="this.remove()">
+      <span class="arrow" aria-hidden="true">&#8250;</span>
+    </a><a class="card" data-category="fashion" href="brands/ridge.html" target="_blank" rel="noopener">
+      <img class="brand-thumb" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Ridge_company_logo.svg/250px-Ridge_company_logo.svg.png" alt="" loading="lazy" onerror="this.remove()">
+      <span class="info"><span class="name">Ridge</span><br><span class="offer">Shop Ridge</span></span>
+      <img class="brand-photo" src="https://ca.ridge.com/cdn/shop/files/TobaccoBrown-Wallet-THUMBNAIL_b071bd25-a027-4f5d-a7e9-e0d6890119c9.jpg?v=1783469399&width=900" alt="" loading="lazy" onerror="this.remove()">
+      <span class="arrow" aria-hidden="true">&#8250;</span>
+    </a><a class="card" data-category="wellness" href="brands/im8-health.html" target="_blank" rel="noopener">
+      <img class="brand-thumb" src="https://im8health.com/cdn/shop/files/Header-Logo-New.svg?v=1729066833&width=600" alt="" loading="lazy" onerror="this.remove()">
+      <span class="info"><span class="name">IM8 Health</span><br><span class="offer">10% off</span><br><span class="chip">Code: Take10</span><br><button type="button" data-clip-code="Take10" data-brand="IM8 Health" data-slug="im8-health">📌 Clip code</button></span>
+      <img class="brand-photo" src="https://im8health.com/cdn/shop/files/USD_30DAY_ESSENTIALS_COPY1_VISUAL_B_97edb232-7b04-4be6-8eb5-f6a3187588be.jpg?v=1778121212&width=1200" alt="" loading="lazy" onerror="this.remove()">
+      <span class="arrow" aria-hidden="true">&#8250;</span>
+    </a><a class="card" data-category="fashion" href="brands/weekend-sleepover.html" target="_blank" rel="noopener">
+      <img class="brand-thumb" src="https://www.weekendsleepover.com/cdn/shop/files/FULL_STACK.png?v=1770490174&width=1200" alt="" loading="lazy" onerror="this.remove()">
+      <span class="info"><span class="name">Weekend Sleepover</span><br><span class="offer">10% off sleepwear and robes</span><br><span class="chip">Code: LUCY59928</span><br><button type="button" data-clip-code="LUCY59928" data-brand="Weekend Sleepover" data-slug="weekend-sleepover">📌 Clip code</button></span>
+      <img class="brand-photo" src="https://cdn.shopify.com/s/files/1/0762/3897/9329/files/robe-amalfi1.jpg?v=1790851358&width=900" alt="" loading="lazy" onerror="this.remove()">
+      <span class="arrow" aria-hidden="true">&#8250;</span>
+    </a><a class="card" data-category="wellness" href="brands/ryze.html" target="_blank" rel="noopener">
+      <img class="brand-thumb" src="https://www.ryzesuperfoods.com/cdn/shop/files/LinkedIn_Actual_Profile_Picture_1_1.png?v=1777312333" alt="" loading="lazy" onerror="this.remove()">
+      <span class="info"><span class="name">Ryze Mushroom Coffee</span><br><span class="offer">15% off through this link</span></span>
+      <img class="brand-photo" src="https://www.ryzesuperfoods.com/cdn/shop/files/mushroom-coffee-add-ona3b6ryze-115181.jpg?v=1724682354&width=1200" alt="" loading="lazy" onerror="this.remove()">
+      <span class="arrow" aria-hidden="true">&#8250;</span>
+    </a>
+    <a class="card" data-category="beauty" href="brands/zawina-morocco.html" target="_blank" rel="noopener">
+      <img class="brand-thumb" src="https://www.zawinamorocco.com/cdn/shop/files/ZM_Brown_Logo2_e5245841-694b-43df-9ed0-76b8038f2a3d.png?v=1751139093" alt="" loading="lazy" onerror="this.remove()">
+      <span class="info"><span class="name">Zawina Morocco</span><br><span class="offer">Moroccan Skincare</span></span>
+      <img class="brand-photo" src="https://cdn.shopify.com/s/files/1/0509/8068/3950/files/NilaBundleSet_Acopy_a357fc66-f47f-4e5f-8bdd-eebf5db15fc2.jpg?v=1794385284&width=900" alt="" loading="lazy" onerror="this.remove()">
+      <span class="arrow" aria-hidden="true">&#8250;</span>
+    </a>
+    <section id="dealmath" style="background:#fff;border:2px solid #bcd9e4;border-radius:16px;padding:14px;margin:12px 0;">
+      <h2 style="margin:0 0 4px;color:#1f5f74;font-size:18px;">🧮 Deal Math Practice</h2>
+      <p style="margin:0 0 10px;font-size:13.5px;color:#5b7d89;">Train your deal brain. Pick a category, tap your answer, build a streak.</p>
+      <div id="dm-hint" style="background:#fff3b0;border:2px solid #e8c93a;border-radius:12px;padding:10px 12px;margin:0 0 10px;font-size:14px;line-height:1.45;color:#5a4a00;">
+        <div style="font-weight:800;">💡 Hints</div>
+        <div id="dm-hint-text"></div>
+      </div>
+      <div id="dm-cats" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;"></div>
+      <div id="dm-q" style="font-size:16.5px;font-weight:700;color:#123a4d;min-height:24px;"></div>
+      <div id="dm-opts" style="display:grid;gap:8px;margin-top:10px;"></div>
+      <p id="dm-msg" style="font-weight:700;color:#1f5f74;min-height:20px;margin:10px 0 0;"></p>
+      <button id="dm-next" type="button" style="display:none;margin-top:8px;background:#ffd94d;border:2px solid #e8c93a;color:#5a4a00;font-weight:800;font-size:14px;border-radius:999px;padding:9px 18px;cursor:pointer;">Next question ›</button>
+      <p style="margin:8px 0 0;font-size:13px;color:#5b7d89;">Score: <b id="dm-score">0</b> · Streak: <b id="dm-streak">0</b> · Best streak: <b id="dm-best">0</b></p>
+    </section>
+
+    <section class="topdeals" id="topdeals">
+      <div class="td-head"><h2>🔥 Today's Top Deals</h2><a class="td-search" href="search.html">Search the whole Pond &#8250;</a></div>
+      <p class="td-sub">The strongest live deals from every brand, gathered in one spot and kept fresh by the daily deal check. Tap a deal to shop it, or save it to your own list. Prices can change at the store.</p>
+      <div class="tdgrid" id="tdgrid"><p class="td-load">Rounding up today's deals...</p></div>
+    </section>
+    <details id="postpartum" open><summary><span class="section-title">Postpartum Picks</span><span class="chev">▾</span></summary>
+    <a class="card" href="https://www.amazon.com/dp/B0CPL9CTT8?tag=treatyour09a8-20" data-goatcounter-click="click-deal-perelel" target="_blank" rel="noopener">
+      <img class="thumb" src="images/banners/baby.jpg" alt="" loading="lazy" onerror="this.remove()">      <span class="info"><span class="name">Perelel</span><br><span class="offer">$58.76 · Amazon</span></span>
+      <span class="arrow" aria-hidden="true">&#8250;</span>
+    </a>
+    <a class="card" href="https://www.amazon.com/dp/B09W35QHJW?tag=treatyour09a8-20" data-goatcounter-click="click-deal-ritual" target="_blank" rel="noopener">
+      <img class="thumb" src="images/banners/baby.jpg" alt="" loading="lazy" onerror="this.remove()">      <span class="info"><span class="name">Ritual</span><br><span class="offer">$42.98 · Amazon</span></span>
+      <span class="arrow" aria-hidden="true">&#8250;</span>
+    </a>
+    <a class="card" href="https://www.amazon.com/dp/B0DG3Y6M46?tag=treatyour09a8-20&th=1&psc=1" data-goatcounter-click="click-deal-frida-mom-bundle" target="_blank" rel="noopener">
+      <img class="thumb" src="images/banners/baby.jpg" alt="" loading="lazy" onerror="this.remove()">      <span class="info"><span class="name">Frida Mom Bundle</span><br><span class="offer">$61.98 · Amazon</span></span>
+      <span class="arrow" aria-hidden="true">&#8250;</span>
+    </a>
+    <a class="card" href="https://www.amazon.com/dp/B0GK1QS6ML?tag=treatyour09a8-20" data-goatcounter-click="click-deal-momcozy" target="_blank" rel="noopener">
+      <img class="thumb" src="images/banners/baby.jpg" alt="" loading="lazy" onerror="this.remove()">      <span class="info"><span class="name">Momcozy</span><br><span class="offer">$50.99 · Amazon</span></span>
+      <span class="arrow" aria-hidden="true">&#8250;</span>
+    </a>
+    <a class="card" href="https://www.amazon.com/dp/B09XP8FCJ9?tag=treatyour09a8-20&th=1&psc=1" data-goatcounter-click="click-deal-ingrid-isabel" target="_blank" rel="noopener">
+      <img class="thumb" src="images/banners/baby.jpg" alt="" loading="lazy" onerror="this.remove()">      <span class="info"><span class="name">Ingrid & Isabel</span><br><span class="offer">$42.99 · Amazon</span></span>
+      <span class="arrow" aria-hidden="true">&#8250;</span>
+    </a>
+    <a class="card" href="https://www.target.com/p/frida-mom-postpartum-recovery-essentials-kit-with-peri-bottle/-/A-76199074" data-goatcounter-click="click-deal-frida-mom-recovery-essentials-kit" target="_blank" rel="noopener">
+      <img class="thumb" src="images/banners/baby.jpg" alt="" loading="lazy" onerror="this.remove()">      <span class="info"><span class="name">Frida Mom Recovery Essentials Kit</span><br><span class="offer">$49.99 · Target</span></span>
+      <span class="arrow" aria-hidden="true">&#8250;</span>
+    </a>
+    <a class="card" href="https://www.target.com/p/pink-stork-recovery-tea-strawberry-passion-fruit-pouch-15ct/-/A-76524645" data-goatcounter-click="click-deal-pink-stork-recovery-tea" target="_blank" rel="noopener">
+      <img class="thumb" src="images/banners/baby.jpg" alt="" loading="lazy" onerror="this.remove()">      <span class="info"><span class="name">Pink Stork Recovery Tea</span><br><span class="offer">$19.99 · Target</span></span>
+      <span class="arrow" aria-hidden="true">&#8250;</span>
+    </a>
+    <a class="card" href="https://www.target.com/p/frida-mom-postpartum-abdominal-support-binder/-/A-83387854" data-goatcounter-click="click-deal-frida-mom-abdominal-support-binder" target="_blank" rel="noopener">
+      <img class="thumb" src="images/banners/baby.jpg" alt="" loading="lazy" onerror="this.remove()">      <span class="info"><span class="name">Frida Mom Abdominal Support Binder</span><br><span class="offer">$29.99 · Target</span></span>
+      <span class="arrow" aria-hidden="true">&#8250;</span>
+    </a>
+    <a class="card" href="https://www.target.com/p/oat-mama-power-protein-powder-chocolate/-/A-93549134" data-goatcounter-click="click-deal-oat-mama-power-protein-powder" target="_blank" rel="noopener">
+      <img class="thumb" src="images/banners/baby.jpg" alt="" loading="lazy" onerror="this.remove()">      <span class="info"><span class="name">Oat Mama Power Protein Powder</span><br><span class="offer">$42.99 · Target</span></span>
+      <span class="arrow" aria-hidden="true">&#8250;</span>
+    </a>
+    </details>
+    <details id="shop" open><summary><span class="section-title">Shop The Pond</span><span class="chev">▾</span></summary>
+    <a class="card" href="https://www.jdsports.com/pdp/mens-hoka-bondi-9-running-shoes/prod2876246/1162011/020" data-goatcounter-click="click-deal-hoka-men-s-bondi-9" target="_blank" rel="noopener">
+      <span class="info"><span class="name">HOKA Men's Bondi 9</span><br><span class="offer">$175 · JD Sports</span></span>
+      <span class="arrow" aria-hidden="true">&#8250;</span>
+    </a>
+    <a class="card" href="https://www.jdsports.com/pdp/womens-hoka-bondi-9-running-shoes/prod2876258/1162012/271" data-goatcounter-click="click-deal-hoka-women-s-bondi-9" target="_blank" rel="noopener">
+      <span class="info"><span class="name">HOKA Women's Bondi 9</span><br><span class="offer">$175 · JD Sports</span></span>
+      <span class="arrow" aria-hidden="true">&#8250;</span>
+    </a>
+    <a class="card" href="https://www.rei.com/product/242333/shokz-openswim-pro-headphones?sku=2423330001" data-goatcounter-click="click-deal-shokz-openswim-pro" target="_blank" rel="noopener">
+      <span class="info"><span class="name">Shokz OpenSwim Pro</span><br><span class="offer">$229.95 · REI</span></span>
+      <span class="arrow" aria-hidden="true">&#8250;</span>
+    </a>
+    <a class="card" href="https://www.rei.com/product/246833/shokz-openrun-pro2-headphones?sku=2468330004" data-goatcounter-click="click-deal-shokz-openrun-pro2" target="_blank" rel="noopener">
+      <span class="info"><span class="name">Shokz OpenRun Pro2</span><br><span class="offer">$179.95 · REI</span></span>
+      <span class="arrow" aria-hidden="true">&#8250;</span>
+    </a>
+    <a class="card" href="https://givehugz.co/products/ozzie-the-koala" data-goatcounter-click="click-deal-ozzie-the-koala" target="_blank" rel="noopener">
+      <img class="thumb" src="https://cdn.shopify.com/s/files/1/0666/9130/1682/files/Koala_Tube.jpg?v=1770796278" alt="" onerror="this.remove()"><span class="info"><span class="name">Ozzie the Koala</span><br><span class="offer">$59.99 · Givehugz</span></span>
+      <span class="arrow" aria-hidden="true">&#8250;</span>
+    </a>
+    </details>
+    </main>
+  <footer><p>Some links on this page are affiliate links. If you shop through them, I may earn a small commission at no extra cost to you. Thanks for supporting the Pond!</p><img class="footer-duck-v4" src="icon-512.png" alt="The Pond duck">
+<p class="nest">Feather Your Nest</p>
+    <p class="nest" style="margin-top:10px">© 2026 TreatYourselfDiscounts™. All rights reserved.</p>
+    <nav class="foot-links"><a href="rules.html">Pond Rules</a><a href="terms.html">Terms of Use</a><a href="feedback.html">Give Feedback</a><a href="account.html">Pond Account</a><a href="mailto:treatyourselfdiscounts@gmail.com">Contact</a><a href="https://discord.gg/zfcwECetx2" data-goatcounter-click="click-discord">Join the Pond</a><a href="https://ko-fi.com/treatyourselfdiscounts" data-goatcounter-click="click-kofi">Ko-fi Tip Jar</a></nav></footer>
+    </div>
+  </div>
+</div>
+  <script>if ("serviceWorker" in navigator) { window.addEventListener("load", function() { navigator.serviceWorker.register("sw.js"); }); }  const searchInput = document.getElementById('deal-search');
+  const noResults = document.getElementById('no-results');
+  const categorySelect = document.getElementById('brand-category');
+  const sortSelect = document.getElementById('brand-sort');
+  let brandCards = Array.from(document.querySelectorAll('main a.card[href^="brands/"]'));
+  const brandAnchor = document.getElementById('postpartum');
+  let linktreeOrder = brandCards.slice();
+  /* Live deals (Nov 13, 2026): deals-live.js can add, remove, or update
+     brand cards from Firestore, so the filter re-collects its card list
+     when that happens instead of holding the stale baked-in list. */
+  window.TYDDealsRecollect = function () {
+    brandCards = Array.from(document.querySelectorAll('main a.card[href^="brands/"]'));
+    linktreeOrder = brandCards.slice();
+    applyFilters();
+  };
+  function brandName(card) { return card.querySelector('.name').textContent.trim().toLowerCase(); }
+  function matchesTerm(text, term) { const t = text.toLowerCase(); return term.split(/\s+/).every((wd) => t.includes(wd)); }
+  /* The "no deals match" line only ever appears after a real search or
+     filter that returns zero results. It must never show on first load
+     or while deals are still loading. */
+  let tydHasSearched = false;
+  function applyFilters() {
+    const term = searchInput.value.trim().toLowerCase();
+    const cat = categorySelect.value;
+    let sorted = linktreeOrder.slice();
+    if (sortSelect.value === 'az') sorted.sort((a, b) => brandName(a).localeCompare(brandName(b)));
+    if (sortSelect.value === 'za') sorted.sort((a, b) => brandName(b).localeCompare(brandName(a)));
+    let anyVisible = false;
+    let visibleBrands = 0;
+    sorted.forEach((card) => {
+      /* Share to the Shack (v312): a wrapped brand card moves (and
+         hides) as one unit with its Share button, so sorting and
+         filtering never strand the button from its card. */
+      const unit = (card.parentNode && card.parentNode.classList && card.parentNode.classList.contains("tyd-sharewrap")) ? card.parentNode : card;
+      brandAnchor.parentNode.insertBefore(unit, brandAnchor);
+      const show = (!term || matchesTerm(card.textContent, term)) && (!cat || card.dataset.category === cat);
+      unit.style.display = show ? '' : 'none';
+      if (show) { anyVisible = true; visibleBrands++; }
+    });
+    document.querySelectorAll('main details').forEach((section) => {
+      const sectionText = section.querySelector('summary').textContent.toLowerCase();
+      let sectionVisible = false;
+      section.querySelectorAll('.card, .deal').forEach((item) => {
+        const show = !term || matchesTerm(item.textContent, term) || matchesTerm(sectionText, term);
+        item.style.display = show ? '' : 'none';
+        if (show) sectionVisible = true;
+      });
+      section.style.display = sectionVisible ? '' : 'none';
+      if (term && sectionVisible) section.open = true;
+      if (sectionVisible) anyVisible = true;
+    });
+    const tdGrid = document.getElementById('tdgrid');
+    let tdVisible = false;
+    if (tdGrid) {
+      tdGrid.querySelectorAll('.tdcard').forEach((el) => {
+        const show = !term || matchesTerm(el.textContent, term);
+        el.style.display = show ? '' : 'none';
+        if (show) tdVisible = true;
+      });
+      const tdSection = document.getElementById('topdeals');
+      if (tdSection) tdSection.style.display = (!term || tdVisible) ? '' : 'none';
+      if (tdVisible) anyVisible = true;
+    }
+    noResults.hidden = !(tydHasSearched && !anyVisible);
+    /* Real count, never a zero message while deals exist: the line shows
+       the live brand count, and only narrows to "showing X of Y" while
+       a search or filter is active. */
+    const dealCount = document.getElementById('deal-count');
+    if (dealCount) {
+      const total = brandCards.length;
+      dealCount.textContent = (term || cat)
+        ? ("Showing " + visibleBrands + " of " + total + " brand deals.")
+        : (total + " brand deals, refreshed every morning.");
+    }
+  }
+  searchInput.addEventListener('input', function () { if (searchInput.value.trim()) tydHasSearched = true; applyFilters(); });
+  var tydSearchTimer = null;
+  searchInput.addEventListener('input', function () {
+    if (tydSearchTimer) clearTimeout(tydSearchTimer);
+    tydSearchTimer = setTimeout(function () {
+      if (window.tydSearchEvent) window.tydSearchEvent('home', searchInput.value);
+    }, 900);
+  });
+  categorySelect.addEventListener('change', function () { if (categorySelect.value) tydHasSearched = true; applyFilters(); });
+  sortSelect.addEventListener('change', applyFilters);
+  const tdGridWatch = document.getElementById('tdgrid');
+  if (tdGridWatch && window.MutationObserver) new MutationObserver(function () { applyFilters(); }).observe(tdGridWatch, { childList: true });
+</script>
+
+<script type="module" src="lists.js"></script>
+<script type="module" src="auth-pill.js"></script>
+<script src="top-deals.js"></script>
+<script src="deals-live.js"></script>
+<script>
+/* Section helper bot: floating duck chat for this section, with export. */
+window.BOTCFG = {
+  section: "Deals",   duck: "images/corners/duck-deals.jpg",
+  title: "\U0001f986 Deals Helper",
+  placeholder: "Ask about today's deals...",
+  honest: "I answer from this page's own deals and brand list, not a full AI.",
+  greet: "Quack! I'm the Deals duck. \U0001f525 Ask me what's in Today's Top Deals, which brands have offers, where the codes live, or how saving deals to a list works.",
+  fallback: "Quack, that one's beyond this little duck. I can list today's top deals, run through the brand offers, explain search and filters, or tell you how lists work.",
+  chips: [
+    ["\U0001f525 Top deals today", "What's in Today's Top Deals?"],
+    ["\U0001f3f7️ Brand offers", "Which brands have offers?"],
+    ["\U0001f50e How to search", "How do I search and filter deals?"],
+    ["\U0001f9fa How lists work", "How do lists work?"]
+  ],
+  answer: function (q, U) {
+    var low = q.toLowerCase();
+    function cards(sel) {
+      var out = [], els = document.querySelectorAll(sel), i, n, o;
+      for (i = 0; i < els.length; i++) {
+        n = els[i].querySelector(".name"); o = els[i].querySelector(".offer");
+        out.push({ name: n ? n.textContent.trim() : "", offer: o ? o.textContent.trim() : "", href: els[i].getAttribute("href") || "" });
+      }
+      return out;
+    }
+    var brands = cards('main a.card[href^="brands/"]');
+    var i, c;
+    for (i = 0; i < brands.length; i++) {
+      if (brands[i].name && low.indexOf(brands[i].name.toLowerCase().split(" ")[0]) > -1 && brands[i].name.length > 2) {
+        c = brands[i];
+        return c.name + ": " + c.offer + ". Tap its card on this page to open the brand page, where the shop link and any code live.";
+      }
+    }
+    if (/top|today|hottest|best|strongest/.test(low)) {
+      var td = cards("#tdgrid a");
+      if (!td.length) return "Today's Top Deals are gathered fresh every morning from every brand's live sales. Give the section a moment to load, then ask me again.";
+      return "Today's Top Deals right now:\n" + td.slice(0, 6).map(function (x) { return "• " + x.name + (x.offer ? " — " + x.offer : ""); }).join("\n") + "\nThe full set is in the Today's Top Deals section on this page.";
+    }
+    if (/code|coupon|promo|discount code/.test(low)) {
+      return "Codes live on each brand's own page, so they stay current: tap a brand card here, and the brand page shows the shop link and the code to use at checkout. The offers on this page say what each brand is running right now.";
+    }
+    if (/brand|which|offer|list|all|have/.test(low)) {
+      if (!brands.length) return "The brand cards are still loading on this page. Ask me again in a moment.";
+      return U.plural(brands.length, "brand", "brands") + " with Pond offers right now:\n" + brands.map(function (x) { return "• " + x.name + " — " + x.offer; }).join("\n");
+    }
+    if (/postpartum|baby|mom|newborn/.test(low)) {
+      var pp = cards("#postpartum a.card");
+      return "The Postpartum Picks section on this page has " + pp.length + " picks for new moms (Amazon and Target finds). Scroll down to it, or tap Postpartum Picks in Shop by category.";
+    }
+    if (/search|find|filter|sort/.test(low)) {
+      return "Use the Search deals box to filter the brand cards as you type. The Brand dropdown narrows brands by kind (Fashion, Beauty, Tech, Wellness, Home and Sleep) and Sort flips between Pond picks and A to Z. For the whole site, tap Search the whole Pond in the Top Deals heading.";
+    }
+    if (/list|save|saved/.test(low)) {
+      return "Tap + Save on any deal to keep it in your own list, and open Lists in the bottom menu to see them all. Lists is right there in the menu now, which is why this page has me instead of the floating Lists button. Signed in, your lists follow you across devices.";
+    }
+    if (/fresh|update|change|price|accurate|when/.test(low)) {
+      return "The deals get a fresh check every morning, and Today's Top Deals rebuilds from the brands' live sales. Prices can still change at the store, so the number at checkout is the final word.";
+    }
+    if (/shop the pond|shop/.test(low)) {
+      return "Shop The Pond, further down this page, is a short shelf of one-off finds from other stores (shoes, headphones, a very huggable koala). The brand cards up top are the Pond's own partner deals.";
+    }
+    return null;
+  }
+};
+
+(function () {
+  "use strict";
+  var CFG = window.BOTCFG || {};
+  var css = [
+    ".phelp-launch{display:inline-flex;align-items:center;gap:8px;position:fixed;right:12px;bottom:calc(84px + env(safe-area-inset-bottom));z-index:10080;background:#1f5f74;border:2px solid #174a5b;color:#fff;font-family:inherit;font-weight:900;font-size:14.5px;border-radius:999px;padding:11px 16px;box-shadow:0 8px 22px rgba(35,65,77,.35);cursor:pointer;}",
+    ".botduck{width:27px;height:27px;border-radius:50%;object-fit:cover;flex:none;border:2px solid rgba(255,255,255,.65);}",
+    ".phelp-head .t .botduck{width:31px;height:31px;}",
+    ".phelp-panel{position:fixed;right:12px;bottom:calc(84px + env(safe-area-inset-bottom));z-index:10090;width:min(94vw,384px);height:min(72vh,580px);background:#fff;border-radius:20px;box-shadow:0 18px 44px rgba(10,25,32,.4);display:none;flex-direction:column;overflow:hidden;border:2px solid #bcd9e4;}",
+    ".phelp-panel.show{display:flex;}",
+    "@media (max-width:520px){.phelp-panel{left:12px;width:auto;}}",
+    ".phelp-head{background:#1f5f74;color:#fff;padding:12px 14px;flex:none;}",
+    ".phelp-head .t{font-weight:900;font-size:16.5px;display:flex;align-items:center;gap:8px;}",
+    ".phelp-head .ctx{font-size:12.5px;opacity:.92;margin-top:3px;line-height:1.4;}",
+    ".phelp-x{margin-left:2px;background:rgba(255,255,255,.16);border:none;color:#fff;width:30px;height:30px;border-radius:50%;font-weight:900;cursor:pointer;font-family:inherit;flex:none;}",
+    ".phelp-expbtn{margin-left:auto;background:#ffd94d;border:2px solid #e3c93f;color:#6b5900;font-family:inherit;font-weight:900;font-size:12.5px;border-radius:999px;padding:6px 11px;cursor:pointer;flex:none;}",
+    ".phelp-drawer{display:none;background:#fff;border-bottom:1px solid #e3eff4;padding:10px 12px;flex:none;max-height:46%;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;touch-action:pan-y;}",
+    ".phelp-drawer.show{display:block;}",
+    ".phelp-drow{display:flex;gap:6px;flex-wrap:wrap;}",
+    ".pdbtn{border:2px solid #bcd9e4;background:#eaf7fb;color:#1f5f74;font-family:inherit;font-weight:800;font-size:12.5px;border-radius:999px;padding:7px 12px;cursor:pointer;}",
+    ".pdbtn.main{background:#ffd94d;border-color:#e3c93f;color:#6b5900;}",
+    ".phelp-note{font-size:12.5px;color:#3f6b7a;margin-top:7px;line-height:1.45;}",
+    ".phelp-dhead{font-weight:900;font-size:13px;color:#1f5f74;margin:11px 0 4px;}",
+    ".psaved{padding:7px 0;border-bottom:1px solid #e3eff4;font-size:13.5px;color:#23414d;}",
+    ".psaved:last-child{border-bottom:none;}",
+    ".psaved .pm{font-size:12px;color:#5b7a87;margin-top:1px;}",
+    ".psaved .pa{margin-top:4px;display:flex;gap:6px;}",
+    ".psaved .pa button{border:2px solid #bcd9e4;background:#fff;color:#1f5f74;font-family:inherit;font-weight:800;font-size:11.5px;border-radius:999px;padding:4px 9px;cursor:pointer;}",
+    ".phelp-msgs{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;touch-action:pan-y;padding:12px;background:#f4fafc;display:flex;flex-direction:column;gap:8px;}",
+    ".pmsg{max-width:88%;padding:9px 12px;border-radius:14px;font-size:14px;line-height:1.5;white-space:pre-wrap;word-wrap:break-word;}",
+    ".pmsg.bot{background:#fff;border:1.5px solid #d7e6ec;color:#23414d;align-self:flex-start;border-bottom-left-radius:4px;}",
+    ".pmsg.me{background:#1f5f74;color:#fff;align-self:flex-end;border-bottom-right-radius:4px;}",
+    ".phelp-chips{display:flex;gap:6px;flex-wrap:wrap;padding:8px 10px;background:#fff;border-top:1px solid #e3eff4;flex:none;}",
+    ".pchip{border:2px solid #bcd9e4;background:#eaf7fb;color:#1f5f74;font-family:inherit;font-weight:800;font-size:12.5px;border-radius:999px;padding:6px 11px;cursor:pointer;}",
+    ".phelp-form{display:flex;gap:6px;padding:10px;background:#fff;border-top:1px solid #e3eff4;flex:none;}",
+    ".phelp-form input{flex:1;border:2px solid #bcd9e4;border-radius:12px;padding:10px;font-size:15px;font-family:inherit;min-width:0;color:#23414d;background:#fff;}",
+    ".phelp-form button{background:#ffd94d;border:2px solid #e3c93f;color:#6b5900;font-family:inherit;font-weight:900;font-size:14px;border-radius:12px;padding:10px 14px;cursor:pointer;}",
+    "html[data-theme=\"dark\"] .phelp-panel{background:var(--tyd-acc-dark, #172635);border-color:#2e4a5f;}",
+    "html[data-theme=\"dark\"] .phelp-msgs{background:#101e2c;}",
+    "html[data-theme=\"dark\"] .pmsg.bot{background:#23414d;border-color:#2e4a5f;color:#eefaff;}",
+    "html[data-theme=\"dark\"] .phelp-chips,html[data-theme=\"dark\"] .phelp-form,html[data-theme=\"dark\"] .phelp-drawer{background:var(--tyd-acc-dark, #172635);border-color:#2e4a5f;}",
+    "html[data-theme=\"dark\"] .pchip{background:#23414d;color:#d7ecf5;border-color:#2e4a5f;}",
+    "html[data-theme=\"dark\"] .pdbtn{background:#23414d;color:#d7ecf5;border-color:#2e4a5f;}",
+    "html[data-theme=\"dark\"] .phelp-form input{background:#101e2c;color:#eefaff;border-color:#2e4a5f;}",
+    "html[data-theme=\"dark\"] .phelp-note{color:#bcd6e4;}",
+    "html[data-theme=\"dark\"] .phelp-dhead{color:#ffd94d;}",
+    "html[data-theme=\"dark\"] .psaved{color:#eefaff;border-color:#2e4a5f;}",
+    "@media print{.phelp-launch,.phelp-panel{display:none !important;}}"
+  ].join("\n");
+  var st = document.createElement("style"); st.textContent = css; document.head.appendChild(st);
+  function esc(t) { return String(t == null ? "" : t).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+
+  /* Utilities handed to each page's answer function. */
+  var U = {
+    ls: function (k, d) { try { var v = JSON.parse(localStorage.getItem(k)); return v == null ? d : v; } catch (e) { return d; } },
+    snap: function () { try { return (window.TYDPage && window.TYDPage.snapshot) ? window.TYDPage.snapshot() : null; } catch (e) { return null; } },
+    todayISO: function () { var d = new Date(); return d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2); },
+    daysUntil: function (ds) { if (!ds) return null; return Math.round((new Date(ds + "T12:00:00") - new Date(U.todayISO() + "T12:00:00")) / 86400000); },
+    fmtDate: function (ds) { if (!ds) return ""; try { return new Date(ds + "T12:00:00").toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" }); } catch (e) { return String(ds); } },
+    money: function (n) { n = Number(n) || 0; var r = Math.round(n * 100) / 100; return "$" + r.toLocaleString(undefined, { minimumFractionDigits: (r % 1 !== 0) ? 2 : 0, maximumFractionDigits: 2 }); },
+    when: function (ds) { var d = U.daysUntil(ds); if (d === null) return ""; if (d < 0) return "overdue by " + (-d) + (d === -1 ? " day" : " days"); if (d === 0) return "today"; if (d === 1) return "tomorrow"; return "in " + d + " days"; },
+    plural: function (n, one, many) { return n + " " + (n === 1 ? one : many); }
+  };
+
+  var log = [];
+  var greeted = false;
+  var openStamp = 0;
+  var drawerOpen = false;
+
+  var launch = document.createElement("button");
+  launch.className = "phelp-launch"; launch.type = "button";
+  launch.innerHTML = '<img class="botduck" src="' + (CFG.duck || "") + '" alt="">' + "Deals help";
+  launch.setAttribute("aria-label", "Open the " + (CFG.section || "") + " helper chat");
+  document.body.appendChild(launch);
+
+  var panel = document.createElement("div");
+  panel.className = "phelp-panel";
+  panel.innerHTML = '<div class="phelp-head"><div class="t"><img class="botduck" src="' + (CFG.duck || "") + '" alt="">' + esc((CFG.title || "Helper").replace(/^🦆 /, ""))
+    + '<button type="button" class="phelp-expbtn" data-expbtn>⬇ Export</button>'
+    + '<button type="button" class="phelp-x" data-close aria-label="Close">✕</button></div>'
+    + '<div class="ctx">' + esc(CFG.honest || "") + "</div></div>"
+    + '<div class="phelp-drawer" data-drawer>'
+    + '<div class="phelp-drow"><button type="button" class="pdbtn main" data-expfile>💾 Save as a file</button>'
+    + '<button type="button" class="pdbtn" data-expacct>☁️ Save to my account</button></div>'
+    + '<div class="phelp-note" data-expnote></div>'
+    + '<div class="phelp-dhead">📁 Saved chats</div><div data-savedlist></div>'
+    + "</div>"
+    + '<div class="phelp-msgs" data-msgs></div>'
+    + '<div class="phelp-chips" data-chips></div>'
+    + '<form class="phelp-form"><input type="text" placeholder="' + esc(CFG.placeholder || "Ask the duck...") + '" aria-label="Ask the helper"><button type="submit">Send</button></form>';
+  document.body.appendChild(panel);
+
+  var msgs = panel.querySelector("[data-msgs]");
+  var chipsBox = panel.querySelector("[data-chips]");
+  var drawer = panel.querySelector("[data-drawer]");
+  var expNote = panel.querySelector("[data-expnote]");
+  var savedList = panel.querySelector("[data-savedlist]");
+  var input = panel.querySelector(".phelp-form input");
+
+  function renderMsgs() {
+    msgs.innerHTML = log.map(function (m) {
+      return '<div class="pmsg ' + (m.who === "me" ? "me" : "bot") + '">' + esc(m.text).replace(/\n/g, "<br>") + "</div>";
+    }).join("");
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+  function renderChips() {
+    var chips = [];
+    try { chips = (typeof CFG.chips === "function") ? CFG.chips(U) : (CFG.chips || []); } catch (e) { chips = []; }
+    chipsBox.innerHTML = "";
+    (chips || []).forEach(function (c) {
+      var b = document.createElement("button");
+      b.type = "button"; b.className = "pchip"; b.textContent = c[0];
+      b.addEventListener("click", function () { ask(c[1]); });
+      chipsBox.appendChild(b);
+    });
+  }
+  function say(text) { log.push({ who: "duck", text: String(text == null ? "" : text) }); renderMsgs(); }
+  function ask(q) {
+    q = String(q || "").trim();
+    if (!q) return;
+    log.push({ who: "me", text: q });
+    var a = null;
+    try { a = CFG.answer ? CFG.answer(q, U) : null; } catch (e) { a = null; }
+    if (!a) a = CFG.fallback || "Quack, that one is beyond this little duck. Try one of the topics above!";
+    log.push({ who: "duck", text: a });
+    renderMsgs();
+    renderChips();
+  }
+  function openPanel() {
+    panel.classList.add("show");
+    launch.style.display = "none";
+    if (!greeted) { greeted = true; if (CFG.greet) log.push({ who: "duck", text: CFG.greet }); }
+    openStamp = Date.now();
+    renderMsgs(); renderChips(); renderSaved();
+    setTimeout(function () { if (panel.classList.contains("show")) renderSaved(); }, 1600);
+    setTimeout(function () { if (panel.classList.contains("show")) renderSaved(); }, 4200);
+    setTimeout(function () { try { input.focus(); } catch (e) {} }, 60);
+  }
+  function closePanel() {
+    panel.classList.remove("show");
+    launch.style.display = "";
+  }
+  launch.addEventListener("click", openPanel);
+  panel.querySelector("[data-close]").addEventListener("click", closePanel);
+  panel.querySelector(".phelp-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var v = input.value; input.value = "";
+    ask(v);
+  });
+
+  /* ---------- export ---------- */
+  function transcript() {
+    var lines = [(CFG.section || "Pond") + " Helper chat", "Exported " + new Date().toLocaleString(), ""];
+    log.forEach(function (m) { lines.push((m.who === "me" ? "You: " : "Duck: ") + m.text); });
+    return lines.join("\n");
+  }
+  function download(name, text) {
+    try {
+      var blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement("a");
+      a.href = url; a.download = name;
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(function () { URL.revokeObjectURL(url); }, 400);
+    } catch (e) {}
+  }
+  function fileName(section) {
+    return String(section || "pond").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") + "-chat-" + U.todayISO() + ".txt";
+  }
+  function chats() { return window.TYDChats || null; }
+  function renderSaved() {
+    var C = chats();
+    if (!C || !C.ready) { savedList.innerHTML = '<div class="phelp-note">' + (Date.now() - openStamp > 4000 ? "Sign in with your Pond Account to keep chats here. Saving as a file works any time." : "Checking your Pond Account...") + '</div>'; return; }
+    if (!C.user) { savedList.innerHTML = '<div class="phelp-note">Sign in with your Pond Account to keep chats here. Saving as a file works any time.</div>'; return; }
+    if (!C.list.length) { savedList.innerHTML = '<div class="phelp-note">No saved chats yet. Export this chat to your account and it will live here.</div>'; return; }
+    savedList.innerHTML = C.list.map(function (e) {
+      var when = "";
+      try { when = new Date(e.createdAt).toLocaleString([], { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }); } catch (x) {}
+      return '<div class="psaved"><div>' + esc(e.title || (e.section || "Chat")) + '</div><div class="pm">' + esc(e.section || "") + (when ? " · " + esc(when) : "") + '</div>'
+        + '<div class="pa"><button type="button" data-dl="' + esc(e.id) + '">⬇ Download</button><button type="button" data-del="' + esc(e.id) + '">✕ Delete</button></div></div>';
+    }).join("");
+    savedList.querySelectorAll("[data-dl]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var id = b.getAttribute("data-dl");
+        var e = (chats() ? chats().list : []).filter(function (x) { return x.id === id; })[0];
+        if (e) download(fileName(e.section), String(e.text || ""));
+      });
+    });
+    savedList.querySelectorAll("[data-del]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var C2 = chats(); if (!C2) return;
+        C2.remove(b.getAttribute("data-del")).then(renderSaved).catch(renderSaved);
+      });
+    });
+  }
+  panel.querySelector("[data-expbtn]").addEventListener("click", function () {
+    drawerOpen = !drawerOpen;
+    drawer.classList.toggle("show", drawerOpen);
+    if (drawerOpen) { expNote.textContent = ""; renderSaved(); }
+  });
+  panel.querySelector("[data-expfile]").addEventListener("click", function () {
+    download(fileName(CFG.section), transcript());
+    expNote.textContent = "Saved as a file on this device. 💾";
+  });
+  panel.querySelector("[data-expacct]").addEventListener("click", function () {
+    var C = chats();
+    if (!C || !C.user) { expNote.textContent = "Saving to your account needs you signed in. Sign in with your Pond Account, then tap Export again. The file download above works either way."; return; }
+    var entry = {
+      id: "c" + Date.now().toString(36) + Math.random().toString(36).slice(2, 7),
+      section: CFG.section || "",
+      title: (CFG.section || "Pond") + " chat · " + new Date().toLocaleDateString(undefined, { month: "short", day: "numeric" }),
+      text: transcript().slice(0, 20000),
+      createdAt: Date.now()
+    };
+    C.save(entry).then(function () {
+      expNote.textContent = "Saved to your Pond Account. ☁️ Find it under Saved chats on any of the helper ducks.";
+      renderSaved();
+    }).catch(function () {
+      expNote.textContent = "That save did not go through just now. Try the file download instead, and check back soon.";
+    });
+  });
+  window.addEventListener("tydchats", function () { if (panel.classList.contains("show")) renderSaved(); });
+})();
+
+
+</script>
+<script src="site-nav.js?v=372"></script>
+<script src="pull-refresh.js?v=341"></script>
+<script>
+(function () {
+  var CATS = [["percent", "% Percent Off"], ["stack", "🧱 Stack It"], ["unit", "⚖️ Unit Price"], ["trick", "🔍 Spot the Trick"]];
+  /* Hints you know (Lucy, Nov 13, 2026): one hint card at the top of Deal
+     Math Practice, under the "what to do" line, showing the hint for the
+     category you picked. One hint per category, for all four categories. */
+  var HINTS = {
+    percent: "To find what you pay, multiply the price by what is left after the discount. 40% off means you pay 60% of the price.",
+    stack: "Percents stack by multiplying, not adding. Take the sale price first, then take the code off that new price.",
+    unit: "Divide each price by its size to get the price per ounce. The smaller price per ounce wins, even if the bigger bag costs more.",
+    trick: "Read the fine print. Judge a deal against the real usual price, not the 'was' price, and watch for 'up to' and smaller packs."
+  };
+  function paintHint() { $("dm-hint-text").textContent = HINTS[cat] || ""; }
+  var TRICKS = [
+    { q: "A store says \u2018Was $120, now $60!\u2019 but the price last month was $58. What's the honest read?", opts: ["It's really about 50% off", "You're paying about the usual price, maybe a hair more", "It's the deal of the year"], a: 1, why: "The \u2018was\u2019 price is inflated. Against last month's $58, $60 is no deal at all." },
+    { q: "\u2018Buy one get one 50% off\u2019 on two $40 shirts. What do you actually save overall?", opts: ["50%", "25%", "Nothing"], a: 1, why: "You pay $40 + $20 = $60 for $80 of shirts. That's 25% off the pair." },
+    { q: "A cereal box shrinks from 18 oz to 15 oz but the price stays $4.49. What happened?", opts: ["Nothing changed", "The price per ounce went up", "The price per ounce went down"], a: 1, why: "Same money, less cereal: a quiet price increase of about 20% per ounce." },
+    { q: "\u2018Up to 70% off!\u2019 the banner says. Fine print: one mug is 70% off, everything else is 10%. The honest headline is:", opts: ["70% off storewide", "A few items up to 70% off, most things 10%", "Everything is at least half off"], a: 1, why: "\u2018Up to\u2019 does a lot of work in that sentence. Most of the store is 10% off." },
+    { q: "Two codes: SAVE20 for 20% off, or $10 off $50. Your cart is exactly $50 before codes. Which saves more?", opts: ["SAVE20", "$10 off $50", "They save the same"], a: 2, why: "20% of $50 is $10. Identical savings, sneaky framing." },
+    { q: "A jacket is \u2018marked down from $200 to $99\u2019 but was never actually sold at $200 in this store. That $200 is:", opts: ["An anchor price that may not be real", "A guaranteed fair price", "The price the store paid"], a: 0, why: "Anchor prices can be list prices nobody paid. Judge the deal by the $99, not the $200." }
+  ];
+  var cat = "percent", score = 0, streak = 0, best = 0, cur = null, locked = false;
+  try { best = parseInt(localStorage.getItem("tydDealMathBest") || "0", 10) || 0; } catch (e) {}
+  /* v339: the best streak rides the Pond Account (users/{uid}.dealMathBest,
+     highest wins) so it follows the member across devices. */
+  window.TYDDealMathBest = {
+    get: function () { return best; },
+    set: function (v) { best = Math.max(0, parseInt(v, 10) || 0); try { localStorage.setItem("tydDealMathBest", String(best)); } catch (e) {} }
+  };
+  function $(id) { return document.getElementById(id); }
+  function money(n) { return "$" + n.toFixed(2); }
+  function r2(n) { return Math.round(n * 100) / 100; }
+  function shuffle(a) { for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+  function pick(a) { return a[Math.floor(Math.random() * a.length)]; }
+  function opts4(correct, ds) {
+    var seen = {}, out = [correct];
+    ds.forEach(function (v) { if (v !== correct && !seen[v] && out.length < 4) { seen[v] = 1; out.push(v); } });
+    var nudge = 1.01;
+    while (out.length < 4) { var v = r2(correct * nudge); if (out.indexOf(v) === -1) out.push(v); nudge += 0.03; }
+    return shuffle(out.map(function (v) { return { t: money(v), ok: v === correct }; }));
+  }
+  function gen() {
+    if (cat === "percent") {
+      var p = pick([19.99, 24.50, 39.99, 49.99, 59.95, 79.99, 89.00, 120.00, 15.75, 32.40]);
+      var pc = pick([10, 15, 20, 25, 30, 40, 50, 60, 70, 75]);
+      var c = r2(p * (1 - pc / 100));
+      return { q: "Something costs " + money(p) + " and it's " + pc + "% off. What do you pay?", opts: opts4(c, [r2(p * pc / 100), r2(p * (1 - (pc + 10) / 100)), r2(p * (1 - (pc - 10) / 100))]), why: money(p) + " minus " + pc + "% (" + money(r2(p * pc / 100)) + ") is " + money(c) + "." };
+    }
+    if (cat === "stack") {
+      var p2 = pick([50, 60, 80, 100, 120, 75]);
+      var s = pick([20, 25, 30, 40, 50]), c2 = pick([10, 15, 20, 25]);
+      var cc = r2(p2 * (1 - s / 100) * (1 - c2 / 100));
+      return { q: "A " + money(p2) + " item is on sale for " + s + "% off, and you have a code for another " + c2 + "% off the sale price. Final price?", opts: opts4(cc, [r2(p2 * (1 - (s + c2) / 100)), r2(p2 * (1 - s / 100)), r2(p2 * (1 - c2 / 100))]), why: "Percents stack by multiplying, not adding: " + money(p2) + " → " + money(r2(p2 * (1 - s / 100))) + " after the sale → " + money(cc) + " after the code." };
+    }
+    if (cat === "unit") {
+      var items = [["laundry detergent", "oz"], ["coffee beans", "oz"], ["shampoo", "oz"], ["rice", "oz"], ["olive oil", "oz"], ["snack crackers", "oz"]];
+      var it = pick(items);
+      var sA = pick([10, 12, 14, 16]), sB = sA + pick([4, 6, 8, 10]);
+      var uA = pick([0.32, 0.38, 0.41, 0.47, 0.53]);
+      var uB = Math.max(0.15, r2(uA * pick([0.78, 0.85, 1.18, 1.3])));
+      var pA = r2(sA * uA), pB = r2(sB * uB);
+      var aRight = uA <= uB;
+      return { q: "Which " + it[0] + " is cheaper per " + it[1] + "?", opts: shuffle([
+        { t: "The " + sA + " " + it[1] + " for " + money(pA) + " (" + money(uA) + "/" + it[1] + ")", ok: aRight },
+        { t: "The " + sB + " " + it[1] + " for " + money(pB) + " (" + money(uB) + "/" + it[1] + ")", ok: !aRight }
+      ]), why: money(uA) + " vs " + money(uB) + " per " + it[1] + ": the " + (aRight ? sA : sB) + " " + it[1] + " wins, even though its sticker says " + money(aRight ? pA : pB) + "." };
+    }
+    var t = pick(TRICKS);
+    return { q: t.q, opts: shuffle(t.opts.map(function (o, i) { return { t: o, ok: i === t.a }; })), why: t.why };
+  }
+  function paint() {
+    $("dm-score").textContent = score;
+    $("dm-streak").textContent = streak;
+    $("dm-best").textContent = best;
+  }
+  function ask() {
+    locked = false;
+    cur = gen();
+    $("dm-q").textContent = cur.q;
+    $("dm-msg").textContent = "";
+    $("dm-next").style.display = "none";
+    $("dm-opts").innerHTML = "";
+    cur.opts.forEach(function (o) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.textContent = o.t;
+      b.style.cssText = "background:#eaf7fb;border:2px solid #bcd9e4;border-radius:12px;padding:11px;font-size:15px;font-weight:700;color:#123a4d;cursor:pointer;text-align:left;";
+      b.addEventListener("click", function () {
+        if (locked) return;
+        locked = true;
+        b.classList.add(o.ok ? "dm-right" : "dm-wrong");
+        if (o.ok) { score++; streak++; if (streak > best) { best = streak; try { localStorage.setItem("tydDealMathBest", String(best)); } catch (e) {} if (window.TYDDealsSync) window.TYDDealsSync.pushBest(); } b.style.background = "#d9f2e2"; b.style.borderColor = "#7cc79b"; $("dm-msg").textContent = "✓ Right! " + cur.why; }
+        else { streak = 0; b.style.background = "#fdecec"; b.style.borderColor = "#f0b4b4"; $("dm-msg").textContent = "✗ Not quite. " + cur.why; }
+        paint();
+        $("dm-next").style.display = "";
+      });
+      $("dm-opts").appendChild(b);
+    });
+    paint();
+  }
+  var catsEl = $("dm-cats");
+  CATS.forEach(function (c) {
+    var b = document.createElement("button");
+    b.type = "button";
+    b.textContent = c[1];
+    b.style.cssText = "border:2px solid #bcd9e4;background:" + (c[0] === cat ? "#fff3b0" : "#fff") + ";border-radius:999px;padding:7px 12px;font-weight:700;font-size:13.5px;color:#1f5f74;cursor:pointer;";
+    if (c[0] === cat) b.classList.add("dm-cat-on");
+    b.addEventListener("click", function () {
+      cat = c[0];
+      catsEl.querySelectorAll("button").forEach(function (x) { x.style.background = "#fff"; x.classList.remove("dm-cat-on"); });
+      b.style.background = "#fff3b0";
+      b.classList.add("dm-cat-on");
+      paintHint();
+      ask();
+    });
+    catsEl.appendChild(b);
+  });
+  $("dm-next").addEventListener("click", ask);
+  paintHint();
+  ask();
+})();
+</script>
+<script>
+/* Spin the Pond + Drop a deal (Lucy, Nov 14, 2026). Spin reads the deal
+   cards already on this page (Firestore or the baked-in fallback), so it
+   always matches what the member sees. Drop a deal saves locally and, when
+   signed in, to Firestore dealDrops for Lucy and the mods to review. */
+(function () {
+  "use strict";
+  function $(id) { return document.getElementById(id); }
+  function esc(x) { return String(x == null ? "" : x).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
+
+  /* ---------- Spin the Pond ---------- */
+  function collectDeals() {
+    var out = [];
+    /* Brand deal cards only (hrefs to brands/*.html). The Postpartum Picks
+       and Shop The Pond product cards are also .card elements, but they are
+       single products, not Pond deals with codes. */
+    document.querySelectorAll("main.links a.card[href^=\"brands/\"]").forEach(function (card) {
+      var name = card.querySelector(".name");
+      var offer = card.querySelector(".offer");
+      var chip = card.querySelector(".chip");
+      var img = card.querySelector(".brand-thumb");
+      if (!name || !offer) return;
+      out.push({ name: name.textContent.trim(), offer: offer.textContent.trim(), chip: chip ? chip.textContent.trim() : "", href: card.getAttribute("href") || "#", img: img ? img.getAttribute("src") : "" });
+    });
+    return out;
+  }
+  function dealHtml(d) {
+    var img = d.img ? '<img class="brand-thumb" src="' + esc(d.img) + '" alt="" loading="lazy" onerror="this.remove()">' : "";
+    return '<a class="card deal" href="' + esc(d.href) + '" target="_blank" rel="noopener">' + img
+      + '<span class="info"><span class="name">' + esc(d.name) + '</span><br><span class="offer">' + esc(d.offer) + '</span>'
+      + (d.chip ? '<br><span class="chip">' + esc(d.chip) + '</span>' : "") + '</span><span class="arrow" aria-hidden="true">&#8250;</span></a>';
+  }
+  var spinBtn = $("spin-btn"), spinResult = $("spin-result");
+  if (spinBtn && spinResult) {
+    spinBtn.addEventListener("click", function () {
+      var deals = collectDeals();
+      if (!deals.length) { spinResult.innerHTML = '<p style="text-align:center;">No deals to spin right now. The duck will check again soon! 🦆</p>'; return; }
+      spinBtn.disabled = true;
+      spinBtn.textContent = "🌀 Spinning...";
+      var picks = 0, total = 7 + Math.floor(Math.random() * 4);
+      var final = deals[Math.floor(Math.random() * deals.length)];
+      var timer = setInterval(function () {
+        picks++;
+        var d = deals[Math.floor(Math.random() * deals.length)];
+        spinResult.innerHTML = dealHtml(d);
+        if (picks >= total) {
+          clearInterval(timer);
+          spinResult.innerHTML = '<p style="text-align:center;font-weight:800;color:#1f5f74;">The duck picked:</p>' + dealHtml(final)
+            + '<div class="spin-again"><button type="button" class="spin-btn" id="spin-again" style="font-size:14px;padding:10px 18px;">🎡 Spin again</button></div>';
+          spinBtn.disabled = false;
+          spinBtn.textContent = "🎡 Spin for a deal";
+          var again = $("spin-again");
+          if (again) again.addEventListener("click", function () { spinBtn.click(); });
+        }
+      }, 110);
+    });
+  }
+
+  /* ---------- Drop a deal ---------- */
+  var LS_DROPS = "tydDealDrops";
+  var drops = [];
+  try { var v = JSON.parse(localStorage.getItem(LS_DROPS)); if (Array.isArray(v)) drops = v; } catch (e) {}
+  function saveDrops(quiet) { try { localStorage.setItem(LS_DROPS, JSON.stringify(drops)); } catch (e) {} if (!quiet) dealsSchedulePush({ drops: true }); }
+  function renderMine() {
+    var host = $("drop-mine"); if (!host) return;
+    if (!drops.length) { host.innerHTML = ""; return; }
+    host.innerHTML = '<h3 style="margin:4px 0 8px;font-size:15px;color:#1f5f74;">Your dropped deals</h3>' + drops.slice().reverse().map(function (d) {
+      var when = ""; try { when = new Date(d.createdAt).toLocaleDateString(undefined, { month: "short", day: "numeric" }); } catch (e) {}
+      return '<div class="drop-row"><div class="dinfo"><div class="dname">' + esc(d.title) + '</div><div class="dmeta">' + esc(d.store) + (when ? " · " + esc(when) : "") + ' · <span style="color:#2e7d32;font-weight:700;">Sent for review</span></div></div><button type="button" class="drop-del" data-drop-del="' + esc(d.id) + '" aria-label="Remove this dropped deal">✕</button></div>';
+    }).join("");
+  }
+  var dropMine = $("drop-mine");
+  if (dropMine) dropMine.addEventListener("click", function (ev) {
+    var b = ev.target.closest("[data-drop-del]"); if (!b) return;
+    var id = b.getAttribute("data-drop-del");
+    drops = drops.filter(function (d) { return d.id !== id; });
+    saveDrops(); renderMine();
+  });
+  var dropToggle = $("drop-toggle"), dropForm = $("drop-form");
+  if (dropToggle && dropForm) dropToggle.addEventListener("click", function () {
+    var open = dropForm.style.display === "none";
+    dropForm.style.display = open ? "" : "none";
+    dropToggle.textContent = open ? "✕ Close the form" : "📮 Drop a deal";
+  });
+  var dropSubmit = $("dr-submit");
+  if (dropSubmit) dropSubmit.addEventListener("click", function () {
+    var title = ($("dr-title").value || "").trim();
+    var store = ($("dr-store").value || "").trim();
+    var details = ($("dr-details").value || "").trim();
+    var link = ($("dr-link").value || "").trim();
+    var name = ($("dr-name").value || "").trim();
+    var err = $("dr-err"), ok = $("dr-ok");
+    if (!title) { err.textContent = "Give the deal a title first."; return; }
+    if (!store) { err.textContent = "Tell the duck which store or brand it is from."; return; }
+    if (!details) { err.textContent = "Add the deal details so the mods can check it."; return; }
+    err.textContent = "";
+    var entry = { id: "d" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6), title: title, store: store, details: details, link: link, name: name || "Anonymous", createdAt: Date.now(), status: "pending" };
+    drops.push(entry); saveDrops(); renderMine();
+    ok.style.display = "";
+    ok.textContent = "Thanks! Your deal is in for review. Lucy and the mods will check it before it goes live. 🦆";
+    $("dr-title").value = ""; $("dr-store").value = ""; $("dr-details").value = ""; $("dr-link").value = ""; $("dr-name").value = "";
+    /* Best-effort Firestore copy for Lucy to review (same addDoc pattern
+       as nestShares / nestComments; if the rules or sign-in block it, the
+       local copy above still stands and the member sees their submission). */
+    (async function () {
+      try {
+        var appMod = await import("./pond-firebase-stub.js");
+        var authMod = await import("./pond-firebase-stub.js");
+        var fsMod = await import("./pond-firebase-stub.js");
+        var apps = appMod.getApps();
+        if (!apps.length) return; /* deals-live.js initializes Firebase; if it has not yet, the local copy stands */
+        var app = apps[0];
+        var auth = authMod.getAuth(app);
+        var user = auth.currentUser;
+        if (!user) return;
+        var db = fsMod.getFirestore(app);
+        await fsMod.addDoc(fsMod.collection(db, "dealDrops"), { title: entry.title, store: entry.store, details: entry.details, link: entry.link, name: entry.name, uid: user.uid, email: user.email || "", createdAt: entry.createdAt, status: "pending" });
+      } catch (e) { /* local copy stands; nothing to show the member */ }
+    })();
+  });
+  /* Account sync (v339, Nov 16, 2026): the member's own dropped deals
+     and the Deal Math best streak ride the Pond Account (users/{uid}
+     fields dealDrops and dealMathBest) so they follow the member across
+     devices. localStorage stays the signed-out fallback and the local
+     cache. On sign-in the account and local copies union-merge (drops
+     by id, account wins on the same id; best streak takes the higher
+     of the two); an empty side never wipes the other. Any Firebase
+     failure quietly degrades to local-only. */
+  var dealsAcct = null, dealsPushT = null, dealsPending = {};
+  function dealsDoPush(fields) {
+    fields = fields || {};
+    var snap = {};
+    if (fields.drops) snap.dealDrops = drops;
+    if (fields.best && window.TYDDealMathBest) snap.dealMathBest = window.TYDDealMathBest.get();
+    if (!Object.keys(snap).length) return;
+    if (window.TYDDealsSync && window.TYDDealsSync._pushSink) { try { window.TYDDealsSync._pushSink(snap); } catch (e) {} return; }
+    if (!dealsAcct || !dealsAcct.fs || !dealsAcct.db || !dealsAcct.uid) return;
+    try { dealsAcct.fs.setDoc(dealsAcct.fs.doc(dealsAcct.db, "users", dealsAcct.uid), snap, { merge: true }).catch(function () {}); } catch (e) {}
+  }
+  function dealsSchedulePush(fields) {
+    Object.keys(fields || {}).forEach(function (k) { if (fields[k]) dealsPending[k] = true; });
+    clearTimeout(dealsPushT);
+    dealsPushT = setTimeout(function () { var f = dealsPending; dealsPending = {}; dealsDoPush(f); }, 800);
+  }
+  function dealsApplyAccount(data) {
+    data = data || {};
+    var changed = false;
+    var rd = Array.isArray(data.dealDrops) ? data.dealDrops : [];
+    if (rd.length) {
+      var byId = {};
+      drops.forEach(function (d) { if (d && d.id) byId[d.id] = d; });
+      rd.forEach(function (d) {
+        if (!d || !d.id) return;
+        if (!byId[d.id]) { drops.push(d); changed = true; }
+        else { var ix = drops.indexOf(byId[d.id]); if (ix > -1) { drops[ix] = d; changed = true; } }
+      });
+      if (changed) { saveDrops(true); renderMine(); }
+    }
+    if (typeof data.dealMathBest === "number" && window.TYDDealMathBest) {
+      if (data.dealMathBest > window.TYDDealMathBest.get()) { window.TYDDealMathBest.set(data.dealMathBest); changed = true; }
+    }
+    return changed;
+  }
+  window.TYDDealsSync = {
+    pushDrops: function () { dealsSchedulePush({ drops: true }); },
+    pushBest: function () { dealsSchedulePush({ best: true }); },
+    applyAccount: dealsApplyAccount,
+    pushAccount: dealsDoPush
+  };
+  (function dealsInitAccountSync() {
+    try {
+      Promise.all([
+        import("./pond-firebase-stub.js"),
+        import("./pond-firebase-stub.js"),
+        import("./pond-firebase-stub.js")
+      ]).then(function (mods) {
+        var cfg = {
+          apiKey: "preview-disabled",
+          authDomain: "pond-preview-disabled.firebaseapp.com",
+          projectId: "pond-preview-disabled",
+          storageBucket: "pond-preview-disabled.firebasestorage.app",
+          messagingSenderId: "000000000000",
+          appId: "1:000000000000:web:previewdisabled"
+        };
+        var app = mods[0].getApps().length ? mods[0].getApps()[0] : mods[0].initializeApp(cfg);
+        var auth = mods[1].getAuth(app);
+        var db = mods[2].getFirestore(app);
+        mods[1].onAuthStateChanged(auth, function (user) {
+          if (!user) { dealsAcct = null; return; }
+          dealsAcct = { fs: mods[2], db: db, uid: user.uid };
+          mods[2].getDoc(mods[2].doc(db, "users", user.uid)).then(function (snap) {
+            var d = snap.exists() ? snap.data() : {};
+            var changed = dealsApplyAccount(d);
+            /* Push local data the account lacks (a drop made while signed
+               out, or a higher best streak) back up. */
+            var up = {};
+            if (drops.length && !(d.dealDrops && d.dealDrops.length)) up.drops = true;
+            if (window.TYDDealMathBest && (typeof d.dealMathBest !== "number" || window.TYDDealMathBest.get() > d.dealMathBest)) up.best = true;
+            if (changed) dealsDoPush({ drops: true, best: true });
+            else if (Object.keys(up).length) dealsDoPush(up);
+          }).catch(function () {});
+        });
+      }).catch(function () {});
+    } catch (e) {}
+  })();
+  renderMine();
+})();
+</script>
+<script src="pond-staging.js"></script>
 </body>
 </html>

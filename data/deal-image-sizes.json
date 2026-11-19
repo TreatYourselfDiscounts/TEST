@@ -1,0 +1,687 @@
+{
+ "deal-aima-beauty-deep-waver.jpg": {
+  "w": 579,
+  "h": 580,
+  "fill": 0.52
+ },
+ "deal-airpods-pro-3.jpg": {
+  "w": 800,
+  "h": 800,
+  "fill": 1.0
+ },
+ "deal-alienware-16-aurora.jpg": {
+  "w": 768,
+  "h": 576,
+  "fill": 1.0
+ },
+ "deal-always-pan-2.jpg": {
+  "w": 766,
+  "h": 225,
+  "fill": 0.27
+ },
+ "deal-apple-watch-ultra-3.jpg": {
+  "w": 710,
+  "h": 790,
+  "fill": 0.88
+ },
+ "deal-astercook-pots-pans-22pc.jpg": {
+  "w": 584,
+  "h": 484,
+  "fill": 0.44
+ },
+ "deal-astercook-silicone-utensils-38pc.jpg": {
+  "w": 532,
+  "h": 528,
+  "fill": 0.44
+ },
+ "deal-asus-rog-strix-g16.jpg": {
+  "w": 482,
+  "h": 369,
+  "fill": 0.28
+ },
+ "deal-asus-rog-strix-oled-monitor.jpg": {
+  "w": 640,
+  "h": 536,
+  "fill": 1.0
+ },
+ "deal-asus-tuf-vg27aq5az-monitor.jpg": {
+  "w": 496,
+  "h": 380,
+  "fill": 0.29
+ },
+ "deal-avenco-mattress-queen.jpg": {
+  "w": 800,
+  "h": 800,
+  "fill": 1.0
+ },
+ "deal-baby-trend-lil-snooze-playard.jpg": {
+  "w": 672,
+  "h": 647,
+  "fill": 0.68
+ },
+ "deal-babyeap-3-in-1-bassinet.jpg": {
+  "w": 585,
+  "h": 549,
+  "fill": 0.5
+ },
+ "deal-babyeap-playpen-50x50-pink.jpg": {
+  "w": 612,
+  "h": 612,
+  "fill": 0.59
+ },
+ "deal-beats-solo4-drenched-gray.jpg": {
+  "w": 294,
+  "h": 455,
+  "fill": 0.21
+ },
+ "deal-beautiful-gooseneck-kettle.jpg": {
+  "w": 461,
+  "h": 428,
+  "fill": 1.0
+ },
+ "deal-beautiful-multi-cooker.jpg": {
+  "w": 630,
+  "h": 437,
+  "fill": 0.43
+ },
+ "deal-beavtaens-play-mat-50x50.jpg": {
+  "w": 792,
+  "h": 792,
+  "fill": 0.98
+ },
+ "deal-belle-maison-ledges.jpg": {
+  "w": 756,
+  "h": 321,
+  "fill": 1.0
+ },
+ "deal-berghoff-grater-set.jpg": {
+  "w": 800,
+  "h": 696,
+  "fill": 1.0
+ },
+ "deal-beyerdynamic-aventho-y.jpg": {
+  "w": 312,
+  "h": 418,
+  "fill": 0.2
+ },
+ "deal-big-one-sheet-set-queen.jpg": {
+  "w": 800,
+  "h": 800,
+  "fill": 1.0
+ },
+ "deal-big-one-throw-blanket.jpg": {
+  "w": 439,
+  "h": 680,
+  "fill": 0.47
+ },
+ "deal-bissell-crosswave-3831.jpg": {
+  "w": 210,
+  "h": 764,
+  "fill": 0.92
+ },
+ "deal-bissell-powerclean-4172.jpg": {
+  "w": 351,
+  "h": 769,
+  "fill": 0.42
+ },
+ "deal-bissell-powerforce-pet-xl.jpg": {
+  "w": 340,
+  "h": 762,
+  "fill": 0.4
+ },
+ "deal-black-decker-garment-steamer.jpg": {
+  "w": 315,
+  "h": 575,
+  "fill": 0.28
+ },
+ "deal-bona-spray-mop-air.jpg": {
+  "w": 715,
+  "h": 770,
+  "fill": 0.86
+ },
+ "deal-bose-soundlink-max-se.jpg": {
+  "w": 792,
+  "h": 497,
+  "fill": 0.62
+ },
+ "deal-bubble-slam-dunk-moisturizer.jpg": {
+  "w": 664,
+  "h": 792,
+  "fill": 0.82
+ },
+ "deal-carters-2-pack-outfit-set.jpg": {
+  "w": 441,
+  "h": 452,
+  "fill": 0.31
+ },
+ "deal-carters-cardigan-jacket.jpg": {
+  "w": 441,
+  "h": 485,
+  "fill": 0.33
+ },
+ "deal-carters-girl-jumpsuit.jpg": {
+  "w": 348,
+  "h": 585,
+  "fill": 0.32
+ },
+ "deal-carters-sleep-n-play.jpg": {
+  "w": 361,
+  "h": 585,
+  "fill": 0.33
+ },
+ "deal-casacomoda-tree-bookshelf.jpg": {
+  "w": 332,
+  "h": 332,
+  "fill": 0.17
+ },
+ "deal-cicaplast-balm-b5.jpg": {
+  "w": 317,
+  "h": 763,
+  "fill": 0.38
+ },
+ "deal-cmf-buds-2.jpg": {
+  "w": 629,
+  "h": 765,
+  "fill": 0.75
+ },
+ "deal-cmf-buds-2a.jpg": {
+  "w": 760,
+  "h": 588,
+  "fill": 0.7
+ },
+ "deal-cmf-buds-pro-2.jpg": {
+  "w": 625,
+  "h": 760,
+  "fill": 0.74
+ },
+ "deal-cmf-clip-pro.jpg": {
+  "w": 595,
+  "h": 764,
+  "fill": 0.71
+ },
+ "deal-cmf-headphone-pro.jpg": {
+  "w": 530,
+  "h": 766,
+  "fill": 0.63
+ },
+ "deal-cmf-speaker-m.jpg": {
+  "w": 345,
+  "h": 767,
+  "fill": 0.41
+ },
+ "deal-cmf-speaker-s.jpg": {
+  "w": 547,
+  "h": 765,
+  "fill": 0.65
+ },
+ "deal-cmf-watch-3-pro.jpg": {
+  "w": 545,
+  "h": 767,
+  "fill": 0.65
+ },
+ "deal-cochildor-turtle-play-gym-mat.jpg": {
+  "w": 754,
+  "h": 749,
+  "fill": 0.88
+ },
+ "deal-dell-s2725qs-monitor.jpg": {
+  "w": 464,
+  "h": 366,
+  "fill": 1.0
+ },
+ "deal-dimoarch-4-in-1-baby-toys.jpg": {
+  "w": 563,
+  "h": 568,
+  "fill": 0.5
+ },
+ "deal-dirt-devil-ud20120-vacuum.jpg": {
+  "w": 286,
+  "h": 676,
+  "fill": 0.3
+ },
+ "deal-ecotools-eye-shine-bright-brush-kit.jpg": {
+  "w": 742,
+  "h": 579,
+  "fill": 0.67
+ },
+ "deal-emonia-cooling-pillows.jpg": {
+  "w": 573,
+  "h": 573,
+  "fill": 1.0
+ },
+ "deal-exclusivo-mezcla-throw-blanket.jpg": {
+  "w": 792,
+  "h": 792,
+  "fill": 0.98
+ },
+ "deal-frigidaire-efic130-ice-maker.jpg": {
+  "w": 608,
+  "h": 696,
+  "fill": 0.66
+ },
+ "deal-garmin-vivoactive-5-ivory.jpg": {
+  "w": 346,
+  "h": 453,
+  "fill": 0.24
+ },
+ "deal-gellen-gel-nail-polish-nudes-grey.jpg": {
+  "w": 534,
+  "h": 555,
+  "fill": 0.46
+ },
+ "deal-gellen-nail-polish-elegant-red.jpg": {
+  "w": 581,
+  "h": 555,
+  "fill": 0.5
+ },
+ "deal-gerber-onesies-8-pack.jpg": {
+  "w": 568,
+  "h": 778,
+  "fill": 0.69
+ },
+ "deal-gotham-steel-cookware-20pc.jpg": {
+  "w": 572,
+  "h": 557,
+  "fill": 1.0
+ },
+ "deal-gped-food-storage-containers.jpg": {
+  "w": 791,
+  "h": 766,
+  "fill": 0.95
+ },
+ "deal-hamilton-beach-microwave.jpg": {
+  "w": 534,
+  "h": 310,
+  "fill": 1.0
+ },
+ "deal-happy-nuts-gift-box.jpg": {
+  "w": 737,
+  "h": 764,
+  "fill": 0.88
+ },
+ "deal-hero-mighty-patch.jpg": {
+  "w": 509,
+  "h": 627,
+  "fill": 0.5
+ },
+ "deal-hisense-75-h5r1-roku-tv.jpg": {
+  "w": 536,
+  "h": 454,
+  "fill": 0.38
+ },
+ "deal-hitime-duvet-cover-king.jpg": {
+  "w": 573,
+  "h": 573,
+  "fill": 1.0
+ },
+ "deal-hot-wheels-mega-loop-car-wash.jpg": {
+  "w": 716,
+  "h": 764,
+  "fill": 0.85
+ },
+ "deal-hp-15-6-laptop-n100.jpg": {
+  "w": 792,
+  "h": 680,
+  "fill": 0.84
+ },
+ "deal-hudson-rompers-3pk.jpg": {
+  "w": 599,
+  "h": 599,
+  "fill": 0.56
+ },
+ "deal-hudson-sleep-and-play-3pk.jpg": {
+  "w": 577,
+  "h": 600,
+  "fill": 0.54
+ },
+ "deal-jbl-flip-7.jpg": {
+  "w": 436,
+  "h": 371,
+  "fill": 1.0
+ },
+ "deal-jlab-go-air-sport-teal.jpg": {
+  "w": 435,
+  "h": 532,
+  "fill": 0.36
+ },
+ "deal-jlab-pop-party-speaker-black.jpg": {
+  "w": 284,
+  "h": 525,
+  "fill": 0.23
+ },
+ "deal-juyafio-handheld-vacuum.jpg": {
+  "w": 729,
+  "h": 751,
+  "fill": 0.86
+ },
+ "deal-kleanpal-pro-bottle-washer.jpg": {
+  "w": 420,
+  "h": 574,
+  "fill": 0.38
+ },
+ "deal-ktaxon-5-tier-shelving.jpg": {
+  "w": 792,
+  "h": 792,
+  "fill": 0.98
+ },
+ "deal-la-roche-posay-cicaplast-balm.jpg": {
+  "w": 278,
+  "h": 666,
+  "fill": 0.29
+ },
+ "deal-laural-home-table-runner.jpg": {
+  "w": 275,
+  "h": 364,
+  "fill": 0.97
+ },
+ "deal-lenovo-chromebook-duet-9.jpg": {
+  "w": 537,
+  "h": 384,
+  "fill": 1.0
+ },
+ "deal-lenovo-ideapad-slim-3i.jpg": {
+  "w": 800,
+  "h": 685,
+  "fill": 1.0
+ },
+ "deal-lenovo-tab-one.jpg": {
+  "w": 800,
+  "h": 600,
+  "fill": 1.0
+ },
+ "deal-lenovo-yoga-7i-16-luna-grey.jpg": {
+  "w": 792,
+  "h": 582,
+  "fill": 0.72
+ },
+ "deal-lg-55-b6e-oled-tv.jpg": {
+  "w": 790,
+  "h": 502,
+  "fill": 0.62
+ },
+ "deal-limicar-bakeware-6pc.jpg": {
+  "w": 558,
+  "h": 437,
+  "fill": 1.0
+ },
+ "deal-logitech-g29-racing-wheel.jpg": {
+  "w": 792,
+  "h": 442,
+  "fill": 0.55
+ },
+ "deal-morfone-3-barrel-curling-iron.jpg": {
+  "w": 411,
+  "h": 412,
+  "fill": 0.26
+ },
+ "deal-msi-cyborg-15-gaming-laptop.jpg": {
+  "w": 461,
+  "h": 334,
+  "fill": 0.24
+ },
+ "deal-mvmt-field-automatic.jpg": {
+  "w": 451,
+  "h": 764,
+  "fill": 0.54
+ },
+ "deal-neutrogena-night-calming-wipes.jpg": {
+  "w": 727,
+  "h": 638,
+  "fill": 0.72
+ },
+ "deal-neutrogena-pink-grapefruit-face-wash.jpg": {
+  "w": 300,
+  "h": 686,
+  "fill": 0.32
+ },
+ "deal-ninja-blast-blender.jpg": {
+  "w": 368,
+  "h": 723,
+  "fill": 0.42
+ },
+ "deal-noah-paw-dog-toy-basket.jpg": {
+  "w": 752,
+  "h": 723,
+  "fill": 0.85
+ },
+ "deal-nothing-ear-3.jpg": {
+  "w": 655,
+  "h": 766,
+  "fill": 0.78
+ },
+ "deal-nothing-ear-3a.jpg": {
+  "w": 754,
+  "h": 681,
+  "fill": 0.8
+ },
+ "deal-nothing-ear-a.jpg": {
+  "w": 511,
+  "h": 766,
+  "fill": 0.61
+ },
+ "deal-nothing-ear-open.jpg": {
+  "w": 768,
+  "h": 335,
+  "fill": 0.4
+ },
+ "deal-nothing-ear.jpg": {
+  "w": 533,
+  "h": 767,
+  "fill": 0.64
+ },
+ "deal-nothing-headphone-1-pro.jpg": {
+  "w": 528,
+  "h": 766,
+  "fill": 0.63
+ },
+ "deal-nothing-headphone-1.jpg": {
+  "w": 531,
+  "h": 766,
+  "fill": 0.64
+ },
+ "deal-nothing-headphone-a.jpg": {
+  "w": 532,
+  "h": 768,
+  "fill": 0.64
+ },
+ "deal-nothing-phone-3.jpg": {
+  "w": 370,
+  "h": 762,
+  "fill": 0.44
+ },
+ "deal-nothing-phone-4a-pro.jpg": {
+  "w": 372,
+  "h": 768,
+  "fill": 0.45
+ },
+ "deal-obacre-ionic-blow-dryer.jpg": {
+  "w": 570,
+  "h": 609,
+  "fill": 0.54
+ },
+ "deal-olive-june-mani-magic-calendar.jpg": {
+  "w": 580,
+  "h": 720,
+  "fill": 0.65
+ },
+ "deal-pamo-babe-4-in-1-playard.jpg": {
+  "w": 715,
+  "h": 678,
+  "fill": 0.76
+ },
+ "deal-pamo-babe-magic-fold-playard.jpg": {
+  "w": 643,
+  "h": 754,
+  "fill": 0.76
+ },
+ "deal-pioneer-50-roku-tv.jpg": {
+  "w": 714,
+  "h": 464,
+  "fill": 0.52
+ },
+ "deal-pioneer-woman-cookware-28pc.jpg": {
+  "w": 500,
+  "h": 401,
+  "fill": 1.0
+ },
+ "deal-razer-blackwidow-v4.jpg": {
+  "w": 800,
+  "h": 462,
+  "fill": 1.0
+ },
+ "deal-ring-doorbell-2k.jpg": {
+  "w": 800,
+  "h": 450,
+  "fill": 1.0
+ },
+ "deal-rizzy-home-bees-pillow.jpg": {
+  "w": 323,
+  "h": 182,
+  "fill": 0.09
+ },
+ "deal-saisze-face-scrub-pads.jpg": {
+  "w": 439,
+  "h": 396,
+  "fill": 0.27
+ },
+ "deal-saisze-turmeric-face-wash.jpg": {
+  "w": 546,
+  "h": 577,
+  "fill": 0.49
+ },
+ "deal-samsung-990-pro-2tb.jpg": {
+  "w": 640,
+  "h": 179,
+  "fill": 1.0
+ },
+ "deal-samsung-galaxy-watch8.jpg": {
+  "w": 694,
+  "h": 800,
+  "fill": 1.0
+ },
+ "deal-samsung-m70hb-tv-55.jpg": {
+  "w": 563,
+  "h": 455,
+  "fill": 1.0
+ },
+ "deal-samsung-u8000h-tv-55.jpg": {
+  "w": 563,
+  "h": 455,
+  "fill": 1.0
+ },
+ "deal-shark-depuffi.jpg": {
+  "w": 720,
+  "h": 556,
+  "fill": 0.63
+ },
+ "deal-sherpa-comforter-set-burgundy.jpg": {
+  "w": 596,
+  "h": 476,
+  "fill": 1.0
+ },
+ "deal-shyft-dualride-car-seat-stroller.jpg": {
+  "w": 734,
+  "h": 722,
+  "fill": 0.83
+ },
+ "deal-sindcom-cereal-containers.jpg": {
+  "w": 767,
+  "h": 626,
+  "fill": 0.75
+ },
+ "deal-sindcom-storage-bins-4pk.jpg": {
+  "w": 573,
+  "h": 569,
+  "fill": 1.0
+ },
+ "deal-skullcandy-crusher-anc-2.jpg": {
+  "w": 728,
+  "h": 792,
+  "fill": 0.9
+ },
+ "deal-sonoma-rug-blue-floral.jpg": {
+  "w": 522,
+  "h": 800,
+  "fill": 1.0
+ },
+ "deal-sonoro-kate-king-sheet-set.jpg": {
+  "w": 792,
+  "h": 792,
+  "fill": 0.98
+ },
+ "deal-sony-a7-iv.jpg": {
+  "w": 400,
+  "h": 300,
+  "fill": 1.0
+ },
+ "deal-sony-wh1000xm5.jpg": {
+  "w": 519,
+  "h": 800,
+  "fill": 1.0
+ },
+ "deal-sunmory-standing-lamp.jpg": {
+  "w": 362,
+  "h": 362,
+  "fill": 0.2
+ },
+ "deal-taimasi-wok-set.jpg": {
+  "w": 573,
+  "h": 573,
+  "fill": 1.0
+ },
+ "deal-terez-honor-eye-patches.jpg": {
+  "w": 434,
+  "h": 650,
+  "fill": 0.44
+ },
+ "deal-thread-spread-sheets-queen.jpg": {
+  "w": 573,
+  "h": 573,
+  "fill": 1.0
+ },
+ "deal-tineco-go-max.jpg": {
+  "w": 555,
+  "h": 824,
+  "fill": 0.9
+ },
+ "deal-tineco-go-spot.jpg": {
+  "w": 554,
+  "h": 768,
+  "fill": 0.66
+ },
+ "deal-toniebox-2-paw-patrol.jpg": {
+  "w": 656,
+  "h": 761,
+  "fill": 0.78
+ },
+ "deal-twelve-south-butterfly-se.jpg": {
+  "w": 800,
+  "h": 229,
+  "fill": 1.0
+ },
+ "deal-vccoem-comforter-set.jpg": {
+  "w": 792,
+  "h": 792,
+  "fill": 0.98
+ },
+ "deal-vizio-65-quantum-qled-tv.jpg": {
+  "w": 541,
+  "h": 512,
+  "fill": 0.43
+ },
+ "deal-wolfbox-4000a-jump-starter.jpg": {
+  "w": 687,
+  "h": 724,
+  "fill": 0.78
+ },
+ "deal-wondershop-gingerbread-utensil-holder.jpg": {
+  "w": 602,
+  "h": 635,
+  "fill": 0.6
+ },
+ "deal-yalamila-comforter-set.jpg": {
+  "w": 573,
+  "h": 573,
+  "fill": 1.0
+ }
+}

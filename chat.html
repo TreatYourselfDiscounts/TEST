@@ -1,0 +1,2550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="color-scheme" content="light dark">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="apple-touch-icon-v2.png">
+<meta name="theme-color" content="#ffd94d">
+<meta name="description" content="The Quack Shack at TreatYourselfDiscounts: the Pond community chat room. Talk about anything duck-themed, or honestly anything at all.">
+<meta property="og:title" content="The Quack Shack | TreatYourselfDiscounts">
+<meta property="og:description" content="The Quack Shack at TreatYourselfDiscounts: the Pond community chat room. Talk about anything duck-themed, or honestly anything at all.">
+<meta property="og:image" content="/icon-512.png">
+<meta property="og:url" content="/chat">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Quack Shack | TreatYourselfDiscounts">
+<meta name="twitter:description" content="The Quack Shack at TreatYourselfDiscounts: the Pond community chat room. Talk about anything duck-themed, or honestly anything at all.">
+<meta name="twitter:image" content="/icon-512.png">
+<title>The Quack Shack | TreatYourselfDiscounts</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #d9f0f7; color: #23414d; }
+  .app { max-width: 760px; margin: 0 auto; min-height: 100vh; background: #bfe6f2; box-shadow: 0 0 24px rgba(35,65,77,.12); padding: 16px 16px 40px; }
+  a.back { color: #1f5f74; font-weight: 700; text-decoration: none; font-size: 14px; }
+  header.top { text-align: center; margin: 10px 0 4px; }
+  header.top img.duck { width: 76px; height: 76px; border-radius: 50%; border: 3px solid #ffd94d; background: #ffd94d; }
+  h1 { margin: 6px 0 0; font-size: 30px; color: #1f5f74; }
+  .sub { margin: 6px 0 0; color: #3f6b7a; font-size: 15px; line-height: 1.5; }
+  label { display: block; font-size: 13px; font-weight: 700; color: #1f5f74; margin: 10px 0 4px; }
+  input, select, textarea { width: 100%; border: 2px solid #bcd9e4; border-radius: 12px; padding: 10px 12px; font-size: 15px; font-family: inherit; color: #23414d; background: #fbfdfe; }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: #1f5f74; }
+  .btn { display: inline-block; border: none; cursor: pointer; font-family: inherit; font-weight: 800; font-size: 14.5px; border-radius: 999px; padding: 10px 18px; margin: 4px 4px 4px 0; }
+  .btn-main { background: #1f5f74; color: #fff; }
+  .btn-alt { background: #ffd94d; color: #6b5900; border: 2px solid #f0c93e; }
+  .btn-ghost { background: #eaf7fb; color: #1f5f74; border: 2px solid #bcd9e4; }
+  .btn-danger { background: #fdecec; color: #8c2b2b; border: 2px solid #f2c1c1; }
+  .syncnote { font-size: 13px; color: #3f6b7a; text-align: center; margin: 8px 0 0; line-height: 1.5; }
+  .emptybox { text-align: center; padding: 26px 16px; }
+  .emptybox img { width: 92px; height: 92px; border-radius: 50%; border: 3px solid #ffd94d; background: #ffd94d; }
+  .emptybox p { color: #3f6b7a; font-size: 15px; line-height: 1.55; }
+  footer { margin-top: 26px; text-align: center; }
+  .disc { font-size: 12px; color: #5b7d89; line-height: 1.5; max-width: 560px; margin: 10px auto 0; }
+  /* polls */
+  .pbadge { display: inline-block; font-size: 11.5px; font-weight: 800; border-radius: 999px; padding: 2px 10px; vertical-align: 2px; }
+  .pbadge.open { background: #e2f4e5; color: #256b31; }
+  .pbadge.closed { background: #fdecec; color: #8c2b2b; }
+  .pmeta { font-size: 13px; color: #3f6b7a; margin: 2px 0 6px; }
+  .poll-opt { position: relative; display: block; width: 100%; text-align: left; border: 2px solid #bcd9e4; background: #fff; border-radius: 14px; padding: 11px 13px; margin: 8px 0; cursor: pointer; font-family: inherit; overflow: hidden; }
+  .poll-opt .fill { position: absolute; left: 0; top: 0; bottom: 0; background: #fff3b0; width: 0; transition: width .45s ease; }
+  .poll-opt .orow { position: relative; display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+  .poll-opt .otxt { font-weight: 700; font-size: 15px; color: #23414d; }
+  .poll-opt .opct { font-weight: 800; color: #1f5f74; font-size: 14.5px; flex: none; }
+  .poll-opt.mine { border-color: #1f5f74; }
+  .poll-opt.mine .fill { background: #ffe270; }
+  .poll-opt.static { cursor: default; }
+  .poll-opt:hover { border-color: #1f5f74; }
+  .poll-opt.static:hover { border-color: #bcd9e4; }
+  .poll-opt.mine:hover { border-color: #1f5f74; }
+  .phint { font-size: 13px; color: #3f6b7a; margin-top: 8px; line-height: 1.5; }
+  .pflash { background: #eaf7fb; border: 1.5px solid #bcd9e4; border-radius: 12px; padding: 10px 13px; font-size: 14px; font-weight: 700; color: #1f5f74; margin-top: 10px; line-height: 1.5; }
+  .pflash a { color: #1f5f74; }
+  .perr { background: #fdecec; border-color: #f2c1c1; color: #8c2b2b; }
+  .ownerrow { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; border-top: 1.5px dashed #d7e6ec; padding-top: 12px; }
+  html[data-theme="dark"] .poll-opt { background: var(--tyd-acc-dark, #172635) !important; border-color: #2e4a5f !important; }
+  html[data-theme="dark"] .poll-opt .otxt { color: #eefaff !important; }
+  html[data-theme="dark"] .poll-opt .opct { color: #ffd94d !important; }
+  html[data-theme="dark"] .poll-opt .fill { background: #23414d; }
+  html[data-theme="dark"] .poll-opt.mine { border-color: #ffd94d !important; }
+  html[data-theme="dark"] .poll-opt.mine .fill { background: #4d4310; }
+  html[data-theme="dark"] .phint { color: #bcd6e4 !important; }
+  html[data-theme="dark"] #chat-ducklings-warn { color: #ffd94d !important; }
+  html[data-theme="dark"] .pflash { background: #101e2c !important; border-color: #2e4a5f !important; color: #d7ecf5 !important; }
+  html[data-theme="dark"] .perr { background: #3a1d1d !important; border-color: #6e3434 !important; color: #f3c1c1 !important; }
+  /* v322: the "Opening the Shack…" loading line (.emptybox p, dark teal #3f6b7a)
+     was barely legible on the dark slate — brighten it like the other dark-mode text. */
+  html[data-theme="dark"] .emptybox p { color: #c9f0fc !important; }
+
+  /* The Quack Shack — Threads-style feed (Nov 15, 2026, v297):
+     composer on top, clean feed rows with a thin divider, and an
+     action row (Like / Reply / Share) under each post. Light Pond
+     theme kept: pale blue, yellow accents, duck avatars. */
+  .msg { display: flex; gap: 10px; padding: 12px 0; border-bottom: 1px solid #dce9ee; }
+  .msg:last-child { border-bottom: none; }
+  .msg .mav { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid #ffd94d; background: #bfe6f2; flex: none; }
+  .msg .mbody { flex: 1; min-width: 0; }
+  .msg .mmeta { font-size: 13px; color: #3f6b7a; display: flex; gap: 6px; align-items: baseline; flex-wrap: wrap; }
+  .msg .mmeta b { color: #1f5f74; font-size: 13.5px; }
+  .msg .mmeta .mtime { color: #2a5a68; font-weight: 600; }
+  .msg .mtext { font-size: 15px; line-height: 1.45; color: #23414d; overflow-wrap: break-word; white-space: pre-wrap; }
+  .msg.mine .mtext { color: #17485a; }
+  .replyto { font-size: 12.5px; color: #7a97a3; font-weight: 700; margin-bottom: 2px; }
+  .macts { display: flex; align-items: center; gap: 18px; margin-top: 8px; }
+  .actbtn { border: none; background: none; padding: 2px 0; font-size: 13px; font-weight: 700; color: #3f6b7a; cursor: pointer; font-family: inherit; display: inline-flex; align-items: center; gap: 5px; }
+  .actbtn:hover { color: #1f5f74; }
+  .actbtn.liked { color: #d23b3b; }
+  .actbtn.mini { font-size: 12px; color: #7a97a3; }
+  .actbtn.mini:hover { color: #1f5f74; }
+  .actbtn.mini.del { color: #b0443c; }
+  .macts-mod { margin-left: auto; display: inline-flex; gap: 12px; }
+  .mdel { color: #b0443c !important; }
+  .iconbtn { border: 2px solid #bcd9e4; background: #eaf7fb; border-radius: 999px; padding: 4px 10px; font-size: 12px; font-weight: 700; cursor: pointer; font-family: inherit; color: #1f5f74; }
+  .iconbtn.del { background: #fdecec; border-color: #f2c1c1; color: #8c2b2b; }
+  .medit { color: #1f5f74 !important; }
+  .edited-tag { font-size: 11.5px; color: #7a97a3; font-weight: 700; }
+  .medit-row { display: flex; gap: 6px; margin-top: 6px; }
+  .medit-row input { flex: 1; min-width: 0; }
+  .medit-row .btn { padding: 8px 14px; margin: 0; }
+  /* Composer on top (Threads-style): your duck on the left, the
+     "What's quacking?" prompt, and a Post button. */
+  #composer { display: flex; gap: 10px; padding: 4px 0 12px; border-bottom: 1px solid #dce9ee; margin-bottom: 4px; }
+  #composer .cav { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid #ffd94d; background: #bfe6f2; flex: none; }
+  #composer .cbody { flex: 1; min-width: 0; }
+  #composer #chat-input { border: none; background: transparent; padding: 10px 2px; font-size: 15px; }
+  #composer #chat-input:focus { border-color: transparent; outline: none; }
+  /* Photo attach (Nov 15, 2026, v300): a plain 📷 button in the
+     composer row, like Threads. One image per quack. */
+  #chat-attach { border: none; background: none; font-size: 20px; line-height: 1; cursor: pointer; padding: 4px 2px; flex: none; font-family: inherit; }
+  #chat-attach:hover { transform: scale(1.12); }
+  #chat-img-preview { position: relative; margin-top: 8px; width: fit-content; max-width: 100%; }
+  #chat-img-preview img { max-width: 260px; max-height: 260px; border-radius: 14px; display: block; }
+  #chat-img-preview button { position: absolute; top: 6px; right: 6px; border: none; background: rgba(35,65,77,.75); color: #fff; width: 26px; height: 26px; border-radius: 50%; font-size: 13px; font-weight: 800; cursor: pointer; font-family: inherit; line-height: 1; }
+  /* Photos on posts (v300): full-width, rounded corners like Threads.
+     Tap opens the full size in a new tab. */
+  .mimg { display: block; margin-top: 8px; }
+  .mimg img { width: 100%; max-width: 520px; border-radius: 16px; display: block; }
+  #chat-form { display: none; gap: 8px; margin-top: 0; align-items: center; }
+  #chat-input { flex: 1; min-width: 0; }
+  html[data-theme="dark"] .msg { border-color: #2e4a5f; }
+  html[data-theme="dark"] .msg .mtext { color: #eefaff; }
+  html[data-theme="dark"] .msg .mmeta { color: #bcd6e4; }
+  html[data-theme="dark"] .msg .mmeta b { color: #ffd94d; }
+  html[data-theme="dark"] .msg .mmeta .mtime { color: #d6ecf7; }
+  html[data-theme="dark"] #composer { border-color: #2e4a5f; }
+  html[data-theme="dark"] .actbtn { color: #bcd6e4; }
+  html[data-theme="dark"] .actbtn:hover { color: #ffd94d; }
+  html[data-theme="dark"] .actbtn.liked { color: #ff8fa3; }
+  html[data-theme="dark"] .actbtn.mini { color: #8fa9b8; }
+  html[data-theme="dark"] .replyto { color: #8fa9b8; }
+  /* Chat channels + Following filter (Nov 15, 2026, v303): Discord-style
+     rooms inside the Shack, and a way to follow people. */
+  #shack-channels { display: flex; gap: 8px; overflow-x: auto; padding: 10px 0 4px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  #shack-channels::-webkit-scrollbar { display: none; }
+  .shack-chip { flex: none; border: 2px solid #bcd9e4; background: #fff; color: #1f5f74; font-family: inherit; font-size: 13.5px; font-weight: 800; border-radius: 999px; padding: 7px 13px; cursor: pointer; white-space: nowrap; }
+  .shack-chip.on { background: #1f5f74; border-color: #1f5f74; color: #fff; }
+  #shack-feedfilter { display: flex; margin: 10px 0 2px; border: 2px solid #bcd9e4; border-radius: 999px; overflow: hidden; width: 100%; background: #eaf7fb; }
+  .fftab { border: none; background: none; font-family: inherit; font-size: 15px; font-weight: 800; color: #17485a; padding: 10px 16px; cursor: pointer; flex: 1; text-align: center; }
+  .fftab.on { background: #1f5f74; color: #fff; }
+  /* Notifications + @mentions (Nov 15, 2026, v306): per-channel
+     notification prefs (mute), hide/remove channels, on-page badges,
+     @mention autocomplete and highlighted mentions. */
+  #shack-toprow { display: flex; gap: 8px; align-items: flex-start; }
+  #shack-toprow #shack-channels { flex: 1; min-width: 0; }
+  #shack-manage-btn { flex: none; border: 2px solid #bcd9e4; background: #fff; color: #1f5f74; font-family: inherit; font-size: 16px; border-radius: 999px; padding: 5px 11px; cursor: pointer; margin-top: 10px; }
+  .shack-chip { position: relative; }
+  .shack-chip.muted { opacity: .55; }
+  .shack-badge { position: absolute; top: -5px; right: -3px; min-width: 16px; height: 16px; border-radius: 999px; background: #1f5f74; color: #fff; font-size: 11px; font-weight: 800; line-height: 16px; text-align: center; padding: 0 3px; border: 2px solid #bfe6f2; pointer-events: none; box-sizing: border-box; }
+  .shack-badge.at { background: #ffd94d; color: #6b5900; }
+  .shack-badge.dot { min-width: 10px; width: 10px; height: 10px; padding: 0; }
+  #shack-manage { display: none; background: #eaf7fb; border: 2px solid #bcd9e4; border-radius: 16px; padding: 12px; margin: 8px 0 2px; }
+  #shack-manage.show { display: block; }
+  #shack-manage h3 { margin: 0 0 4px; font-size: 15px; color: #1f5f74; }
+  #shack-manage .mrow { display: flex; align-items: center; gap: 8px; padding: 8px 0; border-bottom: 1px solid #dce9ee; }
+  #shack-manage .mrow:last-child { border-bottom: none; }
+  #shack-manage .mname { flex: 1; font-weight: 800; font-size: 14px; color: #23414d; min-width: 0; overflow-wrap: break-word; }
+  #shack-manage .mtoggle { border: 2px solid #bcd9e4; background: #fff; color: #1f5f74; font-family: inherit; font-size: 12.5px; font-weight: 800; border-radius: 999px; padding: 5px 11px; cursor: pointer; flex: none; white-space: nowrap; }
+  #shack-manage .mtoggle.off { background: #eaf7fb; color: #7a97a3; }
+  #shack-manage .mnote { font-size: 12.5px; color: #3f6b7a; line-height: 1.5; margin: 6px 0 0; }
+  /* Likes + Notifications inbox (v373): the ♥ button beside Manage
+     opens the member's own likes and notifications. The panel mirrors
+     the Manage panel so it reads as part of the Shack, not a new page. */
+  #shack-likes-btn { flex: none; position: relative; border: 2px solid #bcd9e4; background: #fff; color: #d23b3b; font-family: inherit; font-size: 16px; border-radius: 999px; padding: 5px 11px; cursor: pointer; margin-top: 10px; }
+  .shack-likes-dot { display: none; position: absolute; top: -4px; right: -2px; width: 12px; height: 12px; border-radius: 50%; background: #d23b3b; border: 2px solid #bfe6f2; pointer-events: none; box-sizing: border-box; }
+  #shack-likes { display: none; background: #eaf7fb; border: 2px solid #bcd9e4; border-radius: 16px; padding: 12px; margin: 8px 0 2px; }
+  #shack-likes.show { display: block; }
+  #shack-likes h3 { margin: 0 0 4px; font-size: 15px; color: #1f5f74; }
+  #shack-likes .lnote { font-size: 12.5px; color: #3f6b7a; line-height: 1.5; margin: 6px 0 0; }
+  #shack-likes .lcount { font-size: 14px; font-weight: 800; color: #1f5f74; margin: 8px 0 2px; }
+  #shack-likes .lsec { margin: 4px 0 8px; }
+  #shack-likes a.lrow { text-decoration: none; color: inherit; }
+  #shack-likes .lrow { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 8px; padding: 8px 6px; border-bottom: 1px solid #dce9ee; cursor: pointer; background: none; border-left: none; border-right: none; border-top: none; width: 100%; box-sizing: border-box; font-family: inherit; text-align: left; border-radius: 8px; }
+  #shack-likes .lrow:last-child { border-bottom: none; }
+  #shack-likes .lrow.lnew { background: #fff8d6; }
+  #shack-likes .lrow .lwho { font-size: 14px; font-weight: 800; color: #1f5f74; }
+  #shack-likes .lrow .lwhat { flex: 1; min-width: 0; font-size: 14px; line-height: 1.45; color: #23414d; overflow-wrap: break-word; }
+  #shack-likes .lrow .lwhen { flex: none; font-size: 12px; color: #7a97a3; }
+  #shack-likes .lrow .lbtns { display: flex; gap: 6px; margin-left: auto; }
+  #shack-likes .lbtn { border: 2px solid #bcd9e4; background: #fff; color: #1f5f74; font-family: inherit; font-size: 12.5px; font-weight: 800; border-radius: 999px; padding: 4px 12px; cursor: pointer; }
+  #shack-likes .lbtn.go { background: #ffd94d; border-color: #e8b93c; color: #6b5900; }
+  #shack-likes .lbtn:disabled { opacity: .55; cursor: default; }
+  html[data-theme="dark"] #shack-likes-btn { background: var(--tyd-acc-dark, #172635); border-color: #2e4a5f; color: #ff8fa3; }
+  html[data-theme="dark"] #shack-likes { background: #101e2c; border-color: #2e4a5f; }
+  html[data-theme="dark"] #shack-likes h3 { color: #ffd94d; }
+  html[data-theme="dark"] #shack-likes .lnote { color: #bcd6e4; }
+  html[data-theme="dark"] #shack-likes .lcount { color: #c9f0fc; }
+  html[data-theme="dark"] #shack-likes .lrow { border-color: #2e4a5f; }
+  html[data-theme="dark"] #shack-likes .lrow.lnew { background: #1d3442; }
+  html[data-theme="dark"] #shack-likes .lrow .lwho { color: #c9f0fc; }
+  html[data-theme="dark"] #shack-likes .lrow .lwhat { color: #eefaff; }
+  html[data-theme="dark"] #shack-likes .lrow .lwhen { color: #8fa9b8; }
+  html[data-theme="dark"] #shack-likes .lbtn { background: var(--tyd-acc-dark, #172635); border-color: #2e4a5f; color: #d7ecf5; }
+  html[data-theme="dark"] #shack-likes .lbtn.go { background: #ffd94d; border-color: #e8b93c; color: #6b5900; }
+  /* Nested replies (v373): a reply sits indented under its parent
+     post with a thread line on its left, so a conversation reads
+     top-down under the post it belongs to. */
+  .msg.thread-reply { margin-left: 26px; border-left: 2px solid #bcd9e4; padding-left: 10px; }
+  html[data-theme="dark"] .msg.thread-reply { border-left-color: #2e4a5f; }
+  @media (max-width: 430px) { .msg.thread-reply { margin-left: 18px; } }
+  /* Reposted state (v373): the Repost button fills in when I have
+     reposted this post, like the Like button does when liked. */
+  .actbtn.reposted { color: #1e7d32; }
+  html[data-theme="dark"] .actbtn.reposted { color: #7ddba0; }
+  /* Repost card (v373): a repost on a personal page shows who it came
+     from and the original words, and taps through to the original. */
+  .repostcard { display: block; width: 100%; box-sizing: border-box; text-align: left; font-family: inherit; background: #f2fafc; border: 1px solid #bcd9e4; border-radius: 12px; padding: 8px 10px; cursor: pointer; color: inherit; }
+  .repostcard .repostfrom { display: block; font-size: 12.5px; font-weight: 800; color: #1f5f74; margin-bottom: 4px; }
+  .repostcard .reposttext { display: block; font-size: 14px; line-height: 1.45; color: #23414d; overflow-wrap: break-word; }
+  html[data-theme="dark"] .repostcard { background: #101e2c; border-color: #2e4a5f; }
+  html[data-theme="dark"] .repostcard .repostfrom { color: #c9f0fc; }
+  html[data-theme="dark"] .repostcard .reposttext { color: #eefaff; }
+  /* Jump-to-post flash (v373): tapping a notification scrolls the
+     post into view and outlines it briefly so it is easy to find. */
+  .msg.flash { outline: 3px solid #ffd94d; border-radius: 12px; }
+  /* Reply view (v373, Threads model): a dedicated reply screen that
+     shows the full original post above the reply field, connected by
+     a thread line, so the post and the words being typed stay visible
+     together above the keyboard. */
+  #shack-replyview { position: fixed; inset: 0; z-index: 10000; background: #bfe6f2; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+  #shack-replyview[hidden] { display: none; }
+  .rv-wrap { max-width: 640px; margin: 0 auto; padding: 12px 14px 40px; }
+  .rv-top { display: flex; align-items: center; gap: 8px; padding: 6px 0 10px; }
+  .rv-top .rv-cancel { border: none; background: none; font-family: inherit; font-size: 15px; font-weight: 700; color: #1f5f74; cursor: pointer; padding: 6px 4px; }
+  .rv-top .rv-title { flex: 1; text-align: center; font-size: 16px; font-weight: 800; color: #1f5f74; }
+  .rv-top .rv-spacer { width: 64px; flex: none; }
+  .rv-tone { display: flex; align-items: flex-start; gap: 8px; background: #fff3b0; border: 1.5px solid #f0c93e; color: #6b5900; font-size: 13px; font-weight: 700; line-height: 1.45; border-radius: 12px; padding: 9px 12px; margin-bottom: 12px; }
+  .rv-tone span { flex: 1; }
+  .rv-tone button { border: none; background: none; font-family: inherit; font-size: 14px; font-weight: 800; color: #6b5900; cursor: pointer; padding: 0 2px; flex: none; }
+  .rv-orig { background: #fff; border: 2px solid #bcd9e4; border-radius: 16px; padding: 12px; }
+  .rv-orig .mmeta { display: flex; align-items: center; gap: 8px; }
+  .rv-orig .mav { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; flex: none; }
+  .rv-orig .mname { font-weight: 800; font-size: 14.5px; color: #1f5f74; }
+  .rv-orig .namebtn { border: none; background: none; padding: 0; font-family: inherit; cursor: pointer; }
+  .rv-orig .namebtn:hover { text-decoration: underline; }
+  html[data-theme="dark"] .rv-orig .namebtn { color: #ffd94d; }
+  .rv-orig .mtime { font-size: 12.5px; color: #7a97a3; }
+  .rv-orig .mtext { font-size: 15px; line-height: 1.5; color: #23414d; margin: 8px 0 0; overflow-wrap: break-word; white-space: pre-line; }
+  .rv-orig .mtext .mention { font-weight: 800; color: #1f5f74; background: #fff3b0; border-radius: 6px; padding: 0 2px; }
+  .rv-thread { border-left: 2px solid #bcd9e4; margin: 0 0 0 28px; padding: 10px 0 0 12px; }
+  .rv-reply { display: flex; gap: 10px; align-items: flex-start; }
+  .rv-reply .mav { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; flex: none; }
+  .rv-field { flex: 1; min-width: 0; position: relative; }
+  .rv-input { width: 100%; box-sizing: border-box; font-family: inherit; font-size: 15px; line-height: 1.5; color: #23414d; background: #fff; border: 2px solid #bcd9e4; border-radius: 16px; padding: 10px 12px; outline: none; resize: vertical; min-height: 44px; }
+  .rv-input:focus { border-color: #1f5f74; }
+  .rv-tools { display: flex; align-items: center; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+  .rv-attach { border: 2px solid #bcd9e4; background: #fff; color: #1f5f74; font-family: inherit; font-size: 14px; font-weight: 800; border-radius: 999px; padding: 6px 12px; cursor: pointer; }
+  .rv-add { border: none; background: none; font-family: inherit; font-size: 14px; font-weight: 700; color: #1f5f74; cursor: pointer; padding: 6px 4px; }
+  .rv-post { margin-left: auto; border: 2px solid #e8b93c; background: #ffd94d; color: #6b5900; font-family: inherit; font-size: 14px; font-weight: 800; border-radius: 999px; padding: 8px 18px; cursor: pointer; }
+  .rv-post:disabled { opacity: .55; cursor: default; }
+  .rv-posted { font-size: 13px; font-weight: 800; color: #1e7d32; margin-top: 8px; }
+  .rv-imgprev { display: none; margin-top: 8px; position: relative; width: fit-content; }
+  .rv-imgprev img { max-width: 220px; max-height: 160px; border-radius: 12px; border: 2px solid #bcd9e4; display: block; }
+  .rv-imgprev button { position: absolute; top: -8px; right: -8px; width: 26px; height: 26px; border-radius: 50%; border: 2px solid #bcd9e4; background: #fff; color: #1f5f74; font-family: inherit; font-size: 13px; font-weight: 800; cursor: pointer; line-height: 1; }
+  #reply-mention-suggest { position: absolute; left: 0; right: 0; top: 100%; z-index: 5; background: #fff; border: 2px solid #bcd9e4; border-radius: 12px; box-shadow: 0 8px 24px rgba(35,65,77,.18); overflow: hidden; display: none; max-height: 220px; overflow-y: auto; margin-top: 4px; }
+  #reply-mention-suggest button { display: block; width: 100%; text-align: left; border: none; background: none; font-family: inherit; font-size: 14px; font-weight: 700; color: #1f5f74; padding: 9px 12px; cursor: pointer; }
+  #reply-mention-suggest button:hover { background: #eaf7fb; }
+  #reply-mention-suggest .msub { display: block; font-size: 12px; font-weight: 400; color: #7a97a3; }
+  .rv-warn { display: none; font-size: 12.5px; color: #8a6d00; margin: 6px 0 0; }
+  #composer-avatar { cursor: pointer; }
+  html[data-theme="dark"] #shack-replyview { background: #172635; }
+  html[data-theme="dark"] .rv-top .rv-cancel { color: #c9f0fc; }
+  html[data-theme="dark"] .rv-top .rv-title { color: #eefaff; }
+  html[data-theme="dark"] .rv-tone { background: #4d4310; border-color: #8a7a2e; color: #ffe270; }
+  html[data-theme="dark"] .rv-tone button { color: #ffe270; }
+  html[data-theme="dark"] .rv-orig { background: #172635; border-color: #2e4a5f; }
+  html[data-theme="dark"] .rv-orig .mname { color: #c9f0fc; }
+  html[data-theme="dark"] .rv-orig .mtime { color: #8fa9b8; }
+  html[data-theme="dark"] .rv-orig .mtext { color: #eefaff; }
+  html[data-theme="dark"] .rv-orig .mtext .mention { color: #ffe270; background: #4d4310; }
+  html[data-theme="dark"] .rv-thread { border-left-color: #2e4a5f; }
+  html[data-theme="dark"] .rv-input { background: #101e2c; border-color: #2e4a5f; color: #eefaff; }
+  html[data-theme="dark"] .rv-input:focus { border-color: #c9f0fc; }
+  html[data-theme="dark"] .rv-attach { background: #101e2c; border-color: #2e4a5f; color: #d7ecf5; }
+  html[data-theme="dark"] .rv-add { color: #c9f0fc; }
+  html[data-theme="dark"] .rv-posted { color: #7ddba0; }
+  html[data-theme="dark"] #reply-mention-suggest { background: var(--tyd-acc-dark, #172635); border-color: #2e4a5f; }
+  html[data-theme="dark"] #reply-mention-suggest button { color: #ffd94d; }
+  html[data-theme="dark"] #reply-mention-suggest button:hover { background: #23414d; }
+  html[data-theme="dark"] #reply-mention-suggest .msub { color: #8fa9b8; }
+  html[data-theme="dark"] .rv-warn { color: #ffd94d; }
+  /* @mention autocomplete: a dropdown under the composer input. */
+  #chat-form { position: relative; }
+  #mention-suggest { position: absolute; left: 0; right: 0; top: 100%; z-index: 5; background: #fff; border: 2px solid #bcd9e4; border-radius: 12px; box-shadow: 0 8px 24px rgba(35,65,77,.18); overflow: hidden; display: none; max-height: 220px; overflow-y: auto; margin-top: 4px; }
+  #mention-suggest button { display: block; width: 100%; text-align: left; border: none; background: none; font-family: inherit; font-size: 14px; font-weight: 700; color: #1f5f74; padding: 9px 12px; cursor: pointer; }
+  #mention-suggest button:hover { background: #eaf7fb; }
+  #mention-suggest .msub { display: block; font-size: 12px; font-weight: 400; color: #7a97a3; }
+  /* Highlighted @mentions inside a quack: bold on a soft yellow chip.
+     Known posters are buttons (tap opens their profile); unknown names
+     and @Ducklings are spans (highlighted, nothing to open). */
+  .mtext .mention { font-weight: 800; color: #1f5f74; background: #fff3b0; border-radius: 6px; padding: 0 2px; }
+  button.mention { border: none; font-family: inherit; font-size: inherit; cursor: pointer; }
+  button.mention:hover { text-decoration: underline; }
+  /* Shared-to-the-Shack preview cards (Nov 15, 2026, v312): a share
+     post renders as a bordered preview card instead of a plain text
+     line, so it never looks like the sharer wrote the deal text
+     themselves. Image on top, bold title, one short info line, and a
+     tap target that opens the Pond page the item lives on. */
+  .sharecard { display: block; border: 2px solid #bcd9e4; background: #fff; border-radius: 16px; overflow: hidden; text-decoration: none; color: inherit; margin-top: 6px; }
+  .sharecard img { width: 100%; height: 180px; object-fit: contain; display: block; background: #eaf7fb; }
+  /* The sharer's own words on a share post (v314): shown above the
+     preview card, only when the share carries a comment (text differs
+     from the shared title). Old shares have no comment line. */
+  .sharecomment { display: block; font-size: 14px; line-height: 1.45; color: #23414d; margin: 2px 0 0; overflow-wrap: break-word; white-space: pre-line; }
+  .sharecard-label { display: block; font-size: 12.5px; font-weight: 800; color: #1f5f74; padding: 10px 12px 0; }
+  .sharecard-title { display: block; font-weight: 800; font-size: 15.5px; color: #23414d; padding: 4px 12px 0; line-height: 1.35; overflow-wrap: break-word; }
+  .sharecard-text { display: block; font-size: 13.5px; color: #4a6b78; padding: 4px 12px 12px; line-height: 1.45; overflow-wrap: break-word; }
+  html[data-theme="dark"] .sharecard { background: #172635; border-color: #2e4a5f; }
+  html[data-theme="dark"] .sharecard-label { color: #ffd94d; }
+  html[data-theme="dark"] .sharecard-title { color: #eefaff; }
+  html[data-theme="dark"] .sharecard-text { color: #bcd6e4; }
+  html[data-theme="dark"] .sharecomment { color: #eefaff; }
+  /* Delete confirmation (v316): the native confirm() dialog used to
+     gate deletes is auto-dismissed by automated browsers, so Delete
+     never ran there while Edit worked. This in-page sheet asks the
+     same question and works in every browser, keyboard included.
+     v348: z-index was 999, under the bottom pill nav (9990) -- the
+     nav floated above the dim overlay. Now 10000, above the nav
+     and the hide-bar FAB, like the bell's delete confirm. The card
+     is centred, so its buttons were never covered, but the overlay
+     itself must sit above the nav. */
+  .tyddelconf { position: fixed; inset: 0; background: rgba(23,38,53,.55); display: flex; align-items: center; justify-content: center; z-index: 10000; padding: 16px; }
+  .tyddelconf[hidden] { display: none; }
+  .tyddelconf-card { background: #fff; border: 2px solid #bcd9e4; border-radius: 18px; padding: 18px; max-width: 420px; width: 100%; box-shadow: 0 12px 40px rgba(23,38,53,.35); }
+  .tyddelconf-card h3 { margin: 0; font-size: 17px; color: #1f5f74; }
+  .tyddelconf-sub { margin: 8px 0 0; font-size: 14px; color: #4a6b78; line-height: 1.5; overflow-wrap: break-word; }
+  .tyddelconf-btns { display: flex; gap: 8px; justify-content: flex-end; margin-top: 14px; }
+  html[data-theme="dark"] .tyddelconf-card { background: #172635; border-color: #2e4a5f; }
+  html[data-theme="dark"] .tyddelconf-card h3 { color: #eefaff; }
+  html[data-theme="dark"] .tyddelconf-sub { color: #bcd6e4; }
+  html[data-theme="dark"] .sharecard img { background: #101e2c; }
+  @media (max-width: 430px) {
+    .sharecard img { height: 150px; }
+    .sharecard-title { font-size: 15px; }
+  }
+  /* Tappable @name (v305): every post's name opens that person's
+     profile view. Same bold dark-teal look, with an underline on
+     hover so it reads as clickable. */
+  .msg .mmeta .namebtn { border: none; background: none; padding: 0; font-family: inherit; font-size: 13.5px; font-weight: 700; color: #1f5f74; cursor: pointer; }
+  .msg .mmeta .namebtn:hover { text-decoration: underline; }
+  /* "Chatting as @name" (v373): the name opens my own personal page. */
+  #chat-who .namebtn { border: none; background: none; padding: 0; font-family: inherit; font-size: inherit; font-weight: 700; color: #1f5f74; cursor: pointer; }
+  #chat-who .namebtn:hover { text-decoration: underline; }
+  html[data-theme="dark"] #chat-who .namebtn { color: #ffd94d; }
+  /* Profile view header (v305): the person's duck, "@name's quacks",
+     a Follow button, and a Back button, above the feed. */
+  #shack-profile { display: flex; align-items: center; gap: 10px; margin: 10px 0 2px; padding: 10px 12px; background: #eaf7fb; border: 2px solid #bcd9e4; border-radius: 16px; }
+  #shack-profile .pav { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid #ffd94d; background: #bfe6f2; flex: none; }
+  #shack-profile .pcount { font-size: 12.5px; font-weight: 700; color: #3f6b7a; white-space: nowrap; }
+  html[data-theme="dark"] #shack-profile .pcount { color: #bcd6e4; }
+  #shack-profile .pname { font-weight: 800; color: #1f5f74; font-size: 15px; flex: 1; min-width: 0; overflow-wrap: break-word; }
+  #shack-profile .pback { flex: none; }
+  .followbtn { border: 1.5px solid #bcd9e4; background: #fff; color: #1f5f74; font-family: inherit; font-size: 11.5px; font-weight: 800; border-radius: 999px; padding: 2px 9px; cursor: pointer; flex: none; }
+  .followbtn.on { background: #1f5f74; border-color: #1f5f74; color: #fff; }
+  html[data-theme="dark"] .shack-chip { background: var(--tyd-acc-dark, #172635); border-color: #2e4a5f; color: #d7ecf5; }
+  html[data-theme="dark"] .shack-chip.on { background: #ffd94d; border-color: #ffd94d; color: #172635; }
+  html[data-theme="dark"] #shack-feedfilter { background: #101e2c; border-color: #2e4a5f; }
+  html[data-theme="dark"] .fftab { color: #d7ecf5; }
+  html[data-theme="dark"] .fftab.on { background: #ffd94d; color: #172635; }
+  html[data-theme="dark"] .msg .mmeta .namebtn { color: #ffd94d; }
+  html[data-theme="dark"] #shack-profile { background: #101e2c; border-color: #2e4a5f; }
+  html[data-theme="dark"] #shack-profile .pname { color: #ffd94d; }
+  html[data-theme="dark"] .followbtn { background: var(--tyd-acc-dark, #172635); border-color: #2e4a5f; color: #d7ecf5; }
+  html[data-theme="dark"] .followbtn.on { background: #ffd94d; border-color: #ffd94d; color: #172635; }
+  html[data-theme="dark"] #shack-manage-btn { background: var(--tyd-acc-dark, #172635); border-color: #2e4a5f; color: #d7ecf5; }
+  html[data-theme="dark"] .shack-chip.muted { opacity: .5; }
+  html[data-theme="dark"] .shack-badge { border-color: #172635; }
+  html[data-theme="dark"] .shack-badge.at { background: #ffd94d; color: #172635; }
+  html[data-theme="dark"] #shack-manage { background: #101e2c; border-color: #2e4a5f; }
+  html[data-theme="dark"] #shack-manage h3 { color: #ffd94d; }
+  html[data-theme="dark"] #shack-manage .mrow { border-color: #2e4a5f; }
+  html[data-theme="dark"] #shack-manage .mname { color: #eefaff; }
+  html[data-theme="dark"] #shack-manage .mtoggle { background: var(--tyd-acc-dark, #172635); border-color: #2e4a5f; color: #d7ecf5; }
+  html[data-theme="dark"] #shack-manage .mtoggle.off { background: #101e2c; color: #8fa9b8; }
+  html[data-theme="dark"] #shack-manage .mnote { color: #bcd6e4; }
+  html[data-theme="dark"] #mention-suggest { background: var(--tyd-acc-dark, #172635); border-color: #2e4a5f; }
+  html[data-theme="dark"] #mention-suggest button { color: #ffd94d; }
+  html[data-theme="dark"] #mention-suggest button:hover { background: #23414d; }
+  html[data-theme="dark"] #mention-suggest .msub { color: #8fa9b8; }
+  html[data-theme="dark"] .mtext .mention { color: #ffe270; background: #4d4310; }
+</style>
+<meta name="robots" content="noindex,nofollow">
+<link rel="stylesheet" href="pond-travel.css">
+<script>window.__TYD_PREVIEW__=true;</script>
+</head>
+<body>
+<div class="app">
+<div class="tyd-pagehead">
+  <a class="tyd-ph-home" href="index.html">&larr; The Pond</a>
+  <a class="tyd-ph-search" href="search.html">🔍 Search the Pond</a>
+</div>
+
+  <div style="text-align:right; margin-top:8px;"><a id="acctpill" href="account.html" style="display:inline-block; background:#1f5f74; color:#fff; font-weight:800; font-size:13px; text-decoration:none; border-radius:999px; padding:8px 15px;">🦆 Pond Account · Log in / Sign up</a></div>
+
+  <div id="shack-toprow">
+    <div id="shack-channels" role="tablist" aria-label="Chat channels"></div>
+    <button type="button" id="shack-likes-btn" aria-label="Likes and notifications" title="Likes and notifications">♥<span class="shack-likes-dot" id="shack-likes-dot"></span></button>
+    <button type="button" id="shack-manage-btn" aria-label="Manage channels and notifications" title="Manage channels and notifications">⚙️</button>
+  </div>
+  <div id="shack-manage"></div>
+  <div id="shack-likes"></div>
+
+  <div id="composer">
+    <img id="composer-avatar" class="cav" src="images/corners/duck-chat.jpg" onerror="this.onerror=null;this.src='icon-512.png';" alt="">
+    <div class="cbody">
+      <p class="phint" id="chat-channel-label" style="display:none; margin:2px 0 0;"></p>
+      <form id="chat-form">
+        <input id="chat-input" type="text" maxlength="500" placeholder="What's quacking?" autocomplete="off">
+        <button type="button" id="chat-attach" aria-label="Attach a photo" title="Attach a photo">📷</button>
+        <input type="file" id="chat-image-input" accept="image/*" hidden>
+        <button type="submit" class="btn btn-main" id="chat-send">Post 🦆</button>
+        <div id="mention-suggest" role="listbox" aria-label="Mention someone"></div>
+      </form>
+      <p class="phint" id="chat-ducklings-warn" style="display:none; color:#8a6d00;">Only Lucy can @Ducklings — it will post as plain text.</p>
+      <div id="chat-img-preview" style="display:none;"><img id="chat-img-preview-img" alt="Photo to share"><button type="button" id="chat-img-remove" aria-label="Remove photo">✕</button></div>
+      <p class="phint" id="chat-img-note" style="display:none;">📷 Photos are public to everyone in the Shack — please keep them family-friendly.</p>
+      <p class="phint" id="chat-who" style="margin:6px 0 0;"></p>
+    </div>
+  </div>
+  <p class="pflash" id="chat-note">You are reading along as a guest. <a href="account.html">Sign in with your free Pond Account</a> to join the chat. Your messages will wear your duck and your @username.</p>
+  <div id="shack-feedfilter" role="tablist" aria-label="Feed filter"></div>
+  <div id="shack-profile" style="display:none;"></div>
+  <div id="chatlist">
+    <div class="emptybox"><img src="images/corners/duck-chat.jpg" onerror="this.onerror=null;this.src='icon-512.png';" alt="The Pond duck"><p>Opening the Shack… the duck is unlocking the door. 🦆</p></div>
+  </div>
+  <p class="pflash perr" id="chat-err" style="display:none;"></p>
+  <div id="tyddelconf" class="tyddelconf" hidden role="alertdialog" aria-modal="true" aria-labelledby="tyddelconf-t">
+    <div class="tyddelconf-card">
+      <h3 id="tyddelconf-t">Take that message out of the Shack?</h3>
+      <p class="tyddelconf-sub" id="tyddelconf-sub"></p>
+      <div class="tyddelconf-btns">
+        <button type="button" class="btn btn-ghost" id="tyddelconf-cancel">Cancel</button>
+        <button type="button" class="btn btn-danger" id="tyddelconf-yes">Delete</button>
+      </div>
+    </div>
+  </div>
+  <div id="shack-replyview" hidden role="dialog" aria-modal="true" aria-label="Reply to a quack">
+    <div class="rv-wrap">
+      <div class="rv-top">
+        <button type="button" class="rv-cancel" id="rv-cancel">Cancel</button>
+        <span class="rv-title">Reply</span>
+        <span class="rv-spacer"></span>
+      </div>
+      <div class="rv-tone" id="rv-tone"><span>Help set the tone by keeping your reply respectful.</span><button type="button" id="rv-tone-x" aria-label="Dismiss">✕</button></div>
+      <div class="rv-orig" id="rv-orig"></div>
+      <div class="rv-thread">
+        <div class="rv-reply">
+          <img class="mav" id="rv-avatar" src="images/corners/duck-chat.jpg" alt="" onerror="this.onerror=null;this.src='images/corners/duck-chat.jpg';">
+          <div class="rv-field">
+            <textarea class="rv-input" id="rv-input" rows="2" maxlength="500" placeholder="Reply to @Pond friend..."></textarea>
+            <div id="reply-mention-suggest" role="listbox" aria-label="Mention someone"></div>
+            <p class="rv-warn" id="rv-ducklings-warn">Only Lucy can @Ducklings — it will post as plain text.</p>
+            <div class="rv-imgprev" id="rv-imgprev"><img id="rv-imgprev-img" alt="Photo to share"><button type="button" id="rv-imgprev-x" aria-label="Remove photo">✕</button></div>
+            <div class="rv-tools">
+              <button type="button" class="rv-attach" id="rv-attach" aria-label="Attach a photo" title="Attach a photo">📷 Photo</button>
+              <input type="file" id="rv-img-input" accept="image/*" hidden>
+              <button type="button" class="rv-add" id="rv-add-another">＋ Add another reply</button>
+              <button type="button" class="rv-post" id="rv-post">Post</button>
+            </div>
+            <p class="rv-posted" id="rv-posted" style="display:none;">Posted ✓</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p class="disc">Part of TreatYourselfDiscounts, the Pond. One big friendly room: be kind to each other, and keep the shady links out of the Shack. Welcome to the Pond!</p>
+  <p style="text-align:center;font-size:12.5px;color:#4a6b78">© 2026 TreatYourselfDiscounts™. All rights reserved. · <a href="terms.html">Terms of Use</a></p></footer>
+</div>
+<script type="module" src="auth-pill.js"></script>
+<script type="module">
+  /* The Quack Shack: one big Pond chat room (pondChat collection).
+     Anyone can read; signed-in members post under their @username and
+     duck avatar. Messages carry a name/avatar snapshot from profiles.
+     Word filter runs before posting, same as comments. Rules for
+     pondChat publish separately; until they land, reads and writes
+     fail soft with a gentle note. */
+  import { initializeApp, getApp } from "./pond-firebase-stub.js";
+  import { getAuth, onAuthStateChanged } from "./pond-firebase-stub.js";
+  import { getFirestore, doc, getDoc, getDocs, collection, addDoc, deleteDoc, updateDoc, setDoc, query, where, orderBy, limit, onSnapshot, arrayUnion, arrayRemove } from "./pond-firebase-stub.js";
+  import { getStorage, ref as storageRef, uploadBytes, getDownloadURL, deleteObject } from "./pond-firebase-stub.js";
+  var cfg = { apiKey: "preview-disabled", authDomain: "pond-preview-disabled.firebaseapp.com", projectId: "pond-preview-disabled", storageBucket: "pond-preview-disabled.firebasestorage.app", messagingSenderId: "000000000000", appId: "1:000000000000:web:previewdisabled" };
+  var app; try { app = getApp(); } catch (e) { app = initializeApp(cfg); }
+  var auth = getAuth(app), db = getFirestore(app), storage = getStorage(app);
+  var LUCY_UID = "1hbpZnS7gfPd0ptzygwiaDBfjo63";
+  var me = null, msgs = [], ready = false, denied = false;
+  // Message editing (own messages only): which message is being edited,
+  // and the live draft text, kept across re-renders from new snapshots.
+  var editingId = null, editingDraft = "";
+  // Replies (Nov 15, 2026, v297; reply view v373): a reply posts a
+  // new pondChat message with a replyTo field holding the message
+  // replied to. Tapping Reply opens the dedicated reply screen
+  // (openReply), never the top composer; the top composer is for new
+  // posts only.
+  // Likes (Nov 15, 2026, v297): raw like docs from pondChatLikes, one
+  // per like ({ msgId, uid }). Counts and "did I like this" are derived
+  // in render() so they stay right when the member signs in or out.
+  var likeDocs = [];
+  // Lookup by message id (v373): kept fresh by render() and shared by
+  // the reply view, reposts, and the Likes inbox jump-to-post.
+  var byId = {};
+  // Chat channels (Nov 15, 2026, v303): Discord-style rooms inside the
+  // Shack. A fixed list Lucy defines here; members pick a room and the
+  // feed shows only that room. Old messages carry no channel field and
+  // count as General, so nothing vanishes.
+  var CHANNELS = [
+    { id: "general", label: "General", emoji: "💬" },
+    { id: "deals", label: "Deals", emoji: "🔥" },
+    { id: "food", label: "Food", emoji: "🍳" },
+    { id: "pets", label: "Pets", emoji: "🐾" },
+    { id: "pondpost", label: "Pond Post", emoji: "📰" }
+  ];
+  function channelDef(id) {
+    for (var i = 0; i < CHANNELS.length; i++) if (CHANNELS[i].id === id) return CHANNELS[i];
+    return CHANNELS[0];
+  }
+  function lsGet(k, d) { try { var v = localStorage.getItem(k); return v == null ? d : v; } catch (e) { return d; } }
+  function lsSet(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+  // Views (Nov 15, 2026, v305): three ways to look at the Shack — a
+  // channel room, the Friends tab (people you follow, all channels),
+  // or one person's profile (their quacks, all channels). `channel`
+  // stays the posting room (the last room chip picked); the composer
+  // always posts there, never to "Friends" or a profile. The Friends
+  // tab is remembered in tydShackChannel as the value "friends".
+  var view = "channel"; // "channel" | "friends" | "profile"
+  var profileUid = null, profileName = "", profileAvatar = "";
+  var profileReturn = { view: "channel", channel: "general" };
+  var savedChannel = lsGet("tydShackChannel", "general");
+  var channel = channelDef(savedChannel).id;
+  if (savedChannel === "friends") {
+    view = "friends";
+    // The last room before Friends is kept in tydShackLastChannel, so the
+    // composer still posts there after a reload (Friends is a view, not a room).
+    channel = channelDef(lsGet("tydShackLastChannel", "general")).id;
+  }
+  // Bell deep link (v306): chat.html?ch=deals opens that room (and
+  // marks it seen, via loadShackPrefs). Only real channel ids count;
+  // a hidden room is corrected to General when prefs load.
+  var urlCh = null;
+  try { urlCh = new URLSearchParams(window.location.search).get("ch"); } catch (e) {}
+  if (urlCh) {
+    for (var ci = 0; ci < CHANNELS.length; ci++) {
+      if (CHANNELS[ci].id === urlCh) { channel = urlCh; view = "channel"; lsSet("tydShackChannel", channel); break; }
+    }
+  }
+  // Feed filter (v303): "all" shows everyone in the channel; "following"
+  // shows only people you follow plus your own quacks.
+  var feedFilter = lsGet("tydShackFeedFilter", "all");
+  if (feedFilter !== "all" && feedFilter !== "following") feedFilter = "all";
+  // Following (v303): the UIDs this member follows, kept on their OWN
+  // user doc (users/{uid}.following). Private by design: only the member
+  // and Lucy can read that doc. No follower counts, no public lists.
+  var following = [];
+  function isFollowing(uid) { return !!uid && following.indexOf(uid) !== -1; }
+  // Notifications + channel prefs (Nov 15, 2026, v306): per-channel
+  // notification on/off (a channel with notifications OFF is MUTED),
+  // @mention notifications on/off, hidden (removed) channels, and
+  // last-seen per channel. All live on the member's OWN user doc
+  // (users/{uid}) so they follow the member across devices; localStorage
+  // mirrors them so the row updates instantly. No rules change: the
+  // users rule already lets a member write their own doc, and the
+  // pondChat create rule has no hasOnly, so `mentions` and
+  // `mentionsEveryone` are allowed on new messages.
+  var shackNotifs = null; // null = all on (default); object {channelId: bool}
+  var mentionNotifs = true;
+  var hiddenShackChannels = [];
+  var shackLastSeen = {}; // {channelId: timestampMs}
+  function notifOn(id) { return !shackNotifs || shackNotifs[id] !== false; }
+  function isChannelMuted(id) { return !notifOn(id); }
+  function isChannelHidden(id) { return id !== "general" && hiddenShackChannels.indexOf(id) !== -1; }
+  function lsJson(k, d) { try { var v = localStorage.getItem(k); if (v == null) return d; var p = JSON.parse(v); return p == null ? d : p; } catch (e) { return d; } }
+  function lsJsonSet(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+  function loadShackPrefsLocal() {
+    var n = lsJson("tydShackNotifs", null);
+    shackNotifs = (n && typeof n === "object") ? n : null;
+    mentionNotifs = lsGet("tydMentionNotifs", "1") !== "0";
+    var h = lsJson("tydHiddenShackChannels", []);
+    hiddenShackChannels = Array.isArray(h) ? h.filter(function (x) { return typeof x === "string"; }) : [];
+    var s = lsJson("tydShackLastSeen", {});
+    shackLastSeen = (s && typeof s === "object") ? s : {};
+  }
+  function saveShackPrefsLocal() {
+    if (shackNotifs) lsJsonSet("tydShackNotifs", shackNotifs); else { try { localStorage.removeItem("tydShackNotifs"); } catch (e) {} }
+    lsSet("tydMentionNotifs", mentionNotifs ? "1" : "0");
+    lsJsonSet("tydHiddenShackChannels", hiddenShackChannels);
+    lsJsonSet("tydShackLastSeen", shackLastSeen);
+  }
+  function saveShackPrefs() {
+    saveShackPrefsLocal();
+    if (!me) return;
+    setDoc(doc(db, "users", me.uid), { shackNotifs: shackNotifs || {}, mentionNotifs: mentionNotifs, hiddenShackChannels: hiddenShackChannels, shackLastSeen: shackLastSeen }, { merge: true }).catch(function () {});
+  }
+  function loadShackPrefs() {
+    loadShackPrefsLocal();
+    if (!me) return;
+    getDoc(doc(db, "users", me.uid)).then(function (snap) {
+      var d = snap.exists() ? (snap.data() || {}) : {};
+      if (d.shackNotifs && typeof d.shackNotifs === "object") shackNotifs = d.shackNotifs;
+      if (typeof d.mentionNotifs === "boolean") mentionNotifs = d.mentionNotifs;
+      if (Array.isArray(d.hiddenShackChannels)) hiddenShackChannels = d.hiddenShackChannels.filter(function (x) { return typeof x === "string"; });
+      if (d.shackLastSeen && typeof d.shackLastSeen === "object") shackLastSeen = d.shackLastSeen;
+      // First run (no last-seen anywhere): baseline all channels to
+      // now, so badges and the bell only count posts from here on —
+      // no flood of old quacks the first time.
+      if (!d.shackLastSeen || !Object.keys(d.shackLastSeen).length) {
+        var now = Date.now();
+        CHANNELS.forEach(function (c) { shackLastSeen[c.id] = now; });
+      }
+      // A hidden channel can never be the room you are standing in.
+      if (isChannelHidden(channel)) { channel = "general"; view = "channel"; lsSet("tydShackChannel", "general"); }
+      // Opening the Shack marks the room you are standing in as seen.
+      markChannelSeen(channel);
+      saveShackPrefsLocal();
+      paintChannels(); paintManage(); render();
+    }).catch(function () {});
+  }
+  // Last-seen (v306): mark a channel seen when the member views it
+  // (taps its chip) and when they open the Shack (the current room is
+  // marked seen). Only explicit view changes write — new posts arriving
+  // in the snapshot never mark a room seen, so the badge can appear.
+  function markChannelSeen(id) {
+    if (!me || !id) return;
+    shackLastSeen[channelDef(id).id] = Date.now();
+    saveShackPrefs();
+  }
+  function lastSeenAt(id) { return (shackLastSeen && shackLastSeen[id]) || 0; }
+  // Badge kind for a channel (v306): "at" when an @mention of me or a
+  // Lucy @Ducklings landed there since I last saw it, "dot" when any
+  // other new quack did, "" when nothing is new. Muted channels never
+  // badge, and the room I am standing in never badges (I am seeing it).
+  function channelBadge(id) {
+    if (!me || isChannelMuted(id)) return "";
+    if (view === "channel" && id === channel) return "";
+    var seen = lastSeenAt(id);
+    var dot = false;
+    for (var i = 0; i < msgs.length; i++) {
+      var m = msgs[i];
+      if ((m.channel || "general") !== id) continue;
+      if (!m.createdAt || m.createdAt <= seen) continue;
+      if (m.uid === me.uid) continue;
+      if (m.type === "repost") continue;
+      if (window.TYDBlock && window.TYDBlock.isBlocked(m.uid)) continue;
+      if (window.TYDFriendsOnly && !window.TYDFriendsOnly.passes(m.uid, me.uid)) continue;
+      if (m.mentionsEveryone && m.uid === LUCY_UID) return "at";
+      if (mentionNotifs && m.mentions && m.mentions.indexOf((me.name || "").toLowerCase()) !== -1) return "at";
+      dot = true;
+    }
+    return dot ? "dot" : "";
+  }
+  // Friends tab badge (v306): a followed user posted in any unmuted
+  // channel since I last saw that channel. A stranger's @mention does
+  // not count here — it badges its own channel chip instead.
+  function friendsBadge() {
+    if (!me || view === "friends") return "";
+    var dot = false;
+    for (var i = 0; i < msgs.length; i++) {
+      var m = msgs[i];
+      if (m.uid === me.uid) continue;
+      if (!isFollowing(m.uid)) continue;
+      if (m.type === "repost") continue;
+      var ch = m.channel || "general";
+      if (isChannelMuted(ch)) continue;
+      if (!m.createdAt || m.createdAt <= lastSeenAt(ch)) continue;
+      if (window.TYDBlock && window.TYDBlock.isBlocked(m.uid)) continue;
+      if (window.TYDFriendsOnly && !window.TYDFriendsOnly.passes(m.uid, me.uid)) continue;
+      if (m.mentionsEveryone && m.uid === LUCY_UID) return "at";
+      if (mentionNotifs && m.mentions && m.mentions.indexOf((me.name || "").toLowerCase()) !== -1) return "at";
+      dot = true;
+    }
+    return dot ? "dot" : "";
+  }
+  function esc(s) { return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
+  function relTime(ts) {
+    var s = Math.max(0, Math.floor((Date.now() - (ts || 0)) / 1000));
+    if (s < 60) return "just now";
+    var m = Math.floor(s / 60); if (m < 60) return m + (m === 1 ? " min ago" : " mins ago");
+    var h = Math.floor(m / 60); if (h < 24) return h + (h === 1 ? " hr ago" : " hrs ago");
+    var d = Math.floor(h / 24); if (d < 7) return d + (d === 1 ? " day ago" : " days ago");
+    try { return new Date(ts).toLocaleDateString(undefined, { month: "short", day: "numeric" }); } catch (e) { return ""; }
+  }
+  // Exact posted date + time, e.g. "Nov 15, 3:42 PM" (adds the year when it is not this year).
+  function fullTime(ts) {
+    if (!ts) return "";
+    try {
+      var d = new Date(ts), now = new Date();
+      var o = { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" };
+      if (d.getFullYear() !== now.getFullYear()) o.year = "numeric";
+      return d.toLocaleString(undefined, o);
+    } catch (e) { return ""; }
+  }
+  // Post timestamp (v304): the friendly relative time plus the exact date + time, so
+  // every quack says when it was posted. For posts older than a week relTime is
+  // already a date, so show the exact date + time once instead of repeating it.
+  function postTime(ts) {
+    if (!ts) return "";
+    var rel = relTime(ts);
+    if (rel === "just now" || rel.indexOf("ago") !== -1) {
+      var ex = fullTime(ts);
+      return ex ? rel + " · " + ex : rel;
+    }
+    return fullTime(ts) || rel;
+  }
+  function avatarUrl(a) { return a ? "images/avatars/" + a + ".jpg" : "images/corners/duck-chat.jpg"; }
+  // @mentions (v306): the members who have posted, newest first,
+  // keyed by lowercase username — powers both the autocomplete and
+  // the tappable mentions in rendered quacks.
+  function posterMap() {
+    var map = {};
+    for (var i = 0; i < msgs.length; i++) {
+      var m = msgs[i];
+      if (m.uid && m.name && !map[m.name.toLowerCase()]) map[m.name.toLowerCase()] = { uid: m.uid, avatar: m.avatar || "" };
+    }
+    return map;
+  }
+  // Render @mentions in a quack as highlighted names. Known posters
+  // are buttons (tap opens their profile view); unknown names and
+  // @Ducklings render highlighted but do nothing when tapped (no
+  // profile to open).
+  function renderTextWithMentions(text) {
+    var safe = esc(text || "");
+    var map = posterMap();
+    return safe.replace(/@([A-Za-z0-9_]{1,40})/g, function (full, name) {
+      var low = name.toLowerCase();
+      if (low === "ducklings") return '<span class="mention everyone">@' + esc(name) + "</span>";
+      var p = map[low];
+      if (p) return '<button type="button" class="mention" data-mention-uid="' + esc(p.uid) + '" data-mention-name="' + esc(name) + '" data-mention-avatar="' + esc(p.avatar) + '">@' + esc(name) + "</button>";
+      return '<span class="mention">@' + esc(name) + "</span>";
+    });
+  }
+  // Shared-to-the-Shack preview (v312): the card for a share post.
+  // Same tab for Pond links, new tab + rel="noopener" for anything
+  // external. The label names the sharer, so the card never reads as
+  // the sharer's own words. (v314) When the share carries a comment
+  // — text differs from the shared title — the comment shows above
+  // the card as the sharer's own words; old shares (text === title)
+  // render exactly as before, with no comment line.
+  function sharePreviewHtml(m) {
+    var url = m.shareUrl || "/chat.html";
+    var external = !/^https:\/\/treatyourselfdiscounts\.com(\/|\?|#|$)/.test(url);
+    var img = m.shareImage || "images/corners/duck-chat.jpg";
+    var title = m.shareTitle || m.text || "Shared from the Pond";
+    var comment = (m.text && m.shareTitle && m.text !== m.shareTitle) ? m.text : "";
+    var out = "";
+    if (comment) out += '<div class="sharecomment">' + esc(comment) + "</div>";
+    return out + '<a class="sharecard" href="' + esc(url) + '"' + (external ? ' target="_blank" rel="noopener"' : "") + '>'
+      + '<span class="sharecard-label">🔗 Shared by @' + esc(m.name || "Pond friend") + "</span>"
+      + '<img src="' + esc(img) + '" alt="" loading="lazy" onerror="this.remove()">'
+      + '<span class="sharecard-title">' + esc(title) + "</span>"
+      + (m.shareText ? '<span class="sharecard-text">' + esc(m.shareText) + "</span>" : "")
+      + "</a>";
+  }
+  // Parse @username mentions out of a quack before it posts: the
+  // `mentions` array (usernames, lowercased, deduped, WITHOUT the @)
+  // and whether it calls @Ducklings. @Ducklings is never in the array
+  // — it is the `mentionsEveryone` flag, and only Lucy may set it.
+  function parseMentions(text) {
+    var out = [], seen = {};
+    var re = /@([A-Za-z0-9_]{1,40})/g, m;
+    while ((m = re.exec(text || "")) !== null) {
+      var name = m[1].toLowerCase();
+      if (name === "ducklings") continue;
+      if (seen[name]) continue;
+      seen[name] = true;
+      out.push(name);
+    }
+    return { mentions: out, everyone: /@ducklings/i.test(text || "") };
+  }
+  var listEl = document.getElementById("chatlist");
+  function render() {
+    paintViewChrome();
+    if (denied) {
+      listEl.innerHTML = '<div class="emptybox"><img src="images/corners/duck-chat.jpg" onerror="this.onerror=null;this.src=\'icon-512.png\';" alt="The Pond duck"><p>The Shack is still opening its doors. Try again in a little while. 🦆</p></div>';
+      return;
+    }
+    if (!ready) return;
+    // Blocked members (Lucy, Nov 12, 2026): their messages never render.
+    var visible = msgs.filter(function (m) { return !(window.TYDBlock && window.TYDBlock.isBlocked(m.uid)); });
+    // Friends-only mode (Lucy, Nov 12, 2026): when it is on, only
+    // messages from Pond friends (and your own) render.
+    if (window.TYDFriendsOnly) visible = visible.filter(function (m) { return window.TYDFriendsOnly.passes(m.uid, me && me.uid); });
+    // Views (v305): a channel room filters by room; the Friends tab
+    // shows people you follow + yourself across ALL channels; a
+    // profile shows one person across ALL channels. The All/Following
+    // filter only applies inside a channel room.
+    if (view === "friends") {
+      visible = visible.filter(function (m) { return (me && m.uid === me.uid) || isFollowing(m.uid); });
+    } else if (view === "profile") {
+      visible = visible.filter(function (m) { return m.uid === profileUid; });
+    } else {
+      visible = visible.filter(function (m) { return (m.channel || "general") === channel; });
+      if (feedFilter === "following") visible = visible.filter(function (m) { return (me && m.uid === me.uid) || isFollowing(m.uid); });
+    }
+    // Reposts (v373) never render in a room or the Friends tab: they
+    // live on the reposter's personal page. In a profile view they
+    // render for the person whose page it is (the uid filter above).
+    if (view !== "profile") visible = visible.filter(function (m) { return m.type !== "repost"; });
+    if (!visible.length) {
+      var chDef = channelDef(channel);
+      var emptyNote;
+      if (view === "friends" && !me) emptyNote = "Sign in to follow people and see their quacks here. 🦆";
+      else if (view === "friends") emptyNote = "No quacks from your friends yet. Follow someone to fill this up! 🦆";
+      else if (view === "profile") emptyNote = "No quacks from @" + (profileName || "Pond friend") + " yet. 🦆";
+      else if (feedFilter === "following" && !me) emptyNote = "Sign in to follow people and see their quacks here. 🦆";
+      else if (feedFilter === "following") emptyNote = "No quacks from people you follow in #" + channel + " yet. Follow someone to fill this up! 🦆";
+      else if (window.TYDFriendsOnly && window.TYDFriendsOnly.isOn() && me) emptyNote = "Only messages from your Pond friends show here while Friends-only is on. Add friends in My Account to hear more voices. 🦆";
+      else if (channel !== "general") emptyNote = "Quiet in #" + channel + " " + chDef.emoji + " — be the first to quack here! 🦆";
+      else emptyNote = "Quiet in here... just ripples. Be the first to quack! 🦆";
+      listEl.innerHTML = '<div class="emptybox"><img src="images/corners/duck-chat.jpg" onerror="this.onerror=null;this.src=\'icon-512.png\';" alt="The Pond duck"><p>' + emptyNote + '</p></div>';
+      return;
+    }
+    // Reply counts are computed client-side: how many messages carry a
+    // replyTo pointing at each post. The lookup by id powers the
+    // "Replying to @name" line on replies.
+    var replyCounts = {};
+    byId = {};
+    msgs.forEach(function (m) {
+      byId[m.id] = m;
+      if (m.replyTo) replyCounts[m.replyTo] = (replyCounts[m.replyTo] || 0) + 1;
+    });
+    // Like counts and "did I like this" are derived from the pondChatLikes
+    // docs, so they stay right when the member signs in or out.
+    var likeCount = {}, myLiked = {};
+    likeDocs.forEach(function (l) {
+      likeCount[l.msgId] = (likeCount[l.msgId] || 0) + 1;
+      if (me && l.uid === me.uid) myLiked[l.msgId] = true;
+    });
+    // Repost counts (v373): repost docs are pondChat messages with
+    // type "repost" + repostOf, so counts derive from the same snapshot
+    // as likes. A repost is always newer than its original, so when
+    // the original is in the newest-60 window, every repost of it is
+    // too: the count is exact for every post on screen. One repost
+    // per member per post (the doc id is repost_<msgId>_<uid>).
+    var repostCount = {}, myReposted = {};
+    msgs.forEach(function (m) {
+      if (m.type !== "repost" || !m.repostOf) return;
+      repostCount[m.repostOf] = (repostCount[m.repostOf] || 0) + 1;
+      if (me && m.uid === me.uid) myReposted[m.repostOf] = m.id;
+    });
+    // Threading (v373): replies nest under their top-level parent. A
+    // reply to a reply still names the person replied to, but it
+    // renders in the same thread as its parent's parent (one hop),
+    // because replyTo only holds one level.
+    function topParentId(m) {
+      if (!m.replyTo) return null;
+      var p = byId[m.replyTo];
+      if (p && p.replyTo && byId[p.replyTo]) return p.replyTo;
+      return m.replyTo;
+    }
+    function threadReplyCount(id) {
+      var n = 0;
+      msgs.forEach(function (x) { if (x.replyTo && topParentId(x) === id) n++; });
+      return n;
+    }
+    // Display order: top-level posts newest first (the feed's order),
+    // each followed by its replies oldest first, like a thread.
+    var byIdVisible = {};
+    visible.forEach(function (m) { byIdVisible[m.id] = m; });
+    var tops = [], kids = {};
+    visible.forEach(function (m) {
+      var tp = topParentId(m);
+      if (tp && byIdVisible[tp] && tp !== m.id) {
+        (kids[tp] = kids[tp] || []).push(m);
+      } else {
+        tops.push(m);
+      }
+    });
+    Object.keys(kids).forEach(function (k) { kids[k].sort(function (a, b) { return (a.createdAt || 0) - (b.createdAt || 0); }); });
+    var ordered = [];
+    tops.forEach(function (m) {
+      ordered.push({ m: m, reply: false });
+      (kids[m.id] || []).forEach(function (r) { ordered.push({ m: r, reply: true }); });
+    });
+    listEl.innerHTML = ordered.map(function (entry) {
+      var m = entry.m;
+      var isReply = entry.reply;
+      var mine = me && me.uid === m.uid;
+      var canDel = me && (mine || me.uid === LUCY_UID);
+      var canRep = me && !mine;
+      // Edit is for your own messages only. Lucy can delete any message,
+      // but she never edits another member's words. A repost is never
+      // edited (its text is the original's); it is removed by Delete
+      // or by tapping Repost again.
+      var canEdit = !!mine && m.id !== editingId && m.type !== "repost";
+      var lkCount = likeCount[m.id] || 0, lkMine = !!myLiked[m.id];
+      // A top post shows its whole thread count; a reply shows only
+      // the replies made directly to it.
+      var rc = isReply ? (replyCounts[m.id] || 0) : threadReplyCount(m.id);
+      // On a repost card the Repost button reflects the ORIGINAL's
+      // count and state (reposting a repost targets its original).
+      var repTarget = (m.type === "repost" && m.repostOf) ? m.repostOf : m.id;
+      var rpc = repostCount[repTarget] || 0, myRep = !!myReposted[repTarget];
+      var body;
+      if (m.id === editingId) {
+        body = '<div class="medit-row"><input type="text" maxlength="500" value="' + esc(editingDraft) + '" data-editinput="' + m.id + '" autocomplete="off">' +
+          '<button type="button" class="btn btn-main" data-editsave="' + m.id + '">Save</button>' +
+          '<button type="button" class="btn btn-ghost" data-editcancel="' + m.id + '">Cancel</button></div>';
+      } else if (m.type === "repost") {
+        // A repost card (v373): who reposted it, the original author,
+        // and the original words (copied at repost time). Tapping the
+        // card jumps to the original post.
+        body = '<button type="button" class="repostcard" data-openorig="' + esc(m.repostOf || "") + '" aria-label="Open the original quack"><span class="repostfrom">🔁 Reposted from @' + esc(m.repostOfName || "Pond friend") + '</span>' +
+          (m.text ? '<span class="reposttext">' + renderTextWithMentions(m.text) + '</span>' : "") + '</button>';
+      } else if (m.type === "share") {
+        /* A shared card renders as a preview card instead of the plain
+           .mtext line (the text field still exists in the doc for the
+           rules, but the preview is what members see). */
+        body = sharePreviewHtml(m);
+      } else if (m.text) {
+        body = '<div class="mtext">' + renderTextWithMentions(m.text) + '</div>';
+      } else {
+        body = "";
+      }
+      // Photos (Nov 15, 2026, v300): an attached image renders below
+      // the text, rounded corners like Threads; tap opens it full size.
+      // An image-only quack has no text line at all. A share post
+      // carries its image inside the preview card, not here.
+      var imgHtml = "";
+      if (m.imageUrl && m.type !== "share") {
+        imgHtml = '<a class="mimg" href="' + esc(m.imageUrl) + '" target="_blank" rel="noopener"><img src="' + esc(m.imageUrl) + '" alt="Photo shared in the Quack Shack" loading="lazy" data-tydlb></a>';
+      }
+      var replyLine = "";
+      if (m.replyTo) {
+        var parent = byId[m.replyTo];
+        var pName = parent ? (parent.name || "Pond friend") : "Pond friend";
+        replyLine = '<div class="replyto">↩ Replying to @' + esc(pName) + '</div>';
+      }
+      // Follow (v303): a small Follow / Following ✓ button next to the
+      // @name on other people's quacks. Never on your own posts. Guests
+      // see it too — tapping it asks them to sign in, like the Like
+      // button does.
+      var followHtml = "";
+      if (!mine && m.uid) {
+        var fOn = isFollowing(m.uid);
+        followHtml = '<button type="button" class="followbtn' + (fOn ? " on" : "") + '" data-follow="' + esc(m.uid) + '" data-followname="' + esc(m.name || "Pond friend") + '" aria-pressed="' + fOn + '">' + (fOn ? "Following ✓" : "Follow") + '</button>';
+      }
+      var acts = '<div class="macts">' +
+        '<button type="button" class="actbtn' + (lkMine ? " liked" : "") + '" data-like="' + m.id + '" aria-pressed="' + lkMine + '" aria-label="Like this quack">' + (lkMine ? "♥" : "♡") + (lkCount ? " " + lkCount : "") + '</button>' +
+        '<button type="button" class="actbtn" data-reply="' + m.id + '" data-replyname="' + esc(m.name || "") + '" aria-label="Reply to this quack">💬' + (rc ? " " + rc : "") + '</button>' +
+        '<button type="button" class="actbtn' + (myRep ? " reposted" : "") + '" data-repost="' + repTarget + '" aria-pressed="' + myRep + '" aria-label="Repost this quack">🔁' + (rpc ? " " + rpc : "") + '</button>' +
+        '<button type="button" class="actbtn" data-share="' + m.id + '" aria-label="Share this quack">↗ Share</button>' +
+        '<span class="macts-mod">' +
+        (canEdit ? '<button type="button" class="actbtn mini" data-editmsg="' + m.id + '">Edit</button>' : "") +
+        (canDel ? '<button type="button" class="actbtn mini del" data-delmsg="' + m.id + '">Delete</button>' : "") +
+        (canRep ? '<button type="button" class="actbtn mini" data-repmsg="' + m.id + '" data-repuid="' + esc(m.uid) + '" data-repname="' + esc(m.name || "") + '">Report</button>' : "") +
+        '</span></div>';
+      return '<div class="msg' + (mine ? " mine" : "") + (isReply ? " thread-reply" : "") + '" id="msg-' + esc(m.id) + '"><img class="mav" src="' + esc(avatarUrl(m.avatar)) + '" alt="" onerror="this.onerror=null;this.src=\'images/corners/duck-chat.jpg\';">' +
+        '<div class="mbody"><div class="mmeta"><button type="button" class="namebtn" data-profile="' + esc(m.uid) + '" data-profilename="' + esc(m.name || "") + '" data-profileavatar="' + esc(m.avatar || "") + '" aria-label="See @' + esc(m.name || "Pond friend") + '’s quacks">@' + esc(m.name || "Pond friend") + '</button>' + followHtml + ' <span class="mtime">' + esc(postTime(m.createdAt)) + '</span>' +
+        (m.editedAt ? ' <span class="edited-tag">(edited)</span>' : "") + '</div>' +
+        replyLine + body + imgHtml + acts + '</div></div>';
+    }).join("");
+    listEl.querySelectorAll("[data-delmsg]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var delId = b.getAttribute("data-delmsg");
+        var dm = msgs.filter(function (x) { return x.id === delId; })[0];
+        openDeleteConfirm(dm, delId);
+      });
+    });
+    listEl.querySelectorAll("[data-repmsg]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        if (window.TYDReport) window.TYDReport.open(b.getAttribute("data-repuid"), b.getAttribute("data-repname"), "chat message", b.getAttribute("data-repmsg"), b);
+      });
+    });
+    listEl.querySelectorAll("[data-editmsg]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var id = b.getAttribute("data-editmsg");
+        var m = msgs.filter(function (x) { return x.id === id; })[0];
+        if (!m) return;
+        editingId = id;
+        // (v314) A share post's text is the shared title when it has no
+        // comment, so the edit box starts empty for those — editing the
+        // title would turn it into a comment.
+        editingDraft = (m.type === "share" && m.text === m.shareTitle) ? "" : (m.text || "");
+        err.style.display = "none";
+        render();
+        var inp = listEl.querySelector("[data-editinput]");
+        if (inp) { inp.focus(); try { inp.setSelectionRange(inp.value.length, inp.value.length); } catch (e) {} }
+      });
+    });
+    listEl.querySelectorAll("[data-editinput]").forEach(function (inp) {
+      inp.addEventListener("input", function () { editingDraft = inp.value; });
+      inp.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") { e.preventDefault(); saveEdit(inp.getAttribute("data-editinput")); }
+        if (e.key === "Escape") { editingId = null; editingDraft = ""; render(); }
+      });
+    });
+    listEl.querySelectorAll("[data-editsave]").forEach(function (b) {
+      b.addEventListener("click", function () { saveEdit(b.getAttribute("data-editsave")); });
+    });
+    listEl.querySelectorAll("[data-editcancel]").forEach(function (b) {
+      b.addEventListener("click", function () { editingId = null; editingDraft = ""; err.style.display = "none"; render(); });
+    });
+    listEl.querySelectorAll("[data-like]").forEach(function (b) {
+      b.addEventListener("click", function () { toggleLike(b.getAttribute("data-like")); });
+    });
+    listEl.querySelectorAll("[data-reply]").forEach(function (b) {
+      b.addEventListener("click", function () { openReply(b.getAttribute("data-reply"), b.getAttribute("data-replyname")); });
+    });
+    listEl.querySelectorAll("[data-repost]").forEach(function (b) {
+      b.addEventListener("click", function () { toggleRepost(b.getAttribute("data-repost")); });
+    });
+    listEl.querySelectorAll("[data-openorig]").forEach(function (b) {
+      b.addEventListener("click", function () { openPost(b.getAttribute("data-openorig")); });
+    });
+    listEl.querySelectorAll("[data-share]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var id = b.getAttribute("data-share");
+        var m = msgs.filter(function (x) { return x.id === id; })[0];
+        if (m) shareMsg(m, b);
+      });
+    });
+    listEl.querySelectorAll("[data-follow]").forEach(function (b) {
+      b.addEventListener("click", function () { toggleFollow(b.getAttribute("data-follow")); });
+    });
+    listEl.querySelectorAll("[data-profile]").forEach(function (b) {
+      b.addEventListener("click", function () { openProfile(b.getAttribute("data-profile"), b.getAttribute("data-profilename"), b.getAttribute("data-profileavatar")); });
+    });
+    listEl.querySelectorAll("[data-mention-uid]").forEach(function (b) {
+      b.addEventListener("click", function () { openProfile(b.getAttribute("data-mention-uid"), b.getAttribute("data-mention-name"), b.getAttribute("data-mention-avatar")); });
+    });
+  }
+  // Save an edit: same 500-character cap and word filter as new messages.
+  // Only the message owner may save (the rules enforce it too); until the
+  // pending rules publish, a save fails soft with a plain note.
+  function saveEdit(id) {
+    if (!me || !id) return;
+    var text = String(editingDraft == null ? "" : editingDraft).trim().slice(0, 500);
+    if (!text) {
+      // (v314) Clearing a share post's comment restores the shared
+      // title as its text, so the post keeps rendering as a card.
+      var em = msgs.filter(function (x) { return x.id === id; })[0];
+      if (em && em.type === "share" && em.shareTitle) text = em.shareTitle;
+    }
+    if (!text) { editingId = null; editingDraft = ""; render(); return; }
+    if (window.TYDBadWords && TYDBadWords.test(text)) {
+      err.textContent = "That edit includes a word we don't allow in the Pond. Please reword it and try again.";
+      err.style.display = "block";
+      return;
+    }
+    err.style.display = "none";
+    var doneId = id;
+    updateDoc(doc(db, "pondChat", id), { text: text, editedAt: Date.now() }).then(function () {
+      if (editingId === doneId) { editingId = null; editingDraft = ""; }
+      render();
+    }).catch(function () {
+      err.textContent = "Couldn't save that edit. Try again in a little while.";
+      err.style.display = "block";
+    });
+  }
+  // Delete confirmation (v316): the native confirm() dialog that used
+  // to gate deletes is auto-dismissed by automated browsers, so Delete
+  // never ran there while Edit worked. This in-page sheet asks the same
+  // question and works in every browser. The Delete button is focused
+  // when the sheet opens, so Enter confirms and Tab reaches Cancel.
+  var delPending = null;
+  function openDeleteConfirm(dm, delId) {
+    var box = document.getElementById("tyddelconf");
+    if (!box) return;
+    var sub = document.getElementById("tyddelconf-sub");
+    var preview = dm ? (dm.type === "share" ? (dm.shareTitle || dm.text || "") : (dm.text || "")) : "";
+    if (sub) sub.textContent = preview ? "\u201C" + preview.slice(0, 120) + (preview.length > 120 ? "\u2026" : "") + "\u201D" : "";
+    delPending = { id: delId, dm: dm || null };
+    box.hidden = false;
+    var yes = document.getElementById("tyddelconf-yes");
+    if (yes) { yes.disabled = false; yes.focus(); }
+  }
+  function closeDeleteConfirm() {
+    var box = document.getElementById("tyddelconf");
+    if (box) box.hidden = true;
+    delPending = null;
+  }
+  function doDeleteConfirmed() {
+    if (!delPending) return;
+    var delId = delPending.id, dm = delPending.dm;
+    var yes = document.getElementById("tyddelconf-yes");
+    if (yes) yes.disabled = true;
+    closeDeleteConfirm();
+    deleteDoc(doc(db, "pondChat", delId)).catch(function () {
+      err.textContent = "Couldn't delete that message. Try again in a little while.";
+      err.style.display = "block";
+    });
+    // Best-effort (v300): take the photo down with the message,
+    // so a removed photo stops being readable at its URL. Fails
+    // soft until the Storage rules publish.
+    if (dm && dm.imagePath) {
+      try { deleteObject(storageRef(storage, dm.imagePath)).catch(function () {}); } catch (e) {}
+    }
+  }
+  (function wireDeleteConfirm() {
+    var yes = document.getElementById("tyddelconf-yes");
+    if (yes) yes.addEventListener("click", doDeleteConfirmed);
+    var cancel = document.getElementById("tyddelconf-cancel");
+    if (cancel) cancel.addEventListener("click", closeDeleteConfirm);
+    var box = document.getElementById("tyddelconf");
+    if (box) box.addEventListener("click", function (e) { if (e.target === box) closeDeleteConfirm(); });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") {
+        var b = document.getElementById("tyddelconf");
+        if (b && !b.hidden) closeDeleteConfirm();
+      }
+    });
+  })();
+  // A block or unblock hides (or brings back) messages right away.
+  window.addEventListener("tyd-block-changed", function () { render(); });
+  // Friends-only mode on/off (or a friends list change) re-renders too.
+  window.addEventListener("tyd-friends-only-changed", function () { render(); });
+  onSnapshot(query(collection(db, "pondChat"), orderBy("createdAt", "desc"), limit(60)), function (qs) {
+    var out = [];
+    qs.forEach(function (d) { var v = d.data() || {}; out.push({ id: d.id, uid: v.uid || "", name: v.name || "", avatar: v.avatar || "", text: v.text || "", createdAt: v.createdAt || 0, editedAt: v.editedAt || 0, replyTo: v.replyTo || "", imageUrl: v.imageUrl || "", imagePath: v.imagePath || "", channel: v.channel || "general", mentions: Array.isArray(v.mentions) ? v.mentions : [], mentionsEveryone: !!v.mentionsEveryone, type: v.type || "", repostOf: v.repostOf || "", repostOfName: v.repostOfName || "", shareKind: v.shareKind || "", shareUrl: v.shareUrl || "", shareImage: v.shareImage || "", shareTitle: v.shareTitle || "", shareText: v.shareText || "" }); });
+    // Newest first (Threads-style feed): the newest quack sits right
+    // under the composer at the top, so no auto-scroll is needed.
+    msgs = out;
+    ready = true; denied = false;
+    render();
+    paintChannels();
+    if (typeof updateLikesDot === "function") updateLikesDot();
+    if (likesPanelOpen()) paintLikes();
+  }, function () { denied = true; render(); });
+  // Likes listener (Nov 15, 2026, v297): pondChatLikes holds one doc
+  // per like, id msgId_uid. Reads fail soft until the v14 rules publish
+  // — the buttons just show no likes yet. v373 keeps createdAt so the
+  // Likes inbox can order likes newest first.
+  onSnapshot(collection(db, "pondChatLikes"), function (qs) {
+    var next = [];
+    qs.forEach(function (d) { var v = d.data() || {}; if (v.msgId && v.uid) next.push({ msgId: v.msgId, uid: v.uid, createdAt: (typeof v.createdAt === "number" ? v.createdAt : 0) }); });
+    likeDocs = next;
+    if (ready) render();
+    if (typeof updateLikesDot === "function") updateLikesDot();
+    if (likesPanelOpen()) paintLikes();
+  }, function () { /* likes stay empty until the rules publish */ });
+  var form = document.getElementById("chat-form"), inp = document.getElementById("chat-input"),
+      note = document.getElementById("chat-note"), err = document.getElementById("chat-err"),
+      who = document.getElementById("chat-who"),
+      composerAvatar = document.getElementById("composer-avatar"),
+      attachBtn = document.getElementById("chat-attach"),
+      imgInput = document.getElementById("chat-image-input"),
+      imgPreview = document.getElementById("chat-img-preview"),
+      imgPreviewImg = document.getElementById("chat-img-preview-img"),
+      imgRemove = document.getElementById("chat-img-remove"),
+      imgNote = document.getElementById("chat-img-note"),
+      channelsEl = document.getElementById("shack-channels"),
+      feedFilterEl = document.getElementById("shack-feedfilter"),
+      channelLabelEl = document.getElementById("chat-channel-label");
+  function paintComposer() {
+    if (me) {
+      form.style.display = "flex"; note.style.display = "none";
+      imgNote.style.display = "block";
+      // "Chatting as @name" — the name opens my own personal page
+      // (v373), so my quacks and reposts are one tap away.
+      who.innerHTML = 'Chatting as <button type="button" class="namebtn" id="chat-who-name">@' + esc(me.name) + "</button>";
+      var wn = document.getElementById("chat-who-name");
+      if (wn) wn.addEventListener("click", function () { openProfile(me.uid, me.name, me.avatar); });
+      if (composerAvatar) composerAvatar.src = avatarUrl(me.avatar);
+    } else {
+      form.style.display = "none"; note.style.display = "block";
+      imgNote.style.display = "none";
+      clearPendingImage();
+      who.textContent = "";
+      if (composerAvatar) composerAvatar.src = "images/corners/duck-chat.jpg";
+    }
+    paintComposerChannel();
+  }
+  // My avatar in the composer opens my own personal page (v373).
+  if (composerAvatar) composerAvatar.addEventListener("click", function () {
+    if (me) openProfile(me.uid, me.name, me.avatar);
+  });
+  // Compose shortcut (Nov 15, 2026, v302): the bottom pill's + button
+  // links here with #compose. Focus the box once the composer is
+  // visible (signed in). Guests just see the sign-in note.
+  function focusComposerIfHash() {
+    if (location.hash !== "#compose") return;
+    if (!me || !inp) return;
+    if (form.style.display === "none") return;
+    inp.focus();
+    window.scrollTo({ top: 0 });
+  }
+  // Channels + Following (Nov 15, 2026, v303). Friends tab (v305):
+  // the 👥 Friends chip is a people view, not a room — it sits last
+  // in the row and shows people you follow across all channels. The
+  // active chip means "what you are viewing": a room, Friends, or
+  // nothing while a profile is open (the composer label still names
+  // the posting room).
+  function paintChannels() {
+    if (!channelsEl) return;
+    var html = CHANNELS.filter(function (c) { return !isChannelHidden(c.id); }).map(function (c) {
+      var on = view === "channel" && c.id === channel;
+      var muted = isChannelMuted(c.id);
+      var badge = channelBadge(c.id);
+      var badgeHtml = badge === "at" ? '<span class="shack-badge at" aria-label="New mention">@</span>' : (badge === "dot" ? '<span class="shack-badge dot" aria-label="New quacks"></span>' : "");
+      return '<button type="button" role="tab" aria-selected="' + on + '" class="shack-chip' + (on ? " on" : "") + (muted ? " muted" : "") + '" data-channel="' + c.id + '">' + c.emoji + " " + esc(c.label) + (muted ? " 🔇" : "") + badgeHtml + '</button>';
+    }).join("");
+    var fOn = view === "friends";
+    var fbadge = friendsBadge();
+    var fbadgeHtml = fbadge === "at" ? '<span class="shack-badge at" aria-label="New mention">@</span>' : (fbadge === "dot" ? '<span class="shack-badge dot" aria-label="New quacks"></span>' : "");
+    html += '<button type="button" role="tab" aria-selected="' + fOn + '" class="shack-chip' + (fOn ? " on" : "") + '" data-friends="1">👥 Friends' + fbadgeHtml + '</button>';
+    channelsEl.innerHTML = html;
+    channelsEl.querySelectorAll("[data-channel]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var id = b.getAttribute("data-channel");
+        if (!id) return;
+        // Tapping the current room while already in it does nothing;
+        // tapping a room from Friends or a profile exits that view.
+        if (view === "channel" && id === channel) return;
+        channel = channelDef(id).id;
+        view = "channel";
+        profileUid = null; profileName = ""; profileAvatar = "";
+        lsSet("tydShackChannel", channel);
+        // Viewing a room marks it seen, so its badge clears.
+        markChannelSeen(channel);
+        paintChannels();
+        paintViewChrome();
+        paintComposerChannel();
+        render();
+      });
+    });
+    var fb = channelsEl.querySelector("[data-friends]");
+    if (fb) fb.addEventListener("click", function () {
+      if (view === "friends") return;
+      view = "friends";
+      profileUid = null; profileName = ""; profileAvatar = "";
+      lsSet("tydShackLastChannel", channel);
+      lsSet("tydShackChannel", "friends");
+      paintChannels();
+      paintViewChrome();
+      paintComposerChannel();
+      render();
+    });
+  }
+  function paintFeedFilter() {
+    if (!feedFilterEl) return;
+    feedFilterEl.innerHTML =
+      '<button type="button" role="tab" aria-selected="' + (feedFilter === "all") + '" class="fftab' + (feedFilter === "all" ? " on" : "") + '" data-ff="all">All</button>' +
+      '<button type="button" role="tab" aria-selected="' + (feedFilter === "following") + '" class="fftab' + (feedFilter === "following" ? " on" : "") + '" data-ff="following">Following</button>';
+    feedFilterEl.querySelectorAll("[data-ff]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var f = b.getAttribute("data-ff");
+        if (!f || f === feedFilter) return;
+        feedFilter = f;
+        lsSet("tydShackFeedFilter", feedFilter);
+        paintFeedFilter();
+        render();
+      });
+    });
+  }
+  // Manage channels panel (v306): per-channel notification on/off
+  // (mute), show/hide (remove a channel from your row), and the
+  // @mention notification toggle. Signed-in only; guests see the
+  // sign-in note. Changes save immediately to the member's own user
+  // doc (setDoc merge) and to localStorage, so the row updates at once.
+  // The Friends tab is a people view, not a channel, so it can never
+  // be muted or hidden.
+  function paintManage() {
+    var el = document.getElementById("shack-manage");
+    if (!el) return;
+    if (!me) {
+      el.innerHTML = '<h3>⚙️ Manage channels</h3><p class="mnote">Sign in with your free Pond Account to customize your channels and notifications.</p>';
+      return;
+    }
+    var rows = CHANNELS.map(function (c) {
+      var muted = isChannelMuted(c.id);
+      var hidden = isChannelHidden(c.id);
+      // General is the fallback room, so it can be muted but never
+      // hidden (like Deals is locked "Always on" in Set up your Pond).
+      var lockHide = c.id === "general";
+      return '<div class="mrow"><span class="mname">' + c.emoji + " " + esc(c.label) + '</span>' +
+        '<button type="button" class="mtoggle' + (muted ? " off" : "") + '" data-notif="' + c.id + '" aria-pressed="' + (!muted) + '">' + (muted ? "🔇 Muted" : "🔔 On") + '</button>' +
+        (lockHide
+          ? '<button type="button" class="mtoggle" disabled title="General is always shown">👁 Always on</button>'
+          : '<button type="button" class="mtoggle' + (hidden ? " off" : "") + '" data-showhide="' + c.id + '" aria-pressed="' + (!hidden) + '">' + (hidden ? "🙈 Hidden" : "👁 Shown") + '</button>') + '</div>';
+    }).join("");
+    el.innerHTML = '<h3>⚙️ Manage channels</h3>' +
+      '<p class="mnote">Mute a channel to stop its notifications — it stays in your row, dimmed, with a 🔇. Hide a channel to remove it from your row; you can show it again here any time. The Friends tab can’t be muted or hidden.</p>' +
+      rows +
+      '<div class="mrow"><span class="mname">💬 @mentions</span>' +
+      '<button type="button" class="mtoggle' + (mentionNotifs ? "" : " off") + '" data-mentionnotif="1" aria-pressed="' + mentionNotifs + '">' + (mentionNotifs ? "🔔 Notify me when someone @s me" : "🔇 @mentions off") + '</button></div>' +
+      '<p class="mnote">When @mention notifications are off, someone @ing you will not ping you — you can still read it in the Shack.</p>';
+    el.querySelectorAll("[data-notif]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var id = b.getAttribute("data-notif");
+        if (!shackNotifs) shackNotifs = {};
+        shackNotifs[id] = isChannelMuted(id) ? true : false;
+        saveShackPrefs(); paintManage(); paintChannels();
+      });
+    });
+    el.querySelectorAll("[data-showhide]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var id = b.getAttribute("data-showhide");
+        if (isChannelHidden(id)) hiddenShackChannels = hiddenShackChannels.filter(function (x) { return x !== id; });
+        else hiddenShackChannels = hiddenShackChannels.concat([id]);
+        // Hiding the room you are standing in drops you to General.
+        if (isChannelHidden(channel)) { channel = "general"; view = "channel"; lsSet("tydShackChannel", "general"); }
+        saveShackPrefs(); paintManage(); paintChannels(); paintComposerChannel(); render();
+      });
+    });
+    el.querySelectorAll("[data-mentionnotif]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        mentionNotifs = !mentionNotifs;
+        saveShackPrefs(); paintManage(); paintChannels();
+      });
+    });
+  }
+  // Likes + Notifications (Nov 19, 2026, v373): a ♥ view in the Shack
+  // where a member sees likes on their own quacks, replies and
+  // @mentions, friend requests (Accept/Decline, the account.html
+  // pattern), and the other notifications the bell already gathers
+  // for them — nest comments and shares, announcements, Pond Post
+  // news, site updates. One member sees only their own items, never
+  // anyone else's. Opening this view never marks anything read: the
+  // "new" markers reuse the seen times the bell already keeps
+  // (per-channel shackLastSeen, tydBellSeen, tydBellCommentSeen,
+  // tydNewsSeen, tydUpdatesSeen), read-only, and pending friend
+  // requests stay new until they are answered — the bell's Mark all
+  // read never clears them, and neither does this view. Mute and
+  // alert prefs are respected exactly where the bell respects them.
+  var shackInbox = { loaded: false, items: [] };
+  var likerNameCache = {};
+  var SHACK_POND_KINDS = { pets: ["a pet", "pets.html"], books: ["a book", "books.html"], gifts: ["a gift list", "gifts.html"], bills: ["a bill", "bills.html"], stuff: ["an item", "stuff.html"], pantry: ["a pantry", "pantry.html"], countdowns: ["a countdown", "countdowns.html"], trips: ["a trip", "travel.html"], recipes: ["a recipe", "recipes.html"] };
+  function likesPanelOpen() {
+    var el = document.getElementById("shack-likes");
+    return !!(el && el.style.display !== "none" && el.style.display !== "");
+  }
+  function toggleLikesPanel(open) {
+    var el = document.getElementById("shack-likes");
+    if (!el) return;
+    var show = (typeof open === "boolean") ? open : !likesPanelOpen();
+    el.style.display = show ? "block" : "none";
+    if (show) { loadInbox(); paintLikes(); }
+  }
+  function likerName(uid, fallback) {
+    if (likerNameCache[uid]) return likerNameCache[uid];
+    var fromMsg = msgs.filter(function (x) { return x.uid === uid; })[0];
+    if (fromMsg && fromMsg.name) { likerNameCache[uid] = fromMsg.name; return fromMsg.name; }
+    return fallback || "Pond friend";
+  }
+  function fetchLikerName(uid) {
+    if (!uid || likerNameCache[uid]) return;
+    getDoc(doc(db, "profiles", uid)).then(function (snap) {
+      var d = snap.exists() ? (snap.data() || {}) : {};
+      if (d.displayName) { likerNameCache[uid] = d.displayName; if (likesPanelOpen()) paintLikes(); }
+    }).catch(function () {});
+  }
+  // Likes on MY posts + replies and @mentions of me, from the live
+  // snapshot data (no extra reads). A like is "new" while its post
+  // is newer than the last time I saw that room — the same rule the
+  // bell uses for Shack quacks.
+  function buildShackItems() {
+    if (!me) return { likes: [], notifs: [] };
+    var myIds = {};
+    msgs.forEach(function (m) { if (m.uid === me.uid) myIds[m.id] = m; });
+    var likes = [];
+    likeDocs.forEach(function (l) {
+      var post = myIds[l.msgId];
+      if (!post) return;
+      fetchLikerName(l.uid);
+      likes.push({ id: "like-" + l.msgId + "-" + l.uid, kind: "like", ts: l.createdAt || post.createdAt || 0, fromUid: l.uid, fromName: likerName(l.uid), msgId: l.msgId, text: post.text || "", isNew: (l.createdAt || post.createdAt || 0) > lastSeenAt(post.channel || "general") });
+    });
+    likes.sort(function (a, b) { return b.ts - a.ts; });
+    var notifs = [];
+    msgs.forEach(function (m) {
+      if (m.uid === me.uid) return;
+      if (m.type === "repost") return;
+      var isReply = m.replyTo && myIds[m.replyTo];
+      var mentionsMe = false;
+      if (m.mentionsEveryone && me.uid === LUCY_UID) mentionsMe = true;
+      if (m.mentions && m.mentions.indexOf((me.name || "").toLowerCase()) !== -1) mentionsMe = true;
+      if (!isReply && !mentionsMe) return;
+      // Friends-only (v307) applies to mentions the same way the bell
+      // does; replies to my own posts are always mine to see.
+      if (!isReply && window.TYDFriendsOnly && !window.TYDFriendsOnly.passes(m.uid, me.uid)) return;
+      notifs.push({ id: "shack-" + m.id, kind: isReply ? "reply" : "mention", ts: m.createdAt || 0, fromUid: m.uid, fromName: m.name || "Pond friend", msgId: m.id, text: m.text || "", isNew: (m.createdAt || 0) > lastSeenAt(m.channel || "general") });
+    });
+    return { likes: likes, notifs: notifs };
+  }
+  function bellSeen(key, fallback) {
+    try { return parseInt(localStorage.getItem(key) || "0", 10) || 0; } catch (e) { return fallback || 0; }
+  }
+  // The rest of the inbox (v373): friend requests, nest comments and
+  // shares, announcements, Pond Post news, site updates. Mirrors the
+  // bell's queries and prefs, one-shot, fail-soft — a source that
+  // errors simply contributes nothing. The bell's own reads stay
+  // untouched; this is a second, read-only view of the same data.
+  function loadInbox() {
+    if (!me || shackInbox.loaded) return;
+    shackInbox.loaded = true;
+    var items = [];
+    var done = 0, total = 0;
+    function finish() {
+      done++;
+      if (done < total) return;
+      items.sort(function (a, b) { return b.ts - a.ts; });
+      shackInbox.items = items;
+      if (likesPanelOpen()) paintLikes();
+      updateLikesDot();
+    }
+    function addAll(list) { list.forEach(function (it) { items.push(it); }); }
+    // Four parallel chains: friend requests, nest comments, nest
+    // shares, and the users-doc chain (announcements → Pond Post news
+    // → site updates, sequential, one finish at its end).
+    total = 4;
+    // Friend requests (pending, to me). Accept/Decline update the doc
+    // status, the account.html pattern — never a delete on decline.
+    getDocs(query(collection(db, "friendRequests"), where("toUid", "==", me.uid), where("status", "==", "pending"))).then(function (qs) {
+      var out = [];
+      qs.forEach(function (d) { var v = d.data() || {}; out.push({ id: "friend-" + d.id, kind: "friend", ts: (typeof v.createdAt === "number" ? v.createdAt : 0), fromUid: v.fromUid || "", fromName: v.fromUsername || "Pond friend", friendId: d.id, isNew: true }); });
+      addAll(out);
+    }).catch(function () {}).then(finish);
+    // Nest comments on my items (bellOn "comments", friends-only).
+    getDocs(query(collection(db, "nestComments"), where("shareOwner", "==", me.uid))).then(function (qs) {
+      var out = [];
+      qs.forEach(function (d) {
+        var v = d.data() || {};
+        if (v.author === me.uid) return;
+        if (window.TYDFriendsOnly && !window.TYDFriendsOnly.passes(v.author, me.uid)) return;
+        out.push({ id: "comment-" + d.id, kind: "comment", ts: (typeof v.createdAt === "number" ? v.createdAt : 0), fromUid: v.author || "", fromName: v.authorName || "Pond friend", text: v.text || "", href: "account.html#cat-comments", isNew: (typeof v.createdAt === "number" ? v.createdAt : 0) > bellSeen("tydBellCommentSeen") });
+      });
+      addAll(out);
+    }).catch(function () {}).then(finish);
+    // Nest shares of my items to the Pond (bellOn "pond").
+    getDocs(query(collection(db, "nestShares"), where("visibility", "==", "pond"))).then(function (qs) {
+      var out = [];
+      qs.forEach(function (d) {
+        var v = d.data() || {};
+        if (v.owner === me.uid) return;
+        if (window.TYDFriendsOnly && !window.TYDFriendsOnly.passes(v.owner, me.uid)) return;
+        var k = SHACK_POND_KINDS[v.kind] || ["something", "nest.html"];
+        out.push({ id: "pond-" + d.id, kind: "share", ts: (typeof v.createdAt === "number" ? v.createdAt : 0), fromUid: v.owner || "", fromName: v.ownerName || "Pond friend", text: v.title || "", href: k[1], isNew: false });
+      });
+      addAll(out);
+    }).catch(function () {}).then(finish);
+    // Announcements (alertPrefs tag filter) + prefs, from my user doc.
+    getDoc(doc(db, "users", me.uid)).then(function (snap) {
+      var d = snap.exists() ? (snap.data() || {}) : {};
+      var prefs = d.alertPrefs || null;
+      var bellPrefs = d.bellPrefs || null;
+      function bellOn(key) { return !bellPrefs || bellPrefs[key] !== false; }
+      function updOn(kind) { return bellOn("upd-" + kind); }
+      var newsNotify = Array.isArray(d.newsNotify) ? d.newsNotify : null;
+      getDocs(query(collection(db, "announcements"), orderBy("createdAt", "desc"), limit(50))).then(function (qs) {
+        var out = [];
+        qs.forEach(function (x) {
+          var v = x.data() || {};
+          var tag = v.tag || "";
+          if (prefs && prefs.length && tag !== "general" && tag !== "" && prefs.indexOf(tag) === -1) return;
+          out.push({ id: "ann-" + x.id, kind: "announcement", ts: (typeof v.createdAt === "number" ? v.createdAt : 0), fromName: v.title || "Announcement", text: v.message || "", href: v.link || "", isNew: (typeof v.createdAt === "number" ? v.createdAt : 0) > bellSeen("tydBellSeen") });
+        });
+        addAll(out);
+      }).catch(function () {}).then(function () {
+        // Pond Post news for sections I follow.
+        getDoc(doc(db, "pondPost", "current")).then(function (snap2) {
+          var cur = snap2.exists() ? (snap2.data() || {}) : {};
+          var out = [];
+          var keys = newsNotify || Object.keys(cur.sections || {});
+          keys.forEach(function (k) {
+            var s = (cur.sections || {})[k];
+            if (!s || !s.ts) return;
+            out.push({ id: "news-" + k + "-" + s.ts, kind: "news", ts: s.ts, fromName: "Pond Post", text: s.title || k, href: "news.html", isNew: s.ts > bellSeen("tydNewsSeen") });
+          });
+          addAll(out);
+        }).catch(function () {}).then(function () {
+          // Site updates (bellPrefs upd-<kind>).
+          if (typeof fetch === "function") {
+            fetch("updates.json").then(function (r) { return r.json(); }).then(function (j) {
+              var out = [];
+              (Array.isArray(j) ? j : []).forEach(function (u) {
+                if (!updOn(u.kind || "feature")) return;
+                out.push({ id: "upd-" + (u.id || u.ts), kind: "update", ts: u.ts || 0, fromName: "Pond update", text: u.title || u.text || "", href: u.link || "", isNew: (u.ts || 0) > bellSeen("tydUpdatesSeen") });
+              });
+              addAll(out);
+            }).catch(function () {}).then(finish);
+          } else { finish(); }
+        });
+      });
+    }).catch(function () { finish(); });
+  }
+  function paintLikes() {
+    var el = document.getElementById("shack-likes");
+    if (!el) return;
+    if (!me) {
+      el.innerHTML = '<h3>♥ Likes</h3><p class="mnote">Sign in with your free Pond Account to see who liked your quacks and your notifications.</p>';
+      return;
+    }
+    var built = buildShackItems();
+    var likes = built.likes;
+    var notifs = built.notifs.concat(shackInbox.items);
+    notifs.sort(function (a, b) { return b.ts - a.ts; });
+    var likers = {};
+    likes.forEach(function (l) { likers[l.fromUid] = true; });
+    var nLikers = Object.keys(likers).length;
+    var h = "<h3>♥ Likes</h3>";
+    h += '<p class="lcount">' + (likes.length ? (likes.length + (nLikers === likes.length ? " people liked your quacks" : " likes from " + nLikers + " people on your quacks")) : "No likes yet") + "</p>";
+    if (likes.length) {
+      h += '<div class="lsec">' + likes.map(function (l) {
+        return '<a class="lrow' + (l.isNew ? " lnew" : "") + '" href="#" data-openpost="' + esc(l.msgId) + '"><span class="lwho">♥ @' + esc(l.fromName) + '</span><span class="lwhat"> liked your quack' + (l.text ? ': “' + esc(l.text.slice(0, 80)) + (l.text.length > 80 ? "…" : "") + '”' : "") + '</span>' + (l.ts ? '<span class="lwhen">' + esc(postTime(l.ts)) + "</span>" : "") + "</a>";
+      }).join("") + "</div>";
+    }
+    h += "<h3>🔔 Notifications</h3>";
+    if (!notifs.length) {
+      h += '<p class="mnote">Nothing new — replies, @mentions, friend requests and Pond news will show up here.</p>';
+    } else {
+      h += '<div class="lsec">' + notifs.map(function (n) {
+        var label = n.kind === "reply" ? "💬 replied to your quack" : n.kind === "mention" ? "📣 mentioned you" : n.kind === "friend" ? "🤝 sent you a friend request" : n.kind === "comment" ? "💬 commented on your nest item" : n.kind === "share" ? "🔗 shared your nest item" : n.kind === "announcement" ? "📢 announcement" : n.kind === "news" ? "📰 Pond Post" : "✨ Pond update";
+        var who = n.fromName ? "@" + esc(n.fromName) + " " : "";
+        var what = n.text ? " — “" + esc(String(n.text).slice(0, 80)) + (String(n.text).length > 80 ? "…" : "") + "”" : "";
+        var when = n.ts ? '<span class="lwhen">' + esc(postTime(n.ts)) + "</span>" : "";
+        if (n.kind === "friend") {
+          return '<div class="lrow' + (n.isNew ? " lnew" : "") + '"><span class="lwho">🤝 @' + esc(n.fromName) + '</span><span class="lwhat"> sent you a friend request</span>' + when +
+            '<span class="lbtns"><button type="button" class="lbtn" data-faccept="' + esc(n.friendId) + '">Accept</button><button type="button" class="lbtn" data-fdecline="' + esc(n.friendId) + '">Decline</button></span></div>';
+        }
+        if (n.kind === "reply" || n.kind === "mention") {
+          return '<a class="lrow' + (n.isNew ? " lnew" : "") + '" href="#" data-openpost="' + esc(n.msgId) + '"><span class="lwho">' + who + label + '</span><span class="lwhat">' + what + "</span>" + when + "</a>";
+        }
+        if (n.kind === "comment") {
+          return '<a class="lrow' + (n.isNew ? " lnew" : "") + '" href="' + esc(n.href) + '"><span class="lwho">' + who + label + '</span><span class="lwhat">' + what + "</span>" + when + "</a>";
+        }
+        return '<a class="lrow' + (n.isNew ? " lnew" : "") + '" href="' + esc(n.href || "#") + '"><span class="lwho">' + who + label + '</span><span class="lwhat">' + what + "</span>" + when + "</a>";
+      }).join("") + "</div>";
+    }
+    el.innerHTML = h;
+    el.querySelectorAll("[data-openpost]").forEach(function (a) {
+      a.addEventListener("click", function (e) {
+        e.preventDefault();
+        openPost(a.getAttribute("data-openpost"));
+      });
+    });
+    el.querySelectorAll("[data-faccept]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        updateDoc(doc(db, "friendRequests", b.getAttribute("data-faccept")), { status: "accepted" }).then(function () {
+          shackInbox.items = shackInbox.items.filter(function (it) { return it.friendId !== b.getAttribute("data-faccept"); });
+          paintLikes(); updateLikesDot();
+        }).catch(function () {});
+      });
+    });
+    el.querySelectorAll("[data-fdecline]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        updateDoc(doc(db, "friendRequests", b.getAttribute("data-fdecline")), { status: "declined" }).then(function () {
+          shackInbox.items = shackInbox.items.filter(function (it) { return it.friendId !== b.getAttribute("data-fdecline"); });
+          paintLikes(); updateLikesDot();
+        }).catch(function () {});
+      });
+    });
+  }
+  // Red dot on the ♥ button (v373): something new in the inbox —
+  // a like, reply or @mention newer than the room's last-seen, a
+  // pending friend request, or a bell item newer than its seen time.
+  // Follows the existing unread logic; it invents no new system, and
+  // opening the panel never clears it (only the bell's Mark all read
+  // advances the seen times).
+  function updateLikesDot() {
+    var dot = document.getElementById("shack-likes-dot");
+    if (!dot) return;
+    var hasNew = false;
+    if (me) {
+      var built = buildShackItems();
+      hasNew = built.likes.some(function (l) { return l.isNew; }) || built.notifs.some(function (n) { return n.isNew; }) || shackInbox.items.some(function (it) { return it.isNew; });
+    }
+    dot.style.display = hasNew ? "block" : "none";
+  }
+  window.TYDShackInbox = {
+    buildShackItems: buildShackItems,
+    loadInbox: loadInbox,
+    paintLikes: paintLikes,
+    updateDot: updateLikesDot,
+    openPost: openPost,
+    get inbox() { return shackInbox; },
+    setLikerName: function (uid, name) { likerNameCache[uid] = name; },
+    toggleRepost: toggleRepost,
+    openReply: openReply
+  };
+  // View chrome (v305): the All/Following filter only shows in a
+  // channel room (it is redundant on the Friends tab and in a
+  // profile view), and the profile header only shows in a profile
+  // view. Called from render() so it stays fresh on every snapshot,
+  // sign-in, and follow toggle, and once at load so a remembered
+  // Friends tab does not flash the filter row.
+  function paintViewChrome() {
+    if (feedFilterEl) feedFilterEl.style.display = (view === "channel") ? "" : "none";
+    paintProfile();
+  }
+  function paintProfile() {
+    var el = document.getElementById("shack-profile");
+    if (!el) return;
+    if (view !== "profile" || !profileUid || denied) { el.style.display = "none"; el.innerHTML = ""; return; }
+    // Name/avatar: prefer the values stored when the profile was
+    // opened; fall back to the newest message by that person.
+    var nm = profileName, av = profileAvatar;
+    if (!nm) {
+      var any = msgs.filter(function (x) { return x.uid === profileUid; })[0];
+      if (any) { nm = any.name || ""; av = any.avatar || ""; }
+    }
+    nm = nm || "Pond friend";
+    var mine = me && me.uid === profileUid;
+    var fOn = isFollowing(profileUid);
+    // Post count (v373): quacks + reposts by this person, from the
+    // loaded messages. Reposts live on their own page, so they count
+    // here too.
+    var own = msgs.filter(function (x) { return x.uid === profileUid; });
+    var nQuacks = own.filter(function (x) { return x.type !== "repost"; }).length;
+    var nReposts = own.filter(function (x) { return x.type === "repost"; }).length;
+    var countHtml = '<span class="pcount">' + nQuacks + " quack" + (nQuacks === 1 ? "" : "s") + (nReposts ? " · " + nReposts + " repost" + (nReposts === 1 ? "" : "s") : "") + "</span>";
+    var followHtml = mine ? "" : '<button type="button" class="followbtn' + (fOn ? " on" : "") + '" data-follow="' + esc(profileUid) + '" data-followname="' + esc(nm) + '" aria-pressed="' + fOn + '">' + (fOn ? "Following ✓" : "Follow") + '</button>';
+    el.innerHTML = '<img class="pav" src="' + esc(avatarUrl(av)) + '" alt="" onerror="this.onerror=null;this.src=\'images/corners/duck-chat.jpg\';">' +
+      '<span class="pname">@' + esc(nm) + "'s quacks</span>" + countHtml + followHtml +
+      '<button type="button" class="iconbtn pback" data-profileback="1">← Back</button>';
+    el.style.display = "flex";
+    var fb = el.querySelector("[data-follow]");
+    if (fb) fb.addEventListener("click", function () { toggleFollow(profileUid); });
+    var bb = el.querySelector("[data-profileback]");
+    if (bb) bb.addEventListener("click", function () { closeProfile(); });
+  }
+  // Profile view (v305): tapping an @name shows that person's quacks
+  // across all channels, with a header (avatar, name, Follow, Back).
+  // The composer still posts to the last channel; the filter row hides
+  // because the view is a single person. Re-tapping the same person
+  // while already on their profile does nothing (so Back still returns
+  // to the view you came from).
+  function openProfile(uid, name, avatar) {
+    if (!uid) return;
+    if (view === "profile" && profileUid === uid) return;
+    profileReturn = { view: view, channel: channel };
+    view = "profile";
+    profileUid = uid; profileName = name || ""; profileAvatar = avatar || "";
+    paintChannels();
+    paintViewChrome();
+    paintComposerChannel();
+    render();
+  }
+  function closeProfile() {
+    view = profileReturn.view || "channel";
+    channel = profileReturn.channel || "general";
+    profileUid = null; profileName = ""; profileAvatar = "";
+    if (view === "friends") lsSet("tydShackLastChannel", channel);
+    lsSet("tydShackChannel", view === "friends" ? "friends" : channel);
+    paintChannels();
+    paintViewChrome();
+    paintComposerChannel();
+    render();
+  }
+  function paintComposerChannel() {
+    var ch = channelDef(channel);
+    if (channelLabelEl) {
+      channelLabelEl.style.display = me ? "block" : "none";
+      channelLabelEl.textContent = ch.emoji + " Posting in #" + channel;
+    }
+    if (inp) inp.placeholder = channel === "general" ? "What's quacking?" : "Quack in #" + channel + "…";
+  }
+  // @mention autocomplete (v306): typing @ in the composer offers the
+  // members who have posted in the Shack, most recent first. Lucy also
+  // gets @Ducklings at the top — the Pond's @everyone. Tapping one
+  // inserts "@username " at the cursor. Freeform @username works too.
+  var mentionSuggestEl = document.getElementById("mention-suggest");
+  var ducklingsWarnEl = document.getElementById("chat-ducklings-warn");
+  function recentPosters() {
+    var seen = {}, out = [];
+    for (var i = 0; i < msgs.length; i++) {
+      var m = msgs[i];
+      if (!m.uid || !m.name) continue;
+      if (seen[m.uid]) continue;
+      seen[m.uid] = true;
+      out.push({ uid: m.uid, name: m.name });
+    }
+    return out;
+  }
+  function mentionQueryFor(inputEl) {
+    if (!inputEl) return null;
+    var pos = inputEl.selectionStart;
+    if (pos == null) pos = inputEl.value.length;
+    var before = inputEl.value.slice(0, pos);
+    var m = before.match(/@([A-Za-z0-9_]*)$/);
+    return m ? { word: m[1], start: pos - m[0].length } : null;
+  }
+  function mentionQuery() { return mentionQueryFor(inp); }
+  function paintMentionSuggestFor(inputEl, suggestEl) {
+    if (!suggestEl || !me) { if (suggestEl) suggestEl.style.display = "none"; return; }
+    var q = mentionQueryFor(inputEl);
+    if (!q) { suggestEl.style.display = "none"; return; }
+    var word = q.word.toLowerCase();
+    var isLucy = me.uid === LUCY_UID;
+    var items = [];
+    if (isLucy && (!word || "ducklings".indexOf(word) === 0)) items.push({ name: "Ducklings", sub: "@Ducklings — notify everyone", everyone: true });
+    recentPosters().forEach(function (p) {
+      if (p.uid === me.uid) return;
+      if (word && p.name.toLowerCase().indexOf(word) !== 0) return;
+      items.push({ name: p.name, sub: "", everyone: false });
+    });
+    items = items.slice(0, 8);
+    if (!items.length) { suggestEl.style.display = "none"; return; }
+    suggestEl.innerHTML = items.map(function (it) {
+      return '<button type="button" data-mentionpick="' + esc(it.name) + '">' + (it.everyone ? "📣 " : "🦆 ") + "@" + esc(it.name) + (it.sub ? '<span class="msub">' + esc(it.sub) + "</span>" : "") + "</button>";
+    }).join("");
+    suggestEl.style.display = "block";
+    suggestEl.querySelectorAll("[data-mentionpick]").forEach(function (b) {
+      b.addEventListener("mousedown", function (e) {
+        e.preventDefault();
+        var name = b.getAttribute("data-mentionpick");
+        var q2 = mentionQueryFor(inputEl);
+        var pos = inputEl.selectionStart == null ? inputEl.value.length : inputEl.selectionStart;
+        var start = q2 ? q2.start : pos;
+        var insert = "@" + name + " ";
+        inputEl.value = inputEl.value.slice(0, start) + insert + inputEl.value.slice(pos);
+        var np = start + insert.length;
+        inputEl.focus();
+        try { inputEl.setSelectionRange(np, np); } catch (e2) {}
+        suggestEl.style.display = "none";
+        updateDucklingsWarnFor(inputEl, inputEl === inp ? ducklingsWarnEl : rvWarnEl);
+      });
+    });
+  }
+  function paintMentionSuggest() { paintMentionSuggestFor(inp, mentionSuggestEl); }
+  // @Ducklings is Lucy-only: a non-owner who types it gets a small
+  // warning (the post still goes through, as plain text, with no
+  // everyone-notification). The autocomplete never offers it to them.
+  function updateDucklingsWarnFor(inputEl, warnEl) {
+    if (!warnEl) return;
+    var show = !!me && me.uid !== LUCY_UID && /@ducklings/i.test(inputEl ? (inputEl.value || "") : "");
+    warnEl.style.display = show ? "block" : "none";
+  }
+  function updateDucklingsWarn() { updateDucklingsWarnFor(inp, ducklingsWarnEl); }
+  // Following (v303): the list lives on the member's own user doc
+  // (users/{uid}.following), written with arrayUnion/arrayRemove so it
+  // never clobbers the doc's other fields. If the doc does not exist
+  // yet, the write falls back to a merged setDoc. No new collection and
+  // no rules change: the users rule already lets a member write their
+  // own doc.
+  function loadFollowing() {
+    if (!me) { following = []; return; }
+    getDoc(doc(db, "users", me.uid)).then(function (snap) {
+      var d = snap.exists() ? (snap.data() || {}) : {};
+      following = Array.isArray(d.following) ? d.following.filter(function (x) { return typeof x === "string"; }) : [];
+      paintChannels();
+      render();
+    }).catch(function () {});
+  }
+  function toggleFollow(uid) {
+    if (!me) {
+      err.textContent = "Sign in to follow a quack.";
+      err.style.display = "block";
+      return;
+    }
+    if (!uid || uid === me.uid) return;
+    var was = isFollowing(uid);
+    var next = was ? following.filter(function (x) { return x !== uid; }) : following.concat([uid]);
+    // Optimistic: the button flips right away.
+    following = next;
+    render();
+    var op = was ? arrayRemove(uid) : arrayUnion(uid);
+    updateDoc(doc(db, "users", me.uid), { following: op }).catch(function () {
+      return setDoc(doc(db, "users", me.uid), { following: next }, { merge: true });
+    }).catch(function () {
+      // Revert on failure and say so.
+      following = was ? following.concat([uid]) : following.filter(function (x) { return x !== uid; });
+      err.textContent = "Couldn't update your follows. Try again in a little while.";
+      err.style.display = "block";
+      render();
+    });
+  }
+  // Replying (Nov 15, 2026, v297; reply view v373): tapping Reply
+  // opens a dedicated reply screen — Threads-style — with the full
+  // original post above the reply field, a thread line joining them,
+  // and the field + post both kept above the keyboard. The top
+  // composer is for new posts only; replying never hijacks it. A
+  // reply posts a new pondChat message with a replyTo field holding
+  // the message replied to; a reply to a reply targets the same
+  // top-level parent (one level deep is what replyTo can hold).
+  var replyTargetId = null, replyTargetName = "", replyParentChannel = "general";
+  var rvEl = document.getElementById("shack-replyview"),
+      rvOrig = document.getElementById("rv-orig"),
+      rvAvatar = document.getElementById("rv-avatar"),
+      rvInput = document.getElementById("rv-input"),
+      rvSuggest = document.getElementById("reply-mention-suggest"),
+      rvWarnEl = document.getElementById("rv-ducklings-warn"),
+      rvTone = document.getElementById("rv-tone"),
+      rvToneX = document.getElementById("rv-tone-x"),
+      rvCancel = document.getElementById("rv-cancel"),
+      rvAddAnother = document.getElementById("rv-add-another"),
+      rvPost = document.getElementById("rv-post"),
+      rvPosted = document.getElementById("rv-posted"),
+      rvAttach = document.getElementById("rv-attach"),
+      rvImgInput = document.getElementById("rv-img-input"),
+      rvImgPrev = document.getElementById("rv-imgprev"),
+      rvImgPrevImg = document.getElementById("rv-imgprev-img"),
+      rvImgPrevX = document.getElementById("rv-imgprev-x");
+  var rvPendingImage = null;
+  function replyRootOf(m) {
+    if (!m || !m.replyTo) return m;
+    var p = byId[m.replyTo];
+    if (p && p.replyTo && byId[p.replyTo]) return byId[p.replyTo];
+    return p || m;
+  }
+  function origHtml(m) {
+    // The original post, laid out to match the .rv-orig CSS (avatar +
+    // name + time in one row, text below, photo below that).
+    var h = '<div class="mmeta"><img class="mav" src="' + esc(avatarUrl(m.avatar)) + '" alt="" onerror="this.onerror=null;this.src=\'images/corners/duck-chat.jpg\';">' +
+      '<button type="button" class="namebtn mname" data-profile="' + esc(m.uid) + '" data-profilename="' + esc(m.name || "") + '" data-profileavatar="' + esc(m.avatar || "") + '">@' + esc(m.name || "Pond friend") + '</button>' +
+      '<span class="mtime">' + esc(postTime(m.createdAt)) + '</span></div>';
+    if (m.type === "share") {
+      h += sharePreviewHtml(m);
+    } else if (m.text) {
+      h += '<div class="mtext">' + renderTextWithMentions(m.text) + '</div>';
+    }
+    if (m.imageUrl && m.type !== "share") h += '<a class="mimg" href="' + esc(m.imageUrl) + '" target="_blank" rel="noopener"><img src="' + esc(m.imageUrl) + '" alt="" loading="lazy"></a>';
+    return h;
+  }
+  function scrollReplyIntoView() {
+    if (!rvEl || rvEl.hidden || !rvInput) return;
+    try { rvInput.scrollIntoView({ block: "nearest" }); } catch (e) {}
+  }
+  function showRvImagePreview() {
+    if (!rvImgPrev) return;
+    if (rvPendingImage) {
+      rvImgPrevImg.src = rvPendingImage.dataUrl;
+      rvImgPrev.style.display = "flex";
+    } else {
+      rvImgPrev.style.display = "none";
+      rvImgPrevImg.removeAttribute("src");
+    }
+  }
+  function openReply(id, name) {
+    if (!me) {
+      err.textContent = "Sign in to reply to a quack.";
+      err.style.display = "block";
+      return;
+    }
+    var m = byId[id];
+    if (!m) return;
+    // A reply to a reply targets the same top-level parent and names
+    // the person actually replied to.
+    var root = replyRootOf(m);
+    replyTargetId = root.id;
+    replyTargetName = m.name || "Pond friend";
+    replyParentChannel = root.channel || "general";
+    rvOrig.innerHTML = origHtml(root);
+    // The original post lives in the reply view, not the feed list,
+    // so its name button needs its own handler (the list binding only
+    // covers buttons inside the feed).
+    var ob = rvOrig.querySelector("[data-profile]");
+    if (ob) ob.addEventListener("click", function () { closeReply(); openProfile(root.uid, root.name, root.avatar); });
+    rvAvatar.src = avatarUrl(me.avatar);
+    rvInput.value = "@" + replyTargetName + " ";
+    rvInput.placeholder = "Reply to @" + replyTargetName + "...";
+    rvPendingImage = null;
+    showRvImagePreview();
+    if (rvSuggest) rvSuggest.style.display = "none";
+    updateDucklingsWarnFor(rvInput, rvWarnEl);
+    if (rvPosted) rvPosted.style.display = "none";
+    rvEl.hidden = false;
+    scrollReplyIntoView();
+    rvInput.focus();
+    try { rvInput.setSelectionRange(rvInput.value.length, rvInput.value.length); } catch (e) {}
+    setTimeout(scrollReplyIntoView, 300);
+  }
+  function closeReply() {
+    rvEl.hidden = true;
+    replyTargetId = null; replyTargetName = "";
+    rvPendingImage = null;
+    showRvImagePreview();
+    if (rvSuggest) rvSuggest.style.display = "none";
+    if (rvPosted) rvPosted.style.display = "none";
+    if (err) err.style.display = "none";
+  }
+  function postReply() {
+    if (!me || !replyTargetId) return;
+    var text = rvInput.value.trim().slice(0, 500);
+    if (!text && !rvPendingImage) return;
+    if (text && window.TYDBadWords && TYDBadWords.test(text)) {
+      err.textContent = "That message includes a word we don't allow in the Pond. Please reword it and try again.";
+      err.style.display = "block";
+      return;
+    }
+    err.style.display = "none";
+    var parsed = parseMentions(text);
+    var isLucyPoster = me.uid === LUCY_UID;
+    var data = { uid: me.uid, name: me.name, avatar: me.avatar || "", text: text, createdAt: Date.now(), channel: replyParentChannel, replyTo: replyTargetId };
+    if (parsed.mentions.length) data.mentions = parsed.mentions;
+    if (parsed.everyone && isLucyPoster) data.mentionsEveryone = true;
+    var img = rvPendingImage;
+    rvPendingImage = null;
+    showRvImagePreview();
+    var targetId = replyTargetId, targetName = replyTargetName;
+    function doPost(d) {
+      addDoc(collection(db, "pondChat"), d).then(function () {
+        // Chain replies: the view stays open with a fresh field to
+        // the same parent, so she can answer again straight away.
+        rvInput.value = "@" + targetName + " ";
+        if (rvPosted) rvPosted.style.display = "block";
+        rvInput.focus();
+      }).catch(function () {
+        err.textContent = "That did not send. The Shack may still be switching on, try again in a little while.";
+        err.style.display = "block";
+      });
+    }
+    if (!img) { doPost(data); return; }
+    var safeName = String(img.file.name || "photo").replace(/[^A-Za-z0-9._-]+/g, "_").slice(0, 80) || "photo";
+    var imgPath = "pondChat/" + me.uid + "/" + Date.now() + "_" + safeName;
+    var imgRef = null;
+    try { imgRef = storageRef(storage, imgPath); } catch (e2) { imgRef = null; }
+    if (!imgRef) {
+      err.textContent = "That photo did not upload yet — photo sharing is still switching on. Try again soon!";
+      err.style.display = "block";
+      rvPendingImage = img; showRvImagePreview();
+      return;
+    }
+    uploadBytes(imgRef, img.file).then(function () { return getDownloadURL(imgRef); }).then(function (url) {
+      data.imageUrl = url;
+      data.imagePath = imgPath;
+      doPost(data);
+    }).catch(function () {
+      err.textContent = "That photo did not upload. Check your connection and try again.";
+      err.style.display = "block";
+      rvPendingImage = img; showRvImagePreview();
+    });
+  }
+  rvCancel.addEventListener("click", closeReply);
+  rvPost.addEventListener("click", postReply);
+  rvAddAnother.addEventListener("click", function () {
+    if (!rvInput) return;
+    rvInput.value = "@" + replyTargetName + " ";
+    rvInput.focus();
+    scrollReplyIntoView();
+  });
+  if (rvToneX) rvToneX.addEventListener("click", function () {
+    if (rvTone) rvTone.style.display = "none";
+    try { localStorage.setItem("tydReplyToneDismissed", "1"); } catch (e) {}
+  });
+  try { if (localStorage.getItem("tydReplyToneDismissed") === "1" && rvTone) rvTone.style.display = "none"; } catch (e) {}
+  rvInput.addEventListener("input", function () { paintMentionSuggestFor(rvInput, rvSuggest); updateDucklingsWarnFor(rvInput, rvWarnEl); });
+  rvInput.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && rvSuggest) rvSuggest.style.display = "none";
+  });
+  rvInput.addEventListener("blur", function () { setTimeout(function () { if (rvSuggest) rvSuggest.style.display = "none"; }, 150); });
+  rvInput.addEventListener("focus", function () { setTimeout(scrollReplyIntoView, 300); });
+  rvAttach.addEventListener("click", function () { rvImgInput.click(); });
+  rvImgInput.addEventListener("change", function () {
+    var f = rvImgInput.files && rvImgInput.files[0];
+    if (!f) return;
+    if (!f.type || f.type.indexOf("image/") !== 0) {
+      err.textContent = "That file is not an image. Please choose a photo.";
+      err.style.display = "block";
+      rvImgInput.value = "";
+      return;
+    }
+    if (f.size > MAX_IMG_BYTES) {
+      err.textContent = "That photo is over 5MB. Please pick a smaller one.";
+      err.style.display = "block";
+      rvImgInput.value = "";
+      return;
+    }
+    err.style.display = "none";
+    var reader = new FileReader();
+    reader.onload = function (ev) {
+      rvPendingImage = { file: f, dataUrl: ev.target.result };
+      showRvImagePreview();
+    };
+    reader.readAsDataURL(f);
+    rvImgInput.value = "";
+  });
+  rvImgPrevX.addEventListener("click", function () { rvPendingImage = null; showRvImagePreview(); });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && rvEl && !rvEl.hidden) closeReply();
+  });
+  // @mention autocomplete + @Ducklings warning (v306): re-check on
+  // every keystroke; Escape or leaving the box closes the list.
+  inp.addEventListener("input", function () { paintMentionSuggest(); updateDucklingsWarn(); });
+  inp.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && mentionSuggestEl) mentionSuggestEl.style.display = "none";
+  });
+  inp.addEventListener("blur", function () { setTimeout(function () { if (mentionSuggestEl) mentionSuggestEl.style.display = "none"; }, 150); });
+  // Photo sharing (Nov 15, 2026, v300): one image per quack, with or
+  // without text. Images only (accept="image/*" + a type check), 5MB
+  // cap, preview with a remove ✕ before posting. Photos are public to
+  // everyone in the Shack — the note by the composer says so, and the
+  // word filter still runs on any text. There is NO automated NSFW
+  // detection: the safeguards are file-type + size limits plus Lucy's
+  // moderation (deleting a message takes its photo down too).
+  // Uploads go to pondChat/{uid}/{timestamp}_{filename} in Firebase
+  // Storage; the message doc stores imageUrl + imagePath. Until the
+  // Storage rules publish, uploads are denied and fail soft here.
+  var MAX_IMG_BYTES = 5 * 1024 * 1024;
+  var pendingImage = null; // { file, dataUrl } — the photo attached to the next quack, if any.
+  function showPreview(p) { imgPreviewImg.src = p.dataUrl; imgPreview.style.display = "block"; }
+  function hidePreview() { imgPreview.style.display = "none"; imgPreviewImg.removeAttribute("src"); }
+  function clearPendingImage() {
+    pendingImage = null;
+    if (imgInput) imgInput.value = "";
+    if (imgPreview) hidePreview();
+  }
+  attachBtn.addEventListener("click", function () {
+    if (!me) {
+      err.textContent = "Sign in to share a photo.";
+      err.style.display = "block";
+      return;
+    }
+    imgInput.click();
+  });
+  imgInput.addEventListener("change", function () {
+    var f = imgInput.files && imgInput.files[0];
+    if (!f) return;
+    if (!f.type || f.type.indexOf("image/") !== 0) {
+      err.textContent = "That file is not a photo. The Shack takes images only.";
+      err.style.display = "block";
+      imgInput.value = "";
+      return;
+    }
+    if (f.size > MAX_IMG_BYTES) {
+      err.textContent = "That photo is over 5MB. Pick a smaller one.";
+      err.style.display = "block";
+      imgInput.value = "";
+      return;
+    }
+    err.style.display = "none";
+    var reader = new FileReader();
+    reader.onload = function () {
+      pendingImage = { file: f, dataUrl: reader.result };
+      showPreview(pendingImage);
+    };
+    reader.onerror = function () {
+      err.textContent = "That photo could not be read. Try a different one.";
+      err.style.display = "block";
+      imgInput.value = "";
+    };
+    reader.readAsDataURL(f);
+  });
+  imgRemove.addEventListener("click", function () { clearPendingImage(); inp.focus(); });
+  // Liking (Nov 15, 2026, v297): likes live in pondChatLikes, one doc
+  // per like (id msgId_uid), NOT on the message doc — the pondChat rules
+  // let only the message owner update a message, so a like written onto
+  // someone else's message would be denied. Until the v14 rules for
+  // pondChatLikes publish, a like fails soft with a brief note and
+  // nothing changes.
+  function toggleLike(msgId) {
+    if (!me) {
+      err.textContent = "Sign in to like a quack.";
+      err.style.display = "block";
+      return;
+    }
+    var liked = likeDocs.some(function (l) { return l.msgId === msgId && l.uid === me.uid; });
+    var ref = doc(db, "pondChatLikes", msgId + "_" + me.uid);
+    var p = liked ? deleteDoc(ref) : setDoc(ref, { msgId: msgId, uid: me.uid, createdAt: Date.now() });
+    p.catch(function () {
+      err.textContent = "🦆 Likes are still switching on — the Pond is publishing the new rules. Try again soon!";
+      err.style.display = "block";
+      setTimeout(function () { err.style.display = "none"; }, 5000);
+    });
+  }
+  // Reposts (Nov 19, 2026, v373): a repost is a pondChat message with
+  // type "repost" and repostOf = the original id, the original text
+  // copied (<=500, non-empty) and its photo copied when it has one.
+  // No rules change, no new collection: the pondChat create rule has
+  // no hasOnly, so the extra fields are allowed. One repost per
+  // member per post (deterministic id repost_<msgId>_<uid>); tapping
+  // again deletes it. Reposting a repost targets its original.
+  // A repost is always newer than its original, so the newest-60
+  // snapshot holds every repost of every post on screen.
+  function toggleRepost(msgId) {
+    if (!me) {
+      err.textContent = "Sign in to repost a quack.";
+      err.style.display = "block";
+      return;
+    }
+    var orig = byId[msgId];
+    if (!orig) return;
+    if (orig.type === "repost" && orig.repostOf) orig = byId[orig.repostOf] || orig;
+    var id = "repost_" + orig.id + "_" + me.uid;
+    var mine = msgs.filter(function (x) { return x.id === id; })[0];
+    if (mine) {
+      deleteDoc(doc(db, "pondChat", id)).catch(function () {
+        err.textContent = "That did not send. The Shack may still be switching on, try again in a little while.";
+        err.style.display = "block";
+      });
+      return;
+    }
+    var data = { uid: me.uid, name: me.name, avatar: me.avatar || "", text: (orig.text || "").slice(0, 500), createdAt: Date.now(), channel: orig.channel || "general", type: "repost", repostOf: orig.id, repostOfName: orig.name || "Pond friend" };
+    if (!data.text && !orig.imageUrl) data.text = "Reposted a quack from @" + (orig.name || "Pond friend");
+    if (orig.imageUrl) data.imageUrl = orig.imageUrl;
+    if (orig.imagePath) data.imagePath = orig.imagePath;
+    setDoc(doc(db, "pondChat", id), data).catch(function () {
+      err.textContent = "That did not send. The Shack may still be switching on, try again in a little while.";
+      err.style.display = "block";
+    });
+  }
+  // Jump to a post (v373): from a repost card, a like, or a
+  // notification. Opens the room the post lives in, scrolls it into
+  // view, and flashes it once so it is easy to spot.
+  function openPost(id) {
+    if (!id) return;
+    var m = byId[id];
+    if (!m) return;
+    if (likesPanelOpen()) toggleLikesPanel(false);
+    if (view !== "channel" || channel !== (m.channel || "general")) {
+      view = "channel";
+      channel = m.channel || "general";
+      profileUid = null; profileName = "";
+      paintChannels(); paintViewChrome(); paintComposerChannel(); render();
+    }
+    setTimeout(function () {
+      var el = document.getElementById("msg-" + id);
+      if (!el) return;
+      try { el.scrollIntoView({ block: "center" }); } catch (e) {}
+      el.classList.add("flash");
+      setTimeout(function () { el.classList.remove("flash"); }, 1600);
+    }, 60);
+  }
+  // Sharing (Nov 15, 2026, v297): the Web Share API where available,
+  // otherwise the message text + a link to the post is copied to the
+  // clipboard. Each post carries an id="msg-<id>" anchor, so the link
+  // lands on the quack itself.
+  function shareMsg(m, btn) {
+    var url = "/chat#msg-" + m.id;
+    var text = "@" + (m.name || "Pond friend") + ": " + (m.text || "shared a photo 🦆");
+    var done = function () {
+      if (!btn) return;
+      var old = btn.textContent;
+      btn.textContent = "Copied ✓";
+      setTimeout(function () { btn.textContent = old; }, 1500);
+    };
+    if (navigator.share) {
+      try {
+        var r = navigator.share({ title: "The Quack Shack", text: text, url: url });
+        if (r && r.catch) r.catch(function () {});
+      } catch (e) {}
+      return;
+    }
+    var full = text + " — " + url;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(full).then(done, function () { fallbackCopy(full); done(); });
+    } else {
+      fallbackCopy(full); done();
+    }
+  }
+  function fallbackCopy(s) {
+    try {
+      var ta = document.createElement("textarea");
+      ta.value = s; ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.select();
+      document.execCommand("copy"); ta.remove();
+    } catch (e) {}
+  }
+  onAuthStateChanged(auth, function (user) {
+    if (!user) { me = null; following = []; shackNotifs = null; mentionNotifs = true; hiddenShackChannels = []; shackLastSeen = {}; shackInbox.loaded = false; shackInbox.items = []; paintComposer(); paintManage(); paintLikes(); updateLikesDot(); render(); return; }
+    me = { uid: user.uid, name: "Pond friend", avatar: "" };
+    paintComposer(); focusComposerIfHash(); render();
+    loadFollowing();
+    loadShackPrefs();
+    loadInbox();
+    getDoc(doc(db, "profiles", user.uid)).then(function (snap) {
+      if (snap.exists()) { var p = snap.data() || {}; if (p.username) me.name = p.username; if (p.avatar) me.avatar = p.avatar; }
+      paintComposer(); focusComposerIfHash(); paintChannels(); render();
+    }).catch(function () {});
+  });
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    if (!me) return;
+    var text = inp.value.trim().slice(0, 500);
+    // A quack needs text, a photo, or both — an image-only quack is
+    // allowed (v300). The word filter still runs on any text.
+    if (!text && !pendingImage) return;
+    if (text && window.TYDBadWords && TYDBadWords.test(text)) {
+      err.textContent = "That message includes a word we don't allow in the Pond. Please reword it and try again.";
+      err.style.display = "block";
+      return;
+    }
+    err.style.display = "none";
+    var img = pendingImage;
+    pendingImage = null;
+    hidePreview();
+    inp.value = "";
+    if (mentionSuggestEl) mentionSuggestEl.style.display = "none";
+    updateDucklingsWarn();
+    // The top composer is for new posts only (v373): the quack goes
+    // to the room you are in. (A reply goes to its parent's room; see
+    // postReply in the reply view.)
+    var postChannel = channel;
+    // @mentions (v306): the quack carries a `mentions` array (lowercased
+    // usernames, no @) and, when Lucy calls @Ducklings, a
+    // `mentionsEveryone` flag. A non-owner who types @Ducklings posts it
+    // as plain text with no flag — the warning above the composer says so.
+    var parsed = parseMentions(text);
+    var isLucyPoster = me.uid === LUCY_UID;
+    var data = { uid: me.uid, name: me.name, avatar: me.avatar || "", text: text, createdAt: Date.now(), channel: postChannel };
+    if (parsed.mentions.length) data.mentions = parsed.mentions;
+    if (parsed.everyone && isLucyPoster) data.mentionsEveryone = true;
+    function post(d) {
+      addDoc(collection(db, "pondChat"), d).catch(function () {
+        err.textContent = "That did not send. The Shack may still be switching on, try again in a little while.";
+        err.style.display = "block";
+      });
+    }
+    if (!img) { post(data); return; }
+    // Photo first: the message only posts once the upload lands, so a
+    // quack never shows up without its picture. On failure the photo
+    // stays attached, so the member can retry without re-picking it.
+    var safeName = String(img.file.name || "photo").replace(/[^A-Za-z0-9._-]+/g, "_").slice(0, 80) || "photo";
+    var imgPath = "pondChat/" + me.uid + "/" + Date.now() + "_" + safeName;
+    var imgRef = null;
+    try { imgRef = storageRef(storage, imgPath); } catch (e2) { imgRef = null; }
+    if (!imgRef) {
+      err.textContent = "That photo did not upload yet — photo sharing is still switching on. Try again soon!";
+      err.style.display = "block";
+      pendingImage = img; showPreview(img);
+      return;
+    }
+    uploadBytes(imgRef, img.file).then(function () { return getDownloadURL(imgRef); }).then(function (url) {
+      data.imageUrl = url;
+      data.imagePath = imgPath;
+      post(data);
+    }).catch(function () {
+      err.textContent = "That photo did not upload. Check your connection and try again.";
+      err.style.display = "block";
+      pendingImage = img; showPreview(img);
+    });
+  });
+  // Notifications + channel prefs (v306): local copies load at once so
+  // the row paints right; the account copies arrive on sign-in.
+  loadShackPrefsLocal();
+  paintChannels(); paintFeedFilter(); paintComposer(); paintViewChrome(); paintManage(); focusComposerIfHash();
+  var manageBtn = document.getElementById("shack-manage-btn");
+  var manageEl = document.getElementById("shack-manage");
+  if (manageBtn && manageEl) manageBtn.addEventListener("click", function () {
+    var open = !manageEl.classList.contains("show");
+    manageEl.classList.toggle("show", open);
+    if (open) paintManage();
+  });
+  // ♥ Likes + Notifications (v373): toggles the inbox panel; the red
+  // dot on the button follows the existing unread logic.
+  var likesBtn = document.getElementById("shack-likes-btn");
+  if (likesBtn) likesBtn.addEventListener("click", function () { toggleLikesPanel(); });
+</script>
+<script src="badwords.js"></script>
+<script src="site-nav.js?v=372"></script>
+<script src="pull-refresh.js?v=341"></script>
+<script type="module">
+/* Saved helper chats: users/{uid}.helperChats (newest first, capped at 20),
+   following the same users-doc pattern as the rest of the Pond (default-app
+   reuse, setDoc with merge). This module also paints the page's own #acctpill
+   bar when one exists: auth-pill.js deliberately skips #acctpill whenever the
+   site-nav chip (#tydacctchip) is on the page, so pages that carry both a
+   chip and an in-page bar (Travel, Polls) would otherwise leave the bar stuck
+   on its signed-out text. Pages without #acctpill are unaffected. */
+import { getApp, initializeApp } from "./pond-firebase-stub.js";
+import { getAuth, onAuthStateChanged } from "./pond-firebase-stub.js";
+import { getFirestore, doc, getDoc, setDoc } from "./pond-firebase-stub.js";
+var cfg = { apiKey: "preview-disabled", authDomain: "pond-preview-disabled.firebaseapp.com", projectId: "pond-preview-disabled", storageBucket: "pond-preview-disabled.firebasestorage.app", messagingSenderId: "000000000000", appId: "1:000000000000:web:previewdisabled" };
+var app; try { app = getApp(); } catch (e) { app = initializeApp(cfg); }
+var auth = getAuth(app), db = getFirestore(app);
+var C = { user: null, list: [], ready: false };
+function emit() { try { window.dispatchEvent(new Event("tydchats")); } catch (e) {} }
+window.TYDChats = {
+  get user() { return C.user; },
+  get list() { return C.list; },
+  get ready() { return C.ready; },
+  save: function (entry) {
+    if (!C.user) return Promise.reject(new Error("signed out"));
+    var list = [entry].concat(C.list).slice(0, 20);
+    return setDoc(doc(db, "users", C.user.uid), { helperChats: list }, { merge: true }).then(function () { C.list = list; emit(); });
+  },
+  remove: function (id) {
+    if (!C.user) return Promise.reject(new Error("signed out"));
+    var list = C.list.filter(function (x) { return x.id !== id; });
+    return setDoc(doc(db, "users", C.user.uid), { helperChats: list }, { merge: true }).then(function () { C.list = list; emit(); });
+  }
+};
+var pill = document.getElementById("acctpill");
+function paintPill(label, av) {
+  if (!pill) return;
+  var escLabel = String(label == null ? "" : label).replace(/</g, "&lt;");
+  var img = "";
+  if (/^duck-[a-z]+$/.test(av || "")) img = "images/avatars/" + av + ".jpg";
+  var imgHtml = img ? '<img src="' + img + '" alt="" style="width:20px; height:20px; border-radius:50%; object-fit:cover; vertical-align:-5px; margin-right:6px;">' : "";
+  pill.innerHTML = imgHtml + "🦆 " + escLabel + (C.user ? " · My Account" : " · Log in / Sign up");
+}
+onAuthStateChanged(auth, function (user) {
+  C.user = user ? { uid: user.uid, email: user.email || "" } : null;
+  C.ready = true;
+  if (!user) { C.list = []; paintPill("Pond Account", ""); emit(); return; }
+  paintPill(C.user.email, "");
+  getDoc(doc(db, "profiles", user.uid)).then(function (snap) {
+    var un = snap.exists() ? (snap.data().username || "") : "";
+    var av = snap.exists() ? (snap.data().avatar || "") : "";
+    paintPill(un ? "@" + un : C.user.email, av);
+  }).catch(function () {});
+  getDoc(doc(db, "users", user.uid)).then(function (snap) {
+    var d = snap.exists() ? snap.data() : {};
+    C.list = Array.isArray(d.helperChats) ? d.helperChats : [];
+    emit();
+  }).catch(function () { emit(); });
+});
+emit();
+</script>
+
+<script>
+/* Section helper bot: floating duck chat for this section, with export. */
+window.BOTCFG = {
+  section: "The Quack Shack",   duck: "images/corners/duck-chat.jpg",
+  title: "🦆 Quack Shack Helper",
+  placeholder: "Ask how the Shack works...",
+  honest: "I answer from this page and the Pond's own how-tos, not a full AI.",
+  greet: "Quack! I'm the Quack Shack duck. 💬 Ask me how to join the chat, the house rules, or how your name and duck show up.",
+  fallback: "Quack, that one is beyond my little rule book. Try asking how to post, the house rules, or how to change your duck or username.",
+  chips: [
+    ["💬 How do I post?", "How do I post a message?"],
+    ["📜 House rules", "What are the house rules?"],
+    ["🦆 My duck", "How do I change my duck?"],
+    ["✏️ My name", "How do I change my username?"]
+  ],
+  answer: function (q, U) {
+    var low = q.toLowerCase();
+    if (/rule|kind|nice|behav|allow/.test(low)) return "The house rules are the Pond rules: be kind, no shady links, keep it friendly for everyone, and the Pond word filter is on. Lucy (Duck Duck Goose) keeps an eye on the room and can remove messages.";
+    if (/post|send|write|join|sign in|chat/.test(low)) return "Anyone can read the Shack. To post, sign in with your free Pond Account (top of the page), type in the box at the top, and hit Post. Your message shows up for everyone right away, with your duck and @username on it. Made a typo? Your own messages have an Edit button.";
+    if (/duck|avatar|picture|photo/.test(low)) return "Your chat duck is the avatar on your Pond Account. Change it any time in My Account, in the duck picker, and your next messages wear the new duck.";
+    if (/name|username|handle/.test(low)) return "Your chat name is your Pond @username. Set or change it in My Account. If you have not picked one yet, your messages say @Pond friend until you do.";
+    if (/delete|remove/.test(low)) return "Your own messages have Edit and Delete buttons on them, so you can fix a typo or take one down. Lucy can remove any message as the Pond owner. Deleted is gone for good.";
+    if (/who|member|people|here/.test(low)) return "The whole Pond is here: anyone visiting can read along, and every signed-in member can join in. It is one big room for anything duck-themed, or honestly anything at all.";
+    return null;
+  }
+};;
+
+(function () {
+  "use strict";
+  var CFG = window.BOTCFG || {};
+  var css = [
+    ".phelp-launch{display:inline-flex;align-items:center;gap:8px;position:fixed;right:12px;bottom:calc(84px + env(safe-area-inset-bottom));z-index:10080;background:#1f5f74;border:2px solid #174a5b;color:#fff;font-family:inherit;font-weight:900;font-size:14.5px;border-radius:999px;padding:11px 16px;box-shadow:0 8px 22px rgba(35,65,77,.35);cursor:pointer;}",
+    ".botduck{width:27px;height:27px;border-radius:50%;object-fit:cover;flex:none;border:2px solid rgba(255,255,255,.65);}",
+    ".phelp-head .t .botduck{width:31px;height:31px;}",
+    ".phelp-panel{position:fixed;right:12px;bottom:calc(84px + env(safe-area-inset-bottom));z-index:10090;width:min(94vw,384px);height:min(72vh,580px);background:#fff;border-radius:20px;box-shadow:0 18px 44px rgba(10,25,32,.4);display:none;flex-direction:column;overflow:hidden;border:2px solid #bcd9e4;}",
+    ".phelp-panel.show{display:flex;}",
+    "@media (max-width:520px){.phelp-panel{left:12px;width:auto;}}",
+    ".phelp-head{background:#1f5f74;color:#fff;padding:12px 14px;flex:none;}",
+    ".phelp-head .t{font-weight:900;font-size:16.5px;display:flex;align-items:center;gap:8px;}",
+    ".phelp-head .ctx{font-size:12.5px;opacity:.92;margin-top:3px;line-height:1.4;}",
+    ".phelp-x{margin-left:2px;background:rgba(255,255,255,.16);border:none;color:#fff;width:30px;height:30px;border-radius:50%;font-weight:900;cursor:pointer;font-family:inherit;flex:none;}",
+    ".phelp-expbtn{margin-left:auto;background:#ffd94d;border:2px solid #e3c93f;color:#6b5900;font-family:inherit;font-weight:900;font-size:12.5px;border-radius:999px;padding:6px 11px;cursor:pointer;flex:none;}",
+    ".phelp-drawer{display:none;background:#fff;border-bottom:1px solid #e3eff4;padding:10px 12px;flex:none;max-height:46%;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;touch-action:pan-y;}",
+    ".phelp-drawer.show{display:block;}",
+    ".phelp-drow{display:flex;gap:6px;flex-wrap:wrap;}",
+    ".pdbtn{border:2px solid #bcd9e4;background:#eaf7fb;color:#1f5f74;font-family:inherit;font-weight:800;font-size:12.5px;border-radius:999px;padding:7px 12px;cursor:pointer;}",
+    ".pdbtn.main{background:#ffd94d;border-color:#e3c93f;color:#6b5900;}",
+    ".phelp-note{font-size:12.5px;color:#3f6b7a;margin-top:7px;line-height:1.45;}",
+    ".phelp-dhead{font-weight:900;font-size:13px;color:#1f5f74;margin:11px 0 4px;}",
+    ".psaved{padding:7px 0;border-bottom:1px solid #e3eff4;font-size:13.5px;color:#23414d;}",
+    ".psaved:last-child{border-bottom:none;}",
+    ".psaved .pm{font-size:12px;color:#5b7a87;margin-top:1px;}",
+    ".psaved .pa{margin-top:4px;display:flex;gap:6px;}",
+    ".psaved .pa button{border:2px solid #bcd9e4;background:#fff;color:#1f5f74;font-family:inherit;font-weight:800;font-size:11.5px;border-radius:999px;padding:4px 9px;cursor:pointer;}",
+    ".phelp-msgs{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;touch-action:pan-y;padding:12px;background:#f4fafc;display:flex;flex-direction:column;gap:8px;}",
+    ".pmsg{max-width:88%;padding:9px 12px;border-radius:14px;font-size:14px;line-height:1.5;white-space:pre-wrap;word-wrap:break-word;}",
+    ".pmsg.bot{background:#fff;border:1.5px solid #d7e6ec;color:#23414d;align-self:flex-start;border-bottom-left-radius:4px;}",
+    ".pmsg.me{background:#1f5f74;color:#fff;align-self:flex-end;border-bottom-right-radius:4px;}",
+    ".phelp-chips{display:flex;gap:6px;flex-wrap:wrap;padding:8px 10px;background:#fff;border-top:1px solid #e3eff4;flex:none;}",
+    ".pchip{border:2px solid #bcd9e4;background:#eaf7fb;color:#1f5f74;font-family:inherit;font-weight:800;font-size:12.5px;border-radius:999px;padding:6px 11px;cursor:pointer;}",
+    ".phelp-form{display:flex;gap:6px;padding:10px;background:#fff;border-top:1px solid #e3eff4;flex:none;}",
+    ".phelp-form input{flex:1;border:2px solid #bcd9e4;border-radius:12px;padding:10px;font-size:15px;font-family:inherit;min-width:0;color:#23414d;background:#fff;}",
+    ".phelp-form button{background:#ffd94d;border:2px solid #e3c93f;color:#6b5900;font-family:inherit;font-weight:900;font-size:14px;border-radius:12px;padding:10px 14px;cursor:pointer;}",
+    "html[data-theme=\"dark\"] .phelp-panel{background:var(--tyd-acc-dark, #172635);border-color:#2e4a5f;}",
+    "html[data-theme=\"dark\"] .phelp-msgs{background:#101e2c;}",
+    "html[data-theme=\"dark\"] .pmsg.bot{background:#23414d;border-color:#2e4a5f;color:#eefaff;}",
+    "html[data-theme=\"dark\"] .phelp-chips,html[data-theme=\"dark\"] .phelp-form,html[data-theme=\"dark\"] .phelp-drawer{background:var(--tyd-acc-dark, #172635);border-color:#2e4a5f;}",
+    "html[data-theme=\"dark\"] .pchip{background:#23414d;color:#d7ecf5;border-color:#2e4a5f;}",
+    "html[data-theme=\"dark\"] .pdbtn{background:#23414d;color:#d7ecf5;border-color:#2e4a5f;}",
+    "html[data-theme=\"dark\"] .phelp-form input{background:#101e2c;color:#eefaff;border-color:#2e4a5f;}",
+    "html[data-theme=\"dark\"] .phelp-note{color:#bcd6e4;}",
+    "html[data-theme=\"dark\"] .phelp-dhead{color:#ffd94d;}",
+    "html[data-theme=\"dark\"] .psaved{color:#eefaff;border-color:#2e4a5f;}",
+    "@media print{.phelp-launch,.phelp-panel{display:none !important;}}"
+  ].join("\n");
+  var st = document.createElement("style"); st.textContent = css; document.head.appendChild(st);
+  function esc(t) { return String(t == null ? "" : t).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+
+  /* Utilities handed to each page's answer function. */
+  var U = {
+    ls: function (k, d) { try { var v = JSON.parse(localStorage.getItem(k)); return v == null ? d : v; } catch (e) { return d; } },
+    snap: function () { try { return (window.TYDPage && window.TYDPage.snapshot) ? window.TYDPage.snapshot() : null; } catch (e) { return null; } },
+    todayISO: function () { var d = new Date(); return d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2); },
+    daysUntil: function (ds) { if (!ds) return null; return Math.round((new Date(ds + "T12:00:00") - new Date(U.todayISO() + "T12:00:00")) / 86400000); },
+    fmtDate: function (ds) { if (!ds) return ""; try { return new Date(ds + "T12:00:00").toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" }); } catch (e) { return String(ds); } },
+    money: function (n) { n = Number(n) || 0; var r = Math.round(n * 100) / 100; return "$" + r.toLocaleString(undefined, { minimumFractionDigits: (r % 1 !== 0) ? 2 : 0, maximumFractionDigits: 2 }); },
+    when: function (ds) { var d = U.daysUntil(ds); if (d === null) return ""; if (d < 0) return "overdue by " + (-d) + (d === -1 ? " day" : " days"); if (d === 0) return "today"; if (d === 1) return "tomorrow"; return "in " + d + " days"; },
+    plural: function (n, one, many) { return n + " " + (n === 1 ? one : many); }
+  };
+
+  var log = [];
+  var greeted = false;
+  var openStamp = 0;
+  var drawerOpen = false;
+
+  var launch = document.createElement("button");
+  launch.className = "phelp-launch"; launch.type = "button";
+  launch.innerHTML = '<img class="botduck" src="' + (CFG.duck || "") + '" alt="">' + "Polls help";
+  launch.setAttribute("aria-label", "Open the " + (CFG.section || "") + " helper chat");
+  document.body.appendChild(launch);
+
+  var panel = document.createElement("div");
+  panel.className = "phelp-panel";
+  panel.innerHTML = '<div class="phelp-head"><div class="t"><img class="botduck" src="' + (CFG.duck || "") + '" alt="">' + esc((CFG.title || "Helper").replace(/^🦆 /, ""))
+    + '<button type="button" class="phelp-expbtn" data-expbtn>⬇ Export</button>'
+    + '<button type="button" class="phelp-x" data-close aria-label="Close">✕</button></div>'
+    + '<div class="ctx">' + esc(CFG.honest || "") + "</div></div>"
+    + '<div class="phelp-drawer" data-drawer>'
+    + '<div class="phelp-drow"><button type="button" class="pdbtn main" data-expfile>💾 Save as a file</button>'
+    + '<button type="button" class="pdbtn" data-expacct>☁️ Save to my account</button></div>'
+    + '<div class="phelp-note" data-expnote></div>'
+    + '<div class="phelp-dhead">📁 Saved chats</div><div data-savedlist></div>'
+    + "</div>"
+    + '<div class="phelp-msgs" data-msgs></div>'
+    + '<div class="phelp-chips" data-chips></div>'
+    + '<form class="phelp-form"><input type="text" placeholder="' + esc(CFG.placeholder || "Ask the duck...") + '" aria-label="Ask the helper"><button type="submit">Send</button></form>';
+  document.body.appendChild(panel);
+
+  var msgs = panel.querySelector("[data-msgs]");
+  var chipsBox = panel.querySelector("[data-chips]");
+  var drawer = panel.querySelector("[data-drawer]");
+  var expNote = panel.querySelector("[data-expnote]");
+  var savedList = panel.querySelector("[data-savedlist]");
+  var input = panel.querySelector(".phelp-form input");
+
+  function renderMsgs() {
+    msgs.innerHTML = log.map(function (m) {
+      return '<div class="pmsg ' + (m.who === "me" ? "me" : "bot") + '">' + esc(m.text).replace(/\n/g, "<br>") + "</div>";
+    }).join("");
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+  function renderChips() {
+    var chips = [];
+    try { chips = (typeof CFG.chips === "function") ? CFG.chips(U) : (CFG.chips || []); } catch (e) { chips = []; }
+    chipsBox.innerHTML = "";
+    (chips || []).forEach(function (c) {
+      var b = document.createElement("button");
+      b.type = "button"; b.className = "pchip"; b.textContent = c[0];
+      b.addEventListener("click", function () { ask(c[1]); });
+      chipsBox.appendChild(b);
+    });
+  }
+  function say(text) { log.push({ who: "duck", text: String(text == null ? "" : text) }); renderMsgs(); }
+  function ask(q) {
+    q = String(q || "").trim();
+    if (!q) return;
+    log.push({ who: "me", text: q });
+    var a = null;
+    try { a = CFG.answer ? CFG.answer(q, U) : null; } catch (e) { a = null; }
+    if (!a) a = CFG.fallback || "Quack, that one is beyond this little duck. Try one of the topics above!";
+    log.push({ who: "duck", text: a });
+    renderMsgs();
+    renderChips();
+  }
+  function openPanel() {
+    panel.classList.add("show");
+    launch.style.display = "none";
+    if (!greeted) { greeted = true; if (CFG.greet) log.push({ who: "duck", text: CFG.greet }); }
+    openStamp = Date.now();
+    renderMsgs(); renderChips(); renderSaved();
+    setTimeout(function () { if (panel.classList.contains("show")) renderSaved(); }, 1600);
+    setTimeout(function () { if (panel.classList.contains("show")) renderSaved(); }, 4200);
+    setTimeout(function () { try { input.focus(); } catch (e) {} }, 60);
+  }
+  function closePanel() {
+    panel.classList.remove("show");
+    launch.style.display = "";
+  }
+  launch.addEventListener("click", openPanel);
+  panel.querySelector("[data-close]").addEventListener("click", closePanel);
+  panel.querySelector(".phelp-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var v = input.value; input.value = "";
+    ask(v);
+  });
+
+  /* ---------- export ---------- */
+  function transcript() {
+    var lines = [(CFG.section || "Pond") + " Helper chat", "Exported " + new Date().toLocaleString(), ""];
+    log.forEach(function (m) { lines.push((m.who === "me" ? "You: " : "Duck: ") + m.text); });
+    return lines.join("\n");
+  }
+  function download(name, text) {
+    try {
+      var blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement("a");
+      a.href = url; a.download = name;
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(function () { URL.revokeObjectURL(url); }, 400);
+    } catch (e) {}
+  }
+  function fileName(section) {
+    return String(section || "pond").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") + "-chat-" + U.todayISO() + ".txt";
+  }
+  function chats() { return window.TYDChats || null; }
+  function renderSaved() {
+    var C = chats();
+    if (!C || !C.ready) { savedList.innerHTML = '<div class="phelp-note">' + (Date.now() - openStamp > 4000 ? "Sign in with your Pond Account to keep chats here. Saving as a file works any time." : "Checking your Pond Account...") + '</div>'; return; }
+    if (!C.user) { savedList.innerHTML = '<div class="phelp-note">Sign in with your Pond Account to keep chats here. Saving as a file works any time.</div>'; return; }
+    if (!C.list.length) { savedList.innerHTML = '<div class="phelp-note">No saved chats yet. Export this chat to your account and it will live here.</div>'; return; }
+    savedList.innerHTML = C.list.map(function (e) {
+      var when = "";
+      try { when = new Date(e.createdAt).toLocaleString([], { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }); } catch (x) {}
+      return '<div class="psaved"><div>' + esc(e.title || (e.section || "Chat")) + '</div><div class="pm">' + esc(e.section || "") + (when ? " · " + esc(when) : "") + '</div>'
+        + '<div class="pa"><button type="button" data-dl="' + esc(e.id) + '">⬇ Download</button><button type="button" data-del="' + esc(e.id) + '">✕ Delete</button></div></div>';
+    }).join("");
+    savedList.querySelectorAll("[data-dl]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var id = b.getAttribute("data-dl");
+        var e = (chats() ? chats().list : []).filter(function (x) { return x.id === id; })[0];
+        if (e) download(fileName(e.section), String(e.text || ""));
+      });
+    });
+    savedList.querySelectorAll("[data-del]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var C2 = chats(); if (!C2) return;
+        C2.remove(b.getAttribute("data-del")).then(renderSaved).catch(renderSaved);
+      });
+    });
+  }
+  panel.querySelector("[data-expbtn]").addEventListener("click", function () {
+    drawerOpen = !drawerOpen;
+    drawer.classList.toggle("show", drawerOpen);
+    if (drawerOpen) { expNote.textContent = ""; renderSaved(); }
+  });
+  panel.querySelector("[data-expfile]").addEventListener("click", function () {
+    download(fileName(CFG.section), transcript());
+    expNote.textContent = "Saved as a file on this device. 💾";
+  });
+  panel.querySelector("[data-expacct]").addEventListener("click", function () {
+    var C = chats();
+    if (!C || !C.user) { expNote.textContent = "Saving to your account needs you signed in. Sign in with your Pond Account, then tap Export again. The file download above works either way."; return; }
+    var entry = {
+      id: "c" + Date.now().toString(36) + Math.random().toString(36).slice(2, 7),
+      section: CFG.section || "",
+      title: (CFG.section || "Pond") + " chat · " + new Date().toLocaleDateString(undefined, { month: "short", day: "numeric" }),
+      text: transcript().slice(0, 20000),
+      createdAt: Date.now()
+    };
+    C.save(entry).then(function () {
+      expNote.textContent = "Saved to your Pond Account. ☁️ Find it under Saved chats on any of the helper ducks.";
+      renderSaved();
+    }).catch(function () {
+      expNote.textContent = "That save did not go through just now. Try the file download instead, and check back soon.";
+    });
+  });
+  window.addEventListener("tydchats", function () { if (panel.classList.contains("show")) renderSaved(); });
+})();
+
+</script>
+<script src="pond-staging.js"></script>
+</body>
+</html>

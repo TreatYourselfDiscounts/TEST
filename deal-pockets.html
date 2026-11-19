@@ -1,0 +1,1152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="color-scheme" content="light dark">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="apple-touch-icon-v2.png">
+<meta name="theme-color" content="#ffd94d">
+<meta name="description" content="Deal Pockets: open a candy pocket every day to find that day's live deal at TreatYourselfDiscounts.">
+<meta property="og:title" content="Deal Pockets | TreatYourselfDiscounts">
+<meta property="og:description" content="Deal Pockets: open a candy pocket every day to find that day's live deal at TreatYourselfDiscounts.">
+<meta property="og:image" content="/images/corners/duck-deals.jpg">
+<meta property="og:url" content="/deal-pockets">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Deal Pockets | TreatYourselfDiscounts">
+<meta name="twitter:description" content="Deal Pockets: open a candy pocket every day to find that day's live deal at TreatYourselfDiscounts.">
+<meta name="twitter:image" content="/images/corners/duck-deals.jpg">
+<title>Deal Pockets | TreatYourselfDiscounts</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body { overflow-x: clip; }
+  body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #d9f0f7; color: #23414d; }
+  .app { max-width: 430px; margin: 0 auto; min-height: 100vh; background: #bfe6f2; box-shadow: 0 0 24px rgba(35,65,77,.12); padding-bottom: 32px; }
+  a.back { color: #1f5f74; font-weight: 700; text-decoration: none; font-size: 14px; display: inline-block; margin: 14px 16px 0; }
+  header.top { text-align: center; margin: 10px 16px 4px; }
+  header.top .duck { width: 76px; height: 76px; border-radius: 50%; border: 3px solid #ffd94d; background: #ffd94d; object-fit: cover; }
+  h1 { margin: 0; font-size: 26px; letter-spacing: .2px; color: #1f5f74; }
+  .sub { margin: 6px 0 0; color: #3f6b7a; font-size: 15px; line-height: 1.5; }
+  .monthtag { margin: 4px 0 0; color: #3f6b7a; font-size: 14px; line-height: 1.5; font-weight: 700; }
+  .todaybtn { display: block; margin: 16px auto 0; background: #1f5f74; color: #fff8d6; font-weight: 800; font-size: 15px; padding: 11px 20px; border-radius: 999px; border: none; cursor: pointer; font-family: inherit; }
+  .todaybtn:active { transform: scale(.97); }
+  .progress { margin: 18px 16px 0; }
+  .progress .ptext { font-size: 13px; font-weight: 700; color: #3f6b7a; text-align: center; margin: 0 0 6px; }
+  .progress .pbar { height: 10px; background: #dceef5; border-radius: 999px; overflow: hidden; }
+  .progress .pfill { height: 100%; width: 0%; background: #ffd94d; border-radius: 999px; transition: width .3s ease; }
+  .savedline { margin: 10px 16px 0; font-size: 14px; font-weight: 800; color: #1f5f74; text-align: center; line-height: 1.5; }
+  .monthnav { margin: 16px 16px 0; display: flex; align-items: center; justify-content: center; gap: 12px; }
+  .monthnav h2 { margin: 0; font-size: 20px; color: #1f5f74; min-width: 170px; text-align: center; }
+  .monthnav button { width: 40px; height: 40px; border-radius: 50%; border: 2px solid #bcd9e4; background: #fff; color: #1f5f74; font-size: 22px; font-weight: 800; line-height: 1; cursor: pointer; font-family: inherit; flex-shrink: 0; }
+  .monthnav button:active { transform: scale(.94); }
+  .thismo { display: block; margin: 8px auto 0; background: none; border: none; color: #1f5f74; font-weight: 700; font-size: 13px; cursor: pointer; font-family: inherit; text-decoration: underline; padding: 4px 10px; }
+  .status { margin: 12px 16px 0; font-size: 14px; color: #3f6b7a; text-align: center; line-height: 1.5; }
+  .status.err { color: #a33; font-weight: 700; }
+  .cal { margin: 16px 16px 0; }
+  .weekdays, .grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; }
+  .weekdays { margin-bottom: 6px; }
+  .weekdays span { text-align: center; font-size: 11px; font-weight: 800; color: #5b7d89; text-transform: uppercase; letter-spacing: .04em; }
+  .blank { min-height: 86px; }
+  /* v338: candy pockets styled like a card pack. Puffy candy-bag shape
+     with a crimped foil seal across the top AND a crimped foil bar
+     across the bottom (serrated zigzag edges, CSS only), a foil sheen
+     across the pack, and the duck sticker. Pack colors follow the
+     month's seasonal palette; the seal is the darker shade of the pack.
+     Opened pockets look opened: the seal tears away, the pack flattens
+     and fades, and a small "Opened" tag shows. One golden pocket hides
+     in each month: gold foil, a star badge, and the best live deal. */
+  .pocket { position: relative; border: none; cursor: pointer; font-family: inherit; padding: 0 0 8px; min-height: 86px; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; border-radius: 20px 20px 24px 24px / 30px 30px 20px 20px; box-shadow: inset 0 -8px 0 rgba(0,0,0,.07), inset 0 6px 0 rgba(255,255,255,.45), 0 4px 10px rgba(35,65,77,.18); transition: transform .12s ease, filter .2s ease; --dim: 1; filter: brightness(var(--dim)); background-color: var(--pack, #7ec8f7); background-image: linear-gradient(115deg, rgba(255,255,255,.5) 0%, rgba(255,255,255,.12) 26%, rgba(255,255,255,0) 45%, rgba(255,255,255,0) 68%, rgba(255,255,255,.32) 100%); }
+  .pocket:active { transform: scale(.92); }
+  .pocket:focus-visible { outline: 3px solid #1f5f74; outline-offset: 2px; }
+  .pocket .seal { position: absolute; top: -4px; left: 10px; right: 10px; height: 13px; background: repeating-linear-gradient(90deg, var(--seal) 0 3px, rgba(0,0,0,.18) 3px 4px); border-radius: 8px 8px 0 0; box-shadow: inset 0 -3px 0 rgba(0,0,0,.14), 0 1px 2px rgba(0,0,0,.12); transition: transform .25s ease, opacity .25s ease; clip-path: polygon(0 0, 100% 0, 100% calc(100% - 4px), 93.75% 100%, 87.5% calc(100% - 4px), 81.25% 100%, 75% calc(100% - 4px), 68.75% 100%, 62.5% calc(100% - 4px), 56.25% 100%, 50% calc(100% - 4px), 43.75% 100%, 37.5% calc(100% - 4px), 31.25% 100%, 25% calc(100% - 4px), 18.75% 100%, 12.5% calc(100% - 4px), 6.25% 100%, 0 calc(100% - 4px)); }
+  .pocket .seal::after { content: ""; position: absolute; left: 4px; right: 4px; bottom: 4px; border-top: 2px dashed rgba(255,255,255,.75); }
+  .pocket .crimp { position: absolute; bottom: -4px; left: 10px; right: 10px; height: 12px; background: repeating-linear-gradient(90deg, var(--seal) 0 3px, rgba(0,0,0,.18) 3px 4px); border-radius: 0 0 8px 8px; box-shadow: inset 0 3px 0 rgba(0,0,0,.14), 0 -1px 2px rgba(0,0,0,.12); transition: opacity .25s ease; clip-path: polygon(0 4px, 6.25% 0, 12.5% 4px, 18.75% 0, 25% 4px, 31.25% 0, 37.5% 4px, 43.75% 0, 50% 4px, 56.25% 0, 62.5% 4px, 68.75% 0, 75% 4px, 81.25% 0, 87.5% 4px, 93.75% 0, 100% 4px, 100% 100%, 0 100%); }
+  .pocket.opened { box-shadow: inset 0 -3px 0 rgba(0,0,0,.05), inset 0 2px 0 rgba(255,255,255,.25), 0 1px 3px rgba(35,65,77,.12); filter: brightness(calc(var(--dim) * .94)) saturate(.85); }
+  .pocket.opened .seal { transform: translateY(-9px) rotate(-16deg); opacity: .45; }
+  .pocket.opened .crimp { opacity: .45; }
+  .pocket .openedtag { position: absolute; bottom: 4px; right: 4px; background: rgba(255,255,255,.9); color: #1f5f74; font-size: 9px; font-weight: 800; border-radius: 999px; padding: 2px 6px; white-space: nowrap; box-shadow: 0 1px 3px rgba(0,0,0,.2); }
+  .pocket.golden { background-color: #f7c948; background-image: linear-gradient(135deg, #fff3b0 0%, #ffe066 30%, #f7c948 55%, #ffe98a 75%, #f7c948 100%), linear-gradient(115deg, rgba(255,255,255,.6) 0%, rgba(255,255,255,0) 40%, rgba(255,255,255,.35) 100%); box-shadow: inset 0 -8px 0 rgba(0,0,0,.06), inset 0 6px 0 rgba(255,255,255,.6), 0 0 0 2px #f7c948, 0 4px 14px rgba(247,201,72,.55); }
+  .pocket.golden .seal, .pocket.golden .crimp { background: repeating-linear-gradient(90deg, #d4a017 0 3px, rgba(0,0,0,.2) 3px 4px); }
+  .pocket .goldtag { position: absolute; top: 4px; right: 4px; font-size: 13px; line-height: 1; text-shadow: 0 0 4px #fff3b0, 0 0 8px #ffe066; }
+  .pocket .stk { width: 30px; height: 30px; border-radius: 50%; border: 2px solid #fff; object-fit: cover; background: #ffd94d; box-shadow: 0 2px 4px rgba(0,0,0,.2); margin-bottom: 4px; }
+  .pocket .day { font-weight: 800; font-size: 14px; color: #1f5f74; background: rgba(255,255,255,.8); border-radius: 999px; padding: 2px 8px; line-height: 1.3; }
+  .pocket .todaytag { position: absolute; top: -9px; left: 50%; transform: translateX(-50%); background: #ffd94d; color: #6b5900; font-size: 9px; font-weight: 800; letter-spacing: .05em; border-radius: 999px; padding: 2px 7px; white-space: nowrap; box-shadow: 0 1px 3px rgba(0,0,0,.2); }
+  .pocket .lock { position: absolute; top: 4px; right: 4px; font-size: 13px; line-height: 1; }
+  /* Future days are locked: greyed, not clickable, and the deal is never
+     in the pocket's DOM, so there is nothing to peek at. A future golden
+     pocket stays locked and looks like any other locked day. */
+  .pocket.locked { --dim: .62; cursor: not-allowed; }
+  .pocket.locked .stk { filter: grayscale(.7); }
+  .pocket.locked:active { transform: none; }
+  .locknote { margin: 12px 16px 0; text-align: center; font-size: 14px; font-weight: 700; color: #6b5900; background: #fff8d6; border: 2px dashed #ffd94d; border-radius: 12px; padding: 10px 12px; }
+  .panel { margin: 16px 16px 0; background: #fff; border: 2px solid #ffe066; border-radius: 18px; padding: 16px; box-shadow: 0 2px 8px rgba(35,65,77,.08); }
+  .panel[hidden] { display: none; }
+  .panel.golden { border-color: #f7c948; background: #fffbe6; box-shadow: 0 0 0 2px #f7c948, 0 2px 12px rgba(247,201,72,.4); }
+  .panel .goldenhead { background: linear-gradient(90deg, #ffe066, #fff3b0); border: 2px solid #f7c948; border-radius: 12px; padding: 10px 12px; font-weight: 800; font-size: 15px; color: #6b5900; line-height: 1.4; margin: 0 0 12px; text-align: center; }
+  .panel .missed { background: #fff8d6; border: 2px dashed #ffd94d; border-radius: 12px; padding: 10px 12px; font-weight: 700; font-size: 14px; color: #6b5900; line-height: 1.5; margin: 0 0 12px; }
+  .panel .pbrand { font-size: 12px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; color: #5b7d89; margin: 0 0 2px; }
+  .panel .pname { font-size: 19px; font-weight: 800; color: #1f5f74; margin: 0 0 4px; line-height: 1.3; }
+  .panel .poffer { font-size: 15px; color: #23414d; margin: 0 0 12px; line-height: 1.45; }
+  .panel .pimg { width: 100%; max-height: 190px; object-fit: cover; border-radius: 12px; margin: 0 0 12px; border: 1px solid #dceef5; background: #eaf7fb; display: block; }
+  .panel .pduck { width: 64px; height: 64px; border-radius: 50%; border: 3px solid #ffd94d; object-fit: cover; background: #ffd94d; display: block; margin: 0 auto 10px; }
+  .coderow { display: flex; gap: 8px; align-items: center; margin: 0 0 12px; }
+  .coderow .code { flex: 1; min-width: 0; font-weight: 800; font-size: 15px; color: #1f5f74; background: #eaf7fb; border: 2px dashed #7ec8f7; border-radius: 10px; padding: 9px 12px; text-align: center; overflow-wrap: anywhere; }
+  .coderow button { flex-shrink: 0; background: #1f5f74; color: #fff8d6; font-weight: 800; font-size: 14px; padding: 10px 14px; border-radius: 999px; border: none; cursor: pointer; font-family: inherit; }
+  .shoprow { display: flex; gap: 8px; flex-wrap: wrap; }
+  .shoprow a { flex: 1; min-width: 140px; text-align: center; text-decoration: none; font-weight: 800; font-size: 15px; padding: 11px 14px; border-radius: 999px; }
+  .shoprow a.shop { background: #ffd94d; color: #6b5900; }
+  .shoprow a.page { background: #eaf7fb; color: #1f5f74; border: 2px solid #bcd9e4; }
+  .calrow { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0 0; }
+  .calrow button { flex: 1; min-width: 140px; font-weight: 800; font-size: 14px; padding: 11px 14px; border-radius: 999px; border: 2px solid #bcd9e4; background: #fff; color: #1f5f74; cursor: pointer; font-family: inherit; }
+  .calrow button.done { background: #eaf7fb; color: #5b7d89; }
+  .usedform { margin: 12px 0 0; background: #eaf7fb; border: 2px dashed #7ec8f7; border-radius: 12px; padding: 12px; }
+  .usedform[hidden] { display: none; }
+  .usedform label { display: block; font-weight: 700; font-size: 14px; color: #1f5f74; margin: 0 0 8px; }
+  .usedform input { width: 110px; font-size: 16px; font-weight: 800; color: #1f5f74; border: 2px solid #bcd9e4; border-radius: 10px; padding: 8px 10px; font-family: inherit; background: #fff; }
+  .usedform button { background: #1f5f74; color: #fff8d6; font-weight: 800; font-size: 14px; padding: 10px 16px; border-radius: 999px; border: none; cursor: pointer; font-family: inherit; margin-left: 8px; }
+  .clipnote { margin: 10px 0 0; font-size: 13px; font-weight: 700; color: #3f6b7a; text-align: center; }
+  .clipnote[hidden] { display: none; }
+  .panel .close { display: block; margin: 12px auto 0; background: none; border: none; color: #5b7d89; font-weight: 700; font-size: 14px; cursor: pointer; font-family: inherit; padding: 6px 12px; }
+  .foot-note { margin: 20px 16px 0; font-size: 13px; color: #4a6b78; text-align: center; line-height: 1.5; }
+  .foot-links { text-align: center; padding: 18px 24px 0; font-size: 13px; }
+  .foot-links a { color: #1f5f74; font-weight: 700; text-decoration: none; margin: 0 8px; }
+  @media (max-width: 380px) {
+    .weekdays, .grid { gap: 6px; }
+    .pocket { min-height: 74px; border-radius: 16px 16px 20px 20px / 24px 24px 16px 16px; }
+    .blank { min-height: 74px; }
+    .pocket .stk { width: 26px; height: 26px; }
+    .pocket .day { font-size: 12px; padding: 1px 6px; }
+    .monthnav h2 { font-size: 18px; min-width: 140px; }
+  }
+  @media (min-width: 760px) {
+    .app { max-width: 920px; }
+    .cal { max-width: 640px; margin-left: auto; margin-right: auto; }
+    .monthnav, .savedline { max-width: 640px; margin-left: auto; margin-right: auto; }
+    .panel { max-width: 640px; margin-left: auto; margin-right: auto; }
+    .pocket { min-height: 104px; }
+    .blank { min-height: 104px; }
+    .pocket .stk { width: 38px; height: 38px; }
+    .pocket .day { font-size: 16px; }
+  }
+  /* v352 (Lucy, Nov 17, 2026): today's pocket is big at the top, and
+     opening any pocket tears it open with a shake and a poof. The hero
+     is a big version of the grid pack: same pack look (seal, crimp,
+     sheen, golden foil) and the same V4 logo duck sticker, much bigger.
+     This block sits after the media queries on purpose, so the hero
+     sizes win over the grid-pack sizes at every width. */
+  .hero { margin: 16px 16px 0; }
+  .hero[hidden] { display: none; }
+  .hero-pocket { width: 100%; min-height: 280px; border-radius: 28px 28px 32px 32px / 38px 38px 26px 26px; flex-direction: column; justify-content: center; gap: 8px; padding: 26px 12px 22px; }
+  .hero-pocket .stk { width: 96px; height: 96px; border-width: 3px; margin-bottom: 2px; }
+  .hero-pocket .day { font-size: 34px; padding: 4px 16px; }
+  .hero-pocket .todaytag { top: -11px; font-size: 12px; padding: 4px 12px; }
+  .hero-pocket .goldtag { font-size: 26px; top: 8px; right: 10px; }
+  .hero-pocket .openedtag { font-size: 12px; padding: 4px 10px; bottom: 8px; right: auto; left: 8px; }
+  .hero-pocket .seal { left: 16px; right: 16px; height: 16px; top: -5px; }
+  .hero-pocket .crimp { left: 16px; right: 16px; height: 15px; bottom: -5px; }
+  .hero-hint { font-weight: 800; font-size: 15px; color: #1f5f74; background: rgba(255,255,255,.85); border-radius: 999px; padding: 6px 14px; }
+  .hero-reveal { margin-top: 12px; }
+  @media (max-width: 380px) {
+    .hero-pocket { min-height: 240px; }
+    .hero-pocket .stk { width: 84px; height: 84px; }
+    .hero-pocket .day { font-size: 30px; }
+  }
+  @media (min-width: 760px) {
+    .hero { max-width: 560px; margin-left: auto; margin-right: auto; }
+    .hero-pocket { min-height: 320px; }
+    .hero-pocket .stk { width: 110px; height: 110px; }
+    .hero-pocket .day { font-size: 40px; }
+    .hero-reveal { max-width: 560px; margin-left: auto; margin-right: auto; }
+  }
+  /* Tear + shake + poof (v352). The seal rips off the top (lifts,
+     rotates, fades), the pack shakes, and soft puffs and gold stars
+     burst from the tear, then the deal fades in. About a second total. */
+  @keyframes pkshake {
+    0%, 100% { transform: translateX(0) rotate(0); }
+    20% { transform: translateX(-5px) rotate(-1.2deg); }
+    40% { transform: translateX(5px) rotate(1.2deg); }
+    60% { transform: translateX(-3px) rotate(-.6deg); }
+    80% { transform: translateX(3px) rotate(.6deg); }
+  }
+  @keyframes tearseal {
+    0% { transform: translateY(0) rotate(0); opacity: 1; }
+    35% { transform: translateY(-6px) rotate(-6deg); opacity: 1; }
+    100% { transform: translateY(-30px) rotate(-28deg); opacity: 0; }
+  }
+  @keyframes poofpuff {
+    0% { opacity: .95; transform: translate(0, 0) scale(.2); }
+    100% { opacity: 0; transform: translate(var(--dx, 0), var(--dy, -14px)) scale(1.7); }
+  }
+  @keyframes poofstar {
+    0% { opacity: 0; transform: translate(0, 0) scale(.3) rotate(0deg); }
+    40% { opacity: 1; transform: translate(var(--dx, 0), var(--dy, -10px)) scale(1.3) rotate(40deg); }
+    100% { opacity: 0; transform: translate(var(--dx, 0), var(--dy, -18px)) scale(.6) rotate(90deg); }
+  }
+  @keyframes revealin {
+    0% { opacity: 0; transform: translateY(10px) scale(.97); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  .pocket.tearing { animation: pkshake .3s ease; }
+  .pocket.tearing .seal { animation: tearseal .6s ease forwards; }
+  .pocket.tearing .crimp { opacity: .4; }
+  .poof { position: absolute; inset: -12px; pointer-events: none; display: none; z-index: 3; }
+  .pocket.poofing .poof { display: block; }
+  .poof .puff { position: absolute; left: 50%; top: 12px; width: 14px; height: 14px; margin-left: -7px; background: #fff; border-radius: 50%; filter: blur(2px); opacity: 0; box-shadow: 0 0 8px rgba(255,255,255,.9); }
+  .poof .pstar { position: absolute; left: 50%; top: 8px; font-size: 14px; color: #f7c948; text-shadow: 0 0 6px #ffe066; opacity: 0; }
+  .pocket.poofing .puff { animation: poofpuff .7s ease-out forwards; }
+  .pocket.poofing .pstar { animation: poofstar .7s ease-out forwards; }
+  .poof .p1 { --dx: -26px; --dy: -18px; }
+  .poof .p2 { --dx: 24px; --dy: -22px; animation-delay: .05s; }
+  .poof .p3 { --dx: -12px; --dy: -30px; width: 18px; height: 18px; margin-left: -9px; animation-delay: .08s; }
+  .poof .p4 { --dx: 12px; --dy: -10px; animation-delay: .03s; }
+  .poof .p5 { --dx: 0; --dy: -34px; width: 11px; height: 11px; margin-left: -5px; animation-delay: .1s; }
+  .poof .s1 { --dx: -30px; --dy: -26px; animation-delay: .06s; }
+  .poof .s2 { --dx: 28px; --dy: -14px; animation-delay: .12s; }
+  .poof .s3 { --dx: 4px; --dy: -36px; animation-delay: .02s; }
+  .hero-pocket .poof .puff { width: 24px; height: 24px; margin-left: -12px; filter: blur(3px); }
+  .hero-pocket .poof .p3 { width: 30px; height: 30px; margin-left: -15px; }
+  .hero-pocket .poof .p5 { width: 20px; height: 20px; margin-left: -10px; }
+  .hero-pocket .poof .pstar { font-size: 22px; }
+  .panel.revealing { animation: revealin .35s ease; }
+  @media (prefers-reduced-motion: reduce) {
+    .pocket.tearing, .pocket.tearing .seal, .pocket.poofing .puff, .pocket.poofing .pstar, .panel.revealing { animation: none; }
+  }
+  /* Dark mode: keep every pocket readable, the panel dark, and the
+     missed-day note warm but not glaring. */
+  html[data-theme="dark"] body { color: #eefaff; }
+  html[data-theme="dark"] .app { background: #0f1c29; }
+  html[data-theme="dark"] h1, html[data-theme="dark"] .monthnav h2 { color: #eefaff; }
+  html[data-theme="dark"] .sub, html[data-theme="dark"] .monthtag, html[data-theme="dark"] .status, html[data-theme="dark"] .progress .ptext, html[data-theme="dark"] .savedline { color: #bcd6e4; }
+  html[data-theme="dark"] .weekdays span { color: #8fb4c6; }
+  html[data-theme="dark"] .pocket { --dim: .82; }
+  html[data-theme="dark"] .pocket.locked { --dim: .5; }
+  html[data-theme="dark"] .pocket .day { color: #12303e; }
+  html[data-theme="dark"] .monthnav button { background: #172635; color: #c9f0fc; border-color: #2e4a5f; }
+  html[data-theme="dark"] .thismo { color: #c9f0fc; }
+  html[data-theme="dark"] .panel { background: #172635; border-color: #2e4a5f; }
+  html[data-theme="dark"] .panel.golden { background: #2a2410; border-color: #f7c948; }
+  html[data-theme="dark"] .panel .goldenhead { color: #6b5900; }
+  html[data-theme="dark"] .panel .pname { color: #eefaff; }
+  html[data-theme="dark"] .panel .poffer { color: #d7ecf5; }
+  html[data-theme="dark"] .panel .pbrand { color: #8fb4c6; }
+  html[data-theme="dark"] .coderow .code { background: #0f1c29; color: #c9f0fc; border-color: #2e4a5f; }
+  html[data-theme="dark"] .shoprow a.page { background: #0f1c29; color: #c9f0fc; border-color: #2e4a5f; }
+  html[data-theme="dark"] .calrow button { background: #0f1c29; color: #c9f0fc; border-color: #2e4a5f; }
+  html[data-theme="dark"] .calrow button.done { background: #22384a; color: #8fb4c6; }
+  html[data-theme="dark"] .usedform { background: #0f1c29; border-color: #2e4a5f; }
+  html[data-theme="dark"] .usedform label { color: #c9f0fc; }
+  html[data-theme="dark"] .usedform input { background: #172635; color: #eefaff; border-color: #2e4a5f; }
+  html[data-theme="dark"] .clipnote { color: #8fb4c6; }
+  html[data-theme="dark"] .locknote, html[data-theme="dark"] .panel .missed { background: #2a2113; color: #ffd94d; border-color: #6b5900; }
+  html[data-theme="dark"] .foot-note { color: #8fb4c6; }
+  html[data-theme="dark"] .foot-links a { color: #c9f0fc; }
+  html[data-theme="dark"] .progress .pbar { background: #22384a; }
+</style>
+<meta name="robots" content="noindex,nofollow">
+<link rel="stylesheet" href="pond-travel.css">
+<script>window.__TYD_PREVIEW__=true;</script>
+</head>
+<body>
+<div class="app">
+  <a class="back" href="deals.html">&#8249; Back to Today's Deals</a>
+  <header class="top">
+    <img class="duck" id="headerduck" src="images/avatars/duck-chef.jpg" alt="The Pond duck dressed for the season" onerror="this.onerror=null;this.src='icon-512.png';">
+    <h1>Deal Pockets</h1>
+    <p class="sub" id="sub">A little candy pocket for every day of November. Tap one to tear it open and find that day's deal.</p>
+    <p class="monthtag" id="monthtag"></p>
+  </header>
+  <button type="button" class="todaybtn" id="todaybtn" hidden>Open today's pocket</button>
+  <div class="progress" aria-live="polite">
+    <p class="ptext" id="ptext">Loading the pockets...</p>
+    <div class="pbar"><div class="pfill" id="pfill"></div></div>
+  </div>
+  <p class="savedline" id="savedline"></p>
+  <section class="hero" id="hero" aria-label="Today's pocket">
+    <button type="button" class="pocket hero-pocket" id="heropocket">
+      <span class="seal" aria-hidden="true"></span>
+      <span class="crimp" aria-hidden="true"></span>
+      <span class="todaytag" aria-hidden="true">TODAY</span>
+      <span class="goldtag" id="herogold" aria-hidden="true" hidden>&#10024;</span>
+      <img class="stk" id="herostk" src="images/avatars/duck-chef.jpg" alt="">
+      <span class="day" id="heroday">17</span>
+      <span class="hero-hint" id="herohint">Tap to open</span>
+      <span class="openedtag" id="heroopened" hidden>&#10003; Opened</span>
+      <span class="poof" aria-hidden="true"><span class="puff p1"></span><span class="puff p2"></span><span class="puff p3"></span><span class="puff p4"></span><span class="puff p5"></span><span class="pstar s1">&#10022;</span><span class="pstar s2">&#10022;</span><span class="pstar s3">&#10022;</span></span>
+    </button>
+    <div class="panel hero-reveal" id="heroreveal" hidden aria-live="polite"></div>
+  </section>
+  <div class="monthnav" role="group" aria-label="Choose a month">
+    <button type="button" id="prevmo" aria-label="Previous month">&#8249;</button>
+    <h2 id="monthname">November 2026</h2>
+    <button type="button" id="nextmo" aria-label="Next month">&#8250;</button>
+  </div>
+  <button type="button" class="thismo" id="thismo" hidden>Back to this month</button>
+  <p class="status" id="status"></p>
+  <div class="cal">
+    <div class="weekdays" aria-hidden="true"><span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span></div>
+    <div class="grid" id="grid" role="group" aria-label="November 2026 deal pockets"></div>
+  </div>
+  <p class="locknote" id="locknote" hidden></p>
+  <section class="panel" id="panel" hidden aria-live="polite"></section>
+  <p class="foot-note">A new pocket opens every day. Missed one? The discount is still there, just open any past pocket.</p>
+  <div class="foot-links"><a href="deals.html">Today's Deals</a><a href="lego.html">LEGO Deals</a><a href="index.html">Home</a></div>
+</div>
+<script>
+if ("serviceWorker" in navigator) { window.addEventListener("load", function() { navigator.serviceWorker.register("sw.js"); }); }
+</script>
+<script type="module" src="auth-pill.js"></script>
+<script>
+/* v338: Deal Pockets (Lucy, Nov 16, 2026). Every month is a calendar of
+   candy pockets, each holding that day's live deal. Rules carried from
+   v337: future days are LOCKED (greyed, not clickable, and the deal is
+   never in a future pocket's DOM), today and past days open, and a past
+   day says plainly that the member missed it while still giving the
+   discount. Deals come from the same live source the deals page uses:
+   Firestore deals/current (spotlight + brands), refreshed every morning
+   by the daily deal check, with the top-deals.js brand-pages fallback.
+   No prices are ever baked into this page.
+   v338 adds: the switcher lists Deal Pockets first under Deals; opened
+   pockets visibly look opened (torn seal, flattened pack, Opened tag);
+   each pocket's sticker is a different dressed duck from the month's
+   seasonal pool, and the header duck matches the month's season (all 12
+   months mapped; new seasonal ducks live in images/avatars/); one
+   golden pocket per month, picked by a seed from the month so it is the
+   same for every visitor and changes next month, holding the best live
+   deal; packs look like card packs (crimped serrated foil edges top and
+   bottom, foil sheen); month arrows flip between months; a pocket's
+   deal can be clipped into the Planner Sales tab (tydPlannerLocal
+   sales, the same store the Sales tab reads); and "I used this deal"
+   records the dollars saved per pocket with a running total.
+   v352 (Lucy, Nov 17, 2026): today's pocket is big at the top (hero),
+   and opening any pocket tears it open with a shake and a poof. The
+   hero taps open in place at the top; a grid pack still reveals its
+   deal in the panel below the calendar. Reduced motion skips the
+   animation and reveals instantly.
+   v353 (Lucy, Nov 17, 2026): the hero sticker is the seasonal dressed
+   duck for today, the same sticker today's grid pack shows — not the
+   V4 logo duck. The deal panel fallback image stays the V4 logo duck. */
+(function () {
+  /* Seasonal map, one entry per month. duck = the header duck for the
+     month; pool = the dressed ducks the pack stickers rotate through
+     (deterministic by day, so a sticker never changes on reload);
+     palette = the five candy-pack colors for the month. Reused ducks
+     are the approved category/avatars art; duck-easter, duck-july4th,
+     duck-fall and duck-christmas are new seasonal ducks in the same
+     smooth 3D-clay avatar style. October is fall/harvest only: no
+     spooky imagery of any kind. */
+  var MONTHS = [
+    { name: "January", duck: "images/corners/duck-countdown.jpg", pool: ["images/corners/duck-countdown.jpg", "images/avatars/duck-royal.jpg", "images/avatars/duck-rockstar.jpg", "images/avatars/duck-superhero.jpg"], palette: ["#8fb8d8", "#f7d774", "#c9a7f5", "#dfe9f7", "#5a8fd6"], tag: "\uD83C\uDF89 Happy New Year — a fresh pocket every day, all month long." },
+    { name: "February", duck: "images/avatars/duck-flower.jpg", pool: ["images/avatars/duck-flower.jpg", "images/corners/duck-gift.jpg", "images/avatars/duck-royal.jpg", "images/avatars/duck-chef.jpg"], palette: ["#f7a8c4", "#e07f9f", "#f7d774", "#c9a7f5", "#ff9d9d"], tag: "\uD83D\uDC90 Love is in the air — flowers, treats and sweet deals." },
+    { name: "March", duck: "images/avatars/duck-flower.jpg", pool: ["images/avatars/duck-flower.jpg", "images/avatars/duck-bookworm.jpg", "images/avatars/duck-sailor.jpg", "images/avatars/duck-chef.jpg"], palette: ["#9ed6a5", "#7ec8f7", "#f7d774", "#c9a7f5", "#8fd8a0"], tag: "\uD83C\uDF31 Spring is sprouting — fresh picks every day." },
+    { name: "April", duck: "images/avatars/duck-easter.jpg", pool: ["images/avatars/duck-easter.jpg", "images/avatars/duck-flower.jpg", "images/avatars/duck-bookworm.jpg", "images/avatars/duck-chef.jpg"], palette: ["#f7c8e0", "#b8e0c8", "#f7d774", "#a8d8f7", "#d8b8f7"], tag: "\uD83D\uDC30 Hoppy Easter — pastel pockets full of spring deals." },
+    { name: "May", duck: "images/avatars/duck-flower.jpg", pool: ["images/avatars/duck-flower.jpg", "images/avatars/duck-chef.jpg", "images/avatars/duck-sailor.jpg", "images/avatars/duck-beach.jpg"], palette: ["#9ed6a5", "#f7a8c4", "#7ec8f7", "#f7d774", "#c9a7f5"], tag: "\uD83C\uDF38 May flowers — something fresh in every pocket." },
+    { name: "June", duck: "images/avatars/duck-beach.jpg", pool: ["images/avatars/duck-beach.jpg", "images/avatars/duck-sailor.jpg", "images/avatars/duck-flower.jpg", "images/avatars/duck-pirate.jpg"], palette: ["#7ec8f7", "#f7d774", "#9ed6a5", "#f7a8c4", "#5ec8d8"], tag: "\u2600\uFE0F Summer is here — sunny deals all month." },
+    { name: "July", duck: "images/avatars/duck-july4th.jpg", pool: ["images/avatars/duck-july4th.jpg", "images/avatars/duck-superhero.jpg", "images/avatars/duck-beach.jpg", "images/avatars/duck-sailor.jpg"], palette: ["#5a8fd6", "#e06a6a", "#dfe9f7", "#f7d774", "#8fb8d8"], tag: "\uD83C\uDF86 Happy 4th of July — red, white and blue deals." },
+    { name: "August", duck: "images/avatars/duck-sailor.jpg", pool: ["images/avatars/duck-sailor.jpg", "images/avatars/duck-beach.jpg", "images/avatars/duck-pirate.jpg", "images/avatars/duck-flower.jpg"], palette: ["#7ec8f7", "#9ed6a5", "#f7d774", "#f7a8c4", "#5ec8d8"], tag: "\u26F5 Last splash of summer — soak up the deals." },
+    { name: "September", duck: "images/avatars/duck-bookworm.jpg", pool: ["images/avatars/duck-bookworm.jpg", "images/avatars/duck-artist.jpg", "images/avatars/duck-scientist.jpg", "images/avatars/duck-chef.jpg"], palette: ["#e0a458", "#c9a7f5", "#9ed6a5", "#f7d774", "#7ec8f7"], tag: "\uD83D\uDCDA Back to school — smart picks in every pocket." },
+    { name: "October", duck: "images/avatars/duck-fall.jpg", pool: ["images/avatars/duck-fall.jpg", "images/avatars/duck-chef.jpg", "images/avatars/duck-bookworm.jpg", "images/avatars/duck-flower.jpg"], palette: ["#e08a3c", "#c98a4b", "#f7d774", "#9ed6a5", "#d8a05a"], tag: "\uD83C\uDF42 Fall harvest — cozy deals, no tricks, just treats." },
+    { name: "November", duck: "images/avatars/duck-chef.jpg", pool: ["images/avatars/duck-chef.jpg", "images/avatars/duck-fall.jpg", "images/corners/duck-gift.jpg", "images/avatars/duck-bookworm.jpg"], palette: ["#d88a3c", "#a87a4b", "#f7d774", "#c98a5a", "#7a9a5a"], tag: "\uD83E\uDD83 Fall feast season — Thanksgiving treats and Black Friday drops." },
+    { name: "December", duck: "images/avatars/duck-christmas.jpg", pool: ["images/avatars/duck-christmas.jpg", "images/avatars/duck-winter.jpg", "images/corners/duck-gift.jpg", "images/corners/duck-countdown.jpg"], palette: ["#c94f4f", "#5a9a6a", "#f7d774", "#7ea8d8", "#e8b8c8"], tag: "\uD83C\uDF84 Merry and bright — a little gift in every pocket." }
+  ];
+  var DUCK = "icon-512.png"; /* the V4 logo duck, Lucy's own art: the logo and the panel fallback only */
+  var LS_OPENED = "tydPocketsOpened";
+  var LS_USED = "tydPocketsUsed";
+  var LS_PLANNER = "tydPlannerLocal"; /* the Planner's own state key; its Sales tab reads state.sales */
+  var grid = document.getElementById("grid");
+  var panel = document.getElementById("panel");
+  var statusEl = document.getElementById("status");
+  var ptext = document.getElementById("ptext");
+  var pfill = document.getElementById("pfill");
+  var savedline = document.getElementById("savedline");
+  var locknote = document.getElementById("locknote");
+  var todayBtn = document.getElementById("todaybtn");
+  var monthNameEl = document.getElementById("monthname");
+  var monthTagEl = document.getElementById("monthtag");
+  var subEl = document.getElementById("sub");
+  var headerDuck = document.getElementById("headerduck");
+  var thisMoBtn = document.getElementById("thismo");
+  var heroEl = document.getElementById("hero");
+  var heroPocket = document.getElementById("heropocket");
+  var heroStk = document.getElementById("herostk");
+  var heroDay = document.getElementById("heroday");
+  var heroHint = document.getElementById("herohint");
+  var heroGold = document.getElementById("herogold");
+  var heroOpenedTag = document.getElementById("heroopened");
+  var heroReveal = document.getElementById("heroreveal");
+  var deals = [];
+  var loaded = false;
+  var loadFailed = false;
+  var todayOverride = null;
+  var now = new Date();
+  var viewY = now.getFullYear(), viewM = now.getMonth();
+  var opened = {}; /* monthKey "YYYY-MM" -> [days] */
+  try {
+    var saved = JSON.parse(localStorage.getItem(LS_OPENED) || "{}");
+    if (Array.isArray(saved)) { opened = { "2026-11": saved }; }
+    else if (saved && typeof saved === "object") opened = saved;
+  } catch (e) {}
+  var used = {}; /* ISO date "YYYY-MM-DD" -> { amount, name } */
+  try {
+    var savedUsed = JSON.parse(localStorage.getItem(LS_USED) || "{}");
+    if (savedUsed && typeof savedUsed === "object" && !Array.isArray(savedUsed)) used = savedUsed;
+  } catch (e) {}
+
+  function esc(s) {
+    return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  }
+  function pad2(n) { return ("0" + n).slice(-2); }
+  function monthKey(y, m) { return y + "-" + pad2(m + 1); }
+  function viewISO(d) { return viewY + "-" + pad2(viewM + 1) + "-" + pad2(d); }
+  function daysInMonth(y, m) { return new Date(y, m + 1, 0).getDate(); }
+  function monthName(y, m) { return MONTHS[m].name + " " + y; }
+  function darken(hex, f) {
+    var n = parseInt(hex.slice(1), 16);
+    var r = Math.round(((n >> 16) & 255) * f), g = Math.round(((n >> 8) & 255) * f), b = Math.round((n & 255) * f);
+    return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+  }
+  /* One golden pocket per month: a seeded pick from "YYYY-MM", so it is
+     stable within the month, the same for every visitor, and changes
+     next month. */
+  function goldenDay(y, m) {
+    var s = y + "-" + (m + 1), h = 0;
+    for (var i = 0; i < s.length; i++) h = ((h * 31) + s.charCodeAt(i)) >>> 0;
+    return (h % daysInMonth(y, m)) + 1;
+  }
+  function todayDate() {
+    if (todayOverride) return new Date(todayOverride.getFullYear(), todayOverride.getMonth(), todayOverride.getDate());
+    var n = new Date();
+    return new Date(n.getFullYear(), n.getMonth(), n.getDate());
+  }
+  function dayDate(d) { return new Date(viewY, viewM, d); }
+  function dayState(d) {
+    var t = todayDate(), dd = dayDate(d);
+    if (dd.getTime() === t.getTime()) return "today";
+    return dd.getTime() < t.getTime() ? "past" : "future";
+  }
+  function viewRelation() {
+    var t = todayDate();
+    if (viewY === t.getFullYear() && viewM === t.getMonth()) return "current";
+    var v = new Date(viewY, viewM, 1), c = new Date(t.getFullYear(), t.getMonth(), 1);
+    return v < c ? "past" : "future";
+  }
+  function monthOffset() { return (viewY - 2026) * 12 + (viewM - 10); }
+  /* Score a live deal for "best": highest discount %, then highest
+     dollars saved, then the first spotlight deal. Parsed from the
+     offer text at runtime; nothing is hardcoded. */
+  function dealScore(deal) {
+    var offer = deal.offer || "";
+    var pct = 0, save = 0;
+    var pm = offer.match(/(\d+)%\s*off/i);
+    if (pm) pct = parseInt(pm[1], 10);
+    var m = offer.match(/\$([\d,]+(?:\.\d{2})?)\s*\(was \$([\d,]+(?:\.\d{2})?)/);
+    if (m) {
+      var nowP = parseFloat(m[1].replace(/,/g, "")), wasP = parseFloat(m[2].replace(/,/g, ""));
+      if (wasP > nowP) {
+        save = Math.round((wasP - nowP) * 100) / 100;
+        if (!pct) pct = Math.round((1 - nowP / wasP) * 100);
+      }
+    } else {
+      var sm = offer.match(/save \$([\d,]+(?:\.\d{2})?)/i);
+      if (sm) save = parseFloat(sm[1].replace(/,/g, ""));
+    }
+    return { pct: pct, save: save };
+  }
+  function bestDeal() {
+    if (!deals.length) return null;
+    var best = deals[0], bs = dealScore(best);
+    for (var i = 1; i < deals.length; i++) {
+      var s = dealScore(deals[i]);
+      if (s.pct > bs.pct || (s.pct === bs.pct && s.save > bs.save)) { best = deals[i]; bs = s; }
+    }
+    return best;
+  }
+  function saveAmount(deal) {
+    if (!deal) return null;
+    var s = dealScore(deal);
+    return s.save > 0 ? s.save : null;
+  }
+  function dealForDay(d) {
+    if (!deals.length) return null;
+    if (d === goldenDay(viewY, viewM)) return bestDeal();
+    var off = monthOffset();
+    return deals[(((d - 1 + off) % deals.length) + deals.length) % deals.length];
+  }
+  function isOpened(d) {
+    var list = opened[monthKey(viewY, viewM)] || [];
+    return list.indexOf(d) > -1;
+  }
+  function openedCount() { return (opened[monthKey(viewY, viewM)] || []).length; }
+  function saveOpened() {
+    try { localStorage.setItem(LS_OPENED, JSON.stringify(opened)); } catch (e) {}
+  }
+  function markOpened(d) {
+    var k = monthKey(viewY, viewM);
+    if (!Array.isArray(opened[k])) opened[k] = [];
+    if (opened[k].indexOf(d) === -1) opened[k].push(d);
+    saveOpened();
+    schedulePush({ opened: true });
+  }
+  function money(n) { return "$" + (Math.round(n * 100) / 100).toFixed(2); }
+  function usedTotal() {
+    var t = 0, n = 0;
+    for (var k in used) { if (used[k]) { t += +used[k].amount || 0; n++; } }
+    return { total: Math.round(t * 100) / 100, count: n };
+  }
+  function paintSaved() {
+    var u = usedTotal();
+    savedline.textContent = "You\u2019ve saved " + money(u.total) + " with Deal Pockets \u00B7 " + u.count + (u.count === 1 ? " deal used" : " deals used");
+  }
+  function plannerState() { try { return JSON.parse(localStorage.getItem(LS_PLANNER) || "{}") || {}; } catch (e) { return {}; } }
+  function plannerSave(s) { try { localStorage.setItem(LS_PLANNER, JSON.stringify(s)); } catch (e) {} }
+  /* Clip a pocket's deal into the Planner Sales tab: the same store the
+     Sales tab reads (tydPlannerLocal sales, one entry per pocket date).
+     A deal with no known expiry is clipped on the pocket date itself;
+     no expiry date is ever invented. */
+  function clipDeal(deal, iso) {
+    var s = plannerState();
+    if (!Array.isArray(s.sales)) s.sales = [];
+    var id = "pocket-" + iso;
+    for (var i = 0; i < s.sales.length; i++) if (s.sales[i] && s.sales[i].id === id) return false;
+    s.sales.push({
+      id: id,
+      name: deal.name || deal.brand || "Deal Pockets deal",
+      start: iso,
+      end: iso,
+      note: ((deal.offer || "") + (deal.code ? " Code: " + deal.code : "") + " \u00B7 Deal Pockets").trim()
+    });
+    plannerSave(s);
+    schedulePush({ sales: true });
+    if (window.TYDPlannerChanged) { try { window.TYDPlannerChanged(); } catch (e) {} }
+    return true;
+  }
+  function isClipped(iso) {
+    var s = plannerState();
+    if (!Array.isArray(s.sales)) return false;
+    for (var i = 0; i < s.sales.length; i++) if (s.sales[i] && s.sales[i].id === "pocket-" + iso) return true;
+    return false;
+  }
+  /* Account sync (v339, Nov 16, 2026): opened pockets, used/saved
+     amounts and clipped sales ride the Pond Account (users/{uid}
+     fields pocketsOpened, pocketsUsed, plannerSales) so they follow
+     the member across devices. localStorage stays the signed-out
+     fallback and the local cache. On sign-in the account and local
+     copies union-merge (account wins on the same day/date/id); an
+     empty side never wipes the other. Only the fields this page
+     actually changed are pushed, so a clip here never overwrites
+     sales another tab just saved. Any Firebase failure quietly
+     degrades to local-only. */
+  var acct = null, acctPushT = null, pendingPush = {};
+  function readPlannerSales() { var s = plannerState(); return Array.isArray(s.sales) ? s.sales : []; }
+  function accountSnapshot(fields) {
+    var out = {};
+    if (fields.opened) out.pocketsOpened = opened;
+    if (fields.used) out.pocketsUsed = used;
+    if (fields.sales) out.plannerSales = readPlannerSales();
+    return out;
+  }
+  function pushAccount(fields) {
+    fields = fields || {};
+    var snap = accountSnapshot(fields);
+    if (!Object.keys(snap).length) return;
+    if (window.TYDPockets && window.TYDPockets._pushSink) { try { window.TYDPockets._pushSink(snap); } catch (e) {} return; }
+    if (!acct || !acct.fs || !acct.db || !acct.uid) return;
+    try { acct.fs.setDoc(acct.fs.doc(acct.db, "users", acct.uid), snap, { merge: true }).catch(function () {}); } catch (e) {}
+  }
+  function schedulePush(fields) {
+    Object.keys(fields || {}).forEach(function (k) { if (fields[k]) pendingPush[k] = true; });
+    clearTimeout(acctPushT);
+    acctPushT = setTimeout(function () { var f = pendingPush; pendingPush = {}; pushAccount(f); }, 800);
+  }
+  function applyAccount(data) {
+    data = data || {};
+    var changed = false, i, k;
+    var ro = data.pocketsOpened || {};
+    Object.keys(ro).forEach(function (mk) {
+      if (!Array.isArray(ro[mk])) return;
+      if (!Array.isArray(opened[mk])) opened[mk] = [];
+      ro[mk].forEach(function (d) { if (opened[mk].indexOf(d) === -1) { opened[mk].push(d); changed = true; } });
+    });
+    if (changed) saveOpened();
+    var ru = data.pocketsUsed || {};
+    var usedChanged = false;
+    Object.keys(ru).forEach(function (dk) {
+      if (!ru[dk] || typeof ru[dk].amount !== "number") return;
+      if (!used[dk] || used[dk].amount !== ru[dk].amount || used[dk].name !== (ru[dk].name || "")) {
+        used[dk] = { amount: ru[dk].amount, name: ru[dk].name || "" };
+        usedChanged = true;
+      }
+    });
+    if (usedChanged) { try { localStorage.setItem(LS_USED, JSON.stringify(used)); } catch (e) {} changed = true; }
+    if (Array.isArray(data.plannerSales)) {
+      var s = plannerState();
+      if (!Array.isArray(s.sales)) s.sales = [];
+      var byId = {};
+      s.sales.forEach(function (x) { if (x && x.id) byId[x.id] = x; });
+      var salesChanged = false;
+      data.plannerSales.forEach(function (x) {
+        if (!x || !x.id) return;
+        if (!byId[x.id]) { s.sales.push(x); salesChanged = true; }
+        else { var ix = s.sales.indexOf(byId[x.id]); if (ix > -1) { s.sales[ix] = x; salesChanged = true; } }
+      });
+      if (salesChanged) { plannerSave(s); changed = true; }
+    }
+    paintProgress();
+    paintSaved();
+    buildGrid();
+    return changed;
+  }
+  function initAccountSync() {
+    try {
+      Promise.all([
+        import("./pond-firebase-stub.js"),
+        import("./pond-firebase-stub.js"),
+        import("./pond-firebase-stub.js")
+      ]).then(function (mods) {
+        var cfg = {
+          apiKey: "preview-disabled",
+          authDomain: "pond-preview-disabled.firebaseapp.com",
+          projectId: "pond-preview-disabled",
+          storageBucket: "pond-preview-disabled.firebasestorage.app",
+          messagingSenderId: "000000000000",
+          appId: "1:000000000000:web:previewdisabled"
+        };
+        var app = mods[0].getApps().length ? mods[0].getApps()[0] : mods[0].initializeApp(cfg);
+        var auth = mods[1].getAuth(app);
+        var db = mods[2].getFirestore(app);
+        mods[1].onAuthStateChanged(auth, function (user) {
+          if (!user) { acct = null; return; }
+          acct = { fs: mods[2], db: db, uid: user.uid };
+          mods[2].getDoc(mods[2].doc(db, "users", user.uid)).then(function (snap) {
+            var d = snap.exists() ? snap.data() : {};
+            if (applyAccount(d)) pushAccount({ opened: true, used: true, sales: true });
+          }).catch(function () {});
+        });
+      }).catch(function () {});
+    } catch (e) {}
+  }
+  function paintProgress() {
+    var n = openedCount(), days = daysInMonth(viewY, viewM);
+    ptext.textContent = "You have opened " + n + " of " + days + " pockets";
+    pfill.style.width = Math.round((n / days) * 100) + "%";
+  }
+  /* v352: tear + shake + poof. Opening a pocket tears the seal off the
+     top, shakes the pack, and bursts soft puffs and gold stars from the
+     tear, then the deal fades in. The whole sequence is about a second.
+     With reduced motion the deal just appears, no animation at all.
+     Tests can force the reduced-motion path with
+     window.__TYDReducedMotion = true. */
+  function reducedMotion() {
+    if (typeof window.__TYDReducedMotion === "boolean") return window.__TYDReducedMotion;
+    try { return !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches); }
+    catch (e) { return false; }
+  }
+  function playOpen(el, done) {
+    if (reducedMotion() || !el) { done(); return; }
+    el.classList.add("tearing", "poofing");
+    setTimeout(function () {
+      el.classList.remove("tearing", "poofing");
+      done();
+    }, 950);
+  }
+  function poofSpan() {
+    var p = document.createElement("span");
+    p.className = "poof"; p.setAttribute("aria-hidden", "true");
+    p.innerHTML = '<span class="puff p1"></span><span class="puff p2"></span><span class="puff p3"></span><span class="puff p4"></span><span class="puff p5"></span><span class="pstar s1">\u2726</span><span class="pstar s2">\u2726</span><span class="pstar s3">\u2726</span>';
+    return p;
+  }
+  /* v352: the hero is today's pocket, big at the top. It only shows
+     while the current month is on screen; other months have no "today".
+     It mirrors the grid cell for today: same pack color, same golden
+     day, same opened state, so opening from either place updates both.
+     v353: the hero sticker is the seasonal dressed duck for today,
+     the same sticker today's grid pack shows (not the V4 logo duck). */
+  function paintHero() {
+    if (!heroEl) return;
+    if (viewRelation() !== "current") {
+      heroEl.hidden = true;
+      heroReveal.hidden = true;
+      return;
+    }
+    heroEl.hidden = false;
+    var t = todayDate();
+    var d = t.getDate();
+    var mo = MONTHS[viewM];
+    var pack = mo.palette[(d - 1) % mo.palette.length];
+    heroPocket.style.setProperty("--pack", pack);
+    heroPocket.style.setProperty("--seal", darken(pack, 0.78));
+    heroDay.textContent = String(d);
+    /* v353: the hero sticker is the seasonal dressed duck for today —
+       exactly the sticker today's grid pack shows (same pool rotation). */
+    var stk = mo.pool[(d - 1 + monthOffset()) % mo.pool.length];
+    if (heroStk.getAttribute("src") !== stk) heroStk.setAttribute("src", stk);
+    var isGold = d === goldenDay(viewY, viewM);
+    var opened = isOpened(d);
+    heroPocket.classList.toggle("golden", isGold);
+    heroPocket.classList.toggle("opened", opened);
+    heroGold.hidden = !isGold;
+    heroOpenedTag.hidden = !opened;
+    heroHint.textContent = opened ? "Tap to see the deal" : "Tap to open";
+    heroPocket.setAttribute("aria-label", "Today, " + mo.name + " " + d + (isGold ? ", the golden pocket" : "") + (opened ? ", already opened" : "") + ". Tap to open and see the deal.");
+  }
+  function paintStatus() {
+    var m = viewRelation(), mn = MONTHS[viewM].name;
+    if (loadFailed) {
+      statusEl.textContent = "The Pond could not fetch the deals just now. Check your connection, then tap Refresh in the bottom menu to try again.";
+      statusEl.classList.add("err");
+      return;
+    }
+    statusEl.classList.remove("err");
+    var gold = " One golden pocket hides in this month. Find it!";
+    if (m === "current") {
+      var t = todayDate();
+      statusEl.textContent = "Today is " + mn + " " + t.getDate() + ". " + (t.getDate() === 1 ? "The first pocket is open." : t.getDate() + " pockets are open so far, and a new one opens every morning.") + gold;
+    } else if (m === "future") {
+      statusEl.textContent = mn + " has not started yet. The first pocket opens " + mn + " 1." + gold;
+    } else {
+      statusEl.textContent = mn + " is over, but every pocket is still open and every discount is still here for you." + gold;
+    }
+  }
+  function paintMonth() {
+    var mo = MONTHS[viewM];
+    monthNameEl.textContent = monthName(viewY, viewM);
+    monthTagEl.textContent = mo.tag;
+    subEl.textContent = "A little candy pocket for every day of " + mo.name + ". Tap one to tear it open and find that day's deal.";
+    if (headerDuck.getAttribute("src") !== mo.duck) headerDuck.setAttribute("src", mo.duck);
+    grid.setAttribute("aria-label", monthName(viewY, viewM) + " deal pockets");
+    var t = todayDate();
+    if (viewRelation() === "current") {
+      todayBtn.hidden = false;
+      todayBtn.textContent = "Open today's pocket (" + mo.name + " " + t.getDate() + ")";
+    } else {
+      todayBtn.hidden = true;
+    }
+    thisMoBtn.hidden = viewRelation() === "current";
+    paintProgress();
+    paintStatus();
+    paintSaved();
+    paintHero();
+  }
+  function buildGrid() {
+    grid.innerHTML = "";
+    var mo = MONTHS[viewM];
+    var days = daysInMonth(viewY, viewM);
+    var first = new Date(viewY, viewM, 1).getDay();
+    for (var b = 0; b < first; b++) {
+      var blank = document.createElement("span");
+      blank.className = "blank"; blank.setAttribute("aria-hidden", "true");
+      grid.appendChild(blank);
+    }
+    var gd = goldenDay(viewY, viewM);
+    var off = monthOffset();
+    for (var d = 1; d <= days; d++) {
+      var st = dayState(d);
+      var isGold = d === gd && st !== "future";
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "pocket" + (st === "future" ? " locked" : "") + (isOpened(d) ? " opened" : "") + (isGold ? " golden" : "");
+      btn.dataset.day = String(d);
+      var pack = mo.palette[(d - 1) % mo.palette.length];
+      btn.style.setProperty("--pack", pack);
+      btn.style.setProperty("--seal", darken(pack, 0.78));
+      btn.setAttribute("aria-label", st === "future"
+        ? monthName(viewY, viewM) + " " + d + ", locked. This pocket opens on " + mo.name + " " + d + "."
+        : monthName(viewY, viewM) + " " + d + (isGold ? ", the golden pocket" : "") + ", tap to open and see the deal.");
+      if (st === "future") btn.setAttribute("aria-disabled", "true");
+      var seal = document.createElement("span");
+      seal.className = "seal"; seal.setAttribute("aria-hidden", "true");
+      btn.appendChild(seal);
+      var crimp = document.createElement("span");
+      crimp.className = "crimp"; crimp.setAttribute("aria-hidden", "true");
+      btn.appendChild(crimp);
+      btn.appendChild(poofSpan());
+      if (st === "today") {
+        var tag = document.createElement("span");
+        tag.className = "todaytag"; tag.textContent = "TODAY";
+        btn.appendChild(tag);
+      }
+      if (isGold) {
+        var gt = document.createElement("span");
+        gt.className = "goldtag"; gt.textContent = "\u2728"; gt.setAttribute("aria-hidden", "true");
+        btn.appendChild(gt);
+      }
+      if (st === "future") {
+        var lk = document.createElement("span");
+        lk.className = "lock"; lk.textContent = "\uD83D\uDD12"; lk.setAttribute("aria-hidden", "true");
+        btn.appendChild(lk);
+      }
+      var img = document.createElement("img");
+      img.className = "stk";
+      img.src = mo.pool[(d - 1 + off) % mo.pool.length];
+      img.alt = ""; img.loading = "lazy";
+      img.onerror = function () { this.remove(); };
+      btn.appendChild(img);
+      var dn = document.createElement("span");
+      dn.className = "day"; dn.textContent = String(d);
+      btn.appendChild(dn);
+      if (isOpened(d)) {
+        var ot = document.createElement("span");
+        ot.className = "openedtag"; ot.textContent = "\u2713 Opened";
+        btn.appendChild(ot);
+      }
+      /* The deal is never written into a future pocket's DOM, so there is
+         nothing to peek at before the day arrives. */
+      btn.addEventListener("click", (function (day) {
+        return function () { openDay(day, "grid"); };
+      })(d));
+      grid.appendChild(btn);
+    }
+    paintMonth();
+  }
+  function showLockNote(d) {
+    locknote.textContent = "\uD83D\uDD12 That pocket opens on " + MONTHS[viewM].name + " " + d + ". No peeking!";
+    locknote.hidden = false;
+  }
+  function renderNote(target, html) {
+    target.classList.remove("golden");
+    target.innerHTML = html;
+    target.hidden = false;
+  }
+  function renderDeal(target, d, st, deal) {
+    var isGold = d === goldenDay(viewY, viewM);
+    var iso = viewISO(d);
+    var html = "";
+    if (isGold) {
+      html += '<p class="goldenhead">\u2728 Golden Pocket — the best deal of the month \u2728</p>';
+    }
+    if (st === "past") {
+      html += '<p class="missed">You missed this one, but the discount is still here for you. This pocket is from ' + MONTHS[viewM].name + ' ' + d + '.</p>';
+    }
+    if (deal.img) {
+      html += '<img class="pimg" src="' + esc(deal.img) + '" alt="" loading="lazy" onerror="this.remove()">';
+    } else {
+      html += '<img class="pduck" src="' + DUCK + '" alt="The Pond duck" onerror="this.remove()">';
+    }
+    if (deal.brand) html += '<p class="pbrand">' + esc(deal.brand) + '</p>';
+    html += '<p class="pname">' + esc(deal.name || "Today's deal") + '</p>';
+    if (deal.offer) html += '<p class="poffer">' + esc(deal.offer) + '</p>';
+    if (deal.code) {
+      html += '<div class="coderow"><span class="code">' + esc(deal.code) + '</span><button type="button" data-copy-code="' + esc(deal.code) + '">Copy code</button></div>';
+    }
+    html += '<div class="shoprow">';
+    var ext = deal.href && /^https?:\/\//i.test(deal.href);
+    html += '<a class="shop" href="' + esc(deal.href || "deals.html") + '"' + (ext ? ' target="_blank" rel="noopener"' : "") + '>Shop this deal</a>';
+    if (deal.page && deal.page !== deal.href) {
+      html += '<a class="page" href="' + esc(deal.page) + '">Brand page</a>';
+    }
+    html += '</div>';
+    html += '<div class="calrow">';
+    html += '<button type="button" class="clipcal' + (isClipped(iso) ? " done" : "") + '" data-clip-cal data-day="' + d + '"' + (isClipped(iso) ? " disabled" : "") + '>' + (isClipped(iso) ? "\u2713 Clipped to calendar" : "\uD83D\uDCC5 Clip to calendar") + '</button>';
+    var prior = used[iso];
+    html += '<button type="button" class="usedbtn' + (prior ? " done" : "") + '" data-used-btn data-day="' + d + '">' + (prior ? "\u2713 Used — saved " + money(prior.amount) : "\uD83C\uDF89 I used this deal") + '</button>';
+    html += '</div>';
+    var pre = saveAmount(deal);
+    html += '<div class="usedform" data-used-form hidden><label>How much did you save? $ <input type="number" min="0" step="0.01" inputmode="decimal" data-used-amount data-day="' + d + '" value="' + (pre != null ? pre.toFixed(2) : "") + '" aria-label="Dollars saved"></label><button type="button" data-used-save data-day="' + d + '">Save</button></div>';
+    html += '<p class="clipnote" data-clip-note hidden></p>';
+    html += '<button type="button" class="close" data-close-panel>Close</button>';
+    target.innerHTML = html;
+    target.classList.toggle("golden", isGold);
+    target.hidden = false;
+  }
+  /* Mark a day opened everywhere it shows: the grid cell and the hero. */
+  function syncOpenedVisuals(d) {
+    var btn = grid.querySelector('[data-day="' + d + '"]');
+    if (btn) {
+      btn.classList.add("opened");
+      if (!btn.querySelector(".openedtag")) {
+        var ot = document.createElement("span");
+        ot.className = "openedtag"; ot.textContent = "\u2713 Opened";
+        btn.appendChild(ot);
+      }
+    }
+    paintHero();
+  }
+  function openDay(d, source) {
+    var st = dayState(d);
+    if (st === "future") { showLockNote(d); return; }
+    locknote.hidden = true;
+    /* The hero reveals its deal in place at the top; a grid pack reveals
+       it in the detail panel below the calendar. */
+    var target = source === "hero" ? heroReveal : panel;
+    if (!loaded) {
+      renderNote(target, '<p class="poffer">The Pond is still fetching the deals. Give it a moment, then tap this pocket again.</p>');
+      return;
+    }
+    if (loadFailed || !deals.length) {
+      renderNote(target, '<p class="poffer">The deals could not load just now. Check your connection, then tap Refresh in the bottom menu to try again.</p>');
+      return;
+    }
+    var deal = dealForDay(d);
+    if (!deal) {
+      renderNote(target, '<p class="poffer">Nothing is hiding in this pocket today. Check back tomorrow for a fresh deal.</p>');
+      return;
+    }
+    var el = source === "hero" ? heroPocket : grid.querySelector('[data-day="' + d + '"]');
+    var already = isOpened(d);
+    function reveal() {
+      renderDeal(target, d, st, deal);
+      if (!reducedMotion()) {
+        target.classList.add("revealing");
+        setTimeout(function () { target.classList.remove("revealing"); }, 400);
+      }
+      if (!already) {
+        markOpened(d);
+        syncOpenedVisuals(d);
+        paintProgress();
+      }
+      /* Bring the deal into view: the hero reveal sits just below the big
+         pack, which can put it under the fold (and the bottom bar) on a
+         phone, so scroll just enough to show it. Same for the grid panel. */
+      if (target.scrollIntoView) target.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+    /* A pocket that is already open just shows its deal again; a fresh
+       open tears, shakes and poofs first. */
+    if (already || reducedMotion()) { reveal(); return; }
+    playOpen(el, reveal);
+  }
+  /* One handler for both deal panels: the grid panel below the calendar
+     and the hero reveal at the top. All lookups are scoped to the panel
+     that was actually tapped. */
+  function onPanelClick(ev) {
+    var host = ev.currentTarget;
+    var copy = ev.target.closest ? ev.target.closest("[data-copy-code]") : null;
+    if (copy) {
+      var code = copy.getAttribute("data-copy-code") || "";
+      var done = function () { copy.textContent = "Copied!"; setTimeout(function () { copy.textContent = "Copy code"; }, 2000); };
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(code).then(done, function () { fallbackCopy(code, done); });
+        } else {
+          fallbackCopy(code, done);
+        }
+      } catch (e) { fallbackCopy(code, done); }
+      return;
+    }
+    var clipBtn = ev.target.closest ? ev.target.closest("[data-clip-cal]") : null;
+    if (clipBtn && !clipBtn.disabled) {
+      var day = parseInt(clipBtn.getAttribute("data-day") || "0", 10);
+      var deal = dealForDay(day);
+      if (deal) {
+        clipDeal(deal, viewISO(day));
+        clipBtn.textContent = "\u2713 Clipped to calendar";
+        clipBtn.classList.add("done");
+        clipBtn.disabled = true;
+        var note = host.querySelector("[data-clip-note]");
+        if (note) { note.textContent = "Saved to your Planner Sales tab."; note.hidden = false; }
+      }
+      return;
+    }
+    var usedBtn = ev.target.closest ? ev.target.closest("[data-used-btn]") : null;
+    if (usedBtn) {
+      var form = host.querySelector("[data-used-form]");
+      if (form) {
+        form.hidden = !form.hidden;
+        if (!form.hidden) {
+          var inp = form.querySelector("[data-used-amount]");
+          if (inp) inp.focus();
+        }
+      }
+      return;
+    }
+    var saveBtn = ev.target.closest ? ev.target.closest("[data-used-save]") : null;
+    if (saveBtn) {
+      var sday = parseInt(saveBtn.getAttribute("data-day") || "0", 10);
+      var sdeal = dealForDay(sday);
+      var sform = host.querySelector("[data-used-form]");
+      var sinp = sform ? sform.querySelector("[data-used-amount]") : null;
+      var amt = sinp ? parseFloat(sinp.value) : NaN;
+      if (!isNaN(amt) && amt >= 0) {
+        used[viewISO(sday)] = { amount: Math.round(amt * 100) / 100, name: sdeal ? (sdeal.name || sdeal.brand || "") : "" };
+        try { localStorage.setItem(LS_USED, JSON.stringify(used)); } catch (e) {}
+        schedulePush({ used: true });
+        paintSaved();
+        if (sform) sform.hidden = true;
+        var ub = host.querySelector("[data-used-btn]");
+        if (ub) { ub.textContent = "\u2713 Used — saved " + money(amt); ub.classList.add("done"); }
+      }
+      return;
+    }
+    if (ev.target.closest && ev.target.closest("[data-close-panel]")) {
+      host.hidden = true;
+    }
+  }
+  panel.addEventListener("click", onPanelClick);
+  heroReveal.addEventListener("click", onPanelClick);
+  function fallbackCopy(code, done) {
+    try {
+      var ta = document.createElement("textarea");
+      ta.value = code;
+      ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.select();
+      if (document.execCommand) document.execCommand("copy");
+      document.body.removeChild(ta);
+      done();
+    } catch (e) {}
+  }
+  todayBtn.addEventListener("click", function () {
+    var t = todayDate();
+    if (viewRelation() !== "current") return;
+    if (heroPocket && heroPocket.scrollIntoView) heroPocket.scrollIntoView({ behavior: "smooth", block: "center" });
+    openDay(t.getDate(), "hero");
+  });
+  heroPocket.addEventListener("click", function () {
+    var t = todayDate();
+    if (viewRelation() !== "current") return;
+    openDay(t.getDate(), "hero");
+  });
+  document.getElementById("prevmo").addEventListener("click", function () {
+    viewM--;
+    if (viewM < 0) { viewM = 11; viewY--; }
+    panel.hidden = true; locknote.hidden = true; heroReveal.hidden = true;
+    buildGrid();
+  });
+  document.getElementById("nextmo").addEventListener("click", function () {
+    viewM++;
+    if (viewM > 11) { viewM = 0; viewY++; }
+    panel.hidden = true; locknote.hidden = true; heroReveal.hidden = true;
+    buildGrid();
+  });
+  thisMoBtn.addEventListener("click", function () {
+    var t = todayDate();
+    viewY = t.getFullYear(); viewM = t.getMonth();
+    panel.hidden = true; locknote.hidden = true; heroReveal.hidden = true;
+    buildGrid();
+  });
+  function normalizeSpotlight(list) {
+    return (list || []).map(function (d) {
+      return { brand: d.brand || "", name: d.name || "", offer: d.offer || "", code: "", href: d.href || d.page || "deals.html", page: d.page || "", img: d.img || "" };
+    });
+  }
+  function normalizeBrands(list) {
+    return (list || []).map(function (b) {
+      var code = "";
+      if (b.chip && /^code:\s*/i.test(b.chip)) code = b.chip.replace(/^code:\s*/i, "").trim();
+      return { brand: "", name: b.name || "", offer: b.offer || "", code: code, href: b.href || "deals.html", page: b.href || "", img: "" };
+    });
+  }
+  function txt(el) { return el ? el.textContent.trim() : ""; }
+  function fromBrandPages() {
+    /* Same fallback as top-deals.js: gather the live deal rows from every
+       brand page at visit time, strongest savings first. */
+    var cards = Array.prototype.slice.call(document.querySelectorAll('a.card[href^="brands/"]'));
+    if (!cards.length) {
+      var links = Array.prototype.slice.call(document.querySelectorAll('a[href^="brands/"]'));
+      cards = links;
+    }
+    if (!cards.length) { loadFailed = true; loaded = true; paintStatus(); return Promise.resolve(); }
+    var jobs = cards.map(function (card) {
+      var url = card.getAttribute("href");
+      var brand = txt(card.querySelector(".name")) || "";
+      return fetch(url).then(function (r) { if (!r.ok) throw new Error("brand page " + r.status); return r.text(); }).then(function (html) {
+        var doc = new DOMParser().parseFromString(html, "text/html");
+        var out = [];
+        doc.querySelectorAll("a.deal").forEach(function (d) {
+          var name = txt(d.querySelector(".name"));
+          var offer = txt(d.querySelector(".offer"));
+          var img = d.querySelector("img.thumb");
+          var pct = 0;
+          var m = offer.match(/\$([\d.]+)\s*\(was \$([\d.]+)/);
+          if (m) { var now = parseFloat(m[1]), was = parseFloat(m[2]); if (was > now) pct = Math.round((1 - now / was) * 100); }
+          else { var pm = offer.match(/(\d+)%\s*(off|OFF)/); if (pm) pct = parseInt(pm[1], 10); }
+          out.push({ brand: brand, name: name, offer: offer, code: "", href: d.getAttribute("href") || url, page: url, img: img ? img.getAttribute("src") : "", pct: pct });
+        });
+        return out;
+      }).catch(function () { return []; });
+    });
+    return Promise.all(jobs).then(function (all) {
+      var list = [];
+      all.forEach(function (l) { list = list.concat(l); });
+      list.sort(function (a, b) { return (b.pct || 0) - (a.pct || 0); });
+      list.forEach(function (d) { delete d.pct; });
+      if (list.length) { deals = list; loaded = true; }
+      else { loadFailed = true; loaded = true; }
+      paintStatus();
+    }).catch(function () { loadFailed = true; loaded = true; paintStatus(); });
+  }
+  function loadDeals() {
+    try {
+      var p = (async function () {
+        var appMod = await import("./pond-firebase-stub.js");
+        var fsMod = await import("./pond-firebase-stub.js");
+        var cfg = {
+          apiKey: "preview-disabled",
+          authDomain: "pond-preview-disabled.firebaseapp.com",
+          projectId: "pond-preview-disabled",
+          storageBucket: "pond-preview-disabled.firebasestorage.app",
+          messagingSenderId: "000000000000",
+          appId: "1:000000000000:web:previewdisabled"
+        };
+        var app = appMod.getApps().length ? appMod.getApps()[0] : appMod.initializeApp(cfg);
+        var db = fsMod.getFirestore(app);
+        var snap = await fsMod.getDoc(fsMod.doc(db, "deals", "current"));
+        if (snap.exists()) {
+          var data = snap.data() || {};
+          var list = normalizeSpotlight(data.spotlight).concat(normalizeBrands(data.brands));
+          if (list.length) { deals = list; loaded = true; paintStatus(); return; }
+        }
+        throw new Error("no live deals in Firestore");
+      })();
+      p.then(function () {}, function () {
+        /* Firestore unreachable: gather the live rows from the brand pages,
+           unless a test already injected deals. */
+        if (deals.length) return;
+        if (typeof fetch === "function") { fromBrandPages(); }
+        else { loadFailed = true; loaded = true; paintStatus(); }
+      });
+    } catch (e) {
+      if (deals.length) return;
+      if (typeof fetch === "function") { fromBrandPages(); }
+      else { loadFailed = true; loaded = true; paintStatus(); }
+    }
+  }
+  /* Exposed for tests: drive the calendar without Firestore. */
+  window.TYDPockets = {
+    setToday: function (iso) {
+      var p = String(iso || "").split("-");
+      todayOverride = new Date(+p[0], (+p[1] || 1) - 1, +p[2] || 1);
+      viewY = todayOverride.getFullYear(); viewM = todayOverride.getMonth();
+      panel.hidden = true; heroReveal.hidden = true;
+      buildGrid();
+    },
+    setMonth: function (y, m) {
+      viewY = +y; viewM = +m;
+      panel.hidden = true; locknote.hidden = true; heroReveal.hidden = true;
+      buildGrid();
+    },
+    setDeals: function (list) {
+      deals = (list || []).map(function (d) {
+        return { brand: d.brand || "", name: d.name || "", offer: d.offer || "", code: d.code || "", href: d.href || "deals.html", page: d.page || "", img: d.img || "" };
+      });
+      loaded = true; loadFailed = false;
+      paintStatus();
+    },
+    dealForDay: dealForDay,
+    dayState: dayState,
+    openDay: openDay,
+    goldenDay: goldenDay,
+    bestDeal: bestDeal,
+    getDeals: function () { return deals.slice(); },
+    getView: function () { return { year: viewY, month: viewM }; },
+    getHero: function () {
+      if (!heroEl || heroEl.hidden) return null;
+      var t = todayDate();
+      return { day: t.getDate(), golden: t.getDate() === goldenDay(viewY, viewM), opened: isOpened(t.getDate()) };
+    },
+    setReducedMotion: function (v) { window.__TYDReducedMotion = !!v; },
+    getOpened: function () { return JSON.parse(JSON.stringify(opened)); },
+    getUsed: function () { return JSON.parse(JSON.stringify(used)); },
+    usedTotal: usedTotal,
+    applyAccount: applyAccount,
+    pushAccount: pushAccount
+  };
+  buildGrid();
+  loadDeals();
+  initAccountSync();
+})();
+</script>
+<script src="site-nav.js?v=372"></script>
+<script src="pull-refresh.js?v=341"></script>
+<script src="pond-staging.js"></script>
+</body>
+</html>

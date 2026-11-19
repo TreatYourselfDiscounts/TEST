@@ -1,0 +1,297 @@
+{
+ "_comment": "Verified 'See it in use' videos, one per deal id. Only videos of that EXACT product in use - never search links, never lookalikes, never placeholders. Cards with no entry here get no video link. Future page rebuilds re-apply the links from this file via tools/inject-deal-videos.py. LEGO entries verified Nov 15, 2026 (19/19); viral entries verified Nov 15, 2026 (25/32 with links, 4 no-video, 3 removed as wrong videos in v320). Engagement numbers for the linked videos live in data/viral-metrics.json (single source of truth); the injector appends them to the links (LEGO) and hook lines (Viral).",
+ "videos": [
+  {
+   "dealId": "deal-10345",
+   "note": "Review video of LEGO Botanicals Flower Arrangement 10345 by BricksDad, showing the finished bouquet and build details.",
+   "platform": "instagram",
+   "videoUrl": "https://www.instagram.com/reel/DWRQ_rfBOJ5/"
+  },
+  {
+   "dealId": "deal-40743",
+   "note": "Top-down build timelapse of the full LEGO Christmas Table Decoration 40743, base through candle and gold stars.",
+   "platform": "instagram",
+   "videoUrl": "https://www.instagram.com/reel/DdxpnSUMWZQ/"
+  },
+  {
+   "dealId": "deal-80118",
+   "note": "Review video of LEGO Fortune Firecracker 80118 embedded in the Eurobricks review of the set.",
+   "platform": "youtube",
+   "videoUrl": "https://www.youtube.com/watch?v=UexJnyk78N0"
+  },
+  {
+   "dealId": "deal-43217",
+   "note": "just2good review of LEGO Disney Up House 43217, with minifigures and full house build.",
+   "platform": "youtube",
+   "videoUrl": "https://www.youtube.com/watch?v=44s_rwsYZGE"
+  },
+  {
+   "dealId": "deal-42209",
+   "note": "Review video of LEGO Technic Volvo L120 Electric Wheel Loader 42209 embedded in the Rambling Brick review; page title and keywords confirm the set.",
+   "platform": "youtube",
+   "videoUrl": "https://www.youtube.com/watch?v=_CzOi7II6A8"
+  },
+  {
+   "dealId": "deal-10353",
+   "note": "Unboxing plus timelapse build of LEGO Icons Williams Racing FW14B & Nigel Mansell 10353, with build showcase.",
+   "platform": "youtube",
+   "videoUrl": "https://www.youtube.com/watch?v=CXMcUVsn8QY"
+  },
+  {
+   "dealId": "deal-10459",
+   "note": "Dad and daughter build and play with the LEGO DUPLO Bluey's Family House with Memory Game 10459 together.",
+   "platform": "instagram",
+   "videoUrl": "https://www.instagram.com/reel/DSc8JI-DA1u/"
+  },
+  {
+   "dealId": "deal-43258",
+   "note": "Unboxing and step-by-step build review of LEGO Disney Moana 2 Kakamora Barge 43258, showing the completed barge and play features.",
+   "platform": "instagram",
+   "videoUrl": "https://www.instagram.com/reel/DS7PpaFDYwx/"
+  },
+  {
+   "dealId": "deal-40752",
+   "note": "Complete build of all three LEGO BrickHeadz figures in 40752 Carl, Russell & Kevin, shown one by one.",
+   "platform": "instagram",
+   "videoUrl": "https://www.instagram.com/reel/DamP_0XuosR/"
+  },
+  {
+   "dealId": "deal-75403",
+   "note": "Review video of the completed LEGO Star Wars Grogu with Hover Pram 75403, with posable features and display stand shown.",
+   "platform": "instagram",
+   "videoUrl": "https://www.instagram.com/reel/DSp66-zAKw6/"
+  },
+  {
+   "dealId": "deal-76470",
+   "note": "Full build review of LEGO Harry Potter Enchanted Flying Ford Anglia 76470, chassis through roof, doors and trunk features.",
+   "platform": "instagram",
+   "videoUrl": "https://www.instagram.com/reel/DS0SMnPjfTh/"
+  },
+  {
+   "dealId": "deal-40924",
+   "note": "Build of LEGO BrickHeadz Transformers Megatron 40924, robot mode first then the tank vehicle mode, both shown finished.",
+   "platform": "instagram",
+   "videoUrl": "https://www.instagram.com/reel/Da051ywTMKT/"
+  },
+  {
+   "dealId": "deal-40791",
+   "note": "Speed build of LEGO BrickHeadz The Goblet of Fire Figures 40791, all five figures.",
+   "platform": "youtube",
+   "videoUrl": "https://www.youtube.com/watch?v=mOiSpwbKRTM"
+  },
+  {
+   "dealId": "deal-76444",
+   "note": "Full build of LEGO Harry Potter Diagon Alley Wizarding Shops 76444; page title confirmed live via browser.open.",
+   "platform": "youtube",
+   "videoUrl": "https://www.youtube.com/watch?v=YJxgqm8SkwQ"
+  },
+  {
+   "dealId": "deal-21345",
+   "note": "Build video of LEGO Ideas Polaroid OneStep SX-70 Camera 21345 embedded in the Adam Insights review of the set.",
+   "platform": "youtube",
+   "videoUrl": "https://www.youtube.com/watch?v=1SZ8G59hmDo"
+  },
+  {
+   "dealId": "deal-bissell-crosswave-3831",
+   "note": "Creator unboxes and demos the BISSELL CrossWave Hard Floor Expert, cleaning a liquid spill on wood laminate and showing the dirty-water tank.",
+   "platform": "instagram",
+   "videoUrl": "https://www.instagram.com/reel/DXPug-ngbu9/"
+  },
+  {
+   "dealId": "deal-cmf-buds-2",
+   "note": "Creator unboxes the CMF Buds 2 (light blue case), pairs them in the Nothing X app and demos ANC, spatial audio and water resistance.",
+   "platform": "instagram",
+   "videoUrl": "https://www.instagram.com/reel/DMMpeY4o6wm/"
+  },
+  {
+   "dealId": "deal-nothing-headphone-a",
+   "note": "Reviewer tests the Nothing Headphone (a) for a full week in real life (editing, chores, dog walks, travel) covering sound, ANC and battery. (Color shown in the video not confirmed as the Black deal variant.)",
+   "platform": "youtube",
+   "videoUrl": "https://www.youtube.com/watch?v=fYdqNRCr0uM"
+  },
+  {
+   "dealId": "deal-cmf-clip-pro",
+   "note": "Creator unboxes the CMF Clip Pro with the orange charging case and orange clip earbuds, then wears them to show the fit.",
+   "platform": "instagram",
+   "videoUrl": "https://www.instagram.com/reel/DfLq66Ip9np/"
+  },
+  {
+   "dealId": "deal-hot-wheels-mega-loop-car-wash",
+   "note": "Dad and son unbox, assemble and play with the Hot Wheels City Mega Loop Car Wash, launching cars through the orange loop and car wash.",
+   "platform": "instagram",
+   "videoUrl": "https://www.instagram.com/reel/De-te1IEecv/"
+  },
+  {
+   "dealId": "deal-cmf-headphone-pro",
+   "note": "Hypebeast unboxes the CMF Headphone Pro in light mint green, shows the design and swappable ear cushions, and wears them at the end.",
+   "platform": "instagram",
+   "videoUrl": "https://www.instagram.com/reel/DPTDOmXEXq0/"
+  },
+  {
+   "dealId": "deal-nothing-ear",
+   "note": "Creator unboxes the Nothing Ear (black box, transparent-lid case), shows the earbuds and app features including ANC and EQ.",
+   "platform": "instagram",
+   "videoUrl": "https://www.instagram.com/reel/DYBlWd9kwAf/"
+  },
+  {
+   "dealId": "deal-nothing-ear-3",
+   "note": "Creator reviews the Nothing Ear (3), unboxing the transparent case, demoing the Talk button and Nothing X app, and wearing the earbuds at the gym.",
+   "platform": "instagram",
+   "videoUrl": "https://www.instagram.com/reel/DRnmEYHEn-a/"
+  },
+  {
+   "dealId": "deal-cmf-speaker-s",
+   "note": "Creator demos the CMF Speaker S milk-carton speaker, plays it at max volume, swaps the front panel for a teal one and tries 3D-printed knobs.",
+   "platform": "instagram",
+   "videoUrl": "https://www.instagram.com/reel/DfKUlMDhllS/"
+  },
+  {
+   "dealId": "deal-ninja-blast-blender",
+   "note": "Creator demos the Ninja Blast BC151, blending a banana-date smoothie, sipping from the cup and showing the travel lid.",
+   "platform": "instagram",
+   "videoUrl": "https://www.instagram.com/reel/DX72_QGjZwD/"
+  },
+  {
+   "dealId": "deal-cmf-buds-2a",
+   "note": "Creator unboxes the CMF Buds 2a with the matte dark grey charging case and black earbuds inside.",
+   "platform": "instagram",
+   "videoUrl": "https://www.instagram.com/reel/DejgcNQuYo7/"
+  },
+  {
+   "dealId": "deal-always-pan-2",
+   "note": "Creator cooks with the Our Place Always Pan 2.0, steaming then sauteing broccolini and plating it with steak and rice.",
+   "platform": "instagram",
+   "videoUrl": "https://www.instagram.com/reel/DbXVFfBAgx3/"
+  },
+  {
+   "dealId": "deal-nothing-ear-3a",
+   "note": "Creator reviews the Nothing Ear (3a) in bubblegum pink (and yellow), wearing them and covering sound, EQ, Audio Snapshot and ANC.",
+   "platform": "instagram",
+   "videoUrl": "https://www.instagram.com/reel/DayFh2zxRry/"
+  },
+  {
+   "dealId": "deal-nothing-ear-a",
+   "note": "Creator unboxes the Nothing Ear (a) in black, showing the transparent-lid case and earbuds, then wears one to demo the fit.",
+   "platform": "instagram",
+   "videoUrl": "https://www.instagram.com/reel/DMInivbIgeh/"
+  },
+  {
+   "dealId": "deal-cmf-watch-3-pro",
+   "note": "Creator unboxes and reviews the CMF Watch 3 Pro with the bright orange strap, powers it on, cycles watch faces and wears it on wrist.",
+   "platform": "instagram",
+   "videoUrl": "https://www.instagram.com/reel/De3u9-kKoP5/"
+  },
+  {
+   "dealId": "deal-cmf-buds-pro-2",
+   "note": "Creator reviews the CMF Buds Pro 2 in orange, unboxing the case, demoing the smart dial and app, and wearing an earbud.",
+   "platform": "instagram",
+   "videoUrl": "https://www.instagram.com/reel/DCZPSunMV7V/"
+  },
+  {
+   "dealId": "deal-cmf-speaker-m",
+   "note": "Creator hands-on reviews the CMF Speaker M milk-carton speaker (dark grey), pairing via NFC, removing the front faceplate to show the woofer and tweeter.",
+   "platform": "instagram",
+   "videoUrl": "https://www.instagram.com/reel/DeaNnzlhmu1/"
+  },
+  {
+   "dealId": "deal-cicaplast-balm-b5",
+   "note": "Dermatologist rates La Roche-Posay Cicaplast Balm B5 (named as B5, not B5+) as the first product in a viral-skincare roundup, with a user shown applying it.",
+   "platform": "instagram",
+   "videoUrl": "https://www.instagram.com/reel/DWUGA0hkf64/"
+  },
+  {
+   "dealId": "deal-toniebox-2-paw-patrol",
+   "note": "Kids unbox the Sky Blue Toniebox 2 PAW Patrol bundle at home, revealing the light-blue Toniebox 2, Chase Tonie figure and game pieces.",
+   "platform": "instagram",
+   "videoUrl": "https://www.instagram.com/reel/DRu8HK4Eob-/"
+  },
+  {
+   "dealId": "deal-nothing-headphone-1-pro",
+   "note": "Phandroid showcases the Nothing Headphone (1) Pro in white, unboxing the case and accessories, demoing the app, and wearing the headphones.",
+   "platform": "instagram",
+   "videoUrl": "https://www.instagram.com/reel/Dd4Uz0tpSuF/"
+  },
+  {
+   "dealId": "deal-nothing-phone-4a-pro",
+   "note": "Creator holds the white Nothing Phone (4a) Pro and reviews its cameras, showing the rear module, Glyph Matrix and sample photos.",
+   "platform": "instagram",
+   "videoUrl": "https://www.instagram.com/reel/DYSBR0pIm0d/"
+  },
+  {
+   "dealId": "deal-nothing-ear-open",
+   "note": "Creator unboxes the Nothing Ear (Open) in light blue, removes the open-ear buds from the transparent case and hooks one over his ear to demo fit.",
+   "platform": "instagram",
+   "videoUrl": "https://www.instagram.com/reel/DbYu44QhI2V/"
+  }
+ ],
+ "noVideo": [
+  {
+   "dealId": "deal-tineco-go-max",
+   "reason": "No video confirmed as the GO Max Complete: searches surfaced the GO H20 XL Complete, GO H2O Hammerhead and unnamed Tineco wet/dry models, none named as GO Max."
+  },
+  {
+   "dealId": "deal-noah-paw-dog-toy-basket",
+   "reason": "No video of the Luxury Dog Toy Basket Set (4 plush + basket): closest were a Noah & Paw Tug N' Pul toy with a storage basket and a dog-bed setup with a generic woven basket."
+  },
+  {
+   "dealId": "deal-mvmt-field-automatic",
+   "reason": "No video confirmed showing the Pine Green 42.5mm variant: closest were an MVMT automatic unboxing in a different (silver/dark dial) colour and a field-watch ranking clip that only names the model."
+  },
+  {
+   "dealId": "deal-happy-nuts-gift-box",
+   "reason": "No verifiable Instagram/TikTok/YouTube video of the Holiday Gift Box: only brand-site Shopify mp4s (not an allowed platform) and a YouTube review of a different box variant (Big Wood Energy). A matching Facebook reel (Nov 14, 2026) unboxing the exact gift set exists with 61 likes / 2 comments - its numbers are in data/viral-metrics.json and show on the hook line, but no video link is added (Facebook reels are not in the link set)."
+  }
+ ],
+ "removed": [
+  {
+   "dealId": "deal-tineco-go-spot",
+   "videoUrl": "https://www.instagram.com/reel/DbH3V64RYrJ/",
+   "reason": "REMOVED Nov 15, 2026 (v320): the URL is the WRONG video - a running-challenge reel by travelfamily.ca (\"Day 4 of Daily Running Challenge.\"), nothing to do with the Tineco GO Spot. Confirmed by instagram-cli, social.search and hatch-zeitgeist (all resolve the shortcode to the running post) and by the v319 browser live-check (caption about a running challenge). Do not re-add this URL."
+  },
+  {
+   "dealId": "deal-nothing-headphone-1",
+   "videoUrl": "https://www.instagram.com/reel/Dd3Wf2DO0_i/",
+   "reason": "REMOVED Nov 15, 2026 (v320): the URL is the WRONG video - caption is \"Nothing Headphone (1) Pro DUAL Unboxing (White & Black)\" by SuperSaf; the reel is about the Pro model, not the standard Headphone (1). Do not re-add this URL."
+  },
+  {
+   "dealId": "deal-nothing-phone-3",
+   "videoUrl": "https://www.instagram.com/reel/Dazl8NhhL0s/",
+   "reason": "REMOVED Nov 15, 2026 (v320): the URL is the WRONG video - caption is \"Phone (4b) White. Unboxed.\" by Nothing India; the reel is about the Nothing Phone (4b), not the Phone (3). Do not re-add this URL."
+  },
+  {
+   "dealId": "deal-bissell-powerclean-4172",
+   "videoUrl": "https://www.instagram.com/reel/Dep0CmoisGS/",
+   "reason": "REMOVED Nov 16, 2026 (v332): the deal ended (BISSELL PowerClean 4172 back to $148 list) and the card moved to Deal history. The video itself was correct; do not re-add unless the deal returns."
+  },
+  {
+   "dealId": "deal-bissell-powerforce-pet-xl",
+   "videoUrl": "https://www.instagram.com/reel/DZScAqHRj4O/",
+   "reason": "REMOVED Nov 17, 2026: the $98 deal ended Nov 17 (DealCatcher: expired Nov 17); card moved to Deal history. Video itself was verified (creator demo of the PowerForce PET XL) - keep the URL here so it can be re-attached if the deal returns."
+  },
+  {
+   "dealId": "deal-bona-spray-mop-air",
+   "videoUrl": "https://www.instagram.com/reel/DPHmUQFjEDL/",
+   "reason": "REMOVED Nov 17, 2026: the $19.97 deal ended; card moved to Deal history (back to $24.97 list per Zola mirrors ~Nov 11). Video itself was verified (Bona's official Spray Mop Air demo) - keep the URL here so it can be re-attached if the deal returns."
+  },
+  {
+   "dealId": "deal-10698",
+   "videoUrl": "https://www.youtube.com/watch?v=rG69IGVTMhU",
+   "reason": "REMOVED Nov 18, 2026: LEGO Classic Large Creative Brick Box 10698 is no longer on sale at Walmart; the card was removed from lego.html. Do not re-add unless the deal returns."
+  },
+  {
+   "dealId": "deal-10281",
+   "videoUrl": "https://www.youtube.com/watch?v=rNsDzpY2qXo",
+   "reason": "REMOVED Nov 18, 2026: LEGO Icons Bonsai Tree 10281 is no longer on sale at Walmart; the card was removed from lego.html. Do not re-add unless the deal returns."
+  },
+  {
+   "dealId": "deal-42173",
+   "videoUrl": "https://www.instagram.com/reel/DanhibRBIBM/",
+   "reason": "REMOVED Nov 18, 2026: LEGO Technic Koenigsegg Jesko Absolut Grey Hypercar 42173 is no longer on sale at Walmart; the card was removed from lego.html. Do not re-add unless the deal returns."
+  },
+  {
+   "dealId": "deal-10311",
+   "videoUrl": "https://www.instagram.com/reel/Dfvxu7yAwwO/",
+   "reason": "REMOVED Nov 18, 2026: LEGO Botanicals Orchid 10311 is no longer on sale at Walmart; the card was removed from lego.html. Do not re-add unless the deal returns."
+  }
+ ]
+}

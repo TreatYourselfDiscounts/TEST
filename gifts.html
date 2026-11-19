@@ -1,0 +1,1592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="color-scheme" content="light dark">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="apple-touch-icon-v2.png">
+<meta name="theme-color" content="#ffd94d">
+<meta name="description" content="Gift Planner: keep every birthday and holiday gift on track at TreatYourselfDiscounts. People, occasions, budgets and ideas, saved on your devices and in your Pond Account.">
+<meta property="og:title" content="Gift Planner | TreatYourselfDiscounts">
+<meta property="og:description" content="Gift Planner: keep every birthday and holiday gift on track at TreatYourselfDiscounts. People, occasions, budgets and ideas, saved on your devices and in your Pond Account.">
+<meta property="og:image" content="/icon-512.png">
+<meta property="og:url" content="/gifts">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Gift Planner | TreatYourselfDiscounts">
+<meta name="twitter:description" content="Gift Planner: keep every birthday and holiday gift on track at TreatYourselfDiscounts. People, occasions, budgets and ideas, saved on your devices and in your Pond Account.">
+<meta name="twitter:image" content="/icon-512.png">
+<title>Gift Planner | TreatYourselfDiscounts</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #d9f0f7; color: #23414d; }
+  .app { max-width: 760px; margin: 0 auto; min-height: 100vh; background: #bfe6f2; box-shadow: 0 0 24px rgba(35,65,77,.12); padding: 16px 16px 40px; }
+  a.back { color: #1f5f74; font-weight: 700; text-decoration: none; font-size: 14px; }
+  header.top { text-align: center; margin: 10px 0 4px; }
+  header.top img.duck { width: 76px; height: 76px; border-radius: 50%; border: 3px solid #ffd94d; background: #ffd94d; }
+  h1 { margin: 6px 0 0; font-size: 30px; color: #1f5f74; }
+  .sub { margin: 6px 0 0; color: #3f6b7a; font-size: 15px; line-height: 1.5; }
+  .card { background: #fff; border-radius: 18px; padding: 16px 18px; margin: 14px 0; box-shadow: 0 2px 8px rgba(35,65,77,.08); }
+  .card h2 { margin: 0 0 8px; font-size: 20px; color: #1f5f74; }
+  .card p { margin: 6px 0; font-size: 14.5px; line-height: 1.5; }
+  label { display: block; font-size: 13px; font-weight: 700; color: #1f5f74; margin: 10px 0 4px; }
+  input, select, textarea { width: 100%; border: 2px solid #bcd9e4; border-radius: 12px; padding: 10px 12px; font-size: 15px; font-family: inherit; color: #23414d; background: #fbfdfe; }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: #1f5f74; }
+  .btn { display: inline-block; border: none; cursor: pointer; font-family: inherit; font-weight: 800; font-size: 14.5px; border-radius: 999px; padding: 10px 18px; margin: 4px 4px 4px 0; }
+  .btn-main { background: #1f5f74; color: #fff; }
+  .btn-alt { background: #ffd94d; color: #6b5900; border: 2px solid #f0c93e; }
+  .btn-ghost { background: #eaf7fb; color: #1f5f74; border: 2px solid #bcd9e4; }
+  .btn-danger { background: #fdecec; color: #8c2b2b; border: 2px solid #f2c1c1; }
+  .prow2 { display: flex; gap: 8px; flex-wrap: wrap; }
+  .prow2 > div { flex: 1 1 0; min-width: 0; }
+  .prow2 input, .prow2 select { min-width: 0; max-width: 100%; }
+  @media (max-width: 560px) { .prow2 { flex-direction: column; } .prow2 > div { flex: none; width: 100%; } }
+  .phead { display: flex; gap: 10px; align-items: flex-start; }
+  .phead .grow { flex: 1; min-width: 0; }
+  .draghandle { background: #fff; border: 2px solid #bcd9e4; color: #1f5f74; width: 34px; height: 34px; border-radius: 50%; font-size: 15px; cursor: grab; line-height: 1; touch-action: none; flex: none; font-family: inherit; }
+  .draghandle:active { cursor: grabbing; }
+  .card.dragging { opacity: .55; pointer-events: none; }
+  .pname { font-size: 19px; font-weight: 800; color: #1f5f74; }
+  .pmeta { font-size: 13.5px; color: #3f6b7a; margin-top: 2px; line-height: 1.5; }
+  .spent { background: #eaf7fb; border-radius: 12px; padding: 9px 12px; font-size: 14px; font-weight: 700; color: #1f5f74; margin: 10px 0 4px; }
+  .spent.over { background: #fdecec; color: #8c2b2b; }
+  .irow { display: flex; gap: 9px; align-items: flex-start; padding: 8px 0; border-bottom: 1px solid #e3eff4; }
+  .irow:last-child { border-bottom: none; }
+  .irow .grow { flex: 1; min-width: 0; font-size: 14.5px; }
+  .irow .iprice { font-size: 13px; color: #3f6b7a; font-weight: 700; }
+  .bought-txt { text-decoration: line-through; color: #5b7d89; }
+  .iconbtn { border: 2px solid #bcd9e4; background: #eaf7fb; border-radius: 999px; padding: 5px 11px; font-size: 12.5px; font-weight: 700; cursor: pointer; font-family: inherit; color: #1f5f74; flex: none; }
+  .iconbtn.del { background: #fdecec; border-color: #f2c1c1; color: #8c2b2b; }
+  .iconbtn.got { background: #e7f6ec; border-color: #bfe3cc; color: #256b3a; }
+  .ideaform { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+  .ideaform input { flex: 1; min-width: 110px; }
+  .ideaform input.price { flex: 0 0 92px; min-width: 92px; }
+  .emptybox { text-align: center; padding: 26px 16px; }
+  .emptybox img { width: 92px; height: 92px; border-radius: 50%; border: 3px solid #ffd94d; background: #ffd94d; }
+  .emptybox p { color: #3f6b7a; font-size: 15px; line-height: 1.55; }
+  .syncnote { font-size: 13px; color: #3f6b7a; text-align: center; margin: 8px 0 0; line-height: 1.5; }
+  .syncnote a { color: #1f5f74; font-weight: 800; }
+  .err { color: #8c2b2b; font-size: 13.5px; font-weight: 700; display: none; }
+  .zonehead { font-size: 17px; color: #1f5f74; margin: 18px 0 4px; }
+  .sharebadge { font-size: 12px; font-weight: 800; color: #1f5f74; white-space: nowrap; }
+  .sharepanel { border-top: 1.5px dashed #d7e6ec; margin-top: 10px; padding-top: 10px; }
+  .shareptitle { font-weight: 800; color: #1f5f74; font-size: 14px; }
+  .sharelvs { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+  .sharelv { border: 2px solid #bcd9e4; background: #eaf7fb; color: #1f5f74; font-family: inherit; font-weight: 800; font-size: 13px; border-radius: 999px; padding: 7px 13px; cursor: pointer; }
+  .sharelv.on { background: #1f5f74; border-color: #1f5f74; color: #fff; }
+  .mchips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 9px; align-items: center; }
+  .mchip { background: #fff3b0; color: #6b5900; border: 1.5px solid #f0c93e; border-radius: 999px; padding: 4px 6px 4px 11px; font-size: 13px; font-weight: 700; display: inline-flex; align-items: center; gap: 5px; }
+  .mchip button { border: none; background: #c0392b; color: #fff; border-radius: 50%; width: 19px; height: 19px; line-height: 1; cursor: pointer; font-size: 12px; padding: 0; font-family: inherit; }
+  .fadd { display: flex; gap: 6px; margin-top: 9px; }
+  .fadd input { flex: 1; min-width: 0; }
+  .sharehint { font-size: 13px; color: #3f6b7a; margin: 8px 0 0; }
+  .sharemsg { font-size: 13.5px; font-weight: 700; color: #1e5c33; margin: 8px 0 0; }
+  .sharecard .sharephoto { width: 100%; max-height: 190px; object-fit: cover; border-radius: 12px; display: block; margin-bottom: 10px; }
+  .nestcmt { margin-top: 10px; border-top: 1.5px dashed #d7e6ec; padding-top: 9px; }
+  .cmtthread { margin-top: 9px; }
+  .cmtrow { padding: 6px 0; border-bottom: 1px solid #eaf3f7; }
+  .cmtrow:last-of-type { border-bottom: none; }
+  .cmtmeta { font-size: 12.5px; color: #3f6b7a; font-weight: 700; }
+  .cmttext { font-size: 14px; color: #23414d; line-height: 1.45; margin-top: 1px; overflow-wrap: break-word; }
+  .cmtnote { font-size: 13px; color: #3f6b7a; margin: 6px 0 0; }
+  .cmtform { display: flex; gap: 6px; margin-top: 9px; }
+  .cmtform input { flex: 1; min-width: 0; }
+  .cmtdel { margin-left: 8px; padding: 2px 9px; font-size: 11.5px; }
+  .sharehead { font-size: 16px; color: #23414d; }
+  .sharefrom { font-size: 13px; color: #3f6b7a; font-weight: 700; }
+  .sharebadgevis { font-size: 11.5px; font-weight: 800; background: #eaf7fb; border: 1.5px solid #bcd9e4; color: #1f5f74; border-radius: 999px; padding: 2px 9px; white-space: nowrap; }
+  .sharebody { font-size: 14px; color: #3f6b7a; line-height: 1.55; margin-top: 6px; }
+  .sharebody ul { margin: 6px 0 0; padding-left: 18px; }
+  .formphoto { width: 84px; height: 84px; object-fit: cover; border-radius: 14px; border: 2px solid #bcd9e4; display: block; }
+  .photofield { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
+  .photohint { font-size: 13.5px; color: #3f6b7a; }
+  .ideaphoto { width: 42px; height: 42px; border-radius: 10px; object-fit: cover; flex: none; border: 2px solid #bcd9e4; }
+  .watchline { font-size: 13px; color: #3f6b7a; margin-top: 3px; line-height: 1.6; }
+  .watchline a { color: #1f5f74; font-weight: 800; }
+  .wbadge { font-size: 11.5px; font-weight: 800; border-radius: 999px; padding: 2px 9px; white-space: nowrap; }
+  .wbadge.hit { background: #e7f6ec; border: 1.5px solid #bfe3cc; color: #256b3a; }
+  .wbadge.low { background: #eaf7fb; border: 1.5px solid #bcd9e4; color: #1f5f74; }
+  .wlink { background: none; border: none; color: #1f5f74; font-weight: 800; cursor: pointer; font-family: inherit; font-size: 13px; text-decoration: underline; padding: 0; }
+  .wrow { display: flex; gap: 9px; align-items: flex-start; padding: 8px 0; border-bottom: 1px solid #e3eff4; }
+  .wrow:last-child { border-bottom: none; }
+  .wrow .grow { flex: 1; min-width: 0; font-size: 14.5px; }
+  .wmeta { font-size: 13px; color: #3f6b7a; font-weight: 700; }
+  html[data-theme="dark"] .zonehead { color: #c9f0fc; }
+  html[data-theme="dark"] .sharepanel { border-color: #2e4a5f; }
+  html[data-theme="dark"] .shareptitle, html[data-theme="dark"] .sharebadge { color: #c9f0fc; }
+  html[data-theme="dark"] .sharelv { background: #101e2c; color: #d7ecf5; border-color: #2e4a5f; }
+  html[data-theme="dark"] .sharelv.on { background: #1f5f74; color: #fff; }
+  html[data-theme="dark"] .sharehead { color: #eefaff; }
+  html[data-theme="dark"] .sharefrom, html[data-theme="dark"] .sharebody, html[data-theme="dark"] .sharehint, html[data-theme="dark"] .photohint { color: #bcd6e4; }
+  html[data-theme="dark"] .sharebadgevis { background: #101e2c; border-color: #2e4a5f; color: #d7ecf5; }
+  html[data-theme="dark"] .sharemsg { color: #9fe0b2; }
+  html[data-theme="dark"] .nestcmt { border-color: #2e4a5f; }
+  html[data-theme="dark"] .cmtrow { border-color: #22384c; }
+  html[data-theme="dark"] .cmtmeta, html[data-theme="dark"] .cmtnote { color: #bcd6e4; }
+  html[data-theme="dark"] .cmttext { color: #eefaff; }
+  html[data-theme="dark"] .watchline, html[data-theme="dark"] .wmeta { color: #bcd6e4; }
+  html[data-theme="dark"] .watchline a, html[data-theme="dark"] .wlink { color: #8fd8f2; }
+  html[data-theme="dark"] .wrow { border-color: #2e4a5f; }
+  html[data-theme="dark"] .wbadge.hit { background: #14301d; border-color: #2c5a3a; color: #9fe0b2; }
+  html[data-theme="dark"] .wbadge.low { background: #101e2c; border-color: #2e4a5f; color: #d7ecf5; }
+  footer { margin-top: 26px; text-align: center; }
+  .disc { font-size: 12px; color: #5b7d89; line-height: 1.5; max-width: 560px; margin: 10px auto 0; }
+  html[data-theme="dark"] .pname { color: #c9f0fc; }
+  html[data-theme="dark"] .pmeta, html[data-theme="dark"] .irow .iprice { color: #bcd6e4; }
+  html[data-theme="dark"] .spent { background: #101e2c; color: #eefaff; }
+  html[data-theme="dark"] .spent.over { background: #3a1d22; color: #ffb9b9; }
+  html[data-theme="dark"] .irow { border-color: #2e4a5f; }
+  html[data-theme="dark"] .bought-txt { color: #7d9db0; }
+</style>
+<meta name="robots" content="noindex,nofollow">
+<link rel="stylesheet" href="pond-travel.css">
+<script>window.__TYD_PREVIEW__=true;</script>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <img class="duck" src="images/corners/duck-gift.jpg" onerror="this.onerror=null;this.src='icon-512.png';" alt="The Pond duck">
+    <h1>🎁 Gift Planner</h1>
+    <p class="sub">Never let a birthday sneak up on you again. Keep your people, their occasions, a budget for each, and gift ideas all in one nest. 🦆</p>
+    <p class="syncnote" id="sync-note">Saved on this device. <a href="account.html">Sign in to sync</a> your gift plans to your Pond Account.</p>
+  </header>
+  <p class="howto-note" style="font-size:13px;color:#4a6b78;margin:0 0 12px;text-align:center;">🎁 Add a person with their occasion and budget, then keep gift ideas under their name. The bell will remind you when an occasion is coming up.</p>
+
+  <div class="card" id="watchstrip" style="display:none;">
+    <h2>🏷️ Price watches</h2>
+    <p>Gift ideas you are watching for a better price. Save the current price now and then, and the duck remembers the best price it has ever seen here.</p>
+    <div id="watchrows"></div>
+  </div>
+
+  <div id="giftlist"></div>
+
+  <div id="shared-with-me"></div>
+  <div id="pond-shares"></div>
+
+  <div class="card" id="personformcard">
+    <h2 id="pf-heading">Add a person</h2>
+    <label for="pf-name">Name *</label>
+    <input id="pf-name" type="text" placeholder="Like: Best friend, Sister, Coworker">
+    <div class="prow2">
+      <div>
+        <label for="pf-occasion">Occasion</label>
+        <select id="pf-occasion">
+          <option>Birthday</option>
+          <option>Christmas</option>
+          <option>Anniversary</option>
+          <option>Thank you</option>
+          <option>Just because</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div>
+        <label for="pf-date">Date</label>
+        <input id="pf-date" type="date">
+      </div>
+    </div>
+    <label for="pf-budget">Budget ($)</label>
+    <input id="pf-budget" type="number" min="0" step="1" placeholder="Like: 50">
+    <p class="err" id="pf-err"></p>
+    <div style="margin-top:10px;">
+      <button type="button" class="btn btn-main" id="pf-save">Save person</button>
+      <button type="button" class="btn btn-ghost" id="pf-cancel" style="display:none;">Cancel edit</button>
+    </div>
+  </div>
+
+  <footer>
+    <p class="disc">Part of TreatYourselfDiscounts, the Pond. Your Gift Planner is private: it lives in your Pond Account and on your devices, so the surprises stay surprises. Welcome to the Pond!</p>
+    <p style="text-align:center;font-size:12.5px;color:#4a6b78">© 2026 TreatYourselfDiscounts™. All rights reserved. · <a href="terms.html">Terms of Use</a></p>
+  </footer>
+</div>
+<script type="module" src="auth-pill.js"></script>
+<script>
+(function () {
+  "use strict";
+  var LS_KEY = "tydGifts";
+  var people = [];
+  try { var v = JSON.parse(localStorage.getItem(LS_KEY)); if (Array.isArray(v)) people = v; } catch (e) {}
+  var editingId = null;
+  /* v368 duplicate check (Lucy, Nov 18, 2026): adding a person or a gift
+     idea that is already in the Pond shows the shared confirm sheet
+     instead of saving silently. Cancel is the safe default; Add it
+     anyway saves a second copy. Never fires when editing. */
+  var dupConfirmed = false, dupIdeaConfirmed = false;
+  function dupNorm(s) { return String(s || "").toLowerCase().replace(/\s+/g, " ").trim(); }
+  function findDupPerson(name) {
+    var n = dupNorm(name);
+    if (!n) return null;
+    for (var i = 0; i < people.length; i++) if (dupNorm(people[i].name) === n) return people[i];
+    return null;
+  }
+  function findDupIdea(p, text) {
+    var t = dupNorm(text);
+    if (!p || !t) return null;
+    var ideas = p.ideas || [];
+    for (var i = 0; i < ideas.length; i++) if (dupNorm(ideas[i].text) === t) return ideas[i];
+    return null;
+  }
+  function uid() { return "g" + Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
+  function esc(s) { return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
+  function money(n) { n = Number(n) || 0; return "$" + (Math.round(n * 100) / 100).toLocaleString(undefined, { maximumFractionDigits: 2 }); }
+  function fmtDate(ds) { if (!ds) return ""; var d = new Date(ds + "T12:00:00"); return d.toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" }); }
+  function save() { try { localStorage.setItem(LS_KEY, JSON.stringify(people)); } catch (e) {} if (window.TYDPageChanged) window.TYDPageChanged(); }
+  function touch(p) { p.updatedAt = Date.now(); }
+  function spentOf(p) { return (p.ideas || []).filter(function (i) { return i.bought; }).reduce(function (s, i) { return s + (Number(i.price) || 0); }, 0); }
+  function render() {
+    renderWatchStrip();
+    var host = document.getElementById("giftlist");
+    if (!people.length) {
+      host.innerHTML = '<div class="card emptybox"><img src="images/corners/duck-gift.jpg" onerror="this.onerror=null;this.src=\'icon-512.png\';" alt="The Pond duck"><p>No gift plans yet, so the duck is wrapping nothing but good intentions. 🎁🦆<br>Add your first person below: their occasion, the date, and a budget, then tuck gift ideas in as they come to you.</p></div>';
+      return;
+    }
+    assignMissingGiftOrd();
+    var sorted = people.slice().sort(function (a, b) { return (a.ord || 0) - (b.ord || 0); });
+    var resetBtn = people.length > 1 ? '<div style="text-align:right; margin-bottom:2px;"><button type="button" class="btn btn-ghost" data-giftreset style="padding:6px 12px; font-size:13px;">\u21ba Reset to default order</button></div>' : "";
+    host.innerHTML = resetBtn + sorted.map(function (p) {
+      var spent = spentOf(p), budget = Number(p.budget) || 0;
+      var spentLine;
+      if (budget > 0) {
+        var left = budget - spent;
+        spentLine = '<div class="spent' + (left < 0 ? " over" : "") + '">💸 Spent ' + money(spent) + " of " + money(budget) + (left < 0 ? " · " + money(-left) + " over budget, easy there duckling" : " · " + money(left) + " left") + "</div>";
+      } else {
+        spentLine = '<div class="spent">💸 Spent ' + money(spent) + " so far (no budget set)</div>";
+      }
+      var ideas = (p.ideas || []).map(function (i) {
+        var iphoto = nestPhotoFor(i.id);
+        var watchHtml = "";
+        if (i.watching) {
+          var wparts = [];
+          if (i.link) wparts.push('<a href="' + esc(i.link) + '" target="_blank" rel="noopener">🔗 View</a>');
+          if (i.addedPrice != null) wparts.push("Added at " + money(i.addedPrice));
+          if (i.priceBest != null) wparts.push("Best " + money(i.priceBest));
+          if (i.priceNow != null) wparts.push("Now " + money(i.priceNow));
+          if (i.targetPrice != null) wparts.push("Target " + money(i.targetPrice));
+          var wbadge = "";
+          if (i.targetPrice != null && i.priceNow != null && i.priceNow <= i.targetPrice) wbadge = ' <span class="wbadge hit">🎉 Target hit!</span>';
+          else if (i.priceNow != null && i.addedPrice != null && i.priceNow < i.addedPrice && i.priceNow === i.priceBest) wbadge = ' <span class="wbadge low">📉 New low!</span>';
+          watchHtml = '<div class="watchline">🏷️ ' + wparts.join(" · ") + wbadge + "<br>" +
+            '<button type="button" class="wlink" data-upprice="' + p.id + ":" + i.id + '">Update price</button> · ' +
+            '<button type="button" class="wlink" data-setlink="' + p.id + ":" + i.id + '">Link</button> · ' +
+            '<button type="button" class="wlink" data-settarget="' + p.id + ":" + i.id + '">Target</button></div>';
+        }
+        return '<div class="irow">' +
+          (iphoto ? '<img class="ideaphoto" src="' + iphoto + '" alt="" data-tydlb>' : "") +
+          '<div class="grow"><span class="' + (i.bought ? "bought-txt" : "") + '">' + esc(i.text) + "</span>" +
+          (i.price ? ' <span class="iprice">' + money(i.price) + "</span>" : "") + watchHtml + "</div>" +
+          '<button type="button" class="iconbtn" data-photo="' + p.id + ":" + i.id + '" title="Photo of this gift idea">📷</button>' +
+          (iphoto ? '<button type="button" class="iconbtn del" data-delphoto="' + i.id + '" title="Remove photo">✕</button>' : "") +
+          '<button type="button" class="iconbtn' + (i.watching ? " got" : "") + '" data-watch="' + p.id + ":" + i.id + '">' + (i.watching ? "🏷️ Watching" : "🏷️ Watch price") + "</button>" +
+          '<button type="button" class="iconbtn ' + (i.bought ? "" : "got") + '" data-bought="' + p.id + ":" + i.id + '">' + (i.bought ? "↩ Not yet" : "✓ Bought") + "</button>" +
+          '<button type="button" class="iconbtn del" data-delidea="' + p.id + ":" + i.id + '">✕</button></div>';
+      }).join("");
+      return '<div class="card" data-card="' + p.id + '"><div class="phead">' +
+        '<button type="button" class="draghandle" data-drag="' + p.id + '" aria-label="Drag to move this person">⋮⋮</button>' +
+        '<div class="grow"><div class="pname">🎁 ' + esc(p.name) + ' <span class="sharebadge" data-sharebadge="' + p.id + '"></span></div>' +
+        '<div class="pmeta">' + esc(p.occasion || "Just because") + (p.date ? " · 📅 " + fmtDate(p.date) : "") + "</div></div>" +
+        '<button type="button" class="iconbtn" data-edit="' + p.id + '">Edit</button>' +
+        '<button type="button" class="iconbtn del" data-delperson="' + p.id + '">Delete</button>' +
+        '<button type="button" class="iconbtn" data-sharebtn="' + p.id + '">Share</button></div>' +
+        spentLine +
+        (ideas ? '<div style="margin-top:4px;">' + ideas + "</div>" : '<p style="color:#3f6b7a; font-size:14px;">No ideas tucked in yet. Add the first one below.</p>') +
+        '<form class="ideaform" data-ideaform="' + p.id + '"><input type="text" placeholder="Gift idea, like: cozy socks" aria-label="Gift idea">' +
+        '<input class="price" type="number" min="0" step="0.01" placeholder="$" aria-label="Price">' +
+        '<button type="submit" class="btn btn-alt" style="margin:0; padding:9px 14px;">+ Add idea</button></form><div data-sharehost="' + p.id + '"></div><div data-cmtown="' + p.id + '"></div></div>';
+    }).join("");
+    host.querySelectorAll("[data-edit]").forEach(function (b) { b.addEventListener("click", function () { startEdit(b.getAttribute("data-edit")); }); });
+    host.querySelectorAll("[data-delperson]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var id = b.getAttribute("data-delperson");
+        var p = people.filter(function (x) { return x.id === id; })[0];
+        if (p && confirm("Remove " + p.name + " and all their gift ideas?")) {
+          people = people.filter(function (x) { return x.id !== id; });
+          if (editingId === id) cancelEdit();
+          save(); render();
+        }
+      });
+    });
+    host.querySelectorAll("[data-bought]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var parts = b.getAttribute("data-bought").split(":");
+        var p = people.filter(function (x) { return x.id === parts[0]; })[0];
+        if (!p) return;
+        p.ideas = (p.ideas || []).map(function (i) { return i.id === parts[1] ? Object.assign({}, i, { bought: !i.bought }) : i; });
+        touch(p); save(); render();
+      });
+    });
+    host.querySelectorAll("[data-delidea]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var parts = b.getAttribute("data-delidea").split(":");
+        var p = people.filter(function (x) { return x.id === parts[0]; })[0];
+        if (!p) return;
+        p.ideas = (p.ideas || []).filter(function (i) { return i.id !== parts[1]; });
+        touch(p); save(); render();
+      });
+    });
+    host.querySelectorAll("[data-photo]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var f = findIdea(b.getAttribute("data-photo"));
+        if (!f) return;
+        var iid = f.idea.id;
+        nestChoosePhoto(function (url) { nestSetPhoto(iid, url); render(); });
+      });
+    });
+    host.querySelectorAll("[data-delphoto]").forEach(function (b) {
+      b.addEventListener("click", function () { nestRemovePhoto(b.getAttribute("data-delphoto")); render(); });
+    });
+    host.querySelectorAll("[data-watch]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var f = findIdea(b.getAttribute("data-watch"));
+        if (!f) return;
+        var i = f.idea;
+        if (!i.watching) {
+          i.watching = true;
+          if (i.price) {
+            if (i.addedPrice == null) i.addedPrice = i.price;
+            if (i.priceNow == null) i.priceNow = i.price;
+            if (i.priceBest == null) i.priceBest = i.price;
+          }
+          if (!i.link) {
+            var lk = prompt("Paste the shop link for this gift idea (optional, Cancel to skip):", "");
+            if (lk && lk.trim()) i.link = lk.trim();
+          }
+          var tp = prompt("Target price? You get a 🎉 when the price drops to this (optional, Cancel to skip):", i.targetPrice != null ? String(i.targetPrice) : "");
+          if (tp !== null && tp !== "") { var tv = parseFloat(tp); if (tv > 0) i.targetPrice = tv; }
+        } else {
+          i.watching = false;
+        }
+        touch(f.p); save(); render();
+      });
+    });
+    host.querySelectorAll("[data-upprice]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var f = findIdea(b.getAttribute("data-upprice"));
+        if (!f) return;
+        var v = prompt("What is the price right now?", f.idea.priceNow != null ? String(f.idea.priceNow) : (f.idea.price ? String(f.idea.price) : ""));
+        if (v === null) return;
+        var pv = parseFloat(v);
+        if (!isNaN(pv) && pv >= 0) { applyPrice(f.idea, pv); touch(f.p); save(); render(); }
+      });
+    });
+    host.querySelectorAll("[data-setlink]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var f = findIdea(b.getAttribute("data-setlink"));
+        if (!f) return;
+        var v = prompt("Shop link for this gift idea (leave blank to clear):", f.idea.link || "");
+        if (v === null) return;
+        f.idea.link = v.trim();
+        touch(f.p); save(); render();
+      });
+    });
+    host.querySelectorAll("[data-settarget]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var f = findIdea(b.getAttribute("data-settarget"));
+        if (!f) return;
+        var v = prompt("Target price (leave blank to clear):", f.idea.targetPrice != null ? String(f.idea.targetPrice) : "");
+        if (v === null) return;
+        if (v.trim() === "") delete f.idea.targetPrice;
+        else { var tv = parseFloat(v); if (tv > 0) f.idea.targetPrice = tv; }
+        touch(f.p); save(); render();
+      });
+    });
+    host.querySelectorAll("[data-ideaform]").forEach(function (f) {
+      var ideaText = f.querySelector("input[type=text]");
+      if (ideaText) ideaText.addEventListener("input", function () { dupIdeaConfirmed = false; });
+      f.addEventListener("submit", function (e) {
+        e.preventDefault();
+        addIdea(f);
+      });
+    });
+  }
+  function startEdit(id) {
+    var p = people.filter(function (x) { return x.id === id; })[0];
+    if (!p) return;
+    editingId = id;
+    document.getElementById("pf-heading").textContent = "Edit person";
+    document.getElementById("pf-name").value = p.name || "";
+    document.getElementById("pf-occasion").value = p.occasion || "Birthday";
+    document.getElementById("pf-date").value = p.date || "";
+    document.getElementById("pf-budget").value = p.budget || "";
+    document.getElementById("pf-cancel").style.display = "inline-block";
+    document.getElementById("personformcard").scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+  function cancelEdit() {
+    editingId = null; dupConfirmed = false;
+    document.getElementById("pf-heading").textContent = "Add a person";
+    document.getElementById("pf-name").value = "";
+    document.getElementById("pf-occasion").value = "Birthday";
+    document.getElementById("pf-date").value = "";
+    document.getElementById("pf-budget").value = "";
+    document.getElementById("pf-cancel").style.display = "none";
+    document.getElementById("pf-err").style.display = "none";
+  }
+  function addIdea(f) {
+    var pid = f.getAttribute("data-ideaform");
+    var p = people.filter(function (x) { return x.id === pid; })[0];
+    if (!p) return;
+    var text = f.querySelector("input[type=text]").value.trim();
+    if (!text) return;
+    var price = parseFloat(f.querySelector("input.price").value) || 0;
+    if (!dupIdeaConfirmed && window.TYDDup) {
+      var dup = findDupIdea(p, text);
+      if (dup) {
+        window.TYDDup.show("This gift idea is already on the list for " + (p.name || "this person") + ": " + (dup.text || text) + ". Add it again, or cancel and keep the one you have.", function () { dupIdeaConfirmed = true; addIdea(f); });
+        return;
+      }
+    }
+    p.ideas = p.ideas || [];
+    p.ideas.push({ id: uid(), text: text, price: price, bought: false });
+    touch(p); save(); render();
+  }
+  document.getElementById("pf-cancel").addEventListener("click", cancelEdit);
+  function savePersonForm() {
+    var name = document.getElementById("pf-name").value.trim();
+    var err = document.getElementById("pf-err");
+    if (!name) { err.textContent = "Who is the lucky person? Add a name first."; err.style.display = "block"; return; }
+    err.style.display = "none";
+    if (!editingId && !dupConfirmed && window.TYDDup) {
+      var dup = findDupPerson(name);
+      if (dup) {
+        window.TYDDup.show("This person is already in the Pond: " + (dup.name || name) + ". Add them again, or cancel and keep the one you have.", function () { dupConfirmed = true; savePersonForm(); });
+        return;
+      }
+    }
+    var data = {
+      name: name,
+      occasion: document.getElementById("pf-occasion").value,
+      date: document.getElementById("pf-date").value || "",
+      budget: parseFloat(document.getElementById("pf-budget").value) || 0,
+      updatedAt: Date.now()
+    };
+    var oldPerson = editingId ? people.filter(function (x) { return x.id === editingId; })[0] : null;
+    if (editingId) {
+      if (oldPerson && oldPerson.date !== data.date) data.ord = null;
+      people = people.map(function (p) { return p.id === editingId ? Object.assign({}, p, data) : p; });
+    } else {
+      data.id = uid(); data.ideas = [];
+      people.push(data);
+    }
+    cancelEdit(); save(); render();
+  }
+  document.getElementById("pf-save").addEventListener("click", savePersonForm);
+  document.getElementById("pf-name").addEventListener("input", function () { dupConfirmed = false; });
+  /* ---------- gift order: default, reset, drag to reorder ---------- */
+  /* Default order is the order the page already showed: soonest occasion
+     date first, people with no date last. Each person keeps its spot in
+     an ord field (10, 20, 30...). Only the people cards reorder; the gift
+     ideas inside each person stay where they are. */
+  function defaultGiftOrder() {
+    return people.slice().sort(function (a, b) {
+      if (a.date && b.date) return a.date < b.date ? -1 : 1;
+      if (a.date) return -1; if (b.date) return 1; return 0;
+    });
+  }
+  function assignMissingGiftOrd() {
+    var order = defaultGiftOrder();
+    var used = {};
+    people.forEach(function (p) { if (p.ord != null) used[p.ord] = true; });
+    order.forEach(function (p) {
+      if (p.ord != null) return;
+      var idx = order.indexOf(p), prev = null, next = null;
+      for (var i = idx - 1; i >= 0; i--) { if (order[i].ord != null) { prev = order[i].ord; break; } }
+      for (var j = idx + 1; j < order.length; j++) { if (order[j].ord != null) { next = order[j].ord; break; } }
+      var ord;
+      if (prev != null && next != null) { ord = (prev + next) / 2; while (used[ord]) ord = (prev + ord) / 2; }
+      else if (prev != null) { ord = prev + 10; while (used[ord]) ord += 10; }
+      else if (next != null) { ord = next - 10; while (used[ord]) ord -= 10; }
+      else ord = 10;
+      p.ord = ord; used[ord] = true;
+    });
+  }
+  function resetGiftOrder() {
+    defaultGiftOrder().forEach(function (p, i) {
+      var ord = (i + 1) * 10;
+      if (p.ord !== ord) { p.ord = ord; touch(p); }
+    });
+    save(); render();
+  }
+  document.addEventListener("click", function (e) {
+    if (e.target && e.target.closest && e.target.closest("[data-giftreset]")) resetGiftOrder();
+  });
+  /* Press the ⋮⋮ grip on a person card and drag it to a new spot.
+     Pointer events, so it works with touch on the phone as well as a mouse.
+     A plain tap on the grip does nothing; a tap anywhere else still works. */
+  var giftDrag = null, giftDragEnd = 0;
+  function giftById(id) { for (var i = 0; i < people.length; i++) if (people[i].id === id) return people[i]; return null; }
+  function giftCardAt(x, y) {
+    var el = document.elementFromPoint(x, y);
+    var card = el && el.closest ? el.closest("[data-card]") : null;
+    if (!card) return null;
+    if (giftDrag && card === giftDrag.card) return null;
+    return card;
+  }
+  document.addEventListener("pointerdown", function (e) {
+    var h = e.target && e.target.closest ? e.target.closest(".draghandle") : null;
+    if (!h) return;
+    if (e.button != null && e.button > 0) return;
+    var card = h.closest("[data-card]");
+    if (!card) return;
+    giftDrag = { id: h.getAttribute("data-drag"), card: card, sx: e.clientX, sy: e.clientY, active: false };
+  });
+  document.addEventListener("pointermove", function (e) {
+    if (!giftDrag) return;
+    if (!giftDrag.active) {
+      if (Math.hypot(e.clientX - giftDrag.sx, e.clientY - giftDrag.sy) < 9) return;
+      giftDrag.active = true;
+      giftDrag.card.classList.add("dragging");
+    }
+    e.preventDefault();
+    var over = giftCardAt(e.clientX, e.clientY);
+    if (over) {
+      var r = over.getBoundingClientRect();
+      var before = (e.clientY - r.top) < r.height / 2;
+      var parent = over.parentNode;
+      if (before) parent.insertBefore(giftDrag.card, over);
+      else parent.insertBefore(giftDrag.card, over.nextSibling);
+    }
+  }, { passive: false });
+  document.addEventListener("pointerup", function (e) {
+    if (!giftDrag) return;
+    var d = giftDrag; giftDrag = null;
+    if (!d.active) return;
+    d.card.classList.remove("dragging");
+    giftDragEnd = Date.now();
+    var list = d.card.parentNode;
+    if (!list) return;
+    var ids = [];
+    Array.prototype.forEach.call(list.children, function (c) {
+      if (c.classList && c.classList.contains("card")) { var cid = c.getAttribute("data-card"); if (cid) ids.push(cid); }
+    });
+    ids.forEach(function (cid, i) {
+      var p = giftById(cid);
+      if (!p) return;
+      var ord = (i + 1) * 10;
+      if (p.ord !== ord) { p.ord = ord; touch(p); }
+    });
+    save(); render();
+  });
+  document.addEventListener("click", function (e) {
+    if (Date.now() - giftDragEnd < 400) { e.stopPropagation(); e.preventDefault(); }
+  }, true);
+  /* ===== Price watches (Part 4) ===== */
+  function findIdea(key) {
+    var parts = String(key || "").split(":");
+    var p = people.filter(function (x) { return x.id === parts[0]; })[0];
+    if (!p) return null;
+    var idea = (p.ideas || []).filter(function (x) { return x.id === parts[1]; })[0];
+    return idea ? { p: p, idea: idea } : null;
+  }
+  function applyPrice(idea, v) {
+    idea.priceNow = v;
+    if (idea.addedPrice == null) idea.addedPrice = v;
+    if (idea.priceBest == null || v < idea.priceBest) idea.priceBest = v;
+  }
+  function watchBadge(i) {
+    if (i.targetPrice != null && i.priceNow != null && i.priceNow <= i.targetPrice) return ' <span class="wbadge hit">🎉 Target hit!</span>';
+    if (i.priceNow != null && i.addedPrice != null && i.priceNow < i.addedPrice && i.priceNow === i.priceBest) return ' <span class="wbadge low">📉 New low!</span>';
+    return "";
+  }
+  function renderWatchStrip() {
+    var strip = document.getElementById("watchstrip");
+    if (!strip) return;
+    var rows = [];
+    people.forEach(function (p) {
+      (p.ideas || []).forEach(function (i) {
+        if (!i.watching) return;
+        var parts = [];
+        if (i.priceNow != null) parts.push("Now " + money(i.priceNow));
+        if (i.priceBest != null) parts.push("Best " + money(i.priceBest));
+        if (i.targetPrice != null) parts.push("Target " + money(i.targetPrice));
+        rows.push('<div class="wrow"><div class="grow"><b>' + esc(i.text) + '</b> <span class="wmeta">for ' + esc(p.name) + '</span><div class="watchline">🏷️ ' + parts.join(" · ") + watchBadge(i) + "</div></div>" +
+          (i.link ? '<a class="iconbtn" href="' + esc(i.link) + '" target="_blank" rel="noopener">🔗 View</a>' : "") + "</div>");
+      });
+    });
+    if (!rows.length) { strip.style.display = "none"; return; }
+    strip.style.display = "block";
+    document.getElementById("watchrows").innerHTML = rows.join("");
+  }
+  /* ===== Photos & sharing (Nest upgrade) =====
+     Photos mirror recipes.html: canvas downscale -> JPEG data URL,
+     cached in localStorage here, synced to users/{uid}/photos/{pid}
+     docs {item: "kind:itemId", data, ts} by the module script below.
+     Gift photos are keyed by idea id. Each photo is capped near 250KB
+     (900px at 0.75, stepping down). Sharing mirrors my-lists.html
+     sharedCollections: one nestShares doc per person, friend invites
+     resolved via emailLookup/usernames. */
+  function nestItems() { return people; }
+  function nestPhotoKeys() { var ks = []; people.forEach(function (p) { (p.ideas || []).forEach(function (i) { ks.push(i.id); }); }); return ks; }
+  function nestTitleOf(item) { return item.name || "Gift list"; }
+  function nestPhotoOf(item) {
+    var ph = "";
+    (item.ideas || []).some(function (i) { var s = nestPhotoFor(i.id); if (s) { ph = s; return true; } return false; });
+    return ph;
+  }
+  function nestPayloadOf(item) {
+    return {
+      person: item.name || "", occasion: item.occasion || "", date: item.date || "", budget: Number(item.budget) || 0,
+      ideas: (item.ideas || []).map(function (i) { return { text: i.text || "", price: Number(i.price) || 0, bought: !!i.bought }; })
+    };
+  }
+  function nestPayloadHtml(sh) {
+    var p = sh.payload || {};
+    var h = esc(p.occasion || "Just because") + (p.date ? " · 📅 " + fmtDate(p.date) : "") + (p.budget ? " · Budget " + money(p.budget) : "");
+    if ((p.ideas || []).length) {
+      h += "<ul>" + p.ideas.map(function (i) {
+        return "<li>" + (i.bought ? "✓ <s>" : "") + esc(i.text) + (i.bought ? "</s>" : "") + (i.price ? " · " + money(i.price) : "") + "</li>";
+      }).join("") + "</ul>";
+    } else h += "<br>No ideas on this list yet.";
+    return h;
+  }
+  var NEST_KIND = "gift", NEST_THING = "gift list", NEST_PHOTO_LS = "tydGiftPhotos";
+  var nestPhotos = {};
+  try { var npv = JSON.parse(localStorage.getItem(NEST_PHOTO_LS)); if (npv && typeof npv === "object" && !Array.isArray(npv)) nestPhotos = npv; } catch (e) {}
+  var nestUser = null, nestMyShares = {}, nestWithMe = [], nestPond = [], nestPondOff = false;
+  var nestOpen = null, nestMsg = "", nestHooks = null, nestBusy = false;
+  var nestFormPhoto = null, nestFormPhotoSet = false, nestHash = {};
+  function nestSavePhotos() { try { localStorage.setItem(NEST_PHOTO_LS, JSON.stringify(nestPhotos)); return true; } catch (e) { return false; } }
+  function nestPhotoFor(id) { var e = nestPhotos[id]; return e && e.s ? e.s : ""; }
+  function nestPhotoPid() { return "L" + Date.now().toString(36) + Math.random().toString(36).slice(2, 8); }
+  function nestChoosePhoto(cb) {
+    var inp = document.createElement("input");
+    inp.type = "file"; inp.accept = "image/*";
+    inp.addEventListener("change", function () {
+      var f = inp.files && inp.files[0]; if (!f) return;
+      var url = URL.createObjectURL(f), img = new Image();
+      img.onload = function () {
+        var w = img.naturalWidth || 900, h = img.naturalHeight || 900;
+        function enc(max, q) {
+          var sc = Math.min(1, max / Math.max(w, h));
+          var c = document.createElement("canvas");
+          c.width = Math.max(1, Math.round(w * sc)); c.height = Math.max(1, Math.round(h * sc));
+          c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+          return c.toDataURL("image/jpeg", q);
+        }
+        var data = enc(900, 0.75);
+        if (data.length > 340000) data = enc(680, 0.68);
+        if (data.length > 340000) data = enc(500, 0.6);
+        URL.revokeObjectURL(url);
+        cb(data);
+      };
+      img.onerror = function () { URL.revokeObjectURL(url); alert("That photo format would not load here. A regular photo or a screenshot works best."); };
+      img.src = url;
+    });
+    inp.click();
+  }
+  function nestSetPhoto(key, url) {
+    nestPhotos[key] = { p: nestPhotoPid(), s: url };
+    if (!nestSavePhotos()) alert("This device is short on room for photos, so this one may not stick around.");
+    if (nestHooks && nestHooks.photoUp) nestHooks.photoUp();
+    nestRefreshAll();
+  }
+  function nestRemovePhoto(key) {
+    var e = nestPhotos[key];
+    if (e && e.p && e.p.charAt(0) !== "L" && nestHooks && nestHooks.photoDel) nestHooks.photoDel(e.p);
+    delete nestPhotos[key];
+    nestSavePhotos();
+    nestRefreshAll();
+  }
+  function nestShareDocFor(item, level, cur) {
+    return {
+      owner: nestUser ? nestUser.uid : "", ownerName: nestUser ? nestUser.name : "",
+      kind: NEST_KIND, itemId: item.id, title: nestTitleOf(item), photo: nestPhotoOf(item),
+      payload: nestPayloadOf(item), visibility: level,
+      members: cur ? (cur.members || []) : [], memberNames: cur ? (cur.memberNames || []) : [],
+      updatedAt: Date.now()
+    };
+  }
+  function nestRefreshShare(item) {
+    if (!nestUser || !nestHooks) return;
+    var cur = nestMyShares[item.id];
+    if (!cur || !cur.shareId) return;
+    var doc = nestShareDocFor(item, cur.visibility, cur);
+    var h = JSON.stringify([doc.title, doc.photo ? doc.photo.length : 0, doc.payload]);
+    if (nestHash[item.id] === h) return;
+    nestHash[item.id] = h;
+    nestHooks.update(cur.shareId, { title: doc.title, photo: doc.photo, payload: doc.payload, updatedAt: doc.updatedAt }, function () {});
+  }
+  function nestRefreshAll() {
+    if (nestBusy) return;
+    nestBusy = true;
+    try {
+      var items = nestItems(), alive = {};
+      items.forEach(function (it) { alive[it.id] = it; nestRefreshShare(it); });
+      if (nestUser && nestHooks) {
+        Object.keys(nestMyShares).forEach(function (iid) {
+          if (!alive[iid]) { var sh = nestMyShares[iid]; delete nestMyShares[iid]; if (sh.shareId) { nestCmtForget(sh.shareId); nestHooks.del(sh.shareId, function () {}); } }
+        });
+      }
+      var keys = nestPhotoKeys();
+      Object.keys(nestPhotos).forEach(function (k) { if (keys.indexOf(k) === -1) nestRemovePhoto(k); });
+    } catch (e) {}
+    nestBusy = false;
+  }
+  function nestSetLevel(item, level) {
+    if (!nestUser || !nestHooks) return;
+    var cur = nestMyShares[item.id];
+    nestMsg = "";
+    if (level === "private") {
+      if (cur && cur.shareId) {
+        delete nestMyShares[item.id];
+        nestCmtForget(cur.shareId);
+        nestHooks.del(cur.shareId, function (ok) { nestMsg = ok ? "Sharing turned off. This one is just yours again. 🔒" : "That did not save. Try again in a moment."; nestAfterRender(); });
+      }
+      nestAfterRender();
+      return;
+    }
+    var doc = nestShareDocFor(item, level, cur);
+    if (cur && cur.shareId) {
+      nestHooks.update(cur.shareId, { visibility: level, title: doc.title, photo: doc.photo, payload: doc.payload, updatedAt: doc.updatedAt }, function (ok) { nestMsg = ok ? "Sharing updated. 🦆" : "That did not save. Try again in a moment."; nestAfterRender(); });
+    } else {
+      doc.createdAt = Date.now();
+      nestHooks.create(doc, function (ok, id) {
+        if (ok && id) {
+          doc.shareId = id;
+          nestMyShares[item.id] = doc;
+          nestHash[item.id] = JSON.stringify([doc.title, doc.photo ? doc.photo.length : 0, doc.payload]);
+          nestMsg = "Shared! 🦆";
+        } else nestMsg = "Sharing is still switching on. Try again in a little while.";
+        nestAfterRender();
+      });
+    }
+    nestAfterRender();
+  }
+  function nestAddFriend(item, raw) {
+    if (!nestHooks) return;
+    var cur = nestMyShares[item.id];
+    if (!cur || !cur.shareId) return;
+    nestMsg = "Looking them up…";
+    nestAfterRender();
+    nestHooks.resolve(raw, function (res) {
+      if (res && res.error) { nestMsg = res.error; nestAfterRender(); return; }
+      if (!res || res.notfound) { nestMsg = "No Pond account with that email or username yet. They can join free, pick a username, and then you can share with them."; nestAfterRender(); return; }
+      if (nestUser && res.uid === nestUser.uid) { nestMsg = "That is you, duckling."; nestAfterRender(); return; }
+      var members = (cur.members || []).slice(), names = (cur.memberNames || []).slice();
+      if (members.indexOf(res.uid) > -1) { nestMsg = "@" + res.name + " is already in."; nestAfterRender(); return; }
+      members.push(res.uid); names.push(res.name);
+      nestHooks.update(cur.shareId, { members: members, memberNames: names, updatedAt: Date.now() }, function (ok) {
+        if (ok) { cur.members = members; cur.memberNames = names; nestMsg = "Added @" + res.name + ". 👥"; }
+        else nestMsg = "That did not save. Try again in a moment.";
+        nestAfterRender();
+      });
+    });
+  }
+  function nestRemoveFriend(item, uidToGo) {
+    var cur = nestMyShares[item.id];
+    if (!cur || !cur.shareId || !nestHooks) return;
+    var members = [], names = [];
+    (cur.members || []).forEach(function (m, i) { if (m !== uidToGo) { members.push(m); names.push((cur.memberNames || [])[i] || "friend"); } });
+    nestHooks.update(cur.shareId, { members: members, memberNames: names, updatedAt: Date.now() }, function (ok) {
+      if (ok) { cur.members = members; cur.memberNames = names; nestMsg = "Removed. They will not see this one anymore."; }
+      else nestMsg = "That did not save. Try again in a moment.";
+      nestAfterRender();
+    });
+  }
+  function nestItemById(id) { var f = nestItems().filter(function (x) { return x.id === id; }); return f[0] || null; }
+  function nestPanelHtml(item) {
+    var cur = nestMyShares[item.id];
+    var level = cur ? cur.visibility : "private";
+    function lvb(lv, label) { return '<button type="button" class="sharelv' + (level === lv ? " on" : "") + '" data-lv="' + lv + '" data-item="' + item.id + '">' + label + "</button>"; }
+    var h = '<div class="sharepanel"><div class="shareptitle">Share this ' + NEST_THING + "</div>" +
+      '<div class="sharelvs">' + lvb("private", "🔒 Private") + lvb("friends", "👥 Shared with friends") + lvb("pond", "🦆 Shared with the Pond") + "</div>" + '<p class="sharehint" style="margin-top:2px;">Currently: <b>' + (level === "pond" ? "🦆 Shared with the Pond" : level === "friends" ? "👥 Shared with friends" : "🔒 Private") + "</b></p>";
+    if (level === "friends" && cur) {
+      var chips = (cur.members || []).map(function (m, i) {
+        return '<span class="mchip">@' + esc((cur.memberNames || [])[i] || "friend") + ' <button type="button" data-frmem="' + m + '" data-item="' + item.id + '" aria-label="Remove">×</button></span>';
+      }).join("");
+      h += '<div class="mchips">' + (chips || '<span class="sharehint">No friends added yet.</span>') + "</div>" +
+        '<form class="fadd" data-fadd="' + item.id + '"><input type="text" placeholder="Friend email or @username" aria-label="Friend email or username"><button type="submit" class="iconbtn">Add</button></form>';
+    }
+    if (level === "friends") h += '<p class="sharehint">Friends can view this, not edit it.</p>';
+    if (level === "pond") h += '<p class="sharehint">Everyone in the Pond can view this, not edit it.</p>';
+    if (level === "private") h += '<p class="sharehint">Just you. Nobody else can see it.</p>';
+    if (nestMsg) h += '<p class="sharemsg">' + esc(nestMsg) + "</p>";
+    h += "</div>";
+    return h;
+  }
+  function nestAfterRender() {
+    document.querySelectorAll("[data-sharebtn]").forEach(function (b) { b.style.display = nestUser ? "" : "none"; });
+    document.querySelectorAll("[data-sharebadge]").forEach(function (s) {
+      var sh = nestMyShares[s.getAttribute("data-sharebadge")];
+      s.textContent = sh ? (sh.visibility === "pond" ? " · 🦆 Shared with the Pond" : " · 👥 Shared with friends") : "";
+    });
+    document.querySelectorAll("[data-sharehost]").forEach(function (hostEl) {
+      var iid = hostEl.getAttribute("data-sharehost");
+      if (nestOpen !== iid) { if (hostEl.innerHTML) hostEl.innerHTML = ""; return; }
+      if (hostEl.contains(document.activeElement) && document.activeElement && document.activeElement.tagName === "INPUT") return;
+      var item = nestItemById(iid);
+      if (item) hostEl.innerHTML = nestPanelHtml(item);
+    });
+    nestPaintAllCmt();
+  }
+
+  /* ===== Comments on shared items (nestComments) =====
+     Threads hang off nestShares snapshots: anyone who can see a share
+     (specific friends, or the whole Pond) can read its thread, and
+     signed-in viewers can post. Each comment doc carries a visibility /
+     members snapshot of the share at post time. Rules for nestComments
+     publish separately; until they land, every call fails soft (counts
+     hide, threads show a gentle note, nothing crashes). */
+  var LUCY_UID = "1hbpZnS7gfPd0ptzygwiaDBfjo63";
+  var nestCmtHooks = null, nestCmt = {}, nestCmtWatch = {}, nestCmtMeta = {};
+  function nestCmtState(id) {
+    if (!nestCmt[id]) nestCmt[id] = { count: null, countTried: false, open: false, list: null, denied: false };
+    return nestCmt[id];
+  }
+  function nestCmtRegister(sh) { if (sh && sh.shareId) nestCmtMeta[sh.shareId] = sh; }
+  function nestRelTime(ts) {
+    var s = Math.max(0, Math.floor((Date.now() - (ts || 0)) / 1000));
+    if (s < 60) return "just now";
+    var m = Math.floor(s / 60); if (m < 60) return m + (m === 1 ? " min ago" : " mins ago");
+    var h = Math.floor(m / 60); if (h < 24) return h + (h === 1 ? " hr ago" : " hrs ago");
+    var d = Math.floor(h / 24); if (d < 7) return d + (d === 1 ? " day ago" : " days ago");
+    try { return new Date(ts).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" }); } catch (e) { return ""; }
+  }
+  function nestCmtCanDel(c, sh) {
+    if (!nestUser) return false;
+    return nestUser.uid === LUCY_UID || c.author === nestUser.uid || (sh && sh.owner === nestUser.uid);
+  }
+  function nestCmtThreadHtml(sh, st) {
+    if (st.denied) return '<p class="cmtnote">Comments are still switching on. Try again in a little while. 🦆</p>';
+    if (!st.list) return '<p class="cmtnote">Loading comments…</p>';
+    var h = "";
+    // Blocked members (Lucy, Nov 12, 2026): their comments never render.
+    var visList = (st.list || []).filter(function (c) { return !(window.TYDBlock && window.TYDBlock.isBlocked(c.author)); });
+    // Friends-only filter (Lucy, Nov 12, 2026): hide comments from anyone who is not a Pond friend (your own always show).
+    if (window.TYDFriends) visList = visList.filter(function (c) { return window.TYDFriends.passes(c.author, nestUser && nestUser.uid); });
+    if (nestUser && window.TYDFriends) h += window.TYDFriends.toggleHtml();
+    if (!visList.length) h += (nestUser && window.TYDFriends && window.TYDFriends.getFilter() === "friends") ? '<p class="cmtnote">No comments from Pond friends yet.</p>' : '<p class="cmtnote">No comments yet. Start the conversation! 💬</p>';
+    h += visList.map(function (c) {
+      return '<div class="cmtrow"><div class="cmtmeta"><span class="tydprof" data-profile-uid="' + esc(c.author || "") + '">@' + esc(c.authorName || "Pond friend") + '</span> · ' + nestRelTime(c.createdAt) +
+        (nestCmtCanDel(c, sh) ? '<button type="button" class="iconbtn del cmtdel" data-cmtdel="' + c.id + '" data-cmtshare="' + sh.shareId + '">Delete</button>' : "") +
+        '</div><div class="cmttext">' + esc(c.text || "") + "</div></div>";
+    }).join("");
+    if (nestUser) h += '<form class="cmtform" data-cmtform="' + sh.shareId + '"><input type="text" maxlength="500" placeholder="Write a comment..." aria-label="Write a comment"><button type="submit" class="iconbtn">Post</button></form>';
+    else h += '<p class="cmtnote"><a href="account.html">Sign in</a> to comment.</p>';
+    return h;
+  }
+  function nestCmtInner(sh) {
+    var st = nestCmtState(sh.shareId);
+    // Friends-only filter (Lucy, Nov 12, 2026): the count follows the filter once the thread has loaded.
+    var shownCount = st.count;
+    if (st.list && window.TYDFriends) shownCount = st.list.filter(function (c) { return !(window.TYDBlock && window.TYDBlock.isBlocked(c.author)) && window.TYDFriends.passes(c.author, nestUser && nestUser.uid); }).length;
+    var h = '<button type="button" class="iconbtn" data-cmttoggle="' + sh.shareId + '">💬 Comments' + (shownCount != null ? " (" + shownCount + ")" : "") + "</button>";
+    if (st.open) h += '<div class="cmtthread">' + nestCmtThreadHtml(sh, st) + "</div>";
+    return h;
+  }
+  function nestCmtBlock(sh) { nestCmtRegister(sh); return '<div class="nestcmt" data-cmt="' + sh.shareId + '">' + nestCmtInner(sh) + "</div>"; }
+  function nestPaintCmt(id) {
+    var sh = nestCmtMeta[id];
+    if (!sh) return;
+    document.querySelectorAll('[data-cmt="' + id + '"]').forEach(function (el) {
+      if (el.contains(document.activeElement) && document.activeElement && document.activeElement.tagName === "INPUT") return;
+      el.innerHTML = nestCmtInner(sh);
+    });
+    var st = nestCmtState(id);
+    if (st.count == null && !st.countTried && !st.open && nestCmtHooks && document.querySelector('[data-cmt="' + id + '"]')) {
+      st.countTried = true;
+      nestCmtHooks.count(id, function (n) { if (n != null) { st.count = n; nestPaintCmt(id); } });
+    }
+  }
+  function nestPaintAllCmt() {
+    document.querySelectorAll("[data-cmtown]").forEach(function (hostEl) {
+      var iid = hostEl.getAttribute("data-cmtown");
+      var sh = nestMyShares[iid];
+      if (!sh || !sh.shareId) { if (hostEl.innerHTML) hostEl.innerHTML = ""; hostEl.removeAttribute("data-cmtfor"); return; }
+      nestCmtRegister(sh);
+      if (hostEl.getAttribute("data-cmtfor") !== sh.shareId) { hostEl.setAttribute("data-cmtfor", sh.shareId); hostEl.innerHTML = nestCmtBlock(sh); }
+    });
+    Object.keys(nestCmtMeta).forEach(function (id) { nestPaintCmt(id); });
+  }
+  function nestCmtStartWatch(sh) {
+    var id = sh.shareId, st = nestCmtState(id);
+    if (nestCmtWatch[id]) return;
+    if (!nestCmtHooks) { st.denied = true; return; }
+    nestCmtWatch[id] = nestCmtHooks.watch(id, function (list) {
+      if (!list) { st.denied = true; st.list = null; nestPaintCmt(id); return; }
+      st.denied = false;
+      list.sort(function (a, b) { return (a.createdAt || 0) - (b.createdAt || 0); });
+      // Blocked members (Lucy, Nov 12, 2026): filtered at ingest so the count is right too.
+      var vis = list.filter(function (c) { return !(window.TYDBlock && window.TYDBlock.isBlocked(c.author)); });
+      st.list = vis; st.count = vis.length;
+      nestPaintCmt(id);
+    });
+  }
+  function nestCmtStopWatch(id) {
+    if (nestCmtWatch[id]) { try { nestCmtWatch[id](); } catch (e) {} delete nestCmtWatch[id]; }
+  }
+  function nestCmtForget(id) {
+    nestCmtStopWatch(id);
+    delete nestCmt[id]; delete nestCmtMeta[id];
+    if (nestCmtHooks) nestCmtHooks.cleanup(id);
+  }
+  document.addEventListener("click", function (e) {
+    if (!e.target.closest) return;
+    var tg = e.target.closest("[data-cmttoggle]");
+    if (tg) {
+      var id1 = tg.getAttribute("data-cmttoggle"), sh1 = nestCmtMeta[id1];
+      if (!sh1) return;
+      var st1 = nestCmtState(id1);
+      st1.open = !st1.open;
+      if (st1.open) nestCmtStartWatch(sh1); else nestCmtStopWatch(id1);
+      nestPaintCmt(id1);
+      return;
+    }
+    var dl = e.target.closest("[data-cmtdel]");
+    if (dl) {
+      var cid = dl.getAttribute("data-cmtdel"), sid = dl.getAttribute("data-cmtshare");
+      var st2 = nestCmtState(sid);
+      if (st2.list) { st2.list = st2.list.filter(function (c) { return c.id !== cid; }); st2.count = st2.list.length; }
+      nestPaintCmt(sid);
+      if (nestCmtHooks) nestCmtHooks.del(cid, function () {});
+    }
+  });
+  document.addEventListener("submit", function (e) {
+    if (!e.target.closest) return;
+    var f = e.target.closest("[data-cmtform]");
+    if (!f) return;
+    e.preventDefault();
+    var id2 = f.getAttribute("data-cmtform"), sh2 = nestCmtMeta[id2];
+    var inp = f.querySelector("input");
+    if (!sh2 || !inp || !nestUser || !nestCmtHooks) return;
+    var text = inp.value.trim().slice(0, 500);
+    if (!text) return;
+    var data = {
+      shareId: id2, shareOwner: sh2.owner || "", kind: NEST_KIND,
+      author: nestUser.uid, authorName: nestUser.name || "Pond friend",
+      text: text, visibility: sh2.visibility || "pond",
+      members: (sh2.members || []).slice(), createdAt: Date.now()
+    };
+    inp.value = "";
+    if (inp.blur) inp.blur();
+    nestCmtHooks.post(data, function (ok, why) { if (!ok) alert(why === "badword" ? "That comment includes a word we don't allow in the Pond. Please reword it and try again." : "That comment did not post. Comments may still be switching on, try again in a little while."); nestPaintCmt(id2); });
+  });
+
+  function nestShareCardHtml(sh) {
+    nestCmtRegister(sh);
+    return '<div class="card sharecard">' +
+      (sh.photo ? '<img class="sharephoto" src="' + sh.photo + '" alt="">' : "") +
+      '<div class="sharehead"><b>' + esc(sh.title || "Shared") + '</b> <span class="sharefrom">Shared by <span class="tydprof" data-profile-uid="' + esc(sh.owner || "") + '">@' + esc(sh.ownerName || "a Pond friend") + '</span> · view only</span> <span class="sharebadgevis">' + (sh.visibility === "pond" ? "🦆 Shared with the Pond" : "👥 Shared with friends") + "</span></div>" +
+      '<div class="sharebody">' + nestPayloadHtml(sh) + "</div>" + nestCmtBlock(sh) + "</div>";
+  }
+  // Friends-only mode (Lucy, Nov 12, 2026): when it is on, shares from
+  // members who are not Pond friends never render. Own shares always show.
+  function foShare(s) {
+    if (!window.TYDFriendsOnly) return true;
+    return window.TYDFriendsOnly.passes(s.owner, nestUser && nestUser.uid);
+  }
+  function renderShareSections() {
+    var a = document.getElementById("shared-with-me"), b = document.getElementById("pond-shares");
+    function typingIn(el) { return el && el.contains(document.activeElement) && document.activeElement && document.activeElement.tagName === "INPUT"; }
+    // Blocked members (Lucy, Nov 12, 2026): their shares never render.
+    var showMe = nestWithMe.filter(function (s) { return !(window.TYDBlock && window.TYDBlock.isBlocked(s.owner)) && foShare(s); });
+    var showPond = nestPond.filter(function (s) { return !(window.TYDBlock && window.TYDBlock.isBlocked(s.owner)) && foShare(s); });
+    if (a && !typingIn(a)) a.innerHTML = showMe.length ? '<h3 class="zonehead">🤝 Shared with me</h3>' + showMe.map(nestShareCardHtml).join("") : "";
+    if (b && !typingIn(b)) b.innerHTML = showPond.length ? '<h3 class="zonehead">🦆 From the Pond</h3>' + showPond.map(nestShareCardHtml).join("") : "";
+  }
+  // A block or unblock hides (or brings back) shares and comments right away.
+  window.addEventListener("tyd-block-changed", function () {
+    renderShareSections();
+    Object.keys(nestCmt).forEach(function (id) {
+      var st = nestCmt[id];
+      if (st && st.list) {
+        st.list = st.list.filter(function (c) { return !(window.TYDBlock && window.TYDBlock.isBlocked(c.author)); });
+        st.count = st.list.filter(function (c) { return window.TYDFriends ? window.TYDFriends.passes(c.author, nestUser && nestUser.uid) : true; }).length;
+      }
+    });
+    nestPaintAllCmt();
+  });
+  // Friends-only comment filter (Lucy, Nov 12, 2026): re-paint threads when the filter or the friends list changes.
+  window.addEventListener("tyd-comment-filter-changed", function () { nestPaintAllCmt(); renderShareSections(); });
+  window.addEventListener("tyd-friends-changed", function () { nestPaintAllCmt(); renderShareSections(); });
+  window.addEventListener("tyd-friends-only-changed", function () { renderShareSections(); });
+  document.addEventListener("click", function (e) {
+    if (!e.target.closest) return;
+    var sb = e.target.closest("[data-sharebtn]");
+    if (sb) { var i1 = sb.getAttribute("data-sharebtn"); nestOpen = nestOpen === i1 ? null : i1; nestMsg = ""; nestAfterRender(); return; }
+    var lv = e.target.closest("[data-lv]");
+    if (lv) { var it1 = nestItemById(lv.getAttribute("data-item")); if (it1) nestSetLevel(it1, lv.getAttribute("data-lv")); return; }
+    var rm = e.target.closest("[data-frmem]");
+    if (rm) { var it2 = nestItemById(rm.getAttribute("data-item")); if (it2) nestRemoveFriend(it2, rm.getAttribute("data-frmem")); return; }
+  });
+  document.addEventListener("submit", function (e) {
+    if (!e.target.closest) return;
+    var f = e.target.closest("[data-fadd]");
+    if (!f) return;
+    e.preventDefault();
+    var it3 = nestItemById(f.getAttribute("data-fadd"));
+    var inp = f.querySelector("input");
+    if (it3 && inp && inp.value.trim()) nestAddFriend(it3, inp.value.trim());
+  });
+  function nestFormPhotoRender() {
+    var im = document.getElementById("fp-preview"), nn = document.getElementById("fp-none"), rm = document.getElementById("fp-remove"), pk = document.getElementById("fp-pick");
+    if (!im || !pk) return;
+    if (nestFormPhoto) { im.src = nestFormPhoto; im.style.display = "block"; if (nn) nn.style.display = "none"; if (rm) rm.style.display = ""; pk.textContent = "📷 Change photo"; }
+    else { im.removeAttribute("src"); im.style.display = "none"; if (nn) nn.style.display = ""; if (rm) rm.style.display = "none"; pk.textContent = "📷 Add a photo"; }
+  }
+  function nestFormPhotoLoad(itemId) { nestFormPhoto = nestPhotoFor(itemId) || null; nestFormPhotoSet = false; nestFormPhotoRender(); }
+  function nestFormPhotoReset() { nestFormPhoto = null; nestFormPhotoSet = false; nestFormPhotoRender(); }
+  function nestFormPhotoApply(itemId) { if (!nestFormPhotoSet || !itemId) return; if (nestFormPhoto) nestSetPhoto(itemId, nestFormPhoto); else nestRemovePhoto(itemId); nestFormPhotoSet = false; }
+  (function () {
+    var pk = document.getElementById("fp-pick"), rm = document.getElementById("fp-remove");
+    if (pk) pk.addEventListener("click", function () { nestChoosePhoto(function (url) { nestFormPhoto = url; nestFormPhotoSet = true; nestFormPhotoRender(); }); });
+    if (rm) rm.addEventListener("click", function () { nestFormPhoto = null; nestFormPhotoSet = true; nestFormPhotoRender(); });
+  })();
+  var nestSave0 = save;
+  save = function () { nestSave0(); nestRefreshAll(); };
+  var nestRender0 = render;
+  render = function () { nestRender0(); nestAfterRender(); renderShareSections(); };
+  window.TYDNest = {
+    kind: NEST_KIND,
+    setUser: function (u) { nestUser = u; if (!u) nestMyShares = {}; nestAfterRender(); renderShareSections(); if (u) nestRefreshAll(); },
+    setMyShares: function (list) { nestMyShares = {}; (list || []).forEach(function (s) { if (s && s.itemId) nestMyShares[s.itemId] = s; }); nestAfterRender(); },
+    setWithMe: function (list) { nestWithMe = list || []; renderShareSections(); },
+    setPond: function (list) { if (!nestPondOff) { nestPond = list || []; renderShareSections(); } },
+    setPondError: function () { nestPondOff = true; nestPond = []; renderShareSections(); },
+    setHooks: function (h) { nestHooks = h; nestRefreshAll(); },
+    setCmtHooks: function (h) { nestCmtHooks = h; Object.keys(nestCmt).forEach(function (id) { var st = nestCmt[id]; if (st.open) { st.denied = false; var sh = nestCmtMeta[id]; if (sh) nestCmtStartWatch(sh); } }); nestPaintAllCmt(); },
+    mergePhotos: function (remote) {
+      var merged = {};
+      Object.keys(remote || {}).forEach(function (k) { merged[k] = remote[k]; });
+      Object.keys(nestPhotos).forEach(function (k) { if (!merged[k]) merged[k] = nestPhotos[k]; });
+      nestPhotos = merged;
+      nestSavePhotos();
+      render();
+      if (nestHooks && nestHooks.photoUp) nestHooks.photoUp();
+    },
+    localPhotoEntries: function () { return Object.keys(nestPhotos).map(function (k) { return { itemId: k, entry: nestPhotos[k] }; }); },
+    photosSaved: function () { nestSavePhotos(); }
+  };
+  window.TYDPage = {
+    fields: ["gifts"],
+    snapshot: function () { return { gifts: JSON.parse(JSON.stringify(people)) }; },
+    mergeRemote: function (remote) {
+      var r = (remote && Array.isArray(remote.gifts)) ? remote.gifts : [];
+      var byId = {};
+      people.forEach(function (p) { byId[p.id] = p; });
+      r.forEach(function (rp) {
+        if (!rp || !rp.id) return;
+        if (!byId[rp.id] || (rp.updatedAt || 0) > (byId[rp.id].updatedAt || 0)) byId[rp.id] = rp;
+      });
+      people = Object.keys(byId).map(function (k) { return byId[k]; });
+      save(); render();
+    },
+    onAuth: function () {}
+  };
+  render();
+})();
+</script>
+<script type="module">
+(function () {
+  var cfg = { apiKey: "preview-disabled", authDomain: "pond-preview-disabled.firebaseapp.com", projectId: "pond-preview-disabled", storageBucket: "pond-preview-disabled.firebasestorage.app", messagingSenderId: "000000000000", appId: "1:000000000000:web:previewdisabled" };
+  Promise.all([
+    import("./pond-firebase-stub.js"),
+    import("./pond-firebase-stub.js"),
+    import("./pond-firebase-stub.js")
+  ]).then(function (mods) {
+    var app;
+    try { app = mods[0].getApp(); } catch (e) { app = mods[0].initializeApp(cfg); }
+    var auth = mods[1].getAuth(app);
+    var db = mods[2].getFirestore(app);
+    var F = mods[2];
+    var uid = null, ready = false, pushT = null;
+    window.TYDPageChanged = function () {
+      if (!uid || !ready || !window.TYDPage) return;
+      clearTimeout(pushT);
+      pushT = setTimeout(function () {
+        if (!uid || !window.TYDPage) return;
+        F.setDoc(F.doc(db, "users", uid), window.TYDPage.snapshot(), { merge: true }).catch(function () {});
+      }, 500);
+    };
+    mods[1].onAuthStateChanged(auth, function (user) {
+      var note = document.getElementById("sync-note");
+      if (!user) {
+        uid = null; ready = false;
+        if (window.TYDPage && window.TYDPage.onAuth) window.TYDPage.onAuth(null);
+        if (note) note.innerHTML = 'Saved on this device. <a href="account.html">Sign in to sync</a> it to your Pond Account.';
+        return;
+      }
+      uid = user.uid;
+      F.getDoc(F.doc(db, "users", uid)).then(function (snap) {
+        if (window.TYDPage) window.TYDPage.mergeRemote(snap.exists() ? snap.data() : {});
+        ready = true;
+        if (window.TYDPageChanged) window.TYDPageChanged();
+        if (window.TYDPage && window.TYDPage.onAuth) window.TYDPage.onAuth({ email: user.email || "" });
+        if (note) note.textContent = "Synced to your Pond Account, so your gift plans follow you across your devices. 🦆";
+      }).catch(function () { ready = true; });
+    });
+  }).catch(function () {});
+})();
+</script>
+<script type="module">
+  /* Nest sharing + corner photos. Mirrors recipes.html (photos as data
+     URLs in users/{uid}/photos) and my-lists.html (shared-collection
+     watchers + invite resolution via emailLookup / usernames). */
+  import { initializeApp, getApp } from "./pond-firebase-stub.js";
+  import { getAuth, onAuthStateChanged } from "./pond-firebase-stub.js";
+  import { getFirestore, doc, getDoc, setDoc, collection, addDoc, updateDoc, deleteDoc, getDocs, query, where, onSnapshot } from "./pond-firebase-stub.js";
+  var cfg = { apiKey: "preview-disabled", authDomain: "pond-preview-disabled.firebaseapp.com", projectId: "pond-preview-disabled", storageBucket: "pond-preview-disabled.firebasestorage.app", messagingSenderId: "000000000000", appId: "1:000000000000:web:previewdisabled" };
+  var app; try { app = getApp(); } catch (e) { app = initializeApp(cfg); }
+  var auth = getAuth(app), db = getFirestore(app);
+  var N = window.TYDNest;
+  var KIND = N ? N.kind : "";
+  var curUid = null, unsubs = [];
+  async function hashEmail(email) {
+    var buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(email));
+    return Array.from(new Uint8Array(buf)).map(function (b) { return b.toString(16).padStart(2, "0"); }).join("");
+  }
+  function upPhotos() {
+    if (!curUid || !N) return;
+    N.localPhotoEntries().forEach(function (en) {
+      if (!en.entry.p || en.entry.p.charAt(0) !== "L") return;
+      var np = "p" + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+      en.entry.p = np;
+      setDoc(doc(db, "users", curUid, "photos", np), { item: KIND + ":" + en.itemId, data: en.entry.s, ts: Date.now() })
+        .then(function () { N.photosSaved(); }).catch(function () {});
+    });
+  }
+  function pullPhotos(uid) {
+    getDocs(collection(db, "users", uid, "photos")).then(function (qs) {
+      var map = {};
+      qs.forEach(function (d) { var v = d.data(); if (v && v.item && v.item.indexOf(KIND + ":") === 0 && v.data) map[v.item.slice(KIND.length + 1)] = { p: d.id, s: v.data }; });
+      N.mergePhotos(map);
+    }).catch(function () {});
+  }
+  function watch(q, fn, errFn) {
+    return onSnapshot(q, function (qs) { var out = []; qs.forEach(function (d) { var v = d.data(); v.shareId = d.id; out.push(v); }); fn(out); }, errFn || function () {});
+  }
+  function startWatchers(uid) {
+    unsubs.push(watch(query(collection(db, "nestShares"), where("owner", "==", uid)), function (list) { N.setMyShares(list.filter(function (s) { return s.kind === KIND; })); }));
+    unsubs.push(watch(query(collection(db, "nestShares"), where("members", "array-contains", uid)), function (list) { N.setWithMe(list.filter(function (s) { return s.kind === KIND && s.owner !== uid; })); }));
+    unsubs.push(watch(query(collection(db, "nestShares"), where("visibility", "==", "pond")), function (list) { N.setPond(list.filter(function (s) { return s.kind === KIND && s.owner !== uid; })); }, function () { N.setPondError(); }));
+  }
+  function startPondOnly() {
+    unsubs.push(onSnapshot(query(collection(db, "nestShares"), where("visibility", "==", "pond")), function (qs) {
+      var out = [];
+      qs.forEach(function (d) { var v = d.data(); v.shareId = d.id; if (v.kind === KIND && v.owner !== curUid) out.push(v); });
+      N.setPond(out);
+    }, function () { N.setPondError(); }));
+  }
+  if (N) {
+    N.setHooks({
+      create: function (data, cb) { addDoc(collection(db, "nestShares"), data).then(function (r) { cb(true, r.id); }).catch(function () { cb(false); }); },
+      update: function (id, fields, cb) { updateDoc(doc(db, "nestShares", id), fields).then(function () { cb(true); }).catch(function () { cb(false); }); },
+      del: function (id, cb) { deleteDoc(doc(db, "nestShares", id)).then(function () { cb(true); }).catch(function () { cb(false); }); },
+      resolve: async function (raw, cb) {
+        try {
+          var v = (raw || "").trim();
+          var uid = null, name = "";
+          if (v.indexOf("@") > -1 && v.indexOf(".") > -1 && v.charAt(0) !== "@") {
+            var h = await hashEmail(v.toLowerCase());
+            var lk = await getDoc(doc(db, "emailLookup", h));
+            if (lk.exists()) { uid = lk.data().uid; name = lk.data().username || ""; }
+          } else {
+            var un = v.replace(/^@/, "").toLowerCase();
+            var ud = await getDoc(doc(db, "usernames", un));
+            if (ud.exists()) {
+              uid = ud.data().uid;
+              var prof = await getDoc(doc(db, "profiles", uid));
+              name = prof.exists() ? (prof.data().username || un) : un;
+            }
+          }
+          if (!uid) { cb({ notfound: true }); return; }
+          if (!name) { var p2 = await getDoc(doc(db, "profiles", uid)); name = p2.exists() ? (p2.data().username || "friend") : "friend"; }
+          cb({ uid: uid, name: name });
+        } catch (e) { cb({ notfound: true }); }
+      },
+      photoUp: function () { upPhotos(); },
+      photoDel: function (pid) { if (curUid) deleteDoc(doc(db, "users", curUid, "photos", pid)).catch(function () {}); }
+    });
+    if (N.setCmtHooks) N.setCmtHooks({
+      count: function (shareId, cb) { getDocs(query(collection(db, "nestComments"), where("shareId", "==", shareId))).then(function (qs) { cb(qs.size); }).catch(function () { cb(null); }); },
+      watch: function (shareId, cb) { return onSnapshot(query(collection(db, "nestComments"), where("shareId", "==", shareId)), function (qs) { var out = []; qs.forEach(function (d) { var v = d.data(); v.id = d.id; out.push(v); }); cb(out); }, function () { cb(null); }); },
+      post: function (data, cb) { if (window.TYDBadWords && TYDBadWords.test(data.text || "")) { cb(false, "badword"); return; } addDoc(collection(db, "nestComments"), data).then(function () { cb(true); }).catch(function () { cb(false); }); },
+      del: function (id, cb) { deleteDoc(doc(db, "nestComments", id)).then(function () { cb(true); }).catch(function () { cb(false); }); },
+      cleanup: function (shareId) { getDocs(query(collection(db, "nestComments"), where("shareId", "==", shareId))).then(function (qs) { qs.forEach(function (d) { deleteDoc(d.ref).catch(function () {}); }); }).catch(function () {}); }
+    });
+  }
+  onAuthStateChanged(auth, function (user) {
+    unsubs.forEach(function (u) { try { u(); } catch (e) {} });
+    unsubs = [];
+    if (!N) return;
+    if (!user) { curUid = null; N.setUser(null); startPondOnly(); return; }
+    curUid = user.uid;
+    (async function () {
+      var name = (user.email || "").split("@")[0] || "A Pond friend";
+      try { var prof = await getDoc(doc(db, "profiles", user.uid)); if (prof.exists() && prof.data().username) name = prof.data().username; } catch (e) {}
+      N.setUser({ uid: user.uid, name: name });
+      pullPhotos(user.uid);
+      startWatchers(user.uid);
+    })();
+  });
+</script>
+<script src="badwords.js"></script>
+<script src="site-nav.js?v=372"></script>
+<script src="pull-refresh.js?v=341"></script>
+<script type="module">
+/* Saved helper chats: users/{uid}.helperChats (newest first, capped at 20),
+   following the same users-doc pattern as the rest of the Pond (default-app
+   reuse, setDoc with merge). This module also paints the page's own #acctpill
+   bar when one exists: auth-pill.js deliberately skips #acctpill whenever the
+   site-nav chip (#tydacctchip) is on the page, so pages that carry both a
+   chip and an in-page bar (Travel, Polls) would otherwise leave the bar stuck
+   on its signed-out text. Pages without #acctpill are unaffected. */
+import { getApp, initializeApp } from "./pond-firebase-stub.js";
+import { getAuth, onAuthStateChanged } from "./pond-firebase-stub.js";
+import { getFirestore, doc, getDoc, setDoc } from "./pond-firebase-stub.js";
+var cfg = { apiKey: "preview-disabled", authDomain: "pond-preview-disabled.firebaseapp.com", projectId: "pond-preview-disabled", storageBucket: "pond-preview-disabled.firebasestorage.app", messagingSenderId: "000000000000", appId: "1:000000000000:web:previewdisabled" };
+var app; try { app = getApp(); } catch (e) { app = initializeApp(cfg); }
+var auth = getAuth(app), db = getFirestore(app);
+var C = { user: null, list: [], ready: false };
+function emit() { try { window.dispatchEvent(new Event("tydchats")); } catch (e) {} }
+window.TYDChats = {
+  get user() { return C.user; },
+  get list() { return C.list; },
+  get ready() { return C.ready; },
+  save: function (entry) {
+    if (!C.user) return Promise.reject(new Error("signed out"));
+    var list = [entry].concat(C.list).slice(0, 20);
+    return setDoc(doc(db, "users", C.user.uid), { helperChats: list }, { merge: true }).then(function () { C.list = list; emit(); });
+  },
+  remove: function (id) {
+    if (!C.user) return Promise.reject(new Error("signed out"));
+    var list = C.list.filter(function (x) { return x.id !== id; });
+    return setDoc(doc(db, "users", C.user.uid), { helperChats: list }, { merge: true }).then(function () { C.list = list; emit(); });
+  }
+};
+var pill = document.getElementById("acctpill");
+function paintPill(label, av) {
+  if (!pill) return;
+  var escLabel = String(label == null ? "" : label).replace(/</g, "&lt;");
+  var img = "";
+  if (/^duck-[a-z]+$/.test(av || "")) img = "images/avatars/" + av + ".jpg";
+  var imgHtml = img ? '<img src="' + img + '" alt="" style="width:20px; height:20px; border-radius:50%; object-fit:cover; vertical-align:-5px; margin-right:6px;">' : "";
+  pill.innerHTML = imgHtml + "🦆 " + escLabel + (C.user ? " · My Account" : " · Log in / Sign up");
+}
+onAuthStateChanged(auth, function (user) {
+  C.user = user ? { uid: user.uid, email: user.email || "" } : null;
+  C.ready = true;
+  if (!user) { C.list = []; paintPill("Pond Account", ""); emit(); return; }
+  paintPill(C.user.email, "");
+  getDoc(doc(db, "profiles", user.uid)).then(function (snap) {
+    var un = snap.exists() ? (snap.data().username || "") : "";
+    var av = snap.exists() ? (snap.data().avatar || "") : "";
+    paintPill(un ? "@" + un : C.user.email, av);
+  }).catch(function () {});
+  getDoc(doc(db, "users", user.uid)).then(function (snap) {
+    var d = snap.exists() ? snap.data() : {};
+    C.list = Array.isArray(d.helperChats) ? d.helperChats : [];
+    emit();
+  }).catch(function () { emit(); });
+});
+emit();
+</script>
+
+<script>
+/* Section helper bot: floating duck chat for this section, with export. */
+window.BOTCFG = {
+  section: "Gift Planner",   duck: "images/corners/duck-gift.jpg",
+  title: "🦆 Gift Planner Helper",
+  placeholder: "Ask about gifts and budgets...",
+  honest: "I answer from this page and your own gift lists, not a full AI.",
+  greet: "Quack! I'm the Gift Planner duck. 🎁 Ask me the next occasion coming up, spent vs budget (try a person's name), price watch news, or how anything here works.",
+  fallback: "Quack, that one's beyond this little duck. I can find the next occasion, compare spent vs budget for any person (try their name), report on price watches, or explain adding people and ideas, photos, sharing and syncing. Try one of the chips!",
+  chips: [
+    ["🎂 Next occasion", "What's the next occasion coming up?"],
+    ["💸 Spent vs budget", "How much have I spent vs budget?"],
+    ["🏷️ Price watch news", "Any price watch news?"],
+    ["➕ Add an idea", "How do I add a gift idea?"]
+  ],
+  answer: function (q, U) {
+    var s = U.snap();
+    var people = s && Array.isArray(s.gifts) ? s.gifts : U.ls("tydGifts", []);
+    var low = q.toLowerCase();
+    function spentOf(p) { return (p.ideas || []).filter(function (i) { return i.bought; }).reduce(function (t, i) { return t + (Number(i.price) || 0); }, 0); }
+    function nextOcc(ds) {
+      if (!ds) return null;
+      var t = U.todayISO();
+      var md = ds.slice(5);
+      var y = t.slice(0, 4);
+      var cand = y + "-" + md;
+      if (cand < t) cand = (Number(y) + 1) + "-" + md;
+      return cand;
+    }
+    /* a person's name -> their budget story */
+    var named = null;
+    people.forEach(function (p) { if (p.name && low.indexOf(p.name.toLowerCase()) > -1) named = p; });
+    if (named) {
+      var spent = spentOf(named), budget = Number(named.budget) || 0;
+      var out = "For " + named.name + " (" + (named.occasion || "Just because") + (named.date ? ", next on " + U.fmtDate(nextOcc(named.date)) + ", " + U.when(nextOcc(named.date)) : "") + "): spent " + U.money(spent) + (budget > 0 ? " of a " + U.money(budget) + " budget, " + U.money(Math.max(0, budget - spent)) + " left" + (spent > budget ? " (over by " + U.money(spent - budget) + ", easy there duckling)" : "") : " (no budget set)") + ".";
+      var ideas = named.ideas || [];
+      if (ideas.length) out += "\nIdeas:\n" + ideas.map(function (i) { return "• " + (i.text || "Idea") + (i.price ? " — " + U.money(i.price) : "") + (i.bought ? " ✓ bought" : "") + (i.watching ? " · 🏷️ watching" : ""); }).join("\n");
+      else out += "\nNo ideas tucked in yet. Add the first one in their card.";
+      return out;
+    }
+    if (/next|upcoming|soon|nearest|coming up|occasion|birthday/.test(low)) {
+      var dated = people.filter(function (p) { return p.date; }).map(function (p) { return { p: p, nd: nextOcc(p.date) }; }).sort(function (a, b) { return a.nd < b.nd ? -1 : 1; });
+      if (!dated.length) return "Nobody has a date yet. Add the occasion date when you add a person and I'll watch the calendar for you. 🎂";
+      return "Coming up:\n" + dated.slice(0, 3).map(function (x) { return "• " + x.p.name + " — " + (x.p.occasion || "Just because") + ", " + U.fmtDate(x.nd) + " (" + U.when(x.nd) + ")"; }).join("\n");
+    }
+    if (/watch|price|deal|cheap|target|drop/.test(low)) {
+      var watching = [];
+      people.forEach(function (p) { (p.ideas || []).forEach(function (i) { if (i.watching) watching.push({ p: p, i: i }); }); });
+      if (!watching.length) return "No gift ideas are on price watch yet. Tap 🏷️ Watch price on any idea, save the price you see now and then, and the duck remembers the best price it has ever seen. I'll flag target hits here.";
+      return "On price watch:\n" + watching.map(function (w) {
+        var bits = [];
+        if (w.i.priceNow != null) bits.push("now " + U.money(w.i.priceNow));
+        if (w.i.priceBest != null) bits.push("best " + U.money(w.i.priceBest));
+        if (w.i.targetPrice != null) bits.push("target " + U.money(w.i.targetPrice));
+        var flag = (w.i.targetPrice != null && w.i.priceNow != null && w.i.priceNow <= w.i.targetPrice) ? " · 🎉 Target hit!" : (w.i.priceNow != null && w.i.addedPrice != null && w.i.priceNow < w.i.addedPrice && w.i.priceNow === w.i.priceBest) ? " · 📉 New low!" : "";
+        return "• " + (w.i.text || "Idea") + " for " + w.p.name + (bits.length ? " — " + bits.join(", ") : "") + flag;
+      }).join("\n");
+    }
+    if (/spent|spend|budget|how much|total|cost/.test(low)) {
+      if (!people.length) return "No gift plans yet. Add your first person below and I'll start doing the budget maths. 🎁";
+      var totS = 0, totB = 0;
+      var lines = people.map(function (p) {
+        var sp = spentOf(p), b = Number(p.budget) || 0;
+        totS += sp; totB += b;
+        return "• " + p.name + ": spent " + U.money(sp) + (b > 0 ? " of " + U.money(b) : " (no budget)");
+      });
+      return "Spent vs budget:\n" + lines.join("\n") + "\nAll together: " + U.money(totS) + " spent" + (totB > 0 ? " of " + U.money(totB) + " budgeted" : "") + ". Ask me about one person by name for their ideas too.";
+    }
+    if (/list|people|who|how many/.test(low)) {
+      if (!people.length) return "No people in the Gift Planner yet. Add your first person below: their occasion, the date, and a budget.";
+      return U.plural(people.length, "person", "people") + " in the planner:\n" + people.map(function (p) { return "• " + p.name + " — " + (p.occasion || "Just because") + (p.date ? ", " + U.fmtDate(nextOcc(p.date)) : "") + " · " + U.plural((p.ideas || []).length, "idea", "ideas"); }).join("\n");
+    }
+    if (/idea/.test(low) && /add|new|tuck/.test(low)) return "Open a person's card and tap + Add idea: what it is, a price if you know it, and a link if you found it online. Tick it bought once it's wrapped, and 🏷️ Watch price keeps an eye on the price in the meantime.";
+    if (/(add|new) (a )?person|person.*(add|new)/.test(low)) return "Use the Add a person form below: their name, the occasion, its date, and a budget. Then tuck gift ideas into their card as they come to you.";
+    if (/bought|buy|wrapped|tick/.test(low)) return "On an idea, mark it bought once it's sorted; bought ideas are what count toward \"spent\" when I compare against the budget.";
+    if (/photo|picture|image/.test(low)) return "Open an idea and tap 📷 to add a photo of it from your phone, so future-you knows exactly which one it was. Signed in, it syncs too.";
+    if (/share|friend|wishlist|wish list/.test(low)) return "Tap Share on a person's card to share their whole gift list: 🔒 Private (just you), 👥 Shared with friends (pick Pond friends by email or @username, handy for coordinating who buys what), or 🦆 Shared with the Pond. Unshare any time from the same button.";
+    if (/sync|account|sign in|device/.test(low)) return "Your gift plans save on this device right away. Sign in with your free Pond Account (top of the page) and they sync to your account across your devices.";
+    if (/delete|remove/.test(low)) return "People and ideas each have their own Delete button (ideas under their row, people on their card). The duck double-checks first.";
+    return null;
+  }
+};
+
+(function () {
+  "use strict";
+  var CFG = window.BOTCFG || {};
+  var css = [
+    ".phelp-launch{display:inline-flex;align-items:center;gap:8px;position:fixed;right:12px;bottom:calc(84px + env(safe-area-inset-bottom));z-index:10080;background:#1f5f74;border:2px solid #174a5b;color:#fff;font-family:inherit;font-weight:900;font-size:14.5px;border-radius:999px;padding:11px 16px;box-shadow:0 8px 22px rgba(35,65,77,.35);cursor:pointer;}",
+    ".botduck{width:27px;height:27px;border-radius:50%;object-fit:cover;flex:none;border:2px solid rgba(255,255,255,.65);}",
+    ".phelp-head .t .botduck{width:31px;height:31px;}",
+    ".phelp-panel{position:fixed;right:12px;bottom:calc(84px + env(safe-area-inset-bottom));z-index:10090;width:min(94vw,384px);height:min(72vh,580px);background:#fff;border-radius:20px;box-shadow:0 18px 44px rgba(10,25,32,.4);display:none;flex-direction:column;overflow:hidden;border:2px solid #bcd9e4;}",
+    ".phelp-panel.show{display:flex;}",
+    "@media (max-width:520px){.phelp-panel{left:12px;width:auto;}}",
+    ".phelp-head{background:#1f5f74;color:#fff;padding:12px 14px;flex:none;}",
+    ".phelp-head .t{font-weight:900;font-size:16.5px;display:flex;align-items:center;gap:8px;}",
+    ".phelp-head .ctx{font-size:12.5px;opacity:.92;margin-top:3px;line-height:1.4;}",
+    ".phelp-x{margin-left:2px;background:rgba(255,255,255,.16);border:none;color:#fff;width:30px;height:30px;border-radius:50%;font-weight:900;cursor:pointer;font-family:inherit;flex:none;}",
+    ".phelp-expbtn{margin-left:auto;background:#ffd94d;border:2px solid #e3c93f;color:#6b5900;font-family:inherit;font-weight:900;font-size:12.5px;border-radius:999px;padding:6px 11px;cursor:pointer;flex:none;}",
+    ".phelp-drawer{display:none;background:#fff;border-bottom:1px solid #e3eff4;padding:10px 12px;flex:none;max-height:46%;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;touch-action:pan-y;}",
+    ".phelp-drawer.show{display:block;}",
+    ".phelp-drow{display:flex;gap:6px;flex-wrap:wrap;}",
+    ".pdbtn{border:2px solid #bcd9e4;background:#eaf7fb;color:#1f5f74;font-family:inherit;font-weight:800;font-size:12.5px;border-radius:999px;padding:7px 12px;cursor:pointer;}",
+    ".pdbtn.main{background:#ffd94d;border-color:#e3c93f;color:#6b5900;}",
+    ".phelp-note{font-size:12.5px;color:#3f6b7a;margin-top:7px;line-height:1.45;}",
+    ".phelp-dhead{font-weight:900;font-size:13px;color:#1f5f74;margin:11px 0 4px;}",
+    ".psaved{padding:7px 0;border-bottom:1px solid #e3eff4;font-size:13.5px;color:#23414d;}",
+    ".psaved:last-child{border-bottom:none;}",
+    ".psaved .pm{font-size:12px;color:#5b7a87;margin-top:1px;}",
+    ".psaved .pa{margin-top:4px;display:flex;gap:6px;}",
+    ".psaved .pa button{border:2px solid #bcd9e4;background:#fff;color:#1f5f74;font-family:inherit;font-weight:800;font-size:11.5px;border-radius:999px;padding:4px 9px;cursor:pointer;}",
+    ".phelp-msgs{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;touch-action:pan-y;padding:12px;background:#f4fafc;display:flex;flex-direction:column;gap:8px;}",
+    ".pmsg{max-width:88%;padding:9px 12px;border-radius:14px;font-size:14px;line-height:1.5;white-space:pre-wrap;word-wrap:break-word;}",
+    ".pmsg.bot{background:#fff;border:1.5px solid #d7e6ec;color:#23414d;align-self:flex-start;border-bottom-left-radius:4px;}",
+    ".pmsg.me{background:#1f5f74;color:#fff;align-self:flex-end;border-bottom-right-radius:4px;}",
+    ".phelp-chips{display:flex;gap:6px;flex-wrap:wrap;padding:8px 10px;background:#fff;border-top:1px solid #e3eff4;flex:none;}",
+    ".pchip{border:2px solid #bcd9e4;background:#eaf7fb;color:#1f5f74;font-family:inherit;font-weight:800;font-size:12.5px;border-radius:999px;padding:6px 11px;cursor:pointer;}",
+    ".phelp-form{display:flex;gap:6px;padding:10px;background:#fff;border-top:1px solid #e3eff4;flex:none;}",
+    ".phelp-form input{flex:1;border:2px solid #bcd9e4;border-radius:12px;padding:10px;font-size:15px;font-family:inherit;min-width:0;color:#23414d;background:#fff;}",
+    ".phelp-form button{background:#ffd94d;border:2px solid #e3c93f;color:#6b5900;font-family:inherit;font-weight:900;font-size:14px;border-radius:12px;padding:10px 14px;cursor:pointer;}",
+    "html[data-theme=\"dark\"] .phelp-panel{background:var(--tyd-acc-dark, #172635);border-color:#2e4a5f;}",
+    "html[data-theme=\"dark\"] .phelp-msgs{background:#101e2c;}",
+    "html[data-theme=\"dark\"] .pmsg.bot{background:#23414d;border-color:#2e4a5f;color:#eefaff;}",
+    "html[data-theme=\"dark\"] .phelp-chips,html[data-theme=\"dark\"] .phelp-form,html[data-theme=\"dark\"] .phelp-drawer{background:var(--tyd-acc-dark, #172635);border-color:#2e4a5f;}",
+    "html[data-theme=\"dark\"] .pchip{background:#23414d;color:#d7ecf5;border-color:#2e4a5f;}",
+    "html[data-theme=\"dark\"] .pdbtn{background:#23414d;color:#d7ecf5;border-color:#2e4a5f;}",
+    "html[data-theme=\"dark\"] .phelp-form input{background:#101e2c;color:#eefaff;border-color:#2e4a5f;}",
+    "html[data-theme=\"dark\"] .phelp-note{color:#bcd6e4;}",
+    "html[data-theme=\"dark\"] .phelp-dhead{color:#ffd94d;}",
+    "html[data-theme=\"dark\"] .psaved{color:#eefaff;border-color:#2e4a5f;}",
+    "@media print{.phelp-launch,.phelp-panel{display:none !important;}}"
+  ].join("\n");
+  var st = document.createElement("style"); st.textContent = css; document.head.appendChild(st);
+  function esc(t) { return String(t == null ? "" : t).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+
+  /* Utilities handed to each page's answer function. */
+  var U = {
+    ls: function (k, d) { try { var v = JSON.parse(localStorage.getItem(k)); return v == null ? d : v; } catch (e) { return d; } },
+    snap: function () { try { return (window.TYDPage && window.TYDPage.snapshot) ? window.TYDPage.snapshot() : null; } catch (e) { return null; } },
+    todayISO: function () { var d = new Date(); return d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2); },
+    daysUntil: function (ds) { if (!ds) return null; return Math.round((new Date(ds + "T12:00:00") - new Date(U.todayISO() + "T12:00:00")) / 86400000); },
+    fmtDate: function (ds) { if (!ds) return ""; try { return new Date(ds + "T12:00:00").toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" }); } catch (e) { return String(ds); } },
+    money: function (n) { n = Number(n) || 0; var r = Math.round(n * 100) / 100; return "$" + r.toLocaleString(undefined, { minimumFractionDigits: (r % 1 !== 0) ? 2 : 0, maximumFractionDigits: 2 }); },
+    when: function (ds) { var d = U.daysUntil(ds); if (d === null) return ""; if (d < 0) return "overdue by " + (-d) + (d === -1 ? " day" : " days"); if (d === 0) return "today"; if (d === 1) return "tomorrow"; return "in " + d + " days"; },
+    plural: function (n, one, many) { return n + " " + (n === 1 ? one : many); }
+  };
+
+  var log = [];
+  var greeted = false;
+  var openStamp = 0;
+  var drawerOpen = false;
+
+  var launch = document.createElement("button");
+  launch.className = "phelp-launch"; launch.type = "button";
+  launch.innerHTML = '<img class="botduck" src="' + (CFG.duck || "") + '" alt="">' + "Gift help";
+  launch.setAttribute("aria-label", "Open the " + (CFG.section || "") + " helper chat");
+  document.body.appendChild(launch);
+
+  var panel = document.createElement("div");
+  panel.className = "phelp-panel";
+  panel.innerHTML = '<div class="phelp-head"><div class="t"><img class="botduck" src="' + (CFG.duck || "") + '" alt="">' + esc((CFG.title || "Helper").replace(/^🦆 /, ""))
+    + '<button type="button" class="phelp-expbtn" data-expbtn>⬇ Export</button>'
+    + '<button type="button" class="phelp-x" data-close aria-label="Close">✕</button></div>'
+    + '<div class="ctx">' + esc(CFG.honest || "") + "</div></div>"
+    + '<div class="phelp-drawer" data-drawer>'
+    + '<div class="phelp-drow"><button type="button" class="pdbtn main" data-expfile>💾 Save as a file</button>'
+    + '<button type="button" class="pdbtn" data-expacct>☁️ Save to my account</button></div>'
+    + '<div class="phelp-note" data-expnote></div>'
+    + '<div class="phelp-dhead">📁 Saved chats</div><div data-savedlist></div>'
+    + "</div>"
+    + '<div class="phelp-msgs" data-msgs></div>'
+    + '<div class="phelp-chips" data-chips></div>'
+    + '<form class="phelp-form"><input type="text" placeholder="' + esc(CFG.placeholder || "Ask the duck...") + '" aria-label="Ask the helper"><button type="submit">Send</button></form>';
+  document.body.appendChild(panel);
+
+  var msgs = panel.querySelector("[data-msgs]");
+  var chipsBox = panel.querySelector("[data-chips]");
+  var drawer = panel.querySelector("[data-drawer]");
+  var expNote = panel.querySelector("[data-expnote]");
+  var savedList = panel.querySelector("[data-savedlist]");
+  var input = panel.querySelector(".phelp-form input");
+
+  function renderMsgs() {
+    msgs.innerHTML = log.map(function (m) {
+      return '<div class="pmsg ' + (m.who === "me" ? "me" : "bot") + '">' + esc(m.text).replace(/\n/g, "<br>") + "</div>";
+    }).join("");
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+  function renderChips() {
+    var chips = [];
+    try { chips = (typeof CFG.chips === "function") ? CFG.chips(U) : (CFG.chips || []); } catch (e) { chips = []; }
+    chipsBox.innerHTML = "";
+    (chips || []).forEach(function (c) {
+      var b = document.createElement("button");
+      b.type = "button"; b.className = "pchip"; b.textContent = c[0];
+      b.addEventListener("click", function () { ask(c[1]); });
+      chipsBox.appendChild(b);
+    });
+  }
+  function say(text) { log.push({ who: "duck", text: String(text == null ? "" : text) }); renderMsgs(); }
+  function ask(q) {
+    q = String(q || "").trim();
+    if (!q) return;
+    log.push({ who: "me", text: q });
+    var a = null;
+    try { a = CFG.answer ? CFG.answer(q, U) : null; } catch (e) { a = null; }
+    if (!a) a = CFG.fallback || "Quack, that one is beyond this little duck. Try one of the topics above!";
+    log.push({ who: "duck", text: a });
+    renderMsgs();
+    renderChips();
+  }
+  function openPanel() {
+    panel.classList.add("show");
+    launch.style.display = "none";
+    if (!greeted) { greeted = true; if (CFG.greet) log.push({ who: "duck", text: CFG.greet }); }
+    openStamp = Date.now();
+    renderMsgs(); renderChips(); renderSaved();
+    setTimeout(function () { if (panel.classList.contains("show")) renderSaved(); }, 1600);
+    setTimeout(function () { if (panel.classList.contains("show")) renderSaved(); }, 4200);
+    setTimeout(function () { try { input.focus(); } catch (e) {} }, 60);
+  }
+  function closePanel() {
+    panel.classList.remove("show");
+    launch.style.display = "";
+  }
+  launch.addEventListener("click", openPanel);
+  panel.querySelector("[data-close]").addEventListener("click", closePanel);
+  panel.querySelector(".phelp-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var v = input.value; input.value = "";
+    ask(v);
+  });
+
+  /* ---------- export ---------- */
+  function transcript() {
+    var lines = [(CFG.section || "Pond") + " Helper chat", "Exported " + new Date().toLocaleString(), ""];
+    log.forEach(function (m) { lines.push((m.who === "me" ? "You: " : "Duck: ") + m.text); });
+    return lines.join("\n");
+  }
+  function download(name, text) {
+    try {
+      var blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement("a");
+      a.href = url; a.download = name;
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(function () { URL.revokeObjectURL(url); }, 400);
+    } catch (e) {}
+  }
+  function fileName(section) {
+    return String(section || "pond").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") + "-chat-" + U.todayISO() + ".txt";
+  }
+  function chats() { return window.TYDChats || null; }
+  function renderSaved() {
+    var C = chats();
+    if (!C || !C.ready) { savedList.innerHTML = '<div class="phelp-note">' + (Date.now() - openStamp > 4000 ? "Sign in with your Pond Account to keep chats here. Saving as a file works any time." : "Checking your Pond Account...") + '</div>'; return; }
+    if (!C.user) { savedList.innerHTML = '<div class="phelp-note">Sign in with your Pond Account to keep chats here. Saving as a file works any time.</div>'; return; }
+    if (!C.list.length) { savedList.innerHTML = '<div class="phelp-note">No saved chats yet. Export this chat to your account and it will live here.</div>'; return; }
+    savedList.innerHTML = C.list.map(function (e) {
+      var when = "";
+      try { when = new Date(e.createdAt).toLocaleString([], { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }); } catch (x) {}
+      return '<div class="psaved"><div>' + esc(e.title || (e.section || "Chat")) + '</div><div class="pm">' + esc(e.section || "") + (when ? " · " + esc(when) : "") + '</div>'
+        + '<div class="pa"><button type="button" data-dl="' + esc(e.id) + '">⬇ Download</button><button type="button" data-del="' + esc(e.id) + '">✕ Delete</button></div></div>';
+    }).join("");
+    savedList.querySelectorAll("[data-dl]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var id = b.getAttribute("data-dl");
+        var e = (chats() ? chats().list : []).filter(function (x) { return x.id === id; })[0];
+        if (e) download(fileName(e.section), String(e.text || ""));
+      });
+    });
+    savedList.querySelectorAll("[data-del]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var C2 = chats(); if (!C2) return;
+        C2.remove(b.getAttribute("data-del")).then(renderSaved).catch(renderSaved);
+      });
+    });
+  }
+  panel.querySelector("[data-expbtn]").addEventListener("click", function () {
+    drawerOpen = !drawerOpen;
+    drawer.classList.toggle("show", drawerOpen);
+    if (drawerOpen) { expNote.textContent = ""; renderSaved(); }
+  });
+  panel.querySelector("[data-expfile]").addEventListener("click", function () {
+    download(fileName(CFG.section), transcript());
+    expNote.textContent = "Saved as a file on this device. 💾";
+  });
+  panel.querySelector("[data-expacct]").addEventListener("click", function () {
+    var C = chats();
+    if (!C || !C.user) { expNote.textContent = "Saving to your account needs you signed in. Sign in with your Pond Account, then tap Export again. The file download above works either way."; return; }
+    var entry = {
+      id: "c" + Date.now().toString(36) + Math.random().toString(36).slice(2, 7),
+      section: CFG.section || "",
+      title: (CFG.section || "Pond") + " chat · " + new Date().toLocaleDateString(undefined, { month: "short", day: "numeric" }),
+      text: transcript().slice(0, 20000),
+      createdAt: Date.now()
+    };
+    C.save(entry).then(function () {
+      expNote.textContent = "Saved to your Pond Account. ☁️ Find it under Saved chats on any of the helper ducks.";
+      renderSaved();
+    }).catch(function () {
+      expNote.textContent = "That save did not go through just now. Try the file download instead, and check back soon.";
+    });
+  });
+  window.addEventListener("tydchats", function () { if (panel.classList.contains("show")) renderSaved(); });
+})();
+
+</script>
+<script src="pond-staging.js"></script>
+</body>
+</html>

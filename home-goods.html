@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#ffd94d">
+<meta name="description" content="Verified home goods deals on sale, refreshed every morning. Welcome to the Pond!">
+<meta property="og:title" content="Home Goods Deals | TreatYourselfDiscounts">
+<meta property="og:description" content="Verified home goods deals on sale, refreshed every morning. Welcome to the Pond!">
+<meta property="og:image" content="/images/corners/duck-deals.jpg">
+<meta property="og:url" content="/home-goods">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Home Goods Deals | TreatYourselfDiscounts">
+<meta name="twitter:description" content="Verified home goods deals on sale, refreshed every morning. Welcome to the Pond!">
+<meta name="twitter:image" content="/images/corners/duck-deals.jpg">
+<title>Home Goods Deals | TreatYourselfDiscounts</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body { overflow-x: clip; /* clip, not hidden: hidden makes a scroll container and breaks the sticky top bar (Nov 13, 2026) */ }
+  /* No solid body background here: the duck wallpaper lives in site-nav.js and must show through on every page. */
+  body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; color: #23414d; }
+  .app { max-width: 430px; margin: 0 auto; min-height: 100vh; background: #bfe6f2; box-shadow: 0 0 24px rgba(35,65,77,.12); padding-bottom: 32px; }
+  .tyd-pill { display: none !important; }
+  header.top { text-align: center; margin: 10px 16px 4px; }
+  header.top .duck { width: 76px; height: 76px; border-radius: 50%; border: 3px solid #ffd94d; background: #ffd94d; }
+  header.top .sub { margin: 6px 0 0; color: #3f6b7a; font-size: 15px; line-height: 1.5; }
+  .back { color: #1f5f74; font-weight: 700; text-decoration: none; font-size: 14px; display: inline-block; margin: 14px 16px 0; }
+  h1 { margin: 0; font-size: 26px; letter-spacing: .2px; }
+  .tagline { margin: 8px 0 0; font-size: 15px; color: #3f6b7a; line-height: 1.45; }
+  .stamp-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin: 14px 16px 0; }
+  .stamp { font-size: 13.5px; font-weight: 700; color: #1f5f74; }
+  .refresh-btn { background: #ffd94d; border: 2px solid #e8b93c; color: #6b5900; font-weight: 800; font-size: 14px; border-radius: 999px; padding: 9px 16px; cursor: pointer; font-family: inherit; }
+  .refresh-btn:disabled { opacity: .6; cursor: wait; }
+  .refresh-note { font-size: 13px; color: #4a6b78; margin: 8px 16px 0; line-height: 1.5; }
+  .controls { padding: 16px 16px 0; }
+  /* v307: solid white + solid border, not the two-layer gradient (same forced-dark victim as the cards). */
+  .search-row input { width: 100%; box-sizing: border-box; font-size: 15px; padding: 12px 16px; border-radius: 999px; border: 2px solid #bcd9e4; background: #fff; outline: none; color: #23414d; }
+  #lego-no-results { text-align: center; color: #4a6b78; margin: 8px 0; }
+  .filter-row { display: flex; gap: 8px; margin: 12px 0 0; }
+  .filter-row label { flex: 1; font-size: 13px; font-weight: 700; color: #4a6b78; }
+  .filter-row select { width: 100%; margin-top: 4px; font-size: 14px; padding: 10px 12px; border-radius: 999px; border: 2px solid #bcd9e4; background: #fff; color: #23414d; outline: none; }
+  @media (max-width: 759px) {
+    .filter-row { flex-direction: column; }
+    .filter-row label { flex: none; }
+  }
+  .lego-count { font-size: 13px; color: #4a6b78; margin: 12px 16px 0; }
+  /* Solid colors only, no gradients (v307 lesson: a phone browser's forced-dark recolor turns gradient panels black while the text stays dark). */
+  .lego-grid { display: grid; grid-template-columns: 1fr; gap: 12px; padding: 12px 16px 0; }
+  /* v324: bottom-aligned buttons — the card is a flex column and
+     .lego-info stretches (flex:1), so the Shop button (margin-top:auto)
+     sits at the bottom of every card in the row. .save/.stock-note keep
+     a 12px bottom margin so the gap never collapses on the tallest card. */
+  .lego-card { background: #fff; border: 2px solid #ffe066; border-radius: 18px; box-shadow: 0 2px 8px rgba(35,65,77,.06); overflow: hidden; display: flex; flex-direction: column; }
+  /* v323: uniform square photo box — every card the same size on phone
+     AND desktop. The box is always square (aspect-ratio 1/1) and the
+     image sits inside it with object-fit: contain on white, so the
+     WHOLE product shows, never cropped, never distorted. This replaces
+     the v321 aspect-aware frames (height:auto): tall portrait photos
+     made giant cards and stretched their whole grid row, so a short
+     row-mate's content scrolled off-screen and its card looked blank
+     (LEGO Yoda Key Chain 853449, Nov 15, 2026). Real width/height
+     attrs on each img still prevent layout shift. */
+  .lego-photo { width: 100%; aspect-ratio: 1 / 1; height: auto; object-fit: contain; background: #fff; display: block; border-bottom: 1px solid #dceef5; }
+  .lego-info { padding: 14px 16px 16px; flex: 1 1 auto; display: flex; flex-direction: column; }
+  .lego-name { font-weight: 700; font-size: 16px; margin: 0; line-height: 1.35; color: #23414d; }
+  .lego-name .setno { color: #5a7d8a; font-weight: 600; }
+  .store-chip { display: inline-block; margin-top: 8px; font-size: 12px; font-weight: 800; letter-spacing: .4px; color: #1f5f74; background: #eaf7fb; border: 1px solid #bcd9e4; padding: 3px 10px; border-radius: 999px; }
+  .price-row { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+  .sale { font-size: 24px; font-weight: 800; color: #1e7d32; line-height: 1; }
+  .was { font-size: 15px; color: #7a8b93; text-decoration: line-through; }
+  .pct { font-size: 13px; font-weight: 800; color: #fff; background: #d6336c; padding: 3px 9px; border-radius: 999px; white-space: nowrap; }
+  .save { font-size: 15px; font-weight: 800; color: #c2185b; margin: 6px 0 12px; }
+  .stock-note { font-size: 13px; font-weight: 700; color: #8a6d00; margin: 6px 0 12px; }
+  /* v326: Target online-price label + price-match tip (verified on
+     target.com Nov 16, 2026). Sits with the other notes above the Shop
+     button, so the bottom block stays exactly Shop + Share (v324/v325). */
+  .target-note { font-size: 12.5px; line-height: 1.5; color: #4a6b78; margin: 6px 0 12px; }
+  .target-note strong { color: #1f5f74; }
+  .shop-btn { display: block; text-align: center; background: #1f5f74; color: #fff; font-weight: 800; font-size: 15px; text-decoration: none; border-radius: 999px; padding: 11px 16px; margin-top: auto; }
+  .shop-btn:active { background: #174a5c; }
+  /* Share to the Shack (v312): the Share button sits under the Shop
+     button on each card. Its look comes from site-nav.js. */
+  .lego-info [data-shack-share] { margin-top: 8px; }
+  /* "See it in use" video link: only on cards with a verified video
+     of that exact product in use (data/deal-videos.json). It sits
+     right above the Shop button (v325), so the bottom block is
+     exactly Shop + Share on every card and the Shop buttons line up. */
+  .video-link { display: block; text-align: center; color: #1f5f74; font-weight: 700; font-size: 14px; text-decoration: none; margin-top: 10px; }
+  .video-link:hover { text-decoration: underline; }
+
+  .history { background: #fff; border: 2px solid #bcd9e4; border-radius: 16px; padding: 16px; margin: 20px 16px 0; }
+  .history h2 { margin: 0 0 4px; font-size: 19px; color: #1f5f74; }
+  .history .hist-note { font-size: 13.5px; color: #4a6b78; line-height: 1.5; margin: 0 0 12px; }
+  .history ul { margin: 0; padding-left: 18px; }
+  .history li { font-size: 14px; color: #23414d; line-height: 1.55; margin-bottom: 10px; }
+  .history li:last-child { margin-bottom: 0; }
+  .history li b { color: #1f5f74; }
+  .footer-duck-v4 { display: block; margin: 0 auto 6px; height: 84px; width: 84px; border-radius: 50%; object-fit: cover; border: 3px solid #ffd94d; background: #ffd94d; filter: drop-shadow(0 3px 5px rgba(35,65,77,.25)); animation: pondfloat 6s ease-in-out infinite; }
+  footer { text-align: center; font-size: 12.5px; color: #4a6b78; padding: 24px 24px 0; line-height: 1.5; }
+  .foot-links { text-align: center; padding: 18px 24px 0; font-size: 13px; }
+  .foot-links a { color: #1f5f74; font-weight: 700; text-decoration: none; margin: 0 8px; }
+  .nest { font-weight: 700; color: #1f5f74; margin: 14px 0 0; }
+  @keyframes pondfloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+  @media (prefers-reduced-motion: reduce) { .footer-duck-v4 { animation: none; } }
+  @media (min-width: 760px) {
+    .app { max-width: 920px; }
+    .lego-grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+  }
+  /* Phone (max-width 699px): compact 2-column cards, so two sets fit per
+     screen instead of one tall card (Lucy, Nov 15, 2026: her iPhone
+     screenshot showed one full-width card with a very tall photo).
+     Photos sit in a uniform square box (v323), so every card is the
+     same size. Desktop (min-width 760px) untouched. */
+  @media (max-width: 699px) {
+    .lego-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; padding: 10px 10px 0; }
+    .lego-info { padding: 10px 10px 12px; }
+    .lego-name { font-size: 14px; }
+    .store-chip { font-size: 11px; margin-top: 6px; padding: 2px 8px; }
+    .price-row { gap: 5px; margin-top: 8px; }
+    .sale { font-size: 19px; }
+    .was { font-size: 13px; }
+    .pct { font-size: 11px; padding: 2px 7px; }
+    .save { font-size: 13px; margin-top: 5px; }
+    .stock-note { font-size: 12px; margin-top: 5px; }
+    .target-note { font-size: 12px; margin-top: 5px; }
+    .shop-btn { font-size: 13.5px; padding: 9px 10px; margin-top: auto; }
+    /* Refresh button: same button, same place (in .stamp-row), just
+       full-width and bigger on phone so it is easy to spot. */
+    .refresh-btn { width: 100%; font-size: 16px; padding: 12px 18px; }
+  }
+  /* Dark mode: explicit solid colors, no gradients, so every price, pill and button stays readable. */
+  html[data-theme="dark"] .search-row input { background: #172635 !important; color: #eefaff !important; border-color: #2e4a5f !important; }
+  html[data-theme="dark"] .filter-row select { background: #172635 !important; color: #eefaff !important; border-color: #2e4a5f !important; }
+  html[data-theme="dark"] .filter-row label { color: #bcd6e4 !important; }
+  html[data-theme="dark"] .lego-card { background: #172635 !important; border-color: #2e4a5f !important; }
+  html[data-theme="dark"] .lego-photo { background: #fff !important; border-bottom-color: #2e4a5f !important; }
+  html[data-theme="dark"] .lego-name { color: #eefaff !important; }
+  html[data-theme="dark"] .lego-name .setno { color: #8fa8b5 !important; }
+  html[data-theme="dark"] .store-chip { background: #101e2c !important; border-color: #2e4a5f !important; color: #c9f0fc !important; }
+  html[data-theme="dark"] .sale { color: #7ddba0 !important; }
+  html[data-theme="dark"] .was { color: #8fa8b5 !important; }
+  html[data-theme="dark"] .pct { background: #d6336c !important; color: #fff !important; }
+  html[data-theme="dark"] .save { color: #ff9ebb !important; }
+  html[data-theme="dark"] .stock-note { color: #ffd94d !important; }
+  html[data-theme="dark"] .target-note { color: #bcd6e4 !important; }
+  html[data-theme="dark"] .target-note strong { color: #c9f0fc !important; }
+  html[data-theme="dark"] .shop-btn { background: #2e7d96 !important; color: #fff !important; }
+  html[data-theme="dark"] .video-link { color: #c9f0fc !important; }
+
+  html[data-theme="dark"] .history { background: #172635 !important; border-color: #2e4a5f !important; }
+  html[data-theme="dark"] .history h2 { color: #c9f0fc !important; }
+  html[data-theme="dark"] .history .hist-note { color: #bcd6e4 !important; }
+  html[data-theme="dark"] .history li { color: #eefaff !important; }
+  html[data-theme="dark"] .history li b { color: #c9f0fc !important; }
+  html[data-theme="dark"] .stamp { color: #c9f0fc !important; }
+  html[data-theme="dark"] .refresh-note { color: #bcd6e4 !important; }
+  html[data-theme="dark"] .lego-count { color: #bcd6e4 !important; }
+  html[data-theme="dark"] #lego-no-results { color: #bcd6e4 !important; }
+</style>
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="apple-touch-icon-v2.png">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="TreatYourself">
+<meta name="robots" content="noindex,nofollow">
+<link rel="stylesheet" href="pond-travel.css">
+<script>window.__TYD_PREVIEW__=true;</script>
+</head>
+<body>
+<div class="app">
+  <a class="back" href="deals.html">&#8249; Back to Deals</a>
+  <header class="top">
+    <img class="duck" src="images/corners/duck-deals.jpg" onerror="this.onerror=null;this.src='icon-512.png';" alt="The Pond duck">
+    <h1>🏠 Home Goods Deals</h1>
+    <p class="sub">Verified home goods deals on sale, refreshed every morning. Prices can change at the store.</p>
+  </header>
+  <div class="stamp-row">
+    <span class="stamp">✅ Checked November 18, 2026</span>
+    <button type="button" class="refresh-btn" id="refresh-btn">↻ Refresh deals</button>
+  </div>
+  <p class="refresh-note">This page joins the daily morning deal refresh: every price below was checked on its own product page on November 15, 2026. Refreshing reloads the latest saved check.</p>
+  <div class="controls">
+    <div class="search-row"><input id="lego-search" type="search" placeholder="Search home goods deals..." aria-label="Search Home Goods Deals"></div>
+    <p id="lego-no-results" hidden>No home goods deals match your search.</p>
+    <div class="filter-row">
+      <label>Store <select id="lego-store" aria-label="Filter by store"><option value="">All stores</option><option value="walmart">Walmart</option><option value="target">Target</option><option value="kohls">Kohl's</option><option value="macys">Macy's</option><option value="homedepot">Home Depot</option><option value="wayfair">Wayfair</option></select></label>
+      <label>Sort <select id="lego-sort" aria-label="Sort Home Goods Deals"><option value="pct">Biggest % off</option><option value="price-asc">Lowest price</option><option value="price-desc">Highest price</option><option value="az">A to Z</option></select></label>
+    </div>
+  </div>
+  <p class="lego-count" id="lego-count">36 home goods deals, checked November 18, 2026.</p>
+  <main class="lego-grid" id="lego-grid">
+      <article class="lego-card" id="deal-rizzy-home-bees-pillow" data-store="macys" data-price="25.50" data-pct="70" data-name="rizzy home bees decorative pillow 14x26 pillow home decor">
+      <img class="lego-photo" width="323" height="182" src="/images/deals/deal-rizzy-home-bees-pillow.jpg" alt="Rizzy Home Bees Decorative Pillow 14&quot;x26&quot;" loading="eager" fetchpriority="high" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Rizzy Home Bees Decorative Pillow 14"x26"</h3>
+        <span class="store-chip">Macy's</span>
+        <p class="price-row"><span class="sale">$25.50</span> <span class="was">was $85.00</span> <span class="pct">70% off</span></p>
+        <p class="save">Save $59.50</p>
+        <a class="shop-btn" href="https://www.macys.com/shop/product/rizzy-home-bees-polyester-filled-decorative-pillow-14-x-26?ID=11047390&amp;isDlp=true" target="_blank" rel="noopener">Shop Deal at Macy's</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/home-goods.html#deal-rizzy-home-bees-pillow" data-share-image="/images/deals/deal-rizzy-home-bees-pillow.jpg" data-share-title="Rizzy Home Bees Decorative Pillow 14&quot;x26&quot;" data-share-text="$25.50 was $85.00 at Macy's">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-rizzy-home-bees-pillow" data-deal-name="Rizzy Home Bees Decorative Pillow 14&quot;x26&quot;" data-deal-price="25.50" data-deal-was="85.00" data-deal-store="Macy&#x27;s" data-deal-href="https://www.macys.com/shop/product/rizzy-home-bees-polyester-filled-decorative-pillow-14-x-26?ID=11047390&amp;isDlp=true" data-deal-source="home-goods" data-deal-page="home-goods.html" data-deal-img="/images/deals/deal-rizzy-home-bees-pillow.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-juyafio-handheld-vacuum" data-store="walmart" data-price="23.49" data-pct="64" data-name="juyafio handheld vacuum 10000pa cordless blue car vacuum">
+      <img class="lego-photo" width="729" height="751" src="/images/deals/deal-juyafio-handheld-vacuum.jpg" alt="Juyafio Handheld Vacuum 10000PA Cordless, Blue" loading="eager" fetchpriority="high" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Juyafio Handheld Vacuum 10000PA Cordless, Blue</h3>
+        <span class="store-chip">Walmart</span>
+        <p class="price-row"><span class="sale">$23.49</span> <span class="was">was $65.99</span> <span class="pct">64% off</span></p>
+        <p class="save">Save $42.50</p>
+        <a class="shop-btn" href="https://www.walmart.com/ip/Juyafio-Cordless-Handheld-Vacuum-with-10000PA-Powerful-Suction-Portable-Rechargeable-Car-Vacuum-Cleaner-For-Car-Home/15099258236?classType=VARIANT&amp;athbdg=L1800" target="_blank" rel="noopener">Shop Deal at Walmart</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/home-goods.html#deal-juyafio-handheld-vacuum" data-share-image="/images/deals/deal-juyafio-handheld-vacuum.jpg" data-share-title="Juyafio Handheld Vacuum 10000PA Cordless, Blue" data-share-text="$23.49 was $65.99 at Walmart">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-juyafio-handheld-vacuum" data-deal-name="Juyafio Handheld Vacuum 10000PA Cordless, Blue" data-deal-price="23.49" data-deal-was="65.99" data-deal-store="Walmart" data-deal-href="https://www.walmart.com/ip/Juyafio-Cordless-Handheld-Vacuum-with-10000PA-Powerful-Suction-Portable-Rechargeable-Car-Vacuum-Cleaner-For-Car-Home/15099258236?classType=VARIANT&amp;athbdg=L1800" data-deal-source="home-goods" data-deal-page="home-goods.html" data-deal-img="/images/deals/deal-juyafio-handheld-vacuum.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-hitime-duvet-cover-king" data-store="walmart" data-price="16.99" data-pct="63" data-name="hitime luxury king duvet cover, solid pink, microfiber, 3-piece, with zipper closure">
+      <img class="lego-photo" width="573" height="573" src="/images/deals/deal-hitime-duvet-cover-king.jpg" alt="HITIME Luxury King Duvet Cover, Solid Pink, Microfiber, 3-Piece, with Zipper Closure" loading="eager" fetchpriority="high" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">HITIME Luxury King Duvet Cover, Solid Pink, Microfiber, 3-Piece, with Zipper Closure</h3>
+        <span class="store-chip">Walmart</span>
+        <p class="price-row"><span class="sale">$16.99</span> <span class="was">was $45.99</span> <span class="pct">63% off</span></p>
+        <p class="save">Save $29.00</p>
+        <p class="stock-note">Marketplace seller: sold by Gogreen Group, fulfilled by Walmart</p>
+        <a class="shop-btn" href="https://www.walmart.com/ip/Gogreen-Luxury-King-Duvet-Cover-Soft-Breathable-Microfiber-3-Pieces-King-Bedding-Sets-King-Comfy-Duvet-Cover-with-Zipper-Closure/14965065787" target="_blank" rel="noopener">Shop Deal at Walmart</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/home-goods.html#deal-hitime-duvet-cover-king" data-share-image="/images/deals/deal-hitime-duvet-cover-king.jpg" data-share-title="HITIME Luxury King Duvet Cover, Solid Pink, Microfiber, 3-Piece, with Zipper Closure" data-share-text="$16.99 was $45.99 at Walmart">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-hitime-duvet-cover-king" data-deal-name="HITIME Luxury King Duvet Cover, Solid Pink, Microfiber, 3-Piece, with Zipper Closure" data-deal-price="16.99" data-deal-was="45.99" data-deal-store="Walmart" data-deal-href="https://www.walmart.com/ip/Gogreen-Luxury-King-Duvet-Cover-Soft-Breathable-Microfiber-3-Pieces-King-Bedding-Sets-King-Comfy-Duvet-Cover-with-Zipper-Closure/14965065787" data-deal-source="home-goods" data-deal-page="home-goods.html" data-deal-img="/images/deals/deal-hitime-duvet-cover-king.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-astercook-pots-pans-22pc" data-store="walmart" data-price="65.00" data-pct="59" data-name="astercook pots and pans set 22 pcs non stick cream ceramic cookware">
+      <img class="lego-photo" width="584" height="484" src="/images/deals/deal-astercook-pots-pans-22pc.jpg" alt="Astercook Pots and Pans Set 22 Pcs Non Stick, Cream" loading="eager" fetchpriority="high" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Astercook Pots and Pans Set 22 Pcs Non Stick, Cream</h3>
+        <span class="store-chip">Walmart</span>
+        <p class="price-row"><span class="sale">$65.00</span> <span class="was">was $160.00</span> <span class="pct">59% off</span></p>
+        <p class="save">Save $95.00</p>
+        <a class="shop-btn" href="https://www.walmart.com/ip/Astercook-22-Piece-Ceramic-Pots-Pans-Set-Non-Stick-Cookware-Set-Detachable-Handles-Oven-Safe-Induction-Ready-Stackable-RV-Kitchen-Cooking-Set-Cream-W/14873101953?classType=VARIANT&amp;athbdg=L1800" target="_blank" rel="noopener">Shop Deal at Walmart</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/home-goods.html#deal-astercook-pots-pans-22pc" data-share-image="/images/deals/deal-astercook-pots-pans-22pc.jpg" data-share-title="Astercook Pots and Pans Set 22 Pcs Non Stick, Cream" data-share-text="$65.00 was $160.00 at Walmart">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-astercook-pots-pans-22pc" data-deal-name="Astercook Pots and Pans Set 22 Pcs Non Stick, Cream" data-deal-price="65.00" data-deal-was="160.00" data-deal-store="Walmart" data-deal-href="https://www.walmart.com/ip/Astercook-22-Piece-Ceramic-Pots-Pans-Set-Non-Stick-Cookware-Set-Detachable-Handles-Oven-Safe-Induction-Ready-Stackable-RV-Kitchen-Cooking-Set-Cream-W/14873101953?classType=VARIANT&amp;athbdg=L1800" data-deal-source="home-goods" data-deal-page="home-goods.html" data-deal-img="/images/deals/deal-astercook-pots-pans-22pc.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-astercook-silicone-utensils-38pc" data-store="walmart" data-price="22.99" data-pct="58" data-name="astercook silicone cooking utensils set 38pcs black wood handle kitchen utensils">
+      <img class="lego-photo" width="532" height="528" src="/images/deals/deal-astercook-silicone-utensils-38pc.jpg" alt="Astercook Silicone Cooking Utensils Set 38pcs, Black/Wood Handle" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Astercook Silicone Cooking Utensils Set 38pcs, Black/Wood Handle</h3>
+        <span class="store-chip">Walmart</span>
+        <p class="price-row"><span class="sale">$22.99</span> <span class="was">was $55.00</span> <span class="pct">58% off</span></p>
+        <p class="save">Save $32.01</p>
+        <a class="shop-btn" href="https://www.walmart.com/ip/Astercook-Silicone-Cooking-Utensils-Set-38-PCS-Kitchen-Utensils-Set-446-F-Heat-Resistant-Food-Grade-Utensil-Sets-Wooden-Handle-Kitchen-Gadgets-Nonsti/15678974787?classType=VARIANT&amp;athbdg=L1800&amp;adsRedirect=true" target="_blank" rel="noopener">Shop Deal at Walmart</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/home-goods.html#deal-astercook-silicone-utensils-38pc" data-share-image="/images/deals/deal-astercook-silicone-utensils-38pc.jpg" data-share-title="Astercook Silicone Cooking Utensils Set 38pcs, Black/Wood Handle" data-share-text="$22.99 was $55.00 at Walmart">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-astercook-silicone-utensils-38pc" data-deal-name="Astercook Silicone Cooking Utensils Set 38pcs, Black/Wood Handle" data-deal-price="22.99" data-deal-was="55.00" data-deal-store="Walmart" data-deal-href="https://www.walmart.com/ip/Astercook-Silicone-Cooking-Utensils-Set-38-PCS-Kitchen-Utensils-Set-446-F-Heat-Resistant-Food-Grade-Utensil-Sets-Wooden-Handle-Kitchen-Gadgets-Nonsti/15678974787?classType=VARIANT&amp;athbdg=L1800&amp;adsRedirect=true" data-deal-source="home-goods" data-deal-page="home-goods.html" data-deal-img="/images/deals/deal-astercook-silicone-utensils-38pc.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-gped-food-storage-containers" data-store="walmart" data-price="16.99" data-pct="58" data-name="gped 24 pcs food storage containers set bpa-free airtight pantry kitchen organization">
+      <img class="lego-photo" width="791" height="766" src="/images/deals/deal-gped-food-storage-containers.jpg" alt="GPED 24 Pcs Food Storage Containers Set, BPA-Free" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">GPED 24 Pcs Food Storage Containers Set, BPA-Free</h3>
+        <span class="store-chip">Walmart</span>
+        <p class="price-row"><span class="sale">$16.99</span> <span class="was">was $39.99</span> <span class="pct">58% off</span></p>
+        <p class="save">Save $23.00</p>
+        <a class="shop-btn" href="https://www.walmart.com/ip/24-Pcs-Food-Storage-Containers-Set-Lids-BPA-Free-Airtight-Plastic-Containers-Pantry-Kitchen-Organization-Meal-Prep-Lunch-Containers-Free-Labels-Marke/1676132039?classType=VARIANT&amp;athbdg=L1800&amp;adsRedirect=true" target="_blank" rel="noopener">Shop Deal at Walmart</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/home-goods.html#deal-gped-food-storage-containers" data-share-image="/images/deals/deal-gped-food-storage-containers.jpg" data-share-title="GPED 24 Pcs Food Storage Containers Set, BPA-Free" data-share-text="$16.99 was $39.99 at Walmart">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-gped-food-storage-containers" data-deal-name="GPED 24 Pcs Food Storage Containers Set, BPA-Free" data-deal-price="16.99" data-deal-was="39.99" data-deal-store="Walmart" data-deal-href="https://www.walmart.com/ip/24-Pcs-Food-Storage-Containers-Set-Lids-BPA-Free-Airtight-Plastic-Containers-Pantry-Kitchen-Organization-Meal-Prep-Lunch-Containers-Free-Labels-Marke/1676132039?classType=VARIANT&amp;athbdg=L1800&amp;adsRedirect=true" data-deal-source="home-goods" data-deal-page="home-goods.html" data-deal-img="/images/deals/deal-gped-food-storage-containers.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-casacomoda-tree-bookshelf" data-store="walmart" data-price="26.99" data-pct="53" data-name="casacomoda 6 tier tree bookshelf led vintage bookcase shelf">
+      <img class="lego-photo" width="332" height="332" src="/images/deals/deal-casacomoda-tree-bookshelf.jpg" alt="Casacomoda 6 Tier Tree Bookshelf with LED, Vintage" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Casacomoda 6 Tier Tree Bookshelf with LED, Vintage</h3>
+        <span class="store-chip">Walmart</span>
+        <p class="price-row"><span class="sale">$26.99</span> <span class="was">was $57.99</span> <span class="pct">53% off</span></p>
+        <p class="save">Save $31.00</p>
+        <a class="shop-btn" href="https://www.walmart.com/ip/Casacomoda-6-Tier-Tree-Bookshelf-Bookcase-LED-Lights-Display-Floor-Standing-Storage-Shelf-Book-Organizer-Shelves-Home-Office-Living-Room-Vintage/15674118497?classType=VARIANT&amp;athbdg=L1800" target="_blank" rel="noopener">Shop Deal at Walmart</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/home-goods.html#deal-casacomoda-tree-bookshelf" data-share-image="/images/deals/deal-casacomoda-tree-bookshelf.jpg" data-share-title="Casacomoda 6 Tier Tree Bookshelf with LED, Vintage" data-share-text="$26.99 was $57.99 at Walmart">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-casacomoda-tree-bookshelf" data-deal-name="Casacomoda 6 Tier Tree Bookshelf with LED, Vintage" data-deal-price="26.99" data-deal-was="57.99" data-deal-store="Walmart" data-deal-href="https://www.walmart.com/ip/Casacomoda-6-Tier-Tree-Bookshelf-Bookcase-LED-Lights-Display-Floor-Standing-Storage-Shelf-Book-Organizer-Shelves-Home-Office-Living-Room-Vintage/15674118497?classType=VARIANT&amp;athbdg=L1800" data-deal-source="home-goods" data-deal-page="home-goods.html" data-deal-img="/images/deals/deal-casacomoda-tree-bookshelf.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-gotham-steel-cookware-20pc" data-store="walmart" data-price="119.98" data-pct="52" data-name="gotham steel 20-pc ceramic pots and pans set, non-stick, copper">
+      <img class="lego-photo" width="572" height="557" src="/images/deals/deal-gotham-steel-cookware-20pc.jpg" alt="Gotham Steel 20-Pc Ceramic Pots and Pans Set, Non-Stick, Copper" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Gotham Steel 20-Pc Ceramic Pots and Pans Set, Non-Stick, Copper</h3>
+        <span class="store-chip">Walmart</span>
+        <p class="price-row"><span class="sale">$119.98</span> <span class="was">was $249.99</span> <span class="pct">52% off</span></p>
+        <p class="save">Save $130.01</p>
+        <p class="stock-note">Marketplace seller: sold by Realco Direct, fulfilled by Walmart</p>
+        <a class="shop-btn" href="https://www.walmart.com/ip/Gotham-Steel-TRUE-VALUE-20-Pc-Ceramic-Pots-Pans-Set-Non-Stick-Ceramic-Cookware-Set-Bakeware-Pot-Pan-Set-Utensils-Non-Stick-Pots-Pan-Set-Oven-Dishwash/1439205459" target="_blank" rel="noopener">Shop Deal at Walmart</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/home-goods.html#deal-gotham-steel-cookware-20pc" data-share-image="/images/deals/deal-gotham-steel-cookware-20pc.jpg" data-share-title="Gotham Steel 20-Pc Ceramic Pots and Pans Set, Non-Stick, Copper" data-share-text="$119.98 was $249.99 at Walmart">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-gotham-steel-cookware-20pc" data-deal-name="Gotham Steel 20-Pc Ceramic Pots and Pans Set, Non-Stick, Copper" data-deal-price="119.98" data-deal-was="249.99" data-deal-store="Walmart" data-deal-href="https://www.walmart.com/ip/Gotham-Steel-TRUE-VALUE-20-Pc-Ceramic-Pots-Pans-Set-Non-Stick-Ceramic-Cookware-Set-Bakeware-Pot-Pan-Set-Utensils-Non-Stick-Pots-Pan-Set-Oven-Dishwash/1439205459" data-deal-source="home-goods" data-deal-page="home-goods.html" data-deal-img="/images/deals/deal-gotham-steel-cookware-20pc.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-taimasi-wok-set" data-store="walmart" data-price="29.23" data-pct="51" data-name="taimasi carbon steel wok pan, 14-piece woks &amp; stir-fry pans set with wooden lid, 12.6&quot;">
+      <img class="lego-photo" width="573" height="573" src="/images/deals/deal-taimasi-wok-set.jpg" alt="TAIMASI Carbon Steel Wok Pan, 14-Piece Woks &amp; Stir-Fry Pans Set with Wooden Lid, 12.6&quot;" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">TAIMASI Carbon Steel Wok Pan, 14-Piece Woks &amp; Stir-Fry Pans Set with Wooden Lid, 12.6&quot;</h3>
+        <span class="store-chip">Walmart</span>
+        <p class="price-row"><span class="sale">$29.23</span> <span class="was">was $59.99</span> <span class="pct">51% off</span></p>
+        <p class="save">Save $30.76</p>
+        <p class="stock-note">Marketplace seller: sold by TAIMASI, fulfilled by Walmart</p>
+        <a class="shop-btn" href="https://www.walmart.com/ip/Taimasi-Carbon-Steel-Wok-Pan-14-Piece-Woks-Stir-Fry-Pans-Set-Wooden-Lid-Cookwares-Non-Stick-Flat-Bottom-Chinese-Woks-Pan-Induction-12-6/1947571845" target="_blank" rel="noopener">Shop Deal at Walmart</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/home-goods.html#deal-taimasi-wok-set" data-share-image="/images/deals/deal-taimasi-wok-set.jpg" data-share-title="TAIMASI Carbon Steel Wok Pan, 14-Piece Woks &amp; Stir-Fry Pans Set with Wooden Lid, 12.6&quot;" data-share-text="$29.23 was $59.99 at Walmart">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-taimasi-wok-set" data-deal-name="TAIMASI Carbon Steel Wok Pan, 14-Piece Woks &amp; Stir-Fry Pans Set with Wooden Lid, 12.6&quot;" data-deal-price="29.23" data-deal-was="59.99" data-deal-store="Walmart" data-deal-href="https://www.walmart.com/ip/Taimasi-Carbon-Steel-Wok-Pan-14-Piece-Woks-Stir-Fry-Pans-Set-Wooden-Lid-Cookwares-Non-Stick-Flat-Bottom-Chinese-Woks-Pan-Induction-12-6/1947571845" data-deal-source="home-goods" data-deal-page="home-goods.html" data-deal-img="/images/deals/deal-taimasi-wok-set.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-thread-spread-sheets-queen" data-store="walmart" data-price="29.69" data-pct="51" data-name="thread spread organic cotton bed sheets, queen, white, 4-pc, cooling percale">
+      <img class="lego-photo" width="573" height="573" src="/images/deals/deal-thread-spread-sheets-queen.jpg" alt="THREAD SPREAD Organic Cotton Bed Sheets, Queen, White, 4-PC, Cooling Percale" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">THREAD SPREAD Organic Cotton Bed Sheets, Queen, White, 4-PC, Cooling Percale</h3>
+        <span class="store-chip">Walmart</span>
+        <p class="price-row"><span class="sale">$29.69</span> <span class="was">was $60.99</span> <span class="pct">51% off</span></p>
+        <p class="save">Save $31.30</p>
+        <p class="stock-note">Marketplace seller: sold by Thread Spread, fulfilled by Walmart</p>
+        <a class="shop-btn" href="https://www.walmart.com/ip/THREAD-SPREAD-Organic-Cotton-Bed-Sheets-Queen-100-Organic-Cotton-Sheets-Queen-Size-4-PC-White-Crisp-Cooling-Percale-Weave-Sheet-Set/5325389281" target="_blank" rel="noopener">Shop Deal at Walmart</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/home-goods.html#deal-thread-spread-sheets-queen" data-share-image="/images/deals/deal-thread-spread-sheets-queen.jpg" data-share-title="THREAD SPREAD Organic Cotton Bed Sheets, Queen, White, 4-PC, Cooling Percale" data-share-text="$29.69 was $60.99 at Walmart">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-thread-spread-sheets-queen" data-deal-name="THREAD SPREAD Organic Cotton Bed Sheets, Queen, White, 4-PC, Cooling Percale" data-deal-price="29.69" data-deal-was="60.99" data-deal-store="Walmart" data-deal-href="https://www.walmart.com/ip/THREAD-SPREAD-Organic-Cotton-Bed-Sheets-Queen-100-Organic-Cotton-Sheets-Queen-Size-4-PC-White-Crisp-Cooling-Percale-Weave-Sheet-Set/5325389281" data-deal-source="home-goods" data-deal-page="home-goods.html" data-deal-img="/images/deals/deal-thread-spread-sheets-queen.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-yalamila-comforter-set" data-store="walmart" data-price="25.19" data-pct="50" data-name="yalamila queen comforter set, 3-piece, black/grey, reversible">
+      <img class="lego-photo" width="573" height="573" src="/images/deals/deal-yalamila-comforter-set.jpg" alt="Yalamila Queen Comforter Set, 3-Piece, Black/Grey, Reversible" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Yalamila Queen Comforter Set, 3-Piece, Black/Grey, Reversible</h3>
+        <span class="store-chip">Walmart</span>
+        <p class="price-row"><span class="sale">$25.19</span> <span class="was">was $50.38</span> <span class="pct">50% off</span></p>
+        <p class="save">Save $25.19</p>
+        <p class="stock-note">Marketplace seller: sold by Yalamila, fulfilled by Walmart</p>
+        <a class="shop-btn" href="https://www.walmart.com/ip/Yalamila-Queen-Comforter-Set-3-Piece-Black-Grey-Comforter-Bedding-Set-Reversible-All-Season-Down-Alternative-with-2-Pillow-Shams/261625228" target="_blank" rel="noopener">Shop Deal at Walmart</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/home-goods.html#deal-yalamila-comforter-set" data-share-image="/images/deals/deal-yalamila-comforter-set.jpg" data-share-title="Yalamila Queen Comforter Set, 3-Piece, Black/Grey, Reversible" data-share-text="$25.19 was $50.38 at Walmart">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-yalamila-comforter-set" data-deal-name="Yalamila Queen Comforter Set, 3-Piece, Black/Grey, Reversible" data-deal-price="25.19" data-deal-was="50.38" data-deal-store="Walmart" data-deal-href="https://www.walmart.com/ip/Yalamila-Queen-Comforter-Set-3-Piece-Black-Grey-Comforter-Bedding-Set-Reversible-All-Season-Down-Alternative-with-2-Pillow-Shams/261625228" data-deal-source="home-goods" data-deal-page="home-goods.html" data-deal-img="/images/deals/deal-yalamila-comforter-set.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-sonoro-kate-king-sheet-set" data-store="walmart" data-price="29.99" data-pct="50" data-name="sonoro kate king bed sheet set bamboo fiber green bedding sheets">
+      <img class="lego-photo" width="792" height="792" src="/images/deals/deal-sonoro-kate-king-sheet-set.jpg" alt="Sonoro Kate King Bed Sheet Set, Bamboo Fiber, Green" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Sonoro Kate King Bed Sheet Set, Bamboo Fiber, Green</h3>
+        <span class="store-chip">Walmart</span>
+        <p class="price-row"><span class="sale">$29.99</span> <span class="was">was $59.99</span> <span class="pct">50% off</span></p>
+        <p class="save">Save $30.00</p>
+        <a class="shop-btn" href="https://www.walmart.com/ip/Sonoro-Kate-Luxury-Bamboo-Bed-Sheet-Set-Deep-Pockets-4-Piece-King-Olive-Green/17770914395?classType=VARIANT&amp;adsRedirect=true" target="_blank" rel="noopener">Shop Deal at Walmart</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/home-goods.html#deal-sonoro-kate-king-sheet-set" data-share-image="/images/deals/deal-sonoro-kate-king-sheet-set.jpg" data-share-title="Sonoro Kate King Bed Sheet Set, Bamboo Fiber, Green" data-share-text="$29.99 was $59.99 at Walmart">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-sonoro-kate-king-sheet-set" data-deal-name="Sonoro Kate King Bed Sheet Set, Bamboo Fiber, Green" data-deal-price="29.99" data-deal-was="59.99" data-deal-store="Walmart" data-deal-href="https://www.walmart.com/ip/Sonoro-Kate-Luxury-Bamboo-Bed-Sheet-Set-Deep-Pockets-4-Piece-King-Olive-Green/17770914395?classType=VARIANT&amp;adsRedirect=true" data-deal-source="home-goods" data-deal-page="home-goods.html" data-deal-img="/images/deals/deal-sonoro-kate-king-sheet-set.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-sindcom-cereal-containers" data-store="walmart" data-price="17.00" data-pct="50" data-name="sindcom cereal storage container set of 4 clear airtight food storage">
+      <img class="lego-photo" width="767" height="626" src="/images/deals/deal-sindcom-cereal-containers.jpg" alt="Sindcom Cereal Storage Container Set of 4, 135.2 fl oz, Clear" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Sindcom Cereal Storage Container Set of 4, 135.2 fl oz, Clear</h3>
+        <span class="store-chip">Walmart</span>
+        <p class="price-row"><span class="sale">$17.00</span> <span class="was">was $34.00</span> <span class="pct">50% off</span></p>
+        <p class="save">Save $17.00</p>
+        <a class="shop-btn" href="https://www.walmart.com/ip/Cereal-Storage-Container-Set-of-4-Vtopmart-Airtight-Food-Storage-Containers-135-2-fl-oz-Black/933138696?classType=VARIANT&amp;athbdg=L1800" target="_blank" rel="noopener">Shop Deal at Walmart</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/home-goods.html#deal-sindcom-cereal-containers" data-share-image="/images/deals/deal-sindcom-cereal-containers.jpg" data-share-title="Sindcom Cereal Storage Container Set of 4, 135.2 fl oz, Clear" data-share-text="$17.00 was $34.00 at Walmart">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-sindcom-cereal-containers" data-deal-name="Sindcom Cereal Storage Container Set of 4, 135.2 fl oz, Clear" data-deal-price="17.00" data-deal-was="34.00" data-deal-store="Walmart" data-deal-href="https://www.walmart.com/ip/Cereal-Storage-Container-Set-of-4-Vtopmart-Airtight-Food-Storage-Containers-135-2-fl-oz-Black/933138696?classType=VARIANT&amp;athbdg=L1800" data-deal-source="home-goods" data-deal-page="home-goods.html" data-deal-img="/images/deals/deal-sindcom-cereal-containers.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-avenco-mattress-queen" data-store="wayfair" data-price="255.00" data-pct="49" data-name="avenco 12&quot; medium cooling memory foam hybrid mattress, queen">
+      <img class="lego-photo" width="800" height="800" src="/images/deals/deal-avenco-mattress-queen.jpg" alt="Avenco 12&quot; Medium Cooling Memory Foam Hybrid Mattress, Queen" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Avenco 12&quot; Medium Cooling Memory Foam Hybrid Mattress, Queen</h3>
+        <span class="store-chip">Wayfair</span>
+        <p class="price-row"><span class="sale">$255.00</span> <span class="was">was $499.99</span> <span class="pct">49% off</span></p>
+        <p class="save">Save $244.99</p>
+        <p class="stock-note">Marketplace seller: sold by supplier</p>
+        <a class="shop-btn" href="https://www.wayfair.com/bed-bath/pdp/avenco-1012-medium-cooling-memory-foam-hybrid-mattress-certipur-us-oeko-tex-certified-w100551569.html?piid=2106085656%2C2119273398" target="_blank" rel="noopener">Shop Deal at Wayfair</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/home-goods.html#deal-avenco-mattress-queen" data-share-image="/images/deals/deal-avenco-mattress-queen.jpg" data-share-title="Avenco 12&quot; Medium Cooling Memory Foam Hybrid Mattress, Queen" data-share-text="$255.00 was $499.99 at Wayfair">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-avenco-mattress-queen" data-deal-name="Avenco 12&quot; Medium Cooling Memory Foam Hybrid Mattress, Queen" data-deal-price="255.00" data-deal-was="499.99" data-deal-store="Wayfair" data-deal-href="https://www.wayfair.com/bed-bath/pdp/avenco-1012-medium-cooling-memory-foam-hybrid-mattress-certipur-us-oeko-tex-certified-w100551569.html?piid=2106085656%2C2119273398" data-deal-source="home-goods" data-deal-page="home-goods.html" data-deal-img="/images/deals/deal-avenco-mattress-queen.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-emonia-cooling-pillows" data-store="walmart" data-price="26.99" data-pct="49" data-name="emonia cooling memory foam queen pillows set of 2, blue (30&quot;x20&quot;)">
+      <img class="lego-photo" width="573" height="573" src="/images/deals/deal-emonia-cooling-pillows.jpg" alt="EMONIA Cooling Memory Foam Queen Pillows Set of 2, Blue (30&quot;x20&quot;)" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">EMONIA Cooling Memory Foam Queen Pillows Set of 2, Blue (30&quot;x20&quot;)</h3>
+        <span class="store-chip">Walmart</span>
+        <p class="price-row"><span class="sale">$26.99</span> <span class="was">was $52.99</span> <span class="pct">49% off</span></p>
+        <p class="save">Save $26.00</p>
+        <p class="stock-note">Marketplace seller: sold by EMONIA, fulfilled by Walmart</p>
+        <a class="shop-btn" href="https://www.walmart.com/ip/EMONIA-Cooling-Memory-Foam-Queen-Pillows-Bed-Set-2-Adjustable-Support-Heat-Dissipation-Tech-Side-Back-Stomach-Sleepers-OEKO-TEX-Certified-30-x20-2-Pa/5511529153" target="_blank" rel="noopener">Shop Deal at Walmart</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/home-goods.html#deal-emonia-cooling-pillows" data-share-image="/images/deals/deal-emonia-cooling-pillows.jpg" data-share-title="EMONIA Cooling Memory Foam Queen Pillows Set of 2, Blue (30&quot;x20&quot;)" data-share-text="$26.99 was $52.99 at Walmart">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-emonia-cooling-pillows" data-deal-name="EMONIA Cooling Memory Foam Queen Pillows Set of 2, Blue (30&quot;x20&quot;)" data-deal-price="26.99" data-deal-was="52.99" data-deal-store="Walmart" data-deal-href="https://www.walmart.com/ip/EMONIA-Cooling-Memory-Foam-Queen-Pillows-Bed-Set-2-Adjustable-Support-Heat-Dissipation-Tech-Side-Back-Stomach-Sleepers-OEKO-TEX-Certified-30-x20-2-Pa/5511529153" data-deal-source="home-goods" data-deal-page="home-goods.html" data-deal-img="/images/deals/deal-emonia-cooling-pillows.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-sindcom-storage-bins-4pk" data-store="walmart" data-price="16.99" data-pct="48" data-name="sindcom 4-pack clear plastic storage bins with handles, large, stackable">
+      <img class="lego-photo" width="573" height="569" src="/images/deals/deal-sindcom-storage-bins-4pk.jpg" alt="Sindcom 4-Pack Clear Plastic Storage Bins with Handles, Large, Stackable" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Sindcom 4-Pack Clear Plastic Storage Bins with Handles, Large, Stackable</h3>
+        <span class="store-chip">Walmart</span>
+        <p class="price-row"><span class="sale">$16.99</span> <span class="was">was $32.56</span> <span class="pct">48% off</span></p>
+        <p class="save">Save $15.57</p>
+        <p class="stock-note">Marketplace seller: sold by Sindcom, fulfilled by Walmart</p>
+        <a class="shop-btn" href="https://www.walmart.com/ip/4-Pack-Clear-Plastic-Storage-Bins-with-Handles-Vtopmart-Pantry-Organizer-Bins-for-Refrigerator-Freezer-Cabinet-Kitchen-Countertops-Large/465506556" target="_blank" rel="noopener">Shop Deal at Walmart</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/home-goods.html#deal-sindcom-storage-bins-4pk" data-share-image="/images/deals/deal-sindcom-storage-bins-4pk.jpg" data-share-title="Sindcom 4-Pack Clear Plastic Storage Bins with Handles, Large, Stackable" data-share-text="$16.99 was $32.56 at Walmart">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-sindcom-storage-bins-4pk" data-deal-name="Sindcom 4-Pack Clear Plastic Storage Bins with Handles, Large, Stackable" data-deal-price="16.99" data-deal-was="32.56" data-deal-store="Walmart" data-deal-href="https://www.walmart.com/ip/4-Pack-Clear-Plastic-Storage-Bins-with-Handles-Vtopmart-Pantry-Organizer-Bins-for-Refrigerator-Freezer-Cabinet-Kitchen-Countertops-Large/465506556" data-deal-source="home-goods" data-deal-page="home-goods.html" data-deal-img="/images/deals/deal-sindcom-storage-bins-4pk.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-laural-home-table-runner" data-store="macys" data-price="39.60" data-pct="45" data-name="laural home lovely lemons 13x72 table runner">
+      <img class="lego-photo" width="275" height="364" src="/images/deals/deal-laural-home-table-runner.jpg" alt="Laural Home Lovely Lemons 13x72 Table Runner" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Laural Home Lovely Lemons 13x72 Table Runner</h3>
+        <span class="store-chip">Macy&#x27;s</span>
+        <p class="price-row"><span class="sale">$39.60</span> <span class="was">was $72.00</span> <span class="pct">45% off</span></p>
+        <p class="save">Save $32.40</p>
+        <p class="stock-note">Marketplace seller: direct from vendor</p>
+        <a class="shop-btn" href="https://www.macys.com/shop/product/laural-home-lovely-lemons-collection?ID=11609801&amp;isDlp=true" target="_blank" rel="noopener">Shop Deal at Macy&#x27;s</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/home-goods.html#deal-laural-home-table-runner" data-share-image="/images/deals/deal-laural-home-table-runner.jpg" data-share-title="Laural Home Lovely Lemons 13x72 Table Runner" data-share-text="$39.60 was $72.00 at Macy&#x27;s">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-laural-home-table-runner" data-deal-name="Laural Home Lovely Lemons 13x72 Table Runner" data-deal-price="39.60" data-deal-was="72.00" data-deal-store="Macy&#x27;s" data-deal-href="https://www.macys.com/shop/product/laural-home-lovely-lemons-collection?ID=11609801&amp;isDlp=true" data-deal-source="home-goods" data-deal-page="home-goods.html" data-deal-img="/images/deals/deal-laural-home-table-runner.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-vccoem-comforter-set" data-store="walmart" data-price="38.00" data-pct="42" data-name="vccoem 7 piece comforter set queen khaki beige bed in a bag bedding">
+      <img class="lego-photo" width="792" height="792" src="/images/deals/deal-vccoem-comforter-set.jpg" alt="Vccoem 7 Piece Comforter Set Queen, Khaki Beige" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Vccoem 7 Piece Comforter Set Queen, Khaki Beige</h3>
+        <span class="store-chip">Walmart</span>
+        <p class="price-row"><span class="sale">$38.00</span> <span class="was">was $66.00</span> <span class="pct">42% off</span></p>
+        <p class="save">Save $28.00</p>
+        <a class="shop-btn" href="https://www.walmart.com/ip/Vccoem-7-Piece-Comforter-Set-Queen-Size-All-Season-Bed-in-a-Bag-Ultra-Soft-Bedding-with-Comforter-Sheets-Pillowcases-Shams-Khaki-Beige/15571718065?classType=VARIANT&amp;athbdg=L1800" target="_blank" rel="noopener">Shop Deal at Walmart</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/home-goods.html#deal-vccoem-comforter-set" data-share-image="/images/deals/deal-vccoem-comforter-set.jpg" data-share-title="Vccoem 7 Piece Comforter Set Queen, Khaki Beige" data-share-text="$38.00 was $66.00 at Walmart">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-vccoem-comforter-set" data-deal-name="Vccoem 7 Piece Comforter Set Queen, Khaki Beige" data-deal-price="38.00" data-deal-was="66.00" data-deal-store="Walmart" data-deal-href="https://www.walmart.com/ip/Vccoem-7-Piece-Comforter-Set-Queen-Size-All-Season-Bed-in-a-Bag-Ultra-Soft-Bedding-with-Comforter-Sheets-Pillowcases-Shams-Khaki-Beige/15571718065?classType=VARIANT&amp;athbdg=L1800" data-deal-source="home-goods" data-deal-page="home-goods.html" data-deal-img="/images/deals/deal-vccoem-comforter-set.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-exclusivo-mezcla-throw-blanket" data-store="walmart" data-price="9.99" data-pct="41" data-name="exclusivo mezcla plush fuzzy fleece throw blanket 50x70 pink">
+      <img class="lego-photo" width="792" height="792" src="/images/deals/deal-exclusivo-mezcla-throw-blanket.jpg" alt="Exclusivo Mezcla Plush Fuzzy Fleece Throw Blanket 50&quot;x70&quot;, Pink" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Exclusivo Mezcla Plush Fuzzy Fleece Throw Blanket 50"x70", Pink</h3>
+        <span class="store-chip">Walmart</span>
+        <p class="price-row"><span class="sale">$9.99</span> <span class="was">was $16.99</span> <span class="pct">41% off</span></p>
+        <p class="save">Save $7.00</p>
+        <a class="shop-btn" href="https://www.walmart.com/ip/Exclusivo-Mezcla-Plush-Fuzzy-Large-Fleece-Throw-Blanket-50-x-70-Dusty-Pink-Soft-Warm-and-Lightweight/501459727?classType=VARIANT&amp;athbdg=L1800" target="_blank" rel="noopener">Shop Deal at Walmart</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/home-goods.html#deal-exclusivo-mezcla-throw-blanket" data-share-image="/images/deals/deal-exclusivo-mezcla-throw-blanket.jpg" data-share-title="Exclusivo Mezcla Plush Fuzzy Fleece Throw Blanket 50&quot;x70&quot;, Pink" data-share-text="$9.99 was $16.99 at Walmart">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-exclusivo-mezcla-throw-blanket" data-deal-name="Exclusivo Mezcla Plush Fuzzy Fleece Throw Blanket 50&quot;x70&quot;, Pink" data-deal-price="9.99" data-deal-was="16.99" data-deal-store="Walmart" data-deal-href="https://www.walmart.com/ip/Exclusivo-Mezcla-Plush-Fuzzy-Large-Fleece-Throw-Blanket-50-x-70-Dusty-Pink-Soft-Warm-and-Lightweight/501459727?classType=VARIANT&amp;athbdg=L1800" data-deal-source="home-goods" data-deal-page="home-goods.html" data-deal-img="/images/deals/deal-exclusivo-mezcla-throw-blanket.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-berghoff-grater-set" data-store="macys" data-price="44.99" data-pct="40" data-name="berghoff essentials 5-pc. french fry and rotary cheese grater set">
+      <img class="lego-photo" width="800" height="696" src="/images/deals/deal-berghoff-grater-set.jpg" alt="BergHOFF Essentials 5-Pc. French Fry and Rotary Cheese Grater Set" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">BergHOFF Essentials 5-Pc. French Fry and Rotary Cheese Grater Set</h3>
+        <span class="store-chip">Macy&#x27;s</span>
+        <p class="price-row"><span class="sale">$44.99</span> <span class="was">was $75.00</span> <span class="pct">40% off</span></p>
+        <p class="save">Save $30.01</p>
+        <p class="stock-note">Marketplace seller: direct from vendor</p>
+        <a class="shop-btn" href="https://www.macys.com/shop/product/berghoff-essentials-5-pc.-french-fry-rotary-cheese-grater-set?ID=21119010&amp;isDlp=true" target="_blank" rel="noopener">Shop Deal at Macy&#x27;s</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/home-goods.html#deal-berghoff-grater-set" data-share-image="/images/deals/deal-berghoff-grater-set.jpg" data-share-title="BergHOFF Essentials 5-Pc. French Fry and Rotary Cheese Grater Set" data-share-text="$44.99 was $75.00 at Macy&#x27;s">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-berghoff-grater-set" data-deal-name="BergHOFF Essentials 5-Pc. French Fry and Rotary Cheese Grater Set" data-deal-price="44.99" data-deal-was="75.00" data-deal-store="Macy&#x27;s" data-deal-href="https://www.macys.com/shop/product/berghoff-essentials-5-pc.-french-fry-rotary-cheese-grater-set?ID=21119010&amp;isDlp=true" data-deal-source="home-goods" data-deal-page="home-goods.html" data-deal-img="/images/deals/deal-berghoff-grater-set.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-pioneer-woman-cookware-28pc" data-store="walmart" data-price="119.00" data-pct="40" data-name="the pioneer woman 28-piece stainless steel cookware set with kitchen tools">
+      <img class="lego-photo" width="500" height="401" src="/images/deals/deal-pioneer-woman-cookware-28pc.jpg" alt="The Pioneer Woman 28-Piece Stainless Steel Cookware Set with Kitchen Tools" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">The Pioneer Woman 28-Piece Stainless Steel Cookware Set with Kitchen Tools</h3>
+        <span class="store-chip">Walmart</span>
+        <p class="price-row"><span class="sale">$119.00</span> <span class="was">was $199.99</span> <span class="pct">40% off</span></p>
+        <p class="save">Save $80.99</p>
+        <a class="shop-btn" href="https://www.walmart.com/ip/The-Pioneer-Woman-28-Piece-Stainless-Steel-Cookware-Set-Cooking-Pots-and-Pans-Set-with-Kitchen-Utensils/17043415965" target="_blank" rel="noopener">Shop Deal at Walmart</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/home-goods.html#deal-pioneer-woman-cookware-28pc" data-share-image="/images/deals/deal-pioneer-woman-cookware-28pc.jpg" data-share-title="The Pioneer Woman 28-Piece Stainless Steel Cookware Set with Kitchen Tools" data-share-text="$119.00 was $199.99 at Walmart">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-pioneer-woman-cookware-28pc" data-deal-name="The Pioneer Woman 28-Piece Stainless Steel Cookware Set with Kitchen Tools" data-deal-price="119.00" data-deal-was="199.99" data-deal-store="Walmart" data-deal-href="https://www.walmart.com/ip/The-Pioneer-Woman-28-Piece-Stainless-Steel-Cookware-Set-Cooking-Pots-and-Pans-Set-with-Kitchen-Utensils/17043415965" data-deal-source="home-goods" data-deal-page="home-goods.html" data-deal-img="/images/deals/deal-pioneer-woman-cookware-28pc.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-ktaxon-5-tier-shelving" data-store="walmart" data-price="40.99" data-pct="39" data-name="ktaxon 5-tier wire shelving unit silver storage rack garage office kitchen">
+      <img class="lego-photo" width="792" height="792" src="/images/deals/deal-ktaxon-5-tier-shelving.jpg" alt="Ktaxon 5-Tier Wire Shelving Unit 30&quot;x14&quot;x60&quot;, Silver" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Ktaxon 5-Tier Wire Shelving Unit 30"x14"x60", Silver</h3>
+        <span class="store-chip">Walmart</span>
+        <p class="price-row"><span class="sale">$40.99</span> <span class="was">was $67.49</span> <span class="pct">39% off</span></p>
+        <p class="save">Save $26.50</p>
+        <a class="shop-btn" href="https://www.walmart.com/ip/Ktaxon-5-Tier-Wire-Shelving-Unit-Steel-Storage-Rack-for-Garage-Office-Kitchen-Silver-30-W-x-14-D-x-60-H/758640951?classType=VARIANT&amp;athbdg=L1800" target="_blank" rel="noopener">Shop Deal at Walmart</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/home-goods.html#deal-ktaxon-5-tier-shelving" data-share-image="/images/deals/deal-ktaxon-5-tier-shelving.jpg" data-share-title="Ktaxon 5-Tier Wire Shelving Unit 30&quot;x14&quot;x60&quot;, Silver" data-share-text="$40.99 was $67.49 at Walmart">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-ktaxon-5-tier-shelving" data-deal-name="Ktaxon 5-Tier Wire Shelving Unit 30&quot;x14&quot;x60&quot;, Silver" data-deal-price="40.99" data-deal-was="67.49" data-deal-store="Walmart" data-deal-href="https://www.walmart.com/ip/Ktaxon-5-Tier-Wire-Shelving-Unit-Steel-Storage-Rack-for-Garage-Office-Kitchen-Silver-30-W-x-14-D-x-60-H/758640951?classType=VARIANT&amp;athbdg=L1800" data-deal-source="home-goods" data-deal-page="home-goods.html" data-deal-img="/images/deals/deal-ktaxon-5-tier-shelving.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-sherpa-comforter-set-burgundy" data-store="homedepot" data-price="48.02" data-pct="39" data-name="3-piece burgundy full/queen size sherpa fleece comforter set 759308rpr">
+      <img class="lego-photo" width="596" height="476" src="/images/deals/deal-sherpa-comforter-set-burgundy.jpg" alt="3-Piece Burgundy Full/Queen Size Sherpa Fleece Comforter Set 759308RPR" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">3-Piece Burgundy Full/Queen Size Sherpa Fleece Comforter Set 759308RPR</h3>
+        <span class="store-chip">Home Depot</span>
+        <p class="price-row"><span class="sale">$48.02</span> <span class="was">was $78.59</span> <span class="pct">39% off</span></p>
+        <p class="save">Save $30.57</p>
+        <a class="shop-btn" href="https://www.homedepot.com/p/3-Piece-Burgundy-Full-Queen-Size-Sherpa-Fleece-Comforter-Set-759308RPR/316270369" target="_blank" rel="noopener">Shop Deal at Home Depot</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/home-goods.html#deal-sherpa-comforter-set-burgundy" data-share-image="/images/deals/deal-sherpa-comforter-set-burgundy.jpg" data-share-title="3-Piece Burgundy Full/Queen Size Sherpa Fleece Comforter Set 759308RPR" data-share-text="$48.02 was $78.59 at Home Depot">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-sherpa-comforter-set-burgundy" data-deal-name="3-Piece Burgundy Full/Queen Size Sherpa Fleece Comforter Set 759308RPR" data-deal-price="48.02" data-deal-was="78.59" data-deal-store="Home Depot" data-deal-href="https://www.homedepot.com/p/3-Piece-Burgundy-Full-Queen-Size-Sherpa-Fleece-Comforter-Set-759308RPR/316270369" data-deal-source="home-goods" data-deal-page="home-goods.html" data-deal-img="/images/deals/deal-sherpa-comforter-set-burgundy.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-dirt-devil-ud20120-vacuum" data-store="walmart" data-price="37.00" data-pct="26" data-name="dirt devil ud20120 bagless upright vacuum red pet">
+      <img class="lego-photo" width="286" height="676" src="/images/deals/deal-dirt-devil-ud20120-vacuum.jpg" alt="Dirt Devil UD20120 Bagless Upright Vacuum, Red" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Dirt Devil UD20120 Bagless Upright Vacuum, Red</h3>
+        <span class="store-chip">Walmart</span>
+        <p class="price-row"><span class="sale">$37.00</span> <span class="was">was $49.99</span> <span class="pct">26% off</span></p>
+        <p class="save">Save $12.99</p>
+        <a class="shop-btn" href="https://www.walmart.com/ip/Dirt-Devil-Bagless-Upright-Vacuum-Power-Express-Pet-Friendly-for-Hard-Floor-and-Carpet-Lightweight-Height-Adjustment-Crevice-Tool-UD20120-Red/49920630?classType=REGULAR&amp;athbdg=L1800" target="_blank" rel="noopener">Shop Deal at Walmart</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/home-goods.html#deal-dirt-devil-ud20120-vacuum" data-share-image="/images/deals/deal-dirt-devil-ud20120-vacuum.jpg" data-share-title="Dirt Devil UD20120 Bagless Upright Vacuum, Red" data-share-text="$37.00 was $49.99 at Walmart">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-dirt-devil-ud20120-vacuum" data-deal-name="Dirt Devil UD20120 Bagless Upright Vacuum, Red" data-deal-price="37.00" data-deal-was="49.99" data-deal-store="Walmart" data-deal-href="https://www.walmart.com/ip/Dirt-Devil-Bagless-Upright-Vacuum-Power-Express-Pet-Friendly-for-Hard-Floor-and-Carpet-Lightweight-Height-Adjustment-Crevice-Tool-UD20120-Red/49920630?classType=REGULAR&amp;athbdg=L1800" data-deal-source="home-goods" data-deal-page="home-goods.html" data-deal-img="/images/deals/deal-dirt-devil-ud20120-vacuum.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-beautiful-multi-cooker" data-store="walmart" data-price="59.00" data-pct="26" data-name="beautiful 10-in-1 electric multi-cooker 6 qt white icing drew barrymore">
+      <img class="lego-photo" width="630" height="437" src="/images/deals/deal-beautiful-multi-cooker.jpg" alt="Beautiful 10-in-1 Electric Multi-Cooker 6 Qt, White Icing (Drew Barrymore)" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Beautiful 10-in-1 Electric Multi-Cooker 6 Qt, White Icing (Drew Barrymore)</h3>
+        <span class="store-chip">Walmart</span>
+        <p class="price-row"><span class="sale">$59.00</span> <span class="was">was $79.83</span> <span class="pct">26% off</span></p>
+        <p class="save">Save $20.83</p>
+        <a class="shop-btn" href="https://www.walmart.com/ip/Beautiful-10-in-1-6-Qt-Electric-Multi-Cooker-White-Icing-by-Drew-Barrymore/5449194708?classType=VARIANT&amp;athbdg=L1300" target="_blank" rel="noopener">Shop Deal at Walmart</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/home-goods.html#deal-beautiful-multi-cooker" data-share-image="/images/deals/deal-beautiful-multi-cooker.jpg" data-share-title="Beautiful 10-in-1 Electric Multi-Cooker 6 Qt, White Icing (Drew Barrymore)" data-share-text="$59.00 was $79.83 at Walmart">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-beautiful-multi-cooker" data-deal-name="Beautiful 10-in-1 Electric Multi-Cooker 6 Qt, White Icing (Drew Barrymore)" data-deal-price="59.00" data-deal-was="79.83" data-deal-store="Walmart" data-deal-href="https://www.walmart.com/ip/Beautiful-10-in-1-6-Qt-Electric-Multi-Cooker-White-Icing-by-Drew-Barrymore/5449194708?classType=VARIANT&amp;athbdg=L1300" data-deal-source="home-goods" data-deal-page="home-goods.html" data-deal-img="/images/deals/deal-beautiful-multi-cooker.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-wondershop-gingerbread-utensil-holder" data-store="target" data-price="11.25" data-pct="25" data-name="stoneware gingerbread utensil holder brown wondershop target christmas">
+      <img class="lego-photo" width="602" height="635" src="/images/deals/deal-wondershop-gingerbread-utensil-holder.jpg" alt="Stoneware Gingerbread Utensil Holder, Brown — Wondershop" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Stoneware Gingerbread Utensil Holder, Brown — Wondershop</h3>
+        <span class="store-chip">Target</span>
+        <p class="price-row"><span class="sale">$11.25</span> <span class="was">was $15.00</span> <span class="pct">25% off</span></p>
+        <p class="save">Save $3.75</p>
+        <p class="target-note"><strong>Online price — in store may be higher.</strong> Target matches its own website price in store: show the LIVE target.com/app price on your phone at Guest Services (screenshots not accepted), at purchase or within 14 days. Holiday buys Nov 1–Dec 24, 2026 can match price drops through Dec 24. Bring your receipt.</p>
+        <a class="shop-btn" href="https://www.target.com/p/stoneware-gingerbread-utensil-holder-brown-wondershop-8482/-/A-95162514" target="_blank" rel="noopener">Shop Deal at Target</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/home-goods.html#deal-wondershop-gingerbread-utensil-holder" data-share-image="/images/deals/deal-wondershop-gingerbread-utensil-holder.jpg" data-share-title="Stoneware Gingerbread Utensil Holder, Brown — Wondershop" data-share-text="$11.25 was $15.00 at Target">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-wondershop-gingerbread-utensil-holder" data-deal-name="Stoneware Gingerbread Utensil Holder, Brown — Wondershop" data-deal-price="11.25" data-deal-was="15.00" data-deal-store="Target" data-deal-href="https://www.target.com/p/stoneware-gingerbread-utensil-holder-brown-wondershop-8482/-/A-95162514" data-deal-source="home-goods" data-deal-page="home-goods.html" data-deal-img="/images/deals/deal-wondershop-gingerbread-utensil-holder.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-big-one-sheet-set-queen" data-store="kohls" data-price="29.99" data-pct="25" data-name="the big one extra soft sheet set with pillowcases, queen, gray">
+      <img class="lego-photo" width="800" height="800" src="/images/deals/deal-big-one-sheet-set-queen.jpg" alt="The Big One Extra Soft Sheet Set with Pillowcases, Queen, Gray" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">The Big One Extra Soft Sheet Set with Pillowcases, Queen, Gray</h3>
+        <span class="store-chip">Kohl&#x27;s</span>
+        <p class="price-row"><span class="sale">$29.99</span> <span class="was">was $39.99</span> <span class="pct">25% off</span></p>
+        <p class="save">Save $10.00</p>
+        <p class="stock-note">Extra 20% off with code LOVE2SAVE — $23.99</p>
+        <a class="shop-btn" href="https://www.kohls.com/product/prd-3545170/croft-barrow-microfiber-sheet-set.jsp?color=Gray&amp;topSkuId=68289777" target="_blank" rel="noopener">Shop Deal at Kohl&#x27;s</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/home-goods.html#deal-big-one-sheet-set-queen" data-share-image="/images/deals/deal-big-one-sheet-set-queen.jpg" data-share-title="The Big One Extra Soft Sheet Set with Pillowcases, Queen, Gray" data-share-text="$29.99 was $39.99 at Kohl&#x27;s — code LOVE2SAVE">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-big-one-sheet-set-queen" data-deal-name="The Big One Extra Soft Sheet Set with Pillowcases, Queen, Gray" data-deal-price="29.99" data-deal-was="39.99" data-deal-store="Kohl&#x27;s" data-deal-href="https://www.kohls.com/product/prd-3545170/croft-barrow-microfiber-sheet-set.jsp?color=Gray&amp;topSkuId=68289777" data-deal-source="home-goods" data-deal-page="home-goods.html" data-deal-img="/images/deals/deal-big-one-sheet-set-queen.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-black-decker-garment-steamer" data-store="walmart" data-price="18.97" data-pct="24" data-name="black decker compact handheld garment steamer 1000w lavender white">
+      <img class="lego-photo" width="315" height="575" src="/images/deals/deal-black-decker-garment-steamer.jpg" alt="BLACK+DECKER Compact Handheld Garment Steamer 1000W, Lavender/White" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">BLACK+DECKER Compact Handheld Garment Steamer 1000W, Lavender/White</h3>
+        <span class="store-chip">Walmart</span>
+        <p class="price-row"><span class="sale">$18.97</span> <span class="was">was $25.00</span> <span class="pct">24% off</span></p>
+        <p class="save">Save $6.03</p>
+        <a class="shop-btn" href="https://www.walmart.com/ip/BLACK-DECKER-Compact-Handheld-Garment-Steamer-1000W-30-Second-Heat-Up-6-Minutes-Continous-Steam-10-8-fl-oz-Detachable-Water-Tank-Lavender-White/5265054931?classType=VARIANT&amp;athbdg=L1600&amp;adsRedirect=true" target="_blank" rel="noopener">Shop Deal at Walmart</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/home-goods.html#deal-black-decker-garment-steamer" data-share-image="/images/deals/deal-black-decker-garment-steamer.jpg" data-share-title="BLACK+DECKER Compact Handheld Garment Steamer 1000W, Lavender/White" data-share-text="$18.97 was $25.00 at Walmart">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-black-decker-garment-steamer" data-deal-name="BLACK+DECKER Compact Handheld Garment Steamer 1000W, Lavender/White" data-deal-price="18.97" data-deal-was="25.00" data-deal-store="Walmart" data-deal-href="https://www.walmart.com/ip/BLACK-DECKER-Compact-Handheld-Garment-Steamer-1000W-30-Second-Heat-Up-6-Minutes-Continous-Steam-10-8-fl-oz-Detachable-Water-Tank-Lavender-White/5265054931?classType=VARIANT&amp;athbdg=L1600&amp;adsRedirect=true" data-deal-source="home-goods" data-deal-page="home-goods.html" data-deal-img="/images/deals/deal-black-decker-garment-steamer.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-frigidaire-efic130-ice-maker" data-store="walmart" data-price="83.64" data-pct="23" data-name="frigidaire efic130 portable countertop ice maker stainless steel bullet ice">
+      <img class="lego-photo" width="608" height="696" src="/images/deals/deal-frigidaire-efic130-ice-maker.jpg" alt="Frigidaire EFIC130 Portable Countertop Ice Maker 26 lbs/day, Stainless Steel" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Frigidaire EFIC130 Portable Countertop Ice Maker 26 lbs/day, Stainless Steel</h3>
+        <span class="store-chip">Walmart</span>
+        <p class="price-row"><span class="sale">$83.64</span> <span class="was">was $108.00</span> <span class="pct">23% off</span></p>
+        <p class="save">Save $24.36</p>
+        <p class="stock-note">Stainless Steel variant</p>
+        <a class="shop-btn" href="https://www.walmart.com/ip/Frigidaire-26-lb-Bullet-Ice-Maker-Stainless-Steel-compact-high-capacity-icemaker-producing-bullet-shaped-ice-ideal-kitchens-parties-entertaining/3106789590?classType=VARIANT" target="_blank" rel="noopener">Shop Deal at Walmart</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/home-goods.html#deal-frigidaire-efic130-ice-maker" data-share-image="/images/deals/deal-frigidaire-efic130-ice-maker.jpg" data-share-title="Frigidaire EFIC130 Portable Countertop Ice Maker 26 lbs/day, Stainless Steel" data-share-text="$83.64 was $108.00 at Walmart">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-frigidaire-efic130-ice-maker" data-deal-name="Frigidaire EFIC130 Portable Countertop Ice Maker 26 lbs/day, Stainless Steel" data-deal-price="83.64" data-deal-was="108.00" data-deal-store="Walmart" data-deal-href="https://www.walmart.com/ip/Frigidaire-26-lb-Bullet-Ice-Maker-Stainless-Steel-compact-high-capacity-icemaker-producing-bullet-shaped-ice-ideal-kitchens-parties-entertaining/3106789590?classType=VARIANT" data-deal-source="home-goods" data-deal-page="home-goods.html" data-deal-img="/images/deals/deal-frigidaire-efic130-ice-maker.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-beautiful-gooseneck-kettle" data-store="walmart" data-price="29.98" data-pct="21" data-name="beautiful 1-liter electric gooseneck kettle, 1200 w, hydrangea, by drew barrymore">
+      <img class="lego-photo" width="461" height="428" src="/images/deals/deal-beautiful-gooseneck-kettle.jpg" alt="Beautiful 1-Liter Electric Gooseneck Kettle, 1200 W, Hydrangea, by Drew Barrymore" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Beautiful 1-Liter Electric Gooseneck Kettle, 1200 W, Hydrangea, by Drew Barrymore</h3>
+        <span class="store-chip">Walmart</span>
+        <p class="price-row"><span class="sale">$29.98</span> <span class="was">was $37.96</span> <span class="pct">21% off</span></p>
+        <p class="save">Save $7.98</p>
+        <a class="shop-btn" href="https://www.walmart.com/ip/Beautiful-1-Liter-Electric-Gooseneck-Kettle-1200-W-Hydrangea-by-Drew-Barrymore/14921305842" target="_blank" rel="noopener">Shop Deal at Walmart</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/home-goods.html#deal-beautiful-gooseneck-kettle" data-share-image="/images/deals/deal-beautiful-gooseneck-kettle.jpg" data-share-title="Beautiful 1-Liter Electric Gooseneck Kettle, 1200 W, Hydrangea, by Drew Barrymore" data-share-text="$29.98 was $37.96 at Walmart">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-beautiful-gooseneck-kettle" data-deal-name="Beautiful 1-Liter Electric Gooseneck Kettle, 1200 W, Hydrangea, by Drew Barrymore" data-deal-price="29.98" data-deal-was="37.96" data-deal-store="Walmart" data-deal-href="https://www.walmart.com/ip/Beautiful-1-Liter-Electric-Gooseneck-Kettle-1200-W-Hydrangea-by-Drew-Barrymore/14921305842" data-deal-source="home-goods" data-deal-page="home-goods.html" data-deal-img="/images/deals/deal-beautiful-gooseneck-kettle.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-big-one-throw-blanket" data-store="kohls" data-price="11.99" data-pct="20" data-name="the big one oversized supersoft plush throw blanket gray jacquard kohls">
+      <img class="lego-photo" width="439" height="680" src="/images/deals/deal-big-one-throw-blanket.jpg" alt="The Big One Oversized Supersoft Plush Throw Blanket, Gray Jacquard" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">The Big One Oversized Supersoft Plush Throw Blanket, Gray Jacquard</h3>
+        <span class="store-chip">Kohl's</span>
+        <p class="price-row"><span class="sale">$11.99</span> <span class="was">was $14.99</span> <span class="pct">20% off</span></p>
+        <p class="save">Save $3.00</p>
+        <p class="stock-note">With code LOVE2SAVE</p>
+        <a class="shop-btn" href="https://www.kohls.com/product/prd-1944597/the-big-one-super-soft-plush-throw.jsp?color=Gray%20Jacquard&amp;topSkuId=69970347" target="_blank" rel="noopener">Shop Deal at Kohl's</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/home-goods.html#deal-big-one-throw-blanket" data-share-image="/images/deals/deal-big-one-throw-blanket.jpg" data-share-title="The Big One Oversized Supersoft Plush Throw Blanket, Gray Jacquard" data-share-text="$11.99 was $14.99 at Kohl's — code LOVE2SAVE">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-big-one-throw-blanket" data-deal-name="The Big One Oversized Supersoft Plush Throw Blanket, Gray Jacquard" data-deal-price="11.99" data-deal-was="14.99" data-deal-store="Kohl&#x27;s" data-deal-href="https://www.kohls.com/product/prd-1944597/the-big-one-super-soft-plush-throw.jsp?color=Gray%20Jacquard&amp;topSkuId=69970347" data-deal-source="home-goods" data-deal-page="home-goods.html" data-deal-img="/images/deals/deal-big-one-throw-blanket.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-sonoma-rug-blue-floral" data-store="kohls" data-price="15.99" data-pct="20" data-name="sonoma goods for life washable throw &amp; kitchen, entry or laundry room rug, blue floral, 20&quot;x32&quot;">
+      <img class="lego-photo" width="522" height="800" src="/images/deals/deal-sonoma-rug-blue-floral.jpg" alt="Sonoma Goods For Life Washable Throw &amp; Kitchen, Entry or Laundry Room Rug, Blue Floral, 20&quot;x32&quot;" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Sonoma Goods For Life Washable Throw &amp; Kitchen, Entry or Laundry Room Rug, Blue Floral, 20&quot;x32&quot;</h3>
+        <span class="store-chip">Kohl&#x27;s</span>
+        <p class="price-row"><span class="sale">$15.99</span> <span class="was">was $19.99</span> <span class="pct">20% off</span></p>
+        <p class="save">Save $4.00</p>
+        <p class="stock-note">Extra 20% off with code LOVE2SAVE — $12.79</p>
+        <a class="shop-btn" href="https://www.kohls.com/product/prd-4902010/sonoma-goods-for-life-washable-throw-kitchen-entry-or-laundry-room-rug.jsp?color=Blue%20Floral&amp;topSkuId=74528091" target="_blank" rel="noopener">Shop Deal at Kohl&#x27;s</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/home-goods.html#deal-sonoma-rug-blue-floral" data-share-image="/images/deals/deal-sonoma-rug-blue-floral.jpg" data-share-title="Sonoma Goods For Life Washable Throw &amp; Kitchen, Entry or Laundry Room Rug, Blue Floral, 20&quot;x32&quot;" data-share-text="$15.99 was $19.99 at Kohl&#x27;s — code LOVE2SAVE">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-sonoma-rug-blue-floral" data-deal-name="Sonoma Goods For Life Washable Throw &amp; Kitchen, Entry or Laundry Room Rug, Blue Floral, 20&quot;x32&quot;" data-deal-price="15.99" data-deal-was="19.99" data-deal-store="Kohl&#x27;s" data-deal-href="https://www.kohls.com/product/prd-4902010/sonoma-goods-for-life-washable-throw-kitchen-entry-or-laundry-room-rug.jsp?color=Blue%20Floral&amp;topSkuId=74528091" data-deal-source="home-goods" data-deal-page="home-goods.html" data-deal-img="/images/deals/deal-sonoma-rug-blue-floral.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-belle-maison-ledges" data-store="kohls" data-price="31.99" data-pct="20" data-name="belle maison 2-pc. beaded ledges set, dark brown">
+      <img class="lego-photo" width="756" height="321" src="/images/deals/deal-belle-maison-ledges.jpg" alt="Belle Maison 2-pc. Beaded Ledges Set, Dark Brown" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Belle Maison 2-pc. Beaded Ledges Set, Dark Brown</h3>
+        <span class="store-chip">Kohl&#x27;s</span>
+        <p class="price-row"><span class="sale">$31.99</span> <span class="was">was $39.99</span> <span class="pct">20% off</span></p>
+        <p class="save">Save $8.00</p>
+        <p class="stock-note">Extra 20% off with code LOVE2SAVE — $25.59</p>
+        <a class="shop-btn" href="https://www.kohls.com/product/prd-7863132/belle-maison-2-pc-beaded-ledges-set.jsp?color=Dark%20Brown&amp;topSkuId=19822877" target="_blank" rel="noopener">Shop Deal at Kohl&#x27;s</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/home-goods.html#deal-belle-maison-ledges" data-share-image="/images/deals/deal-belle-maison-ledges.jpg" data-share-title="Belle Maison 2-pc. Beaded Ledges Set, Dark Brown" data-share-text="$31.99 was $39.99 at Kohl&#x27;s — code LOVE2SAVE">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-belle-maison-ledges" data-deal-name="Belle Maison 2-pc. Beaded Ledges Set, Dark Brown" data-deal-price="31.99" data-deal-was="39.99" data-deal-store="Kohl&#x27;s" data-deal-href="https://www.kohls.com/product/prd-7863132/belle-maison-2-pc-beaded-ledges-set.jsp?color=Dark%20Brown&amp;topSkuId=19822877" data-deal-source="home-goods" data-deal-page="home-goods.html" data-deal-img="/images/deals/deal-belle-maison-ledges.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-sunmory-standing-lamp" data-store="walmart" data-price="49.99" data-pct="17" data-name="sunmory iron modern standing lamp gold floor lamp living room">
+      <img class="lego-photo" width="362" height="362" src="/images/deals/deal-sunmory-standing-lamp.jpg" alt="SUNMORY Iron Modern Standing Lamp, Gold, 64&quot;" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">SUNMORY Iron Modern Standing Lamp, Gold, 64"</h3>
+        <span class="store-chip">Walmart</span>
+        <p class="price-row"><span class="sale">$49.99</span> <span class="was">was $59.99</span> <span class="pct">17% off</span></p>
+        <p class="save">Save $10.00</p>
+        <a class="shop-btn" href="https://www.walmart.com/ip/SUNMORY-Iron-Modern-Standing-Lamp-Gold-Floor-Lamp-Living-Room-Rotary-Switch-Hanging-Shade-3-Color-Temperatures-9W-Bulb-Bedroom-Study-Room-Office/863720245?classType=VARIANT&amp;athbdg=L1800" target="_blank" rel="noopener">Shop Deal at Walmart</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/home-goods.html#deal-sunmory-standing-lamp" data-share-image="/images/deals/deal-sunmory-standing-lamp.jpg" data-share-title="SUNMORY Iron Modern Standing Lamp, Gold, 64&quot;" data-share-text="$49.99 was $59.99 at Walmart">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-sunmory-standing-lamp" data-deal-name="SUNMORY Iron Modern Standing Lamp, Gold, 64&quot;" data-deal-price="49.99" data-deal-was="59.99" data-deal-store="Walmart" data-deal-href="https://www.walmart.com/ip/SUNMORY-Iron-Modern-Standing-Lamp-Gold-Floor-Lamp-Living-Room-Rotary-Switch-Hanging-Shade-3-Color-Temperatures-9W-Bulb-Bedroom-Study-Room-Office/863720245?classType=VARIANT&amp;athbdg=L1800" data-deal-source="home-goods" data-deal-page="home-goods.html" data-deal-img="/images/deals/deal-sunmory-standing-lamp.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-hamilton-beach-microwave" data-store="walmart" data-price="69.00" data-pct="14" data-name="hamilton beach 0.9 cu ft countertop microwave oven, 900 w, stainless steel">
+      <img class="lego-photo" width="534" height="310" src="/images/deals/deal-hamilton-beach-microwave.jpg" alt="Hamilton Beach 0.9 cu ft Countertop Microwave Oven, 900 W, Stainless Steel" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Hamilton Beach 0.9 cu ft Countertop Microwave Oven, 900 W, Stainless Steel</h3>
+        <span class="store-chip">Walmart</span>
+        <p class="price-row"><span class="sale">$69.00</span> <span class="was">was $80.00</span> <span class="pct">14% off</span></p>
+        <p class="save">Save $11.00</p>
+        <p class="stock-note">Low stock</p>
+        <a class="shop-btn" href="https://www.walmart.com/ip/Hamilton-Beach-0-9-Cu-ft-Countertop-Microwave-Oven-900-Watts-Stainless-Steel-New/5125269950" target="_blank" rel="noopener">Shop Deal at Walmart</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/home-goods.html#deal-hamilton-beach-microwave" data-share-image="/images/deals/deal-hamilton-beach-microwave.jpg" data-share-title="Hamilton Beach 0.9 cu ft Countertop Microwave Oven, 900 W, Stainless Steel" data-share-text="$69.00 was $80.00 at Walmart">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-hamilton-beach-microwave" data-deal-name="Hamilton Beach 0.9 cu ft Countertop Microwave Oven, 900 W, Stainless Steel" data-deal-price="69.00" data-deal-was="80.00" data-deal-store="Walmart" data-deal-href="https://www.walmart.com/ip/Hamilton-Beach-0-9-Cu-ft-Countertop-Microwave-Oven-900-Watts-Stainless-Steel-New/5125269950" data-deal-source="home-goods" data-deal-page="home-goods.html" data-deal-img="/images/deals/deal-hamilton-beach-microwave.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-limicar-bakeware-6pc" data-store="walmart" data-price="20.99" data-pct="5" data-name="limicar 6-piece nonstick bakeware set, carbon steel, black">
+      <img class="lego-photo" width="558" height="437" src="/images/deals/deal-limicar-bakeware-6pc.jpg" alt="LIMICAR 6-Piece Nonstick Bakeware Set, Carbon Steel, Black" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">LIMICAR 6-Piece Nonstick Bakeware Set, Carbon Steel, Black</h3>
+        <span class="store-chip">Walmart</span>
+        <p class="price-row"><span class="sale">$20.99</span> <span class="was">was $21.99</span> <span class="pct">5% off</span></p>
+        <p class="save">Save $1.00</p>
+        <p class="stock-note">Marketplace seller: sold by LIMICAR, fulfilled by Walmart</p>
+        <a class="shop-btn" href="https://www.walmart.com/ip/LIMICAR-6-Piece-Nonstick-Bakeware-Set-Carbon-Steel-Baking-Pan-Set-Include-Cake-Pan-Cookie-Sheet-Muffin-Bread-Loaf-Pans-for-Oven-Black/14883515460" target="_blank" rel="noopener">Shop Deal at Walmart</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/home-goods.html#deal-limicar-bakeware-6pc" data-share-image="/images/deals/deal-limicar-bakeware-6pc.jpg" data-share-title="LIMICAR 6-Piece Nonstick Bakeware Set, Carbon Steel, Black" data-share-text="$20.99 was $21.99 at Walmart">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-limicar-bakeware-6pc" data-deal-name="LIMICAR 6-Piece Nonstick Bakeware Set, Carbon Steel, Black" data-deal-price="20.99" data-deal-was="21.99" data-deal-store="Walmart" data-deal-href="https://www.walmart.com/ip/LIMICAR-6-Piece-Nonstick-Bakeware-Set-Carbon-Steel-Baking-Pan-Set-Include-Cake-Pan-Cookie-Sheet-Muffin-Bread-Loaf-Pans-for-Oven-Black/14883515460" data-deal-source="home-goods" data-deal-page="home-goods.html" data-deal-img="/images/deals/deal-limicar-bakeware-6pc.jpg">💾 Save</button>
+      </div>
+    </article>
+  </main>
+  <section class="history" id="deal-history">
+    <h2>📜 Deal history</h2>
+    <p class="hist-note">Prices checked Nov 17, 2026; when a live deal ends or its price changes it moves here.</p>
+    <ul>
+      <li><b>Target Christmas Snowflake Potholders</b> — Target 2pk Christmas Snowflake Potholders, $4.50 (reg $6.00) — product page blocked by a bot check, so the price could not be verified.</li>
+      <li><b>Wayfair Farberware 15-Piece Cookware</b> — Wayfair Farberware 15-Piece Cookware, $79.99 (was $160.00) — seen in search only; never verified on its product page.</li>
+    </ul>
+  </section>
+  <footer>
+    <p>Some links on this page are affiliate links. If you shop through them, I may earn a small commission at no extra cost to you. Thanks for supporting the Pond!</p>
+    <img class="footer-duck-v4" src="icon-512.png" alt="The Pond duck">
+    <p class="nest">Feather Your Nest</p>
+    <p class="nest" style="margin-top:10px">© 2026 TreatYourselfDiscounts™. All rights reserved.</p>
+    <nav class="foot-links"><a href="rules.html">Pond Rules</a><a href="terms.html">Terms of Use</a><a href="feedback.html">Give Feedback</a><a href="account.html">Pond Account</a><a href="mailto:treatyourselfdiscounts@gmail.com">Contact</a><a href="https://discord.gg/zfcwECetx2" data-goatcounter-click="click-discord">Join the Pond</a><a href="https://ko-fi.com/treatyourselfdiscounts" data-goatcounter-click="click-kofi">Ko-fi Tip Jar</a></nav>
+  </footer>
+</div>
+<script type="module" src="lists.js"></script>
+<script src="site-nav.js?v=372"></script>
+<script src="pull-refresh.js?v=341"></script>
+<script>
+if ("serviceWorker" in navigator) { window.addEventListener("load", function() { navigator.serviceWorker.register("sw.js"); }); }
+(function () {
+  var grid = document.getElementById("lego-grid");
+  var searchInput = document.getElementById("lego-search");
+  var storeSelect = document.getElementById("lego-store");
+  var sortSelect = document.getElementById("lego-sort");
+  var noResults = document.getElementById("lego-no-results");
+  var countEl = document.getElementById("lego-count");
+  var refreshBtn = document.getElementById("refresh-btn");
+  var cards = Array.prototype.slice.call(grid.querySelectorAll(".lego-card"));
+  var defaultOrder = cards.slice();
+  var hasSearched = false;
+  function cardName(card) { return (card.querySelector(".lego-name") || {}).textContent || ""; }
+  function matchesTerm(text, term) {
+    var t = text.toLowerCase();
+    return term.split(/\s+/).every(function (wd) { return t.indexOf(wd) !== -1; });
+  }
+  function applyFilters() {
+    var term = searchInput.value.trim().toLowerCase();
+    var store = storeSelect.value;
+    var sort = sortSelect.value;
+    var sorted = defaultOrder.slice();
+    if (sort === "pct") sorted.sort(function (a, b) { return parseFloat(b.dataset.pct) - parseFloat(a.dataset.pct); });
+    if (sort === "price-asc") sorted.sort(function (a, b) { return parseFloat(a.dataset.price) - parseFloat(b.dataset.price); });
+    if (sort === "price-desc") sorted.sort(function (a, b) { return parseFloat(b.dataset.price) - parseFloat(a.dataset.price); });
+    if (sort === "az") sorted.sort(function (a, b) { return cardName(a).localeCompare(cardName(b)); });
+    var visible = 0;
+    sorted.forEach(function (card) {
+      grid.appendChild(card);
+      var show = (!term || matchesTerm(card.dataset.name + " " + card.textContent, term)) && (!store || card.dataset.store === store);
+      card.style.display = show ? "" : "none";
+      if (show) visible++;
+    });
+    noResults.hidden = !(hasSearched && visible === 0);
+    if (countEl) {
+      countEl.textContent = (term || store)
+        ? ("Showing " + visible + " of " + cards.length + " home goods deals.")
+        : (cards.length + " home goods deals, checked November 16, 2026.");
+    }
+  }
+  searchInput.addEventListener("input", function () { if (searchInput.value.trim()) hasSearched = true; applyFilters(); });
+  storeSelect.addEventListener("change", function () { hasSearched = true; applyFilters(); });
+  sortSelect.addEventListener("change", applyFilters);
+  /* Refresh reloads the page so the browser re-fetches the latest saved
+     check. It does not scrape live prices and does not claim to. */
+  refreshBtn.addEventListener("click", function () {
+    refreshBtn.disabled = true;
+    refreshBtn.textContent = "Refreshing…";
+    window.location.reload();
+  });
+  applyFilters();
+})();
+</script>
+<script src="pond-staging.js"></script>
+</body>
+</html>

@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, viewport-fit=cover">
+<title>Calendar | TreatYourselfDiscounts</title>
+<meta name="description" content="The Pond calendar: every date in the Pond on one calendar — travel, pets, planner notes and reminders, meals, deals, countdowns and bills.">
+<link rel="icon" href="images/favicon.ico">
+<style>
+  * { box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; color: #1f5f74; line-height: 1.5; margin: 0; padding: 0 0 120px; }
+  .app { max-width: 760px; margin: 0 auto; padding: 14px; }
+  h1 { font-size: 26px; margin: 6px 0 2px; color: #1f5f74; }
+  h2 { font-size: 18px; margin: 0 0 8px; color: #1f5f74; }
+  .back { margin: 2px 0 8px; }
+  .back a { color: #1f5f74; font-weight: 700; text-decoration: none; }
+  .sub { color: #3f6b7a; margin: 0 0 12px; }
+  .card { background: #fff; border: 2px solid #bcd9e4; border-radius: 18px; padding: 16px; margin-bottom: 14px; box-shadow: 0 2px 8px rgba(31, 95, 116, .08); }
+  .syncnote { font-size: 13px; color: #4a6b78; margin: 0 0 12px; }
+  .btn { display: inline-block; border: 0; border-radius: 999px; padding: 11px 18px; font-size: 15px; font-weight: 800; cursor: pointer; text-decoration: none; }
+  .btn-main { background: #ffd94d; color: #1f5f74; }
+  .btn-alt { background: #dff1f8; color: #1f5f74; }
+  .btn-ghost { background: transparent; color: #1f5f74; border: 2px solid #bcd9e4; }
+  .iconbtn { border: 2px solid #bcd9e4; background: #fff; color: #1f5f74; border-radius: 999px; padding: 5px 10px; font-size: 13px; font-weight: 700; cursor: pointer; flex: none; }
+  .calhead { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 8px; }
+  .calhead b { font-size: 17px; color: #1f5f74; }
+  .calgrid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+  .caldow { text-align: center; font-size: 11.5px; font-weight: 800; color: #5b7d89; padding: 2px 0; }
+  .calcell { min-height: 52px; border: 1.5px solid #e3eff4; border-radius: 10px; padding: 3px 4px; font-size: 12px; background: #fbfdfe; cursor: pointer; }
+  .calcell.blank { border-color: transparent; background: transparent; cursor: default; }
+  .calcell.today { border-color: #1f5f74; background: #fff3b0; }
+  .calcell.sel { border-color: #ffd94d; box-shadow: 0 0 0 2px #ffd94d inset; }
+  .calcell .dnum { font-weight: 800; color: #1f5f74; font-size: 12.5px; }
+  .calchip { display: block; margin-top: 2px; border-radius: 999px; padding: 1px 6px; font-size: 11px; font-weight: 700; line-height: 1.5; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #fff; text-decoration: none; }
+  .feedrow { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 12px; }
+  .feedtog { border: 2px solid #bcd9e4; background: #fff; color: #1f5f74; border-radius: 999px; padding: 6px 12px; font-size: 13.5px; font-weight: 700; cursor: pointer; }
+  .feedtog .fdot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: baseline; }
+  .feedtog.off { opacity: .45; }
+  .feedtog.off .fdot { background: #bcd9e4 !important; }
+  .uplist .urow { display: flex; gap: 8px; align-items: baseline; padding: 6px 0; border-bottom: 1px solid #e3eff4; font-size: 14px; }
+  .uplist .urow:last-child { border-bottom: none; }
+  .uplist .udate { flex: none; font-weight: 800; color: #1f5f74; font-size: 13px; width: 86px; }
+  .daylist .drow { display: flex; gap: 8px; align-items: baseline; padding: 7px 0; border-bottom: 1px solid #e3eff4; font-size: 14px; }
+  .daylist .drow:last-child { border-bottom: none; }
+  .daylist .dtag { flex: none; font-size: 12px; font-weight: 800; color: #fff; border-radius: 999px; padding: 2px 8px; }
+  .openlink { display: inline-block; margin-top: 8px; font-weight: 800; color: #1f5f74; text-decoration: none; font-size: 14px; }
+  html[data-theme="dark"] body { color: #eefaff; }
+  html[data-theme="dark"] h1, html[data-theme="dark"] h2, html[data-theme="dark"] .back a,
+  html[data-theme="dark"] .openlink { color: #c9f0fc; }
+  html[data-theme="dark"] .sub, html[data-theme="dark"] .syncnote { color: #bcd6e4; }
+  html[data-theme="dark"] .card { background: #172635; border-color: #2e4a5f; }
+  html[data-theme="dark"] .calhead b, html[data-theme="dark"] .uplist .udate { color: #c9f0fc; }
+  html[data-theme="dark"] .caldow { color: #bcd6e4; }
+  html[data-theme="dark"] .calcell { background: #101e2c; border-color: #2e4a5f; }
+  html[data-theme="dark"] .calcell.blank { background: transparent; border-color: transparent; }
+  html[data-theme="dark"] .calcell.today { background: #23414d; border-color: #ffd94d; }
+  html[data-theme="dark"] .calcell.sel { border-color: #ffd94d; }
+  html[data-theme="dark"] .calcell .dnum { color: #c9f0fc; }
+  html[data-theme="dark"] .uplist .urow, html[data-theme="dark"] .daylist .drow { border-color: #2e4a5f; }
+  html[data-theme="dark"] .feedtog { background: #0f1c29; border-color: #2e4a5f; color: #eefaff; }
+  html[data-theme="dark"] .iconbtn { background: #0f1c29; border-color: #2e4a5f; color: #c9f0fc; }
+</style>
+<meta name="robots" content="noindex,nofollow">
+<link rel="stylesheet" href="pond-travel.css">
+<script>window.__TYD_PREVIEW__=true;</script>
+</head>
+<body>
+<div class="app">
+  <p class="back"><a href="index.html">← Back to Home</a></p>
+  <header class="top" style="text-align:center; margin-bottom: 14px;">
+    <img src="images/corners/duck-calendar.jpg" alt="Calendar duck" style="width: 92px; height: 92px; border-radius: 50%; object-fit: cover; border: 2px solid #bcd9e4;">
+    <h1>🗓️ Pond Calendar</h1>
+    <p class="sub">Every date in the Pond, on one calendar.</p>
+  </header>
+  <p class="syncnote" id="sync-note">Saved on this device. <a href="account.html">Sign in to sync</a> it to your Pond Account.</p>
+
+  <div class="card">
+    <h2>Show me</h2>
+    <p style="color:#3f6b7a; font-size:14px; margin-top:0;">Switch each kind on or off. Your choices save to your Pond Account and follow you across your devices.</p>
+    <div class="feedrow" id="feedrow"></div>
+    <div id="calhost"></div>
+  </div>
+
+  <div class="card">
+    <h2 id="daytitle">Today</h2>
+    <div class="daylist" id="daylist"></div>
+  </div>
+
+  <div class="card">
+    <h2>Coming up</h2>
+    <div class="uplist" id="uplist"></div>
+    <p style="color:#3f6b7a; font-size:13.5px; margin:10px 0 0;">Each section keeps its own calendar too — Travel has its calendar grid, the Planner has day and week pages, and Pet Corner has one calendar for all your pets together.</p>
+    <p style="color:#3f6b7a; font-size:13.5px; margin:6px 0 0;">Google Calendar events are not shown here: the Planner's Google connection lasts about an hour at a time, so this calendar only pulls your Pond dates.</p>
+  </div>
+
+  <footer class="site-foot" style="text-align:center; margin: 26px 0 8px; font-size: 13px;">
+    <p><a href="index.html">Home</a> · <a href="planner.html">Planner</a> · <a href="travel.html">Travel</a> · <a href="pets.html">Pet Corner</a> · <a href="account.html">My Account</a></p>
+    <p style="color:#5b7d89;">Made with 💛 in the Pond. <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a></p>
+  </footer>
+</div>
+<script src="auth-pill.js" type="module"></script>
+<script>
+(function () {
+  /* Master calendar (v327, Lucy Nov 16, 2026). One big calendar
+     aggregating dated events from the REAL stores in this tree — nothing
+     invented, nothing from Google Calendar (the Planner's Google token
+     lasts about an hour, so only Pond dates are shown):
+       Travel — tydTravelTrips (active trip spans start→end)
+       Pets — tydPets + tydPetCare + tydPetVetVisits + birthdays/gotcha days (yearly)
+       Appointments — tydPlannerLocal.reminders [{id, title, date, time}]
+       Notes — tydPlannerLocal.days[iso].note (dated day-notes)
+       To-dos — tydPlannerLocal.days[iso].todos
+       Meals — tydMealPlan {iso: [{name, slug}]}
+       Deals — tydClippedCodes [{id, code, expires}]
+       Countdowns — tydCountdowns [{title, date}]
+       Bills — tydBills [{name, amount, dueDate}] (next due date only)
+     Feed toggles are all-on by default and saved per account
+     (localStorage tydCalFeeds + users/{uid}.calFeeds), following the
+     standing personalization pattern. Per-section calendars stay. */
+  function esc(s) { return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
+  function loadJSON(k, d) { try { var v = JSON.parse(localStorage.getItem(k)); return v == null ? d : v; } catch (e) { return d; } }
+  function todayStr() { var d = new Date(); return d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2); }
+  function fmtDate(ds) { if (!ds) return ""; var d = new Date(ds + "T12:00:00"); return d.toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" }); }
+  function addDays(ds, n) { var d = new Date(ds + "T12:00:00"); d.setDate(d.getDate() + n); return d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2); }
+  function yearlyNext(ds) {
+    if (!ds) return null;
+    var now = new Date(), y = now.getFullYear();
+    var m = +ds.slice(5, 7) - 1, d = +ds.slice(8, 10);
+    function occIn(yy) { var o = new Date(yy, m, d); if (d === 29 && m === 1 && o.getMonth() !== 1) o = new Date(yy, 1, 28); return o; }
+    var occ = occIn(y);
+    if (occ < new Date(todayStr() + "T12:00:00")) occ = occIn(y + 1);
+    return occ.getFullYear() + "-" + ("0" + (occ.getMonth() + 1)).slice(-2) + "-" + ("0" + occ.getDate()).slice(-2);
+  }
+  var FEEDS = [
+    { key: "travel", label: "Travel", icon: "✈️", color: "#4a7fb5", href: "travel.html" },
+    { key: "pets", label: "Pets", icon: "🐾", color: "#2b7ea0", href: "pets.html" },
+    { key: "appointments", label: "Appointments", icon: "⏰", color: "#b3261e", href: "planner.html" },
+    { key: "notes", label: "Notes", icon: "📝", color: "#8a6d3b", href: "planner.html" },
+    { key: "todos", label: "To-dos", icon: "☑️", color: "#5b7d89", href: "planner.html" },
+    { key: "meals", label: "Meals", icon: "🍽️", color: "#e8873a", href: "meal-plan.html" },
+    { key: "deals", label: "Deals", icon: "🏷️", color: "#2b7a4b", href: "planner.html" },
+    { key: "countdowns", label: "Countdowns", icon: "⏳", color: "#7b5ea7", href: "countdowns.html" },
+    { key: "bills", label: "Bills", icon: "💰", color: "#a33", href: "bills.html" }
+  ];
+  function feedByKey(k) { return FEEDS.filter(function (f) { return f.key === k; })[0] || FEEDS[0]; }
+  var FEED_LS = "tydCalFeeds";
+  var feedsOn = loadJSON(FEED_LS, {});
+  FEEDS.forEach(function (f) { if (typeof feedsOn[f.key] !== "boolean") feedsOn[f.key] = true; });
+  function saveFeeds() {
+    try { localStorage.setItem(FEED_LS, JSON.stringify(feedsOn)); } catch (e) {}
+    if (window.TYDCalSave) window.TYDCalSave(feedsOn);
+  }
+  function mergeArr(base, remote) {
+    if (!Array.isArray(remote)) return base;
+    var byId = {};
+    function keyOf(x) { return (x && (x.id || ((x.title || x.name || "") + "|" + (x.date || x.dueDate || "")))) || ""; }
+    base.forEach(function (x) { var k = keyOf(x); if (k) byId[k] = x; });
+    remote.forEach(function (x) {
+      var k = keyOf(x);
+      if (!k) return;
+      var cur = byId[k];
+      if (!cur || (x.updatedAt || 0) > (cur.updatedAt || 0)) byId[k] = x;
+    });
+    return Object.keys(byId).map(function (k) { return byId[k]; });
+  }
+  function collectEvents() {
+    var evs = [];
+    loadJSON("tydTravelTrips", []).filter(function (t) { return t.status === "active" || !t.status; }).forEach(function (t) {
+      if (!t.start) return;
+      evs.push({ feed: "travel", start: t.start, end: t.end || t.start, label: "✈️ " + (t.title || t.destination || "Trip"), href: "travel.html" });
+    });
+    var pets = loadJSON("tydPets", []), care = loadJSON("tydPetCare", []), vets = loadJSON("tydPetVetVisits", []);
+    pets.forEach(function (p) {
+      care.filter(function (c) { return c.petId === p.id && c.date; }).forEach(function (c) {
+        evs.push({ feed: "pets", start: c.date, end: c.date, label: "🐾 " + p.name + ": " + c.title, href: "pet.html?pet=" + p.id });
+      });
+      vets.filter(function (v) { return v.petId === p.id && v.date; }).forEach(function (v) {
+        evs.push({ feed: "pets", start: v.date, end: v.date, label: "🩺 " + p.name + ": vet visit" + (v.vet ? " — " + v.vet : ""), href: "pet.html?pet=" + p.id });
+      });
+      if (p.birthday) evs.push({ feed: "pets", yearly: p.birthday, label: "🎂 " + p.name + "'s birthday", href: "pet.html?pet=" + p.id });
+      if (p.gotcha) evs.push({ feed: "pets", yearly: p.gotcha, label: "🏡 " + p.name + "'s gotcha day", href: "pet.html?pet=" + p.id });
+    });
+    var pl = loadJSON("tydPlannerLocal", {}) || {};
+    (pl.reminders || []).forEach(function (r) {
+      if (!r.date) return;
+      evs.push({ feed: "appointments", start: r.date, end: r.date, label: "⏰ " + (r.title || "Reminder") + (r.time ? " · " + r.time : ""), href: "planner.html" });
+    });
+    Object.keys(pl.days || {}).forEach(function (iso) {
+      var d = pl.days[iso] || {};
+      if ((d.note || "").trim()) evs.push({ feed: "notes", start: iso, end: iso, label: "📝 Note: " + d.note.trim().split("\n")[0].slice(0, 80), href: "planner.html" });
+      (d.todos || []).forEach(function (t) {
+        var txt = typeof t === "string" ? t : (t.text || t.title || "");
+        if (txt) evs.push({ feed: "todos", start: iso, end: iso, label: "☑️ " + txt, href: "planner.html" });
+      });
+    });
+    var meals = loadJSON("tydMealPlan", {});
+    Object.keys(meals || {}).forEach(function (iso) {
+      (meals[iso] || []).forEach(function (it) {
+        if (it && it.name) evs.push({ feed: "meals", start: iso, end: iso, label: "🍽️ " + it.name, href: "meal-plan.html" });
+      });
+    });
+    loadJSON("tydClippedCodes", []).forEach(function (c) {
+      if (c.expires) evs.push({ feed: "deals", start: c.expires, end: c.expires, label: "🏷️ Code " + (c.code || "") + " expires", href: "planner.html" });
+    });
+    loadJSON("tydCountdowns", []).forEach(function (c) {
+      if (c.date) evs.push({ feed: "countdowns", start: c.date, end: c.date, label: "⏳ " + (c.title || "Countdown"), href: "countdowns.html" });
+    });
+    loadJSON("tydBills", []).forEach(function (b) {
+      if (b.dueDate) evs.push({ feed: "bills", start: b.dueDate, end: b.dueDate, label: "💰 " + (b.name || "Bill") + (b.amount != null ? " · $" + b.amount : ""), href: "bills.html" });
+    });
+    return evs;
+  }
+  /* Expand spans + yearly recurrences into dated occurrences for a month. */
+  function eventsForMonth(y, m) {
+    var out = [];
+    collectEvents().forEach(function (e) {
+      if (e.yearly) {
+        if (+e.yearly.slice(5, 7) - 1 !== m) return;
+        var d = +e.yearly.slice(8, 10);
+        var ds = y + "-" + ("0" + (m + 1)).slice(-2) + "-" + ("0" + d).slice(-2);
+        if (d === 29 && m === 1 && new Date(y, 1, 29).getMonth() !== 1) ds = y + "-02-28";
+        out.push({ feed: e.feed, date: ds, label: e.label, href: e.href });
+        return;
+      }
+      var cur = e.start;
+      while (cur <= e.end) {
+        if (+cur.slice(0, 4) === y && +cur.slice(5, 7) - 1 === m) out.push({ feed: e.feed, date: cur, label: e.label, href: e.href });
+        if (cur >= e.end) break;
+        cur = addDays(cur, 1);
+        if (cur.slice(0, 7) > y + "-" + ("0" + (m + 1)).slice(-2)) break;
+      }
+    });
+    return out;
+  }
+  function upcoming() {
+    var tstr = todayStr(), out = [];
+    collectEvents().forEach(function (e) {
+      if (e.yearly) { var n = yearlyNext(e.yearly); if (n) out.push({ feed: e.feed, date: n, label: e.label, href: e.href }); return; }
+      var d = e.start < tstr && e.end >= tstr ? tstr : e.start;
+      if (d >= tstr) out.push({ feed: e.feed, date: d, label: e.label, href: e.href });
+    });
+    return out.sort(function (a, b) { return a.date < b.date ? -1 : 1; }).slice(0, 8);
+  }
+  var cursor = null, selected = todayStr();
+  function renderToggles() {
+    var host = document.getElementById("feedrow");
+    host.innerHTML = FEEDS.map(function (f) {
+      return '<button type="button" class="feedtog' + (feedsOn[f.key] ? "" : " off") + '" data-feed="' + f.key + '" aria-pressed="' + !!feedsOn[f.key] + '"><span class="fdot" style="background:' + f.color + ';"></span>' + f.icon + " " + esc(f.label) + "</button>";
+    }).join("");
+    host.querySelectorAll("[data-feed]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var k = b.getAttribute("data-feed");
+        feedsOn[k] = !feedsOn[k];
+        saveFeeds(); render();
+      });
+    });
+  }
+  function renderCal() {
+    if (!cursor) { var n = new Date(); cursor = { y: n.getFullYear(), m: n.getMonth() }; }
+    var y = cursor.y, m = cursor.m;
+    var first = new Date(y, m, 1), startDow = first.getDay(), days = new Date(y, m + 1, 0).getDate();
+    var monthName = first.toLocaleDateString(undefined, { month: "long", year: "numeric" });
+    var evs = eventsForMonth(y, m).filter(function (e) { return feedsOn[e.feed]; });
+    var byDate = {};
+    evs.forEach(function (e) { (byDate[e.date] = byDate[e.date] || []).push(e); });
+    var h = '<div class="calhead"><button type="button" class="iconbtn" id="calprev">‹ Prev</button><b>🗓️ ' + esc(monthName) + '</b><button type="button" class="iconbtn" id="calnext">Next ›</button></div>';
+    h += '<div class="calgrid">' + ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(function (d) { return '<div class="caldow">' + d + "</div>"; }).join("");
+    for (var i = 0; i < startDow; i++) h += '<div class="calcell blank"></div>';
+    var tstr = todayStr();
+    for (var d = 1; d <= days; d++) {
+      var ds = y + "-" + (m + 1 < 10 ? "0" : "") + (m + 1) + "-" + (d < 10 ? "0" : "") + d;
+      h += '<div class="calcell' + (ds === tstr ? " today" : "") + (ds === selected ? " sel" : "") + '" data-day="' + ds + '"><span class="dnum">' + d + "</span>";
+      (byDate[ds] || []).slice(0, 3).forEach(function (e) {
+        var f = feedByKey(e.feed);
+        h += '<span class="calchip" style="background:' + f.color + ';">' + esc(e.label) + "</span>";
+      });
+      if ((byDate[ds] || []).length > 3) h += '<span class="calchip" style="background:#5b7d89;">+' + ((byDate[ds] || []).length - 3) + " more</span>";
+      h += "</div>";
+    }
+    h += "</div>";
+    document.getElementById("calhost").innerHTML = h;
+    document.getElementById("calprev").addEventListener("click", function () { cursor.m--; if (cursor.m < 0) { cursor.m = 11; cursor.y--; } renderCal(); });
+    document.getElementById("calnext").addEventListener("click", function () { cursor.m++; if (cursor.m > 11) { cursor.m = 0; cursor.y++; } renderCal(); });
+    document.querySelectorAll("#calhost .calcell[data-day]").forEach(function (cell) {
+      cell.addEventListener("click", function () { selected = cell.getAttribute("data-day"); renderCal(); renderDay(); });
+    });
+  }
+  function renderDay() {
+    var tstr = todayStr();
+    document.getElementById("daytitle").textContent = selected === tstr ? "Today" : fmtDate(selected);
+    var evs = eventsForMonth(+selected.slice(0, 4), +selected.slice(5, 7) - 1)
+      .filter(function (e) { return e.date === selected && feedsOn[e.feed]; });
+    var host = document.getElementById("daylist");
+    if (!evs.length) { host.innerHTML = '<p style="color:#3f6b7a;">Nothing on this day. Tap a day on the calendar to see what lands there.</p>'; return; }
+    host.innerHTML = evs.map(function (e) {
+      var f = feedByKey(e.feed);
+      return '<div class="drow"><span class="dtag" style="background:' + f.color + ';">' + f.icon + " " + esc(f.label) + '</span><span><a href="' + e.href + '" style="color:inherit;text-decoration:none;">' + esc(e.label) + "</a></span></div>";
+    }).join("");
+  }
+  function renderUpcoming() {
+    var up = upcoming().filter(function (e) { return feedsOn[e.feed]; });
+    var host = document.getElementById("uplist");
+    if (!up.length) { host.innerHTML = '<p style="color:#3f6b7a;">Nothing coming up. Add a trip, a pet care date, a reminder or a countdown and it will line up here.</p>'; return; }
+    host.innerHTML = up.map(function (e) {
+      return '<div class="urow"><span class="udate">' + fmtDate(e.date) + '</span><span><a href="' + e.href + '" style="color:inherit;text-decoration:none;">' + esc(e.label) + "</a></span></div>";
+    }).join("");
+  }
+  function render() { renderToggles(); renderCal(); renderDay(); renderUpcoming(); }
+  /* Account merge: feed prefs + synced section data (travel, pets,
+     countdowns, bills). Planner notes/reminders/to-dos, meals and clipped
+     codes ride the Pond Account too (v339: users/{uid} plannerDays,
+     plannerReminders, plannerScratch, plannerCodes, plannerSales). */
+  window.TYDCalMerge = function (remote) {
+    if (!remote) return;
+    if (remote.calFeeds && typeof remote.calFeeds === "object") {
+      FEEDS.forEach(function (f) { if (typeof remote.calFeeds[f.key] === "boolean") feedsOn[f.key] = remote.calFeeds[f.key]; });
+      try { localStorage.setItem(FEED_LS, JSON.stringify(feedsOn)); } catch (e) {}
+    }
+    [["tydTravelTrips", remote.travelTrips], ["tydPets", remote.pets], ["tydPetCare", remote.petCare], ["tydPetVetVisits", remote.petVetVisits], ["tydCountdowns", remote.countdowns], ["tydBills", remote.bills]].forEach(function (pair) {
+      if (!Array.isArray(pair[1])) return;
+      var merged = mergeArr(loadJSON(pair[0], []), pair[1]);
+      try { localStorage.setItem(pair[0], JSON.stringify(merged)); } catch (e) {}
+    });
+    render();
+  };
+  render();
+})();
+</script>
+<script type="module">
+  import { initializeApp, getApps, getApp } from "./pond-firebase-stub.js";
+  import { getAuth, onAuthStateChanged } from "./pond-firebase-stub.js";
+  import { getFirestore, doc, getDoc, setDoc } from "./pond-firebase-stub.js";
+  var firebaseConfig = { apiKey: "preview-disabled", authDomain: "pond-preview-disabled.firebaseapp.com", projectId: "pond-preview-disabled", storageBucket: "pond-preview-disabled.firebasestorage.app", messagingSenderId: "000000000000", appId: "1:000000000000:web:previewdisabled" };
+  var app3 = getApps().length ? getApp() : initializeApp(firebaseConfig);
+  var auth3 = getAuth(app3), db3 = getFirestore(app3);
+  var mUid = null;
+  window.TYDCalSave = function (feeds) { if (!mUid) return; setDoc(doc(db3, "users", mUid), { calFeeds: feeds }, { merge: true }).catch(function () {}); };
+  onAuthStateChanged(auth3, function (user) {
+    var note = document.getElementById("sync-note");
+    if (!user) { mUid = null; if (note) note.innerHTML = 'Saved on this device. <a href="account.html">Sign in to sync</a> it to your Pond Account.'; return; }
+    mUid = user.uid;
+    getDoc(doc(db3, "users", user.uid)).then(function (snap) {
+      if (snap.exists() && window.TYDCalMerge) window.TYDCalMerge(snap.data());
+      if (note) note.textContent = "Synced to your Pond Account, so your calendar follows you across your devices. 🦆";
+    }).catch(function () {});
+  });
+</script>
+<script src="site-nav.js?v=372"></script>
+<script src="pull-refresh.js?v=341"></script>
+
+<script src="pond-staging.js"></script>
+</body>
+</html>
