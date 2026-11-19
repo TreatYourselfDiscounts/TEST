@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#ffd94d">
+<meta name="description" content="Verified viral deals blowing up on Instagram, TikTok and deal feeds, refreshed every morning. Welcome to the Pond!">
+<meta property="og:title" content="Viral Deals | TreatYourselfDiscounts">
+<meta property="og:description" content="Verified viral deals blowing up on Instagram, TikTok and deal feeds, refreshed every morning. Welcome to the Pond!">
+<meta property="og:image" content="/images/corners/duck-deals.jpg">
+<meta property="og:url" content="/viral">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Viral Deals | TreatYourselfDiscounts">
+<meta name="twitter:description" content="Verified viral deals blowing up on Instagram, TikTok and deal feeds, refreshed every morning. Welcome to the Pond!">
+<meta name="twitter:image" content="/images/corners/duck-deals.jpg">
+<title>Viral Deals | TreatYourselfDiscounts</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body { overflow-x: clip; /* clip, not hidden: hidden makes a scroll container and breaks the sticky top bar (Nov 13, 2026) */ }
+  /* No solid body background here: the duck wallpaper lives in site-nav.js and must show through on every page. */
+  body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; color: #23414d; }
+  .app { max-width: 430px; margin: 0 auto; min-height: 100vh; background: #bfe6f2; box-shadow: 0 0 24px rgba(35,65,77,.12); padding-bottom: 32px; }
+  .tyd-pill { display: none !important; }
+  header.top { text-align: center; margin: 10px 16px 4px; }
+  header.top .duck { width: 76px; height: 76px; border-radius: 50%; border: 3px solid #ffd94d; background: #ffd94d; }
+  header.top .sub { margin: 6px 0 0; color: #3f6b7a; font-size: 15px; line-height: 1.5; }
+  .back { color: #1f5f74; font-weight: 700; text-decoration: none; font-size: 14px; display: inline-block; margin: 14px 16px 0; }
+  h1 { margin: 0; font-size: 26px; letter-spacing: .2px; }
+  .tagline { margin: 8px 0 0; font-size: 15px; color: #3f6b7a; line-height: 1.45; }
+  .stamp-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin: 14px 16px 0; }
+  .stamp { font-size: 13.5px; font-weight: 700; color: #1f5f74; }
+  .refresh-btn { background: #ffd94d; border: 2px solid #e8b93c; color: #6b5900; font-weight: 800; font-size: 14px; border-radius: 999px; padding: 9px 16px; cursor: pointer; font-family: inherit; }
+  .refresh-btn:disabled { opacity: .6; cursor: wait; }
+  .refresh-note { font-size: 13px; color: #4a6b78; margin: 8px 16px 0; line-height: 1.5; }
+  .controls { padding: 16px 16px 0; }
+  /* v307: solid white + solid border, not the two-layer gradient (same forced-dark victim as the cards). */
+  .search-row input { width: 100%; box-sizing: border-box; font-size: 15px; padding: 12px 16px; border-radius: 999px; border: 2px solid #bcd9e4; background: #fff; outline: none; color: #23414d; }
+  #lego-no-results { text-align: center; color: #4a6b78; margin: 8px 0; }
+  .filter-row { display: flex; gap: 8px; margin: 12px 0 0; }
+  .filter-row label { flex: 1; font-size: 13px; font-weight: 700; color: #4a6b78; }
+  .filter-row select { width: 100%; margin-top: 4px; font-size: 14px; padding: 10px 12px; border-radius: 999px; border: 2px solid #bcd9e4; background: #fff; color: #23414d; outline: none; }
+  @media (max-width: 759px) {
+    .filter-row { flex-direction: column; }
+    .filter-row label { flex: none; }
+  }
+  .lego-count { font-size: 13px; color: #4a6b78; margin: 12px 16px 0; }
+  /* Solid colors only, no gradients (v307 lesson: a phone browser's forced-dark recolor turns gradient panels black while the text stays dark). */
+  .lego-grid { display: grid; grid-template-columns: 1fr; gap: 12px; padding: 12px 16px 0; }
+  /* v324: bottom-aligned buttons — the card is a flex column and
+     .lego-info stretches (flex:1), so the Shop button (margin-top:auto)
+     sits at the bottom of every card in the row. .save/.stock-note keep
+     a 12px bottom margin so the gap never collapses on the tallest card. */
+  .lego-card { background: #fff; border: 2px solid #ffe066; border-radius: 18px; box-shadow: 0 2px 8px rgba(35,65,77,.06); overflow: hidden; display: flex; flex-direction: column; }
+  /* v323: uniform square photo box — every card the same size on phone
+     AND desktop. The box is always square (aspect-ratio 1/1) and the
+     image sits inside it with object-fit: contain on white, so the
+     WHOLE product shows, never cropped, never distorted. This replaces
+     the v321 aspect-aware frames (height:auto): tall portrait photos
+     made giant cards and stretched their whole grid row, so a short
+     row-mate's content scrolled off-screen and its card looked blank
+     (LEGO Yoda Key Chain 853449, Nov 15, 2026). Real width/height
+     attrs on each img still prevent layout shift. */
+  .lego-photo { width: 100%; aspect-ratio: 1 / 1; height: auto; object-fit: contain; background: #fff; display: block; border-bottom: 1px solid #dceef5; }
+  .lego-info { padding: 14px 16px 16px; flex: 1 1 auto; display: flex; flex-direction: column; }
+  .lego-name { font-weight: 700; font-size: 16px; margin: 0; line-height: 1.35; color: #23414d; }
+  .lego-name .setno { color: #5a7d8a; font-weight: 600; }
+  .store-chip { display: inline-block; margin-top: 8px; font-size: 12px; font-weight: 800; letter-spacing: .4px; color: #1f5f74; background: #eaf7fb; border: 1px solid #bcd9e4; padding: 3px 10px; border-radius: 999px; }
+  .price-row { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+  .sale { font-size: 24px; font-weight: 800; color: #1e7d32; line-height: 1; }
+  .was { font-size: 15px; color: #7a8b93; text-decoration: line-through; }
+  .pct { font-size: 13px; font-weight: 800; color: #fff; background: #d6336c; padding: 3px 9px; border-radius: 999px; white-space: nowrap; }
+  .save { font-size: 15px; font-weight: 800; color: #c2185b; margin: 6px 0 12px; }
+  .stock-note { font-size: 13px; font-weight: 700; color: #8a6d00; margin: 6px 0 12px; }
+  /* v326: Target online-price label + price-match tip (verified on
+     target.com Nov 16, 2026). Sits with the other notes above the Shop
+     button, so the bottom block stays exactly Shop + Share (v324/v325). */
+  .target-note { font-size: 12.5px; line-height: 1.5; color: #4a6b78; margin: 6px 0 12px; }
+  .target-note strong { color: #1f5f74; }
+  .viral-hook { font-size: 13px; font-weight: 700; color: #9a6700; margin: 8px 0 0; line-height: 1.45; }
+  .shop-btn { display: block; text-align: center; background: #1f5f74; color: #fff; font-weight: 800; font-size: 15px; text-decoration: none; border-radius: 999px; padding: 11px 16px; margin-top: auto; }
+  .shop-btn:active { background: #174a5c; }
+  /* Share to the Shack (v312): the Share button sits under the Shop
+     button on each card. Its look comes from site-nav.js. */
+  .lego-info [data-shack-share] { margin-top: 8px; }
+  /* "See it in use" video link: only on cards with a verified video
+     of that exact product in use (data/deal-videos.json). It sits
+     right above the Shop button (v325), so the bottom block is
+     exactly Shop + Share on every card and the Shop buttons line up. */
+  .video-link { display: block; text-align: center; color: #1f5f74; font-weight: 700; font-size: 14px; text-decoration: none; margin-top: 10px; }
+  .video-link:hover { text-decoration: underline; }
+
+  .history { background: #fff; border: 2px solid #bcd9e4; border-radius: 16px; padding: 16px; margin: 20px 16px 0; }
+  .history h2 { margin: 0 0 4px; font-size: 19px; color: #1f5f74; }
+  .history .hist-note { font-size: 13.5px; color: #4a6b78; line-height: 1.5; margin: 0 0 12px; }
+  .history ul { margin: 0; padding-left: 18px; }
+  .history li { font-size: 14px; color: #23414d; line-height: 1.55; margin-bottom: 10px; }
+  .history li:last-child { margin-bottom: 0; }
+  .history li b { color: #1f5f74; }
+  .footer-duck-v4 { display: block; margin: 0 auto 6px; height: 84px; width: 84px; border-radius: 50%; object-fit: cover; border: 3px solid #ffd94d; background: #ffd94d; filter: drop-shadow(0 3px 5px rgba(35,65,77,.25)); animation: pondfloat 6s ease-in-out infinite; }
+  footer { text-align: center; font-size: 12.5px; color: #4a6b78; padding: 24px 24px 0; line-height: 1.5; }
+  .foot-links { text-align: center; padding: 18px 24px 0; font-size: 13px; }
+  .foot-links a { color: #1f5f74; font-weight: 700; text-decoration: none; margin: 0 8px; }
+  .nest { font-weight: 700; color: #1f5f74; margin: 14px 0 0; }
+  @keyframes pondfloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+  @media (prefers-reduced-motion: reduce) { .footer-duck-v4 { animation: none; } }
+  @media (min-width: 760px) {
+    .app { max-width: 920px; }
+    .lego-grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+  }
+  /* Phone (max-width 699px): compact 2-column cards, so two sets fit per
+     screen instead of one tall card (Lucy, Nov 15, 2026: her iPhone
+     screenshot showed one full-width card with a very tall photo).
+     Photos sit in a uniform square box (v323), so every card is the
+     same size. Desktop (min-width 760px) untouched. */
+  @media (max-width: 699px) {
+    .lego-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; padding: 10px 10px 0; }
+    .lego-info { padding: 10px 10px 12px; }
+    .lego-name { font-size: 14px; }
+    .store-chip { font-size: 11px; margin-top: 6px; padding: 2px 8px; }
+    .price-row { gap: 5px; margin-top: 8px; }
+    .sale { font-size: 19px; }
+    .was { font-size: 13px; }
+    .pct { font-size: 11px; padding: 2px 7px; }
+    .save { font-size: 13px; margin-top: 5px; }
+    .stock-note { font-size: 12px; margin-top: 5px; }
+    .target-note { font-size: 12px; margin-top: 5px; }
+    .viral-hook { font-size: 12px; margin-top: 5px; }
+    .shop-btn { font-size: 13.5px; padding: 9px 10px; margin-top: auto; }
+    /* Refresh button: same button, same place (in .stamp-row), just
+       full-width and bigger on phone so it is easy to spot. */
+    .refresh-btn { width: 100%; font-size: 16px; padding: 12px 18px; }
+  }
+  /* Dark mode: explicit solid colors, no gradients, so every price, pill and button stays readable. */
+  html[data-theme="dark"] .search-row input { background: #172635 !important; color: #eefaff !important; border-color: #2e4a5f !important; }
+  html[data-theme="dark"] .filter-row select { background: #172635 !important; color: #eefaff !important; border-color: #2e4a5f !important; }
+  html[data-theme="dark"] .filter-row label { color: #bcd6e4 !important; }
+  html[data-theme="dark"] .lego-card { background: #172635 !important; border-color: #2e4a5f !important; }
+  html[data-theme="dark"] .lego-photo { background: #fff !important; border-bottom-color: #2e4a5f !important; }
+  html[data-theme="dark"] .lego-name { color: #eefaff !important; }
+  html[data-theme="dark"] .lego-name .setno { color: #8fa8b5 !important; }
+  html[data-theme="dark"] .store-chip { background: #101e2c !important; border-color: #2e4a5f !important; color: #c9f0fc !important; }
+  html[data-theme="dark"] .sale { color: #7ddba0 !important; }
+  html[data-theme="dark"] .was { color: #8fa8b5 !important; }
+  html[data-theme="dark"] .pct { background: #d6336c !important; color: #fff !important; }
+  html[data-theme="dark"] .save { color: #ff9ebb !important; }
+  html[data-theme="dark"] .stock-note { color: #ffd94d !important; }
+  html[data-theme="dark"] .target-note { color: #bcd6e4 !important; }
+  html[data-theme="dark"] .target-note strong { color: #c9f0fc !important; }
+  html[data-theme="dark"] .viral-hook { color: #ffd94d !important; }
+  html[data-theme="dark"] .shop-btn { background: #2e7d96 !important; color: #fff !important; }
+  html[data-theme="dark"] .video-link { color: #c9f0fc !important; }
+
+  html[data-theme="dark"] .history { background: #172635 !important; border-color: #2e4a5f !important; }
+  html[data-theme="dark"] .history h2 { color: #c9f0fc !important; }
+  html[data-theme="dark"] .history .hist-note { color: #bcd6e4 !important; }
+  html[data-theme="dark"] .history li { color: #eefaff !important; }
+  html[data-theme="dark"] .history li b { color: #c9f0fc !important; }
+  html[data-theme="dark"] .stamp { color: #c9f0fc !important; }
+  html[data-theme="dark"] .refresh-note { color: #bcd6e4 !important; }
+  html[data-theme="dark"] .lego-count { color: #bcd6e4 !important; }
+  html[data-theme="dark"] #lego-no-results { color: #bcd6e4 !important; }
+</style>
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="apple-touch-icon-v2.png">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="TreatYourself">
+<meta name="robots" content="noindex,nofollow">
+<link rel="stylesheet" href="pond-travel.css">
+<script>window.__TYD_PREVIEW__=true;</script>
+</head>
+<body>
+<div class="app">
+  <a class="back" href="deals.html">&#8249; Back to Deals</a>
+  <header class="top">
+    <img class="duck" src="images/corners/duck-deals.jpg" onerror="this.onerror=null;this.src='icon-512.png';" alt="The Pond duck">
+    <h1>🔥 Viral Deals</h1>
+    <p class="sub">The deals blowing up on Instagram, TikTok and deal feeds — verified on the store’s own page. For the whole Pond: gifts, kids, men, home, pets and more. Prices can change at the store.</p>
+  </header>
+  <div class="stamp-row">
+    <span class="stamp">✅ Checked November 18, 2026</span>
+    <button type="button" class="refresh-btn" id="refresh-btn">↻ Refresh deals</button>
+  </div>
+  <p class="refresh-note">This page joins the daily morning deal refresh: every price below was checked on its own product page on November 18, 2026. Refreshing reloads the latest saved check.</p>
+  <div class="controls">
+    <div class="search-row"><input id="lego-search" type="search" placeholder="Search viral deals..." aria-label="Search Viral Deals"></div>
+    <p id="lego-no-results" hidden>No viral deals match your search.</p>
+    <div class="filter-row">
+      <label>Store <select id="lego-store" aria-label="Filter by store"><option value="">All stores</option><option value="nothing">Nothing</option><option value="walmart">Walmart</option><option value="bestbuy">Best Buy</option><option value="target">Target</option><option value="ourplace">Our Place</option><option value="happynuts">Happy Nuts</option><option value="mvmt">MVMT</option><option value="woot">Woot</option></select></label>
+      <label>Sort <select id="lego-sort" aria-label="Sort Viral Deals"><option value="pct">Biggest % off</option><option value="price-asc">Lowest price</option><option value="price-desc">Highest price</option><option value="az">A to Z</option></select></label>
+    </div>
+  </div>
+  <p class="lego-count" id="lego-count">29 viral deals, checked November 18, 2026.</p>
+  <main class="lego-grid" id="lego-grid">
+      <article class="lego-card" id="deal-tineco-go-spot" data-store="walmart" data-price="47.00" data-pct="75" data-name="tineco go spot carpet cleaner upholstery rugs stairs pet">
+      <img class="lego-photo" width="554" height="768" src="/images/deals/deal-tineco-go-spot.jpg" alt="Tineco GO Spot Carpet Cleaner (with Solution &amp; Pre-Treatment)" loading="eager" fetchpriority="high" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Tineco GO Spot Carpet Cleaner (with Solution &amp; Pre-Treatment)</h3>
+        <span class="store-chip">Walmart</span>
+        <p class="viral-hook">🔥 Slickdeals front page — the $47 spot cleaner all over deal feeds</p>
+        <p class="price-row"><span class="sale">$47.00</span> <span class="was">was $189.99</span> <span class="pct">75% off</span></p>
+        <p class="save">Save $142.99</p>
+        <p class="stock-note">Sold by Tineco, delivered by Walmart</p>
+        <a class="shop-btn" href="https://www.walmart.com/ip/Tineco-GO-Spot-Deep-Carpet-Cleaner-For-Carpet-Upholstery-Ideal-for-Rugs-and-Stairs-Includes-Carpet-Solution-Pre-Treatment-Spray-SC051000US/12867160669" target="_blank" rel="noopener">Shop Deal at Walmart</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/viral.html#deal-tineco-go-spot" data-share-image="/images/deals/deal-tineco-go-spot.jpg" data-share-title="Tineco GO Spot Carpet Cleaner (with Solution &amp; Pre-Treatment)" data-share-text="$47.00 was $189.99 at Walmart">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-tineco-go-spot" data-deal-name="Tineco GO Spot Carpet Cleaner (with Solution &amp; Pre-Treatment)" data-deal-price="47.00" data-deal-was="189.99" data-deal-store="Walmart" data-deal-href="https://www.walmart.com/ip/Tineco-GO-Spot-Deep-Carpet-Cleaner-For-Carpet-Upholstery-Ideal-for-Rugs-and-Stairs-Includes-Carpet-Solution-Pre-Treatment-Spray-SC051000US/12867160669" data-deal-source="viral" data-deal-page="viral.html" data-deal-img="/images/deals/deal-tineco-go-spot.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-tineco-go-max" data-store="walmart" data-price="99.99" data-pct="67" data-name="tineco go max wet dry vacuum mop cordless floor washer">
+      <img class="lego-photo" width="555" height="824" src="/images/deals/deal-tineco-go-max.jpg" alt="Tineco GO Max Complete Wet Dry Vacuum and Mop" loading="eager" fetchpriority="high" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Tineco GO Max Complete Wet Dry Vacuum and Mop</h3>
+        <span class="store-chip">Walmart</span>
+        <p class="viral-hook">🔥 THE CleanTok appliance of 2026 — 100+ bought since yesterday</p>
+        <p class="price-row"><span class="sale">$99.99</span> <span class="was">was $299.99</span> <span class="pct">67% off</span></p>
+        <p class="save">Save $200.00</p>
+        <a class="shop-btn" href="https://www.walmart.com/ip/Tineco-GO-Max-Flex-Kit-Wet-Dry-Vacuum-and-Mop-Cordless-Floor-Washer-for-Hard-Floors/19949507710" target="_blank" rel="noopener">Shop Deal at Walmart</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/viral.html#deal-tineco-go-max" data-share-image="/images/deals/deal-tineco-go-max.jpg" data-share-title="Tineco GO Max Complete Wet Dry Vacuum and Mop" data-share-text="$99.99 was $299.99 at Walmart">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-tineco-go-max" data-deal-name="Tineco GO Max Complete Wet Dry Vacuum and Mop" data-deal-price="99.99" data-deal-was="299.99" data-deal-store="Walmart" data-deal-href="https://www.walmart.com/ip/Tineco-GO-Max-Flex-Kit-Wet-Dry-Vacuum-and-Mop-Cordless-Floor-Washer-for-Hard-Floors/19949507710" data-deal-source="viral" data-deal-page="viral.html" data-deal-img="/images/deals/deal-tineco-go-max.jpg">💾 Save</button>
+      </div>
+    </article>
+        <article class="lego-card" id="deal-noah-paw-dog-toy-basket" data-store="woot" data-price="33.99" data-pct="58" data-name="noah paw luxury dog toy basket set plush woven basket">
+      <img class="lego-photo" width="752" height="723" src="/images/deals/deal-noah-paw-dog-toy-basket.jpg" alt="NOAH &amp; PAW Luxury Dog Toy Basket Set (4 plush + basket)" loading="eager" fetchpriority="high" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">NOAH &amp; PAW Luxury Dog Toy Basket Set (4 plush + basket)</h3>
+        <span class="store-chip">Woot</span>
+        <p class="viral-hook">🔥 Unboxings all over Facebook and Threads — DealNews&#x27; lead pet deal</p>
+        <p class="price-row"><span class="sale">$33.99</span> <span class="was">was $79.99</span> <span class="pct">58% off</span></p>
+        <p class="save">Save $46.00</p>
+        <p class="stock-note">Woot pet sale ends Nov 21</p>
+        <a class="shop-btn" href="https://home.woot.com/offers/noah-paw-luxury-dog-toy-basket-set" target="_blank" rel="noopener">Shop Deal at Woot</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/viral.html#deal-noah-paw-dog-toy-basket" data-share-image="/images/deals/deal-noah-paw-dog-toy-basket.jpg" data-share-title="NOAH &amp; PAW Luxury Dog Toy Basket Set (4 plush + basket)" data-share-text="$33.99 was $79.99 at Woot">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-noah-paw-dog-toy-basket" data-deal-name="NOAH &amp; PAW Luxury Dog Toy Basket Set (4 plush + basket)" data-deal-price="33.99" data-deal-was="79.99" data-deal-store="Woot" data-deal-href="https://home.woot.com/offers/noah-paw-luxury-dog-toy-basket-set" data-deal-source="viral" data-deal-page="viral.html" data-deal-img="/images/deals/deal-noah-paw-dog-toy-basket.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-bissell-crosswave-3831" data-store="walmart" data-price="98.87" data-pct="53" data-name="bissell crosswave hard floor expert wet dry vacuum 3831">
+      <img class="lego-photo" width="210" height="764" src="/images/deals/deal-bissell-crosswave-3831.jpg" alt="BISSELL CrossWave Hard Floor Expert Wet/Dry Vacuum 3831" loading="eager" fetchpriority="high" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">BISSELL CrossWave Hard Floor Expert Wet/Dry Vacuum 3831</h3>
+        <span class="store-chip">Walmart</span>
+        <p class="viral-hook">🔥 A perennial deal-page favorite — in PopSci&#x27;s 82-pick Black Friday roundup<span class="viral-metrics"> · 48 likes · 0 comments on Instagram</span></p>
+        <p class="price-row"><span class="sale">$98.87</span> <span class="was">was $209.99</span> <span class="pct">53% off</span></p>
+        <p class="save">Save $111.12</p>
+        <a class="video-link" href="https://www.instagram.com/reel/DXPug-ngbu9/" target="_blank" rel="noopener">📹 See it in use</a>
+        <a class="shop-btn" href="https://www.walmart.com/ip/BISSELL-CrossWave-Hard-Floor-Expert-Wet-Dry-Vacuum-3831/3022305000" target="_blank" rel="noopener">Shop Deal at Walmart</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/viral.html#deal-bissell-crosswave-3831" data-share-image="/images/deals/deal-bissell-crosswave-3831.jpg" data-share-title="BISSELL CrossWave Hard Floor Expert Wet/Dry Vacuum 3831" data-share-text="$98.87 was $209.99 at Walmart">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-bissell-crosswave-3831" data-deal-name="BISSELL CrossWave Hard Floor Expert Wet/Dry Vacuum 3831" data-deal-price="98.87" data-deal-was="209.99" data-deal-store="Walmart" data-deal-href="https://www.walmart.com/ip/BISSELL-CrossWave-Hard-Floor-Expert-Wet-Dry-Vacuum-3831/3022305000" data-deal-source="viral" data-deal-page="viral.html" data-deal-img="/images/deals/deal-bissell-crosswave-3831.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-cmf-buds-2" data-store="nothing" data-price="25.00" data-pct="49" data-name="cmf by nothing buds 2 earbuds anc wireless">
+      <img class="lego-photo" width="629" height="765" src="/images/deals/deal-cmf-buds-2.jpg" alt="CMF by Nothing Buds 2" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">CMF by Nothing Buds 2</h3>
+        <span class="store-chip">Nothing</span>
+        <p class="viral-hook">🔥 The $25 earbuds that took over deal feeds Nov 13<span class="viral-metrics"> · 0 likes · 0 comments on Instagram</span></p>
+        <p class="price-row"><span class="sale">$25.00</span> <span class="was">was $49.00</span> <span class="pct">49% off</span></p>
+        <p class="save">Save $24.00</p>
+        <a class="video-link" href="https://www.instagram.com/reel/DMMpeY4o6wm/" target="_blank" rel="noopener">📹 See it in use</a>
+        <a class="shop-btn" href="https://us.nothing.tech/products/cmf-buds-2" target="_blank" rel="noopener">Shop Deal at Nothing</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/viral.html#deal-cmf-buds-2" data-share-image="/images/deals/deal-cmf-buds-2.jpg" data-share-title="CMF by Nothing Buds 2" data-share-text="$25.00 was $49.00 at Nothing">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-cmf-buds-2" data-deal-name="CMF by Nothing Buds 2" data-deal-price="25.00" data-deal-was="49.00" data-deal-store="Nothing" data-deal-href="https://us.nothing.tech/products/cmf-buds-2" data-deal-source="viral" data-deal-page="viral.html" data-deal-img="/images/deals/deal-cmf-buds-2.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-nothing-headphone-a" data-store="bestbuy" data-price="109.00" data-pct="45" data-name="nothing headphone a wireless over ear bluetooth headphones black anc">
+      <img class="lego-photo" width="532" height="768" src="/images/deals/deal-nothing-headphone-a.jpg" alt="Nothing Headphone (a) Wireless Over-Ear Headphones, Black" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Nothing Headphone (a) Wireless Over-Ear Headphones, Black</h3>
+        <span class="store-chip">Best Buy</span>
+        <p class="viral-hook">🔥 Deal accounts reposted the $109 graphic all Nov 13<span class="viral-metrics"> · 23.9K views · 445 likes on YouTube</span></p>
+        <p class="price-row"><span class="sale">$109.00</span> <span class="was">was $199.00</span> <span class="pct">45% off</span></p>
+        <p class="save">Save $90.00</p>
+        <p class="stock-note">Best Buy doorbuster</p>
+        <a class="video-link" href="https://www.youtube.com/watch?v=fYdqNRCr0uM" target="_blank" rel="noopener">📹 See it in use</a>
+        <a class="shop-btn" href="https://www.bestbuy.com/product/nothing-headphone-a-wireless-over-ear-bluetooth-headphones-black/CZTTGJQ6F2" target="_blank" rel="noopener">Shop Deal at Best Buy</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/viral.html#deal-nothing-headphone-a" data-share-image="/images/deals/deal-nothing-headphone-a.jpg" data-share-title="Nothing Headphone (a) Wireless Over-Ear Headphones, Black" data-share-text="$109.00 was $199.00 at Best Buy">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-nothing-headphone-a" data-deal-name="Nothing Headphone (a) Wireless Over-Ear Headphones, Black" data-deal-price="109.00" data-deal-was="199.00" data-deal-store="Best Buy" data-deal-href="https://www.bestbuy.com/product/nothing-headphone-a-wireless-over-ear-bluetooth-headphones-black/CZTTGJQ6F2" data-deal-source="viral" data-deal-page="viral.html" data-deal-img="/images/deals/deal-nothing-headphone-a.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-nothing-headphone-1" data-store="nothing" data-price="169.00" data-pct="43" data-name="nothing headphone 1 wireless over ear bluetooth headphones black">
+      <img class="lego-photo" width="531" height="766" src="/images/deals/deal-nothing-headphone-1.jpg" alt="Nothing Headphone (1) Wireless Over-Ear Headphones, Black" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Nothing Headphone (1) Wireless Over-Ear Headphones, Black</h3>
+        <span class="store-chip">Nothing</span>
+        <p class="viral-hook">🔥 Part of Nothing&#x27;s Black Friday drop — $130 off the flagship</p>
+        <p class="price-row"><span class="sale">$169.00</span> <span class="was">was $299.00</span> <span class="pct">43% off</span></p>
+        <p class="save">Save $130.00</p>
+        <a class="shop-btn" href="https://us.nothing.tech/products/headphone-1" target="_blank" rel="noopener">Shop Deal at Nothing</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/viral.html#deal-nothing-headphone-1" data-share-image="/images/deals/deal-nothing-headphone-1.jpg" data-share-title="Nothing Headphone (1) Wireless Over-Ear Headphones, Black" data-share-text="$169.00 was $299.00 at Nothing">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-nothing-headphone-1" data-deal-name="Nothing Headphone (1) Wireless Over-Ear Headphones, Black" data-deal-price="169.00" data-deal-was="299.00" data-deal-store="Nothing" data-deal-href="https://us.nothing.tech/products/headphone-1" data-deal-source="viral" data-deal-page="viral.html" data-deal-img="/images/deals/deal-nothing-headphone-1.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-cmf-clip-pro" data-store="nothing" data-price="59.00" data-pct="40" data-name="cmf clip pro clip on earbuds orange">
+      <img class="lego-photo" width="595" height="764" src="/images/deals/deal-cmf-clip-pro.jpg" alt="CMF Clip Pro, Orange" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">CMF Clip Pro, Orange</h3>
+        <span class="store-chip">Nothing</span>
+        <p class="viral-hook">🔥 Part of Nothing&#x27;s Black Friday drop — clip-on earbuds, $40 off<span class="viral-metrics"> · 79 likes · 0 comments on Instagram</span></p>
+        <p class="price-row"><span class="sale">$59.00</span> <span class="was">was $99.00</span> <span class="pct">40% off</span></p>
+        <p class="save">Save $40.00</p>
+        <a class="video-link" href="https://www.instagram.com/reel/DfLq66Ip9np/" target="_blank" rel="noopener">📹 See it in use</a>
+        <a class="shop-btn" href="https://us.nothing.tech/products/cmf-clip-pro" target="_blank" rel="noopener">Shop Deal at Nothing</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/viral.html#deal-cmf-clip-pro" data-share-image="/images/deals/deal-cmf-clip-pro.jpg" data-share-title="CMF Clip Pro, Orange" data-share-text="$59.00 was $99.00 at Nothing">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-cmf-clip-pro" data-deal-name="CMF Clip Pro, Orange" data-deal-price="59.00" data-deal-was="99.00" data-deal-store="Nothing" data-deal-href="https://us.nothing.tech/products/cmf-clip-pro" data-deal-source="viral" data-deal-page="viral.html" data-deal-img="/images/deals/deal-cmf-clip-pro.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-hot-wheels-mega-loop-car-wash" data-store="target" data-price="23.99" data-pct="40" data-name="hot wheels city mega loop car wash playset color shifters kids">
+      <img class="lego-photo" width="716" height="764" src="/images/deals/deal-hot-wheels-mega-loop-car-wash.jpg" alt="Hot Wheels City Mega Loop Car Wash Playset &amp; Color Shifters Vehicle" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Hot Wheels City Mega Loop Car Wash Playset &amp; Color Shifters Vehicle</h3>
+        <span class="store-chip">Target</span>
+        <p class="viral-hook">🔥 Slickdeals front page Nov 10 — shared by Money Saving Mom (920K)<span class="viral-metrics"> · 4 likes · 0 comments on Instagram</span></p>
+        <p class="price-row"><span class="sale">$23.99</span> <span class="was">was $39.99</span> <span class="pct">40% off</span></p>
+        <p class="save">Save $16.00</p>
+        <p class="target-note"><strong>Online price — in store may be higher.</strong> Target matches its own website price in store: show the LIVE target.com/app price on your phone at Guest Services (screenshots not accepted), at purchase or within 14 days. Holiday buys Nov 1–Dec 24, 2026 can match price drops through Dec 24. Bring your receipt.</p>
+        <p class="stock-note">Also $23.99 at Walmart — $8 Walmart Cash when signed in</p>
+        <a class="video-link" href="https://www.instagram.com/reel/De-te1IEecv/" target="_blank" rel="noopener">📹 See it in use</a>
+        <a class="shop-btn" href="https://www.target.com/p/hot-wheels-city-mega-loop-car-wash-playset-38-1-hot-wheels-color-shifters-in-1-64-scaletoy-vehicle-playsets/-/A-95007342" target="_blank" rel="noopener">Shop Deal at Target</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/viral.html#deal-hot-wheels-mega-loop-car-wash" data-share-image="/images/deals/deal-hot-wheels-mega-loop-car-wash.jpg" data-share-title="Hot Wheels City Mega Loop Car Wash Playset &amp; Color Shifters Vehicle" data-share-text="$23.99 was $39.99 at Target">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-hot-wheels-mega-loop-car-wash" data-deal-name="Hot Wheels City Mega Loop Car Wash Playset &amp; Color Shifters Vehicle" data-deal-price="23.99" data-deal-was="39.99" data-deal-store="Target" data-deal-href="https://www.target.com/p/hot-wheels-city-mega-loop-car-wash-playset-38-1-hot-wheels-color-shifters-in-1-64-scaletoy-vehicle-playsets/-/A-95007342" data-deal-source="viral" data-deal-page="viral.html" data-deal-img="/images/deals/deal-hot-wheels-mega-loop-car-wash.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-cmf-headphone-pro" data-store="nothing" data-price="49.00" data-pct="38" data-name="cmf headphone pro wireless over ear headphones light green">
+      <img class="lego-photo" width="530" height="766" src="/images/deals/deal-cmf-headphone-pro.jpg" alt="CMF Headphone Pro, Light Green" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">CMF Headphone Pro, Light Green</h3>
+        <span class="store-chip">Nothing</span>
+        <p class="viral-hook">🔥 Part of Nothing&#x27;s Black Friday drop — light-green over-ears, $30 off<span class="viral-metrics"> · 2.4K likes · 15 comments on Instagram</span></p>
+        <p class="price-row"><span class="sale">$49.00</span> <span class="was">was $79.00</span> <span class="pct">38% off</span></p>
+        <p class="save">Save $30.00</p>
+        <a class="video-link" href="https://www.instagram.com/reel/DPTDOmXEXq0/" target="_blank" rel="noopener">📹 See it in use</a>
+        <a class="shop-btn" href="https://us.nothing.tech/products/cmf-headphone-pro" target="_blank" rel="noopener">Shop Deal at Nothing</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/viral.html#deal-cmf-headphone-pro" data-share-image="/images/deals/deal-cmf-headphone-pro.jpg" data-share-title="CMF Headphone Pro, Light Green" data-share-text="$49.00 was $79.00 at Nothing">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-cmf-headphone-pro" data-deal-name="CMF Headphone Pro, Light Green" data-deal-price="49.00" data-deal-was="79.00" data-deal-store="Nothing" data-deal-href="https://us.nothing.tech/products/cmf-headphone-pro" data-deal-source="viral" data-deal-page="viral.html" data-deal-img="/images/deals/deal-cmf-headphone-pro.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-nothing-ear" data-store="nothing" data-price="69.00" data-pct="37" data-name="nothing ear wireless earbuds black anc">
+      <img class="lego-photo" width="533" height="767" src="/images/deals/deal-nothing-ear.jpg" alt="Nothing Ear Wireless Earbuds, Black" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Nothing Ear Wireless Earbuds, Black</h3>
+        <span class="store-chip">Nothing</span>
+        <p class="viral-hook">🔥 Part of Nothing&#x27;s Black Friday drop — the original Ear, $40 off<span class="viral-metrics"> · 1 like · 0 comments on Instagram</span></p>
+        <p class="price-row"><span class="sale">$69.00</span> <span class="was">was $109.00</span> <span class="pct">37% off</span></p>
+        <p class="save">Save $40.00</p>
+        <a class="video-link" href="https://www.instagram.com/reel/DYBlWd9kwAf/" target="_blank" rel="noopener">📹 See it in use</a>
+        <a class="shop-btn" href="https://us.nothing.tech/products/ear" target="_blank" rel="noopener">Shop Deal at Nothing</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/viral.html#deal-nothing-ear" data-share-image="/images/deals/deal-nothing-ear.jpg" data-share-title="Nothing Ear Wireless Earbuds, Black" data-share-text="$69.00 was $109.00 at Nothing">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-nothing-ear" data-deal-name="Nothing Ear Wireless Earbuds, Black" data-deal-price="69.00" data-deal-was="109.00" data-deal-store="Nothing" data-deal-href="https://us.nothing.tech/products/ear" data-deal-source="viral" data-deal-page="viral.html" data-deal-img="/images/deals/deal-nothing-ear.jpg">💾 Save</button>
+      </div>
+    </article>
+    <article class="lego-card" id="deal-toniebox-2-paw-patrol" data-store="walmart" data-price="109.00" data-pct="36" data-name="tonies toniebox 2 paw patrol chase audio player screen free kids">
+      <img class="lego-photo" width="656" height="761" src="/images/deals/deal-toniebox-2-paw-patrol.jpg" alt="tonies Toniebox 2 Bundle with PAW Patrol Chase Tonie, Sky Blue" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">tonies Toniebox 2 Bundle with PAW Patrol Chase Tonie, Sky Blue</h3>
+        <span class="store-chip">Walmart</span>
+        <p class="viral-hook">🔥 100+ bought since yesterday — the breakout screen-free kids&#x27; player of 2026<span class="viral-metrics"> · 37 likes · 27 comments on Instagram</span></p>
+        <p class="price-row"><span class="sale">$109.00</span> <span class="was">was $169.99</span> <span class="pct">36% off</span></p>
+        <p class="save">Save $60.99</p>
+        <p class="stock-note">Walmart exclusive</p>
+        <a class="video-link" href="https://www.instagram.com/reel/DRu8HK4Eob-/" target="_blank" rel="noopener">📹 See it in use</a>
+        <a class="shop-btn" href="https://www.walmart.com/ip/tonies-Toniebox-2-Screen-Free-Audio-Player-Bundle-with-PAW-Patrol-Chase-Tonie-Age-Group-3-Sky-Blue/15617357679" target="_blank" rel="noopener">Shop Deal at Walmart</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/viral.html#deal-toniebox-2-paw-patrol" data-share-image="/images/deals/deal-toniebox-2-paw-patrol.jpg" data-share-title="tonies Toniebox 2 Bundle with PAW Patrol Chase Tonie, Sky Blue" data-share-text="$109.00 was $169.99 at Walmart">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-toniebox-2-paw-patrol" data-deal-name="tonies Toniebox 2 Bundle with PAW Patrol Chase Tonie, Sky Blue" data-deal-price="109.00" data-deal-was="169.99" data-deal-store="Walmart" data-deal-href="https://www.walmart.com/ip/tonies-Toniebox-2-Screen-Free-Audio-Player-Bundle-with-PAW-Patrol-Chase-Tonie-Age-Group-3-Sky-Blue/15617357679" data-deal-source="viral" data-deal-page="viral.html" data-deal-img="/images/deals/deal-toniebox-2-paw-patrol.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-nothing-ear-3" data-store="bestbuy" data-price="99.00" data-pct="34" data-name="nothing ear 3 wireless earbuds anc black">
+      <img class="lego-photo" width="655" height="766" src="/images/deals/deal-nothing-ear-3.jpg" alt="Nothing Ear (3) Wireless Earbuds with ANC, Black" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Nothing Ear (3) Wireless Earbuds with ANC, Black</h3>
+        <span class="store-chip">Best Buy</span>
+        <p class="viral-hook">🔥 Slickdeals front page — HypeTrial compares it to AirPods Pro 3<span class="viral-metrics"> · 367 likes · 110 comments on Instagram</span></p>
+        <p class="price-row"><span class="sale">$99.00</span> <span class="was">was $149.00</span> <span class="pct">34% off</span></p>
+        <p class="save">Save $50.00</p>
+        <p class="stock-note">Best Buy doorbuster</p>
+        <a class="video-link" href="https://www.instagram.com/reel/DRnmEYHEn-a/" target="_blank" rel="noopener">📹 See it in use</a>
+        <a class="shop-btn" href="https://www.bestbuy.com/product/nothing-ear-3-wireless-bluetooth-in-ear-earbuds-anc-black/CZTTGJQ94Y" target="_blank" rel="noopener">Shop Deal at Best Buy</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/viral.html#deal-nothing-ear-3" data-share-image="/images/deals/deal-nothing-ear-3.jpg" data-share-title="Nothing Ear (3) Wireless Earbuds with ANC, Black" data-share-text="$99.00 was $149.00 at Best Buy">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-nothing-ear-3" data-deal-name="Nothing Ear (3) Wireless Earbuds with ANC, Black" data-deal-price="99.00" data-deal-was="149.00" data-deal-store="Best Buy" data-deal-href="https://www.bestbuy.com/product/nothing-ear-3-wireless-bluetooth-in-ear-earbuds-anc-black/CZTTGJQ94Y" data-deal-source="viral" data-deal-page="viral.html" data-deal-img="/images/deals/deal-nothing-ear-3.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-cmf-speaker-s" data-store="nothing" data-price="39.00" data-pct="34" data-name="cmf by nothing speaker s milk carton bluetooth speaker">
+      <img class="lego-photo" width="547" height="765" src="/images/deals/deal-cmf-speaker-s.jpg" alt="CMF by Nothing Speaker S — the Milk Carton Speaker" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">CMF by Nothing Speaker S — the Milk Carton Speaker</h3>
+        <span class="store-chip">Nothing</span>
+        <p class="viral-hook">🔥 The milk-carton speaker PCMag unboxed Nov 7<span class="viral-metrics"> · 1.4K likes · 12 comments on Instagram</span></p>
+        <p class="price-row"><span class="sale">$39.00</span> <span class="was">was $59.00</span> <span class="pct">34% off</span></p>
+        <p class="save">Save $20.00</p>
+        <a class="video-link" href="https://www.instagram.com/reel/DfKUlMDhllS/" target="_blank" rel="noopener">📹 See it in use</a>
+        <a class="shop-btn" href="https://us.nothing.tech/products/cmf-speaker-s" target="_blank" rel="noopener">Shop Deal at Nothing</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/viral.html#deal-cmf-speaker-s" data-share-image="/images/deals/deal-cmf-speaker-s.jpg" data-share-title="CMF by Nothing Speaker S — the Milk Carton Speaker" data-share-text="$39.00 was $59.00 at Nothing">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-cmf-speaker-s" data-deal-name="CMF by Nothing Speaker S — the Milk Carton Speaker" data-deal-price="39.00" data-deal-was="59.00" data-deal-store="Nothing" data-deal-href="https://us.nothing.tech/products/cmf-speaker-s" data-deal-source="viral" data-deal-page="viral.html" data-deal-img="/images/deals/deal-cmf-speaker-s.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-ninja-blast-blender" data-store="walmart" data-price="39.99" data-pct="31" data-name="ninja blast portable blender 18oz black bc151bk smoothie">
+      <img class="lego-photo" width="368" height="723" src="/images/deals/deal-ninja-blast-blender.jpg" alt="Ninja Blast Portable 18oz Blender, Black (BC151BK)" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Ninja Blast Portable 18oz Blender, Black (BC151BK)</h3>
+        <span class="store-chip">Walmart</span>
+        <p class="viral-hook">🔥 The TikTok-viral portable blender — in Best Choice&#x27;s &#x27;37+ TikTok Finds&#x27;<span class="viral-metrics"> · 2 likes · 0 comments on Instagram</span></p>
+        <p class="price-row"><span class="sale">$39.99</span> <span class="was">was $58.00</span> <span class="pct">31% off</span></p>
+        <p class="save">Save $18.01</p>
+        <a class="video-link" href="https://www.instagram.com/reel/DX72_QGjZwD/" target="_blank" rel="noopener">📹 See it in use</a>
+        <a class="shop-btn" href="https://www.walmart.com/ip/Ninja-Blast-Personal-Portable-18-oz-Blender-with-Leak-Proof-Lid-Easy-Sip-Spout-Perfect-for-Smoothies-Black/5340742417" target="_blank" rel="noopener">Shop Deal at Walmart</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/viral.html#deal-ninja-blast-blender" data-share-image="/images/deals/deal-ninja-blast-blender.jpg" data-share-title="Ninja Blast Portable 18oz Blender, Black (BC151BK)" data-share-text="$39.99 was $58.00 at Walmart">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-ninja-blast-blender" data-deal-name="Ninja Blast Portable 18oz Blender, Black (BC151BK)" data-deal-price="39.99" data-deal-was="58.00" data-deal-store="Walmart" data-deal-href="https://www.walmart.com/ip/Ninja-Blast-Personal-Portable-18-oz-Blender-with-Leak-Proof-Lid-Easy-Sip-Spout-Perfect-for-Smoothies-Black/5340742417" data-deal-source="viral" data-deal-page="viral.html" data-deal-img="/images/deals/deal-ninja-blast-blender.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-cmf-buds-2a" data-store="nothing" data-price="20.00" data-pct="31" data-name="cmf buds 2a earbuds dark grey anc">
+      <img class="lego-photo" width="760" height="588" src="/images/deals/deal-cmf-buds-2a.jpg" alt="CMF Buds 2a, Dark Grey" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">CMF Buds 2a, Dark Grey</h3>
+        <span class="store-chip">Nothing</span>
+        <p class="viral-hook">🔥 Part of Nothing&#x27;s Black Friday drop — $20 earbuds with ANC<span class="viral-metrics"> · 2 likes · 0 comments on Instagram</span></p>
+        <p class="price-row"><span class="sale">$20.00</span> <span class="was">was $29.00</span> <span class="pct">31% off</span></p>
+        <p class="save">Save $9.00</p>
+        <a class="video-link" href="https://www.instagram.com/reel/DejgcNQuYo7/" target="_blank" rel="noopener">📹 See it in use</a>
+        <a class="shop-btn" href="https://us.nothing.tech/products/cmf-buds-2a" target="_blank" rel="noopener">Shop Deal at Nothing</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/viral.html#deal-cmf-buds-2a" data-share-image="/images/deals/deal-cmf-buds-2a.jpg" data-share-title="CMF Buds 2a, Dark Grey" data-share-text="$20.00 was $29.00 at Nothing">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-cmf-buds-2a" data-deal-name="CMF Buds 2a, Dark Grey" data-deal-price="20.00" data-deal-was="29.00" data-deal-store="Nothing" data-deal-href="https://us.nothing.tech/products/cmf-buds-2a" data-deal-source="viral" data-deal-page="viral.html" data-deal-img="/images/deals/deal-cmf-buds-2a.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-always-pan-2" data-store="ourplace" data-price="95.00" data-pct="30" data-name="our place always pan 2.0 ceramic nonstick cooking pan">
+      <img class="lego-photo" width="766" height="225" src="/images/deals/deal-always-pan-2.jpg" alt="Our Place Always Pan 2.0, Ceramic Nonstick 10.5&quot;" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Our Place Always Pan 2.0, Ceramic Nonstick 10.5&quot;</h3>
+        <span class="store-chip">Our Place</span>
+        <p class="viral-hook">🔥 THE Instagram-famous pan — all over IG kitchens for years<span class="viral-metrics"> · 13.3K likes · 209 comments on Instagram</span></p>
+        <p class="price-row"><span class="sale">$95.00</span> <span class="was">was $135.00</span> <span class="pct">30% off</span></p>
+        <p class="save">Save $40.00</p>
+        <p class="stock-note">Most colors $95 — sale thru Nov 30</p>
+        <a class="video-link" href="https://www.instagram.com/reel/DbXVFfBAgx3/" target="_blank" rel="noopener">📹 See it in use</a>
+        <a class="shop-btn" href="https://fromourplace.com/products/always-essential-cooking-pan" target="_blank" rel="noopener">Shop Deal at Our Place</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/viral.html#deal-always-pan-2" data-share-image="/images/deals/deal-always-pan-2.jpg" data-share-title="Our Place Always Pan 2.0, Ceramic Nonstick 10.5&quot;" data-share-text="$95.00 was $135.00 at Our Place">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-always-pan-2" data-deal-name="Our Place Always Pan 2.0, Ceramic Nonstick 10.5&quot;" data-deal-price="95.00" data-deal-was="135.00" data-deal-store="Our Place" data-deal-href="https://fromourplace.com/products/always-essential-cooking-pan" data-deal-source="viral" data-deal-page="viral.html" data-deal-img="/images/deals/deal-always-pan-2.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-nothing-ear-3a" data-store="bestbuy" data-price="69.00" data-pct="30" data-name="nothing ear 3a wireless earbuds pink anc">
+      <img class="lego-photo" width="754" height="681" src="/images/deals/deal-nothing-ear-3a.jpg" alt="Nothing Ear (3a) Wireless Earbuds, Pink" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Nothing Ear (3a) Wireless Earbuds, Pink</h3>
+        <span class="store-chip">Best Buy</span>
+        <p class="viral-hook">🔥 TIME&#x27;s Best Gifts Under $100 — HypeTrial verdict: BUY<span class="viral-metrics"> · 1.9K likes · 26 comments on Instagram</span></p>
+        <p class="price-row"><span class="sale">$69.00</span> <span class="was">was $99.00</span> <span class="pct">30% off</span></p>
+        <p class="save">Save $30.00</p>
+        <p class="stock-note">Best Buy doorbuster</p>
+        <a class="video-link" href="https://www.instagram.com/reel/DayFh2zxRry/" target="_blank" rel="noopener">📹 See it in use</a>
+        <a class="shop-btn" href="https://www.bestbuy.com/product/nothing-ear-3a-wireless-bluetooth-in-ear-earbuds-pink/CZTTGJQH74" target="_blank" rel="noopener">Shop Deal at Best Buy</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/viral.html#deal-nothing-ear-3a" data-share-image="/images/deals/deal-nothing-ear-3a.jpg" data-share-title="Nothing Ear (3a) Wireless Earbuds, Pink" data-share-text="$69.00 was $99.00 at Best Buy">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-nothing-ear-3a" data-deal-name="Nothing Ear (3a) Wireless Earbuds, Pink" data-deal-price="69.00" data-deal-was="99.00" data-deal-store="Best Buy" data-deal-href="https://www.bestbuy.com/product/nothing-ear-3a-wireless-bluetooth-in-ear-earbuds-pink/CZTTGJQH74" data-deal-source="viral" data-deal-page="viral.html" data-deal-img="/images/deals/deal-nothing-ear-3a.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-nothing-ear-a" data-store="nothing" data-price="55.00" data-pct="30" data-name="nothing ear a wireless earbuds">
+      <img class="lego-photo" width="511" height="766" src="/images/deals/deal-nothing-ear-a.jpg" alt="Nothing Ear (a) Wireless Earbuds" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Nothing Ear (a) Wireless Earbuds</h3>
+        <span class="store-chip">Nothing</span>
+        <p class="viral-hook">🔥 Part of Nothing&#x27;s Black Friday drop — the $55 everyday buds<span class="viral-metrics"> · 86 likes · 1 comment on Instagram</span></p>
+        <p class="price-row"><span class="sale">$55.00</span> <span class="was">was $79.00</span> <span class="pct">30% off</span></p>
+        <p class="save">Save $24.00</p>
+        <a class="video-link" href="https://www.instagram.com/reel/DMInivbIgeh/" target="_blank" rel="noopener">📹 See it in use</a>
+        <a class="shop-btn" href="https://us.nothing.tech/products/ear-a" target="_blank" rel="noopener">Shop Deal at Nothing</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/viral.html#deal-nothing-ear-a" data-share-image="/images/deals/deal-nothing-ear-a.jpg" data-share-title="Nothing Ear (a) Wireless Earbuds" data-share-text="$55.00 was $79.00 at Nothing">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-nothing-ear-a" data-deal-name="Nothing Ear (a) Wireless Earbuds" data-deal-price="55.00" data-deal-was="79.00" data-deal-store="Nothing" data-deal-href="https://us.nothing.tech/products/ear-a" data-deal-source="viral" data-deal-page="viral.html" data-deal-img="/images/deals/deal-nothing-ear-a.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-cmf-watch-3-pro" data-store="nothing" data-price="55.00" data-pct="30" data-name="cmf watch 3 pro smartwatch orange">
+      <img class="lego-photo" width="545" height="767" src="/images/deals/deal-cmf-watch-3-pro.jpg" alt="CMF Watch 3 Pro Smartwatch, Orange" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">CMF Watch 3 Pro Smartwatch, Orange</h3>
+        <span class="store-chip">Nothing</span>
+        <p class="viral-hook">🔥 Part of Nothing&#x27;s Black Friday drop — the $55 smartwatch<span class="viral-metrics"> · 94 likes · 0 comments on Instagram</span></p>
+        <p class="price-row"><span class="sale">$55.00</span> <span class="was">was $79.00</span> <span class="pct">30% off</span></p>
+        <p class="save">Save $24.00</p>
+        <a class="video-link" href="https://www.instagram.com/reel/De3u9-kKoP5/" target="_blank" rel="noopener">📹 See it in use</a>
+        <a class="shop-btn" href="https://us.nothing.tech/products/cmf-watch-3-pro" target="_blank" rel="noopener">Shop Deal at Nothing</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/viral.html#deal-cmf-watch-3-pro" data-share-image="/images/deals/deal-cmf-watch-3-pro.jpg" data-share-title="CMF Watch 3 Pro Smartwatch, Orange" data-share-text="$55.00 was $79.00 at Nothing">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-cmf-watch-3-pro" data-deal-name="CMF Watch 3 Pro Smartwatch, Orange" data-deal-price="55.00" data-deal-was="79.00" data-deal-store="Nothing" data-deal-href="https://us.nothing.tech/products/cmf-watch-3-pro" data-deal-source="viral" data-deal-page="viral.html" data-deal-img="/images/deals/deal-cmf-watch-3-pro.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-nothing-phone-3" data-store="nothing" data-price="499.00" data-pct="29" data-name="nothing phone 3 smartphone white">
+      <img class="lego-photo" width="370" height="762" src="/images/deals/deal-nothing-phone-3.jpg" alt="Nothing Phone (3), White" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Nothing Phone (3), White</h3>
+        <span class="store-chip">Nothing</span>
+        <p class="viral-hook">🔥 Part of Nothing&#x27;s Black Friday drop — $200 off the flagship phone</p>
+        <p class="price-row"><span class="sale">$499.00</span> <span class="was">was $699.00</span> <span class="pct">29% off</span></p>
+        <p class="save">Save $200.00</p>
+        <a class="shop-btn" href="https://us.nothing.tech/products/phone-3" target="_blank" rel="noopener">Shop Deal at Nothing</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/viral.html#deal-nothing-phone-3" data-share-image="/images/deals/deal-nothing-phone-3.jpg" data-share-title="Nothing Phone (3), White" data-share-text="$499.00 was $699.00 at Nothing">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-nothing-phone-3" data-deal-name="Nothing Phone (3), White" data-deal-price="499.00" data-deal-was="699.00" data-deal-store="Nothing" data-deal-href="https://us.nothing.tech/products/phone-3" data-deal-source="viral" data-deal-page="viral.html" data-deal-img="/images/deals/deal-nothing-phone-3.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-cmf-buds-pro-2" data-store="nothing" data-price="35.00" data-pct="29" data-name="cmf buds pro 2 earbuds orange anc">
+      <img class="lego-photo" width="625" height="760" src="/images/deals/deal-cmf-buds-pro-2.jpg" alt="CMF Buds Pro 2, Orange" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">CMF Buds Pro 2, Orange</h3>
+        <span class="store-chip">Nothing</span>
+        <p class="viral-hook">🔥 Part of Nothing&#x27;s Black Friday drop — orange buds, $14 off<span class="viral-metrics"> · 22 likes · 0 comments on Instagram</span></p>
+        <p class="price-row"><span class="sale">$35.00</span> <span class="was">was $49.00</span> <span class="pct">29% off</span></p>
+        <p class="save">Save $14.00</p>
+        <a class="video-link" href="https://www.instagram.com/reel/DCZPSunMV7V/" target="_blank" rel="noopener">📹 See it in use</a>
+        <a class="shop-btn" href="https://us.nothing.tech/products/cmf-buds-pro-2" target="_blank" rel="noopener">Shop Deal at Nothing</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/viral.html#deal-cmf-buds-pro-2" data-share-image="/images/deals/deal-cmf-buds-pro-2.jpg" data-share-title="CMF Buds Pro 2, Orange" data-share-text="$35.00 was $49.00 at Nothing">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-cmf-buds-pro-2" data-deal-name="CMF Buds Pro 2, Orange" data-deal-price="35.00" data-deal-was="49.00" data-deal-store="Nothing" data-deal-href="https://us.nothing.tech/products/cmf-buds-pro-2" data-deal-source="viral" data-deal-page="viral.html" data-deal-img="/images/deals/deal-cmf-buds-pro-2.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-cmf-speaker-m" data-store="nothing" data-price="79.00" data-pct="28" data-name="cmf by nothing speaker m bluetooth speaker">
+      <img class="lego-photo" width="345" height="767" src="/images/deals/deal-cmf-speaker-m.jpg" alt="CMF by Nothing Speaker M" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">CMF by Nothing Speaker M</h3>
+        <span class="store-chip">Nothing</span>
+        <p class="viral-hook">🔥 The bigger sibling of the viral milk-carton speaker<span class="viral-metrics"> · 22K likes · 132 comments on Instagram</span></p>
+        <p class="price-row"><span class="sale">$79.00</span> <span class="was">was $109.00</span> <span class="pct">28% off</span></p>
+        <p class="save">Save $30.00</p>
+        <a class="video-link" href="https://www.instagram.com/reel/DeaNnzlhmu1/" target="_blank" rel="noopener">📹 See it in use</a>
+        <a class="shop-btn" href="https://us.nothing.tech/products/cmf-speaker-m" target="_blank" rel="noopener">Shop Deal at Nothing</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/viral.html#deal-cmf-speaker-m" data-share-image="/images/deals/deal-cmf-speaker-m.jpg" data-share-title="CMF by Nothing Speaker M" data-share-text="$79.00 was $109.00 at Nothing">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-cmf-speaker-m" data-deal-name="CMF by Nothing Speaker M" data-deal-price="79.00" data-deal-was="109.00" data-deal-store="Nothing" data-deal-href="https://us.nothing.tech/products/cmf-speaker-m" data-deal-source="viral" data-deal-page="viral.html" data-deal-img="/images/deals/deal-cmf-speaker-m.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-cicaplast-balm-b5" data-store="target" data-price="13.69" data-pct="28" data-name="la roche posay cicaplast balm b5 soothing cream travel">
+      <img class="lego-photo" width="317" height="763" src="/images/deals/deal-cicaplast-balm-b5.jpg" alt="La Roche-Posay Cicaplast Balm B5, Travel Size 1.35 oz" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">La Roche-Posay Cicaplast Balm B5, Travel Size 1.35 oz</h3>
+        <span class="store-chip">Target</span>
+        <p class="viral-hook">🔥 60K+ bought in the past month — CNN Underscored&#x27;s retinol base<span class="viral-metrics"> · 385K likes · 1.6K comments on Instagram</span></p>
+        <p class="price-row"><span class="sale">$13.69</span> <span class="was">was $18.99</span> <span class="pct">28% off</span></p>
+        <p class="save">Save $5.30</p>
+        <p class="target-note"><strong>Online price — in store may be higher.</strong> Target matches its own website price in store: show the LIVE target.com/app price on your phone at Guest Services (screenshots not accepted), at purchase or within 14 days. Holiday buys Nov 1–Dec 24, 2026 can match price drops through Dec 24. Bring your receipt.</p>
+        <a class="video-link" href="https://www.instagram.com/reel/DWUGA0hkf64/" target="_blank" rel="noopener">📹 See it in use</a>
+        <a class="shop-btn" href="https://www.target.com/p/la-roche-posay-cicaplast-balm-vitamin-b5-soothing-therapeutic-cream-for-dry-skin-and-irritated-skin-unscented-1-35oz/-/A-50009971" target="_blank" rel="noopener">Shop Deal at Target</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/viral.html#deal-cicaplast-balm-b5" data-share-image="/images/deals/deal-cicaplast-balm-b5.jpg" data-share-title="La Roche-Posay Cicaplast Balm B5, Travel Size 1.35 oz" data-share-text="$13.69 was $18.99 at Target">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-cicaplast-balm-b5" data-deal-name="La Roche-Posay Cicaplast Balm B5, Travel Size 1.35 oz" data-deal-price="13.69" data-deal-was="18.99" data-deal-store="Target" data-deal-href="https://www.target.com/p/la-roche-posay-cicaplast-balm-vitamin-b5-soothing-therapeutic-cream-for-dry-skin-and-irritated-skin-unscented-1-35oz/-/A-50009971" data-deal-source="viral" data-deal-page="viral.html" data-deal-img="/images/deals/deal-cicaplast-balm-b5.jpg">💾 Save</button>
+      </div>
+    </article>
+        <article class="lego-card" id="deal-happy-nuts-gift-box" data-store="happynuts" data-price="29.99" data-pct="25" data-name="happy nuts holiday gift box men grooming santa big sack">
+      <img class="lego-photo" width="737" height="764" src="/images/deals/deal-happy-nuts-gift-box.jpg" alt="Happy Nuts Holiday Gift Box (1 box)" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Happy Nuts Holiday Gift Box (1 box)</h3>
+        <span class="store-chip">Happy Nuts</span>
+        <p class="viral-hook">🔥 USA Today: &#x27;This viral Santa&#x27;s Big Sack bundle is 25% off&#x27;<span class="viral-metrics"> · 61 likes · 2 comments on Facebook</span></p>
+        <p class="price-row"><span class="sale">$29.99</span> <span class="was">was $39.99</span> <span class="pct">25% off</span></p>
+        <p class="save">Save $10.00</p>
+        <p class="stock-note">Holiday sale ends Nov 30</p>
+        <a class="shop-btn" href="https://myhappynuts.com/pages/holiday-gift-boxes" target="_blank" rel="noopener">Shop Deal at Happy Nuts</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/viral.html#deal-happy-nuts-gift-box" data-share-image="/images/deals/deal-happy-nuts-gift-box.jpg" data-share-title="Happy Nuts Holiday Gift Box (1 box)" data-share-text="$29.99 was $39.99 at Happy Nuts">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-happy-nuts-gift-box" data-deal-name="Happy Nuts Holiday Gift Box (1 box)" data-deal-price="29.99" data-deal-was="39.99" data-deal-store="Happy Nuts" data-deal-href="https://myhappynuts.com/pages/holiday-gift-boxes" data-deal-source="viral" data-deal-page="viral.html" data-deal-img="/images/deals/deal-happy-nuts-gift-box.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-mvmt-field-automatic" data-store="mvmt" data-price="238.40" data-pct="20" data-name="mvmt field automatic watch pine green 42.5mm men">
+      <img class="lego-photo" width="451" height="764" src="/images/deals/deal-mvmt-field-automatic.jpg" alt="MVMT Field Automatic Watch, Pine Green 42.5mm" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">MVMT Field Automatic Watch, Pine Green 42.5mm</h3>
+        <span class="store-chip">MVMT</span>
+        <p class="viral-hook">🔥 The social-first watch brand&#x27;s Black Friday Season Sale — 20% off</p>
+        <p class="price-row"><span class="sale">$238.40</span> <span class="was">was $298.00</span> <span class="pct">20% off</span></p>
+        <p class="save">Save $59.60</p>
+        <p class="stock-note">Code BF30 may stack — ends Nov 22</p>
+        <a class="shop-btn" href="https://mvmt.com/products/field-automatic-pine-green-42-5mm-28000316" target="_blank" rel="noopener">Shop Deal at MVMT</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/viral.html#deal-mvmt-field-automatic" data-share-image="/images/deals/deal-mvmt-field-automatic.jpg" data-share-title="MVMT Field Automatic Watch, Pine Green 42.5mm" data-share-text="$238.40 was $298.00 at MVMT">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-mvmt-field-automatic" data-deal-name="MVMT Field Automatic Watch, Pine Green 42.5mm" data-deal-price="238.40" data-deal-was="298.00" data-deal-store="MVMT" data-deal-href="https://mvmt.com/products/field-automatic-pine-green-42-5mm-28000316" data-deal-source="viral" data-deal-page="viral.html" data-deal-img="/images/deals/deal-mvmt-field-automatic.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-nothing-headphone-1-pro" data-store="nothing" data-price="319.00" data-pct="20" data-name="nothing headphone 1 pro wireless over ear bluetooth headphones white">
+      <img class="lego-photo" width="528" height="766" src="/images/deals/deal-nothing-headphone-1-pro.jpg" alt="Nothing Headphone (1) Pro Wireless Over-Ear Headphones, White" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Nothing Headphone (1) Pro Wireless Over-Ear Headphones, White</h3>
+        <span class="store-chip">Nothing</span>
+        <p class="viral-hook">🔥 Part of Nothing&#x27;s Black Friday drop — the pro over-ears, $80 off<span class="viral-metrics"> · 247 likes · 1 comment on Instagram</span></p>
+        <p class="price-row"><span class="sale">$319.00</span> <span class="was">was $399.00</span> <span class="pct">20% off</span></p>
+        <p class="save">Save $80.00</p>
+        <a class="video-link" href="https://www.instagram.com/reel/Dd4Uz0tpSuF/" target="_blank" rel="noopener">📹 See it in use</a>
+        <a class="shop-btn" href="https://us.nothing.tech/products/headphone-1-pro" target="_blank" rel="noopener">Shop Deal at Nothing</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/viral.html#deal-nothing-headphone-1-pro" data-share-image="/images/deals/deal-nothing-headphone-1-pro.jpg" data-share-title="Nothing Headphone (1) Pro Wireless Over-Ear Headphones, White" data-share-text="$319.00 was $399.00 at Nothing">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-nothing-headphone-1-pro" data-deal-name="Nothing Headphone (1) Pro Wireless Over-Ear Headphones, White" data-deal-price="319.00" data-deal-was="399.00" data-deal-store="Nothing" data-deal-href="https://us.nothing.tech/products/headphone-1-pro" data-deal-source="viral" data-deal-page="viral.html" data-deal-img="/images/deals/deal-nothing-headphone-1-pro.jpg">💾 Save</button>
+      </div>
+    </article>
+        <article class="lego-card" id="deal-nothing-phone-4a-pro" data-store="nothing" data-price="499.00" data-pct="17" data-name="nothing phone 4a pro smartphone white">
+      <img class="lego-photo" width="372" height="768" src="/images/deals/deal-nothing-phone-4a-pro.jpg" alt="Nothing Phone (4a) Pro, White" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Nothing Phone (4a) Pro, White</h3>
+        <span class="store-chip">Nothing</span>
+        <p class="viral-hook">🔥 Part of Nothing&#x27;s Black Friday drop — $100 off the new 4a Pro<span class="viral-metrics"> · 9.1K likes · 63 comments on Instagram</span></p>
+        <p class="price-row"><span class="sale">$499.00</span> <span class="was">was $599.00</span> <span class="pct">17% off</span></p>
+        <p class="save">Save $100.00</p>
+        <a class="video-link" href="https://www.instagram.com/reel/DYSBR0pIm0d/" target="_blank" rel="noopener">📹 See it in use</a>
+        <a class="shop-btn" href="https://us.nothing.tech/products/phone-4a-pro" target="_blank" rel="noopener">Shop Deal at Nothing</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/viral.html#deal-nothing-phone-4a-pro" data-share-image="/images/deals/deal-nothing-phone-4a-pro.jpg" data-share-title="Nothing Phone (4a) Pro, White" data-share-text="$499.00 was $599.00 at Nothing">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-nothing-phone-4a-pro" data-deal-name="Nothing Phone (4a) Pro, White" data-deal-price="499.00" data-deal-was="599.00" data-deal-store="Nothing" data-deal-href="https://us.nothing.tech/products/phone-4a-pro" data-deal-source="viral" data-deal-page="viral.html" data-deal-img="/images/deals/deal-nothing-phone-4a-pro.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-nothing-ear-open" data-store="nothing" data-price="84.00" data-pct="15" data-name="nothing ear open open ear earbuds">
+      <img class="lego-photo" width="768" height="335" src="/images/deals/deal-nothing-ear-open.jpg" alt="Nothing Ear (open) Open-Ear Earbuds" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Nothing Ear (open) Open-Ear Earbuds</h3>
+        <span class="store-chip">Nothing</span>
+        <p class="viral-hook">🔥 Part of Nothing&#x27;s Black Friday drop — open-ear style, $15 off<span class="viral-metrics"> · 3K likes · 25 comments on Instagram</span></p>
+        <p class="price-row"><span class="sale">$84.00</span> <span class="was">was $99.00</span> <span class="pct">15% off</span></p>
+        <p class="save">Save $15.00</p>
+        <a class="video-link" href="https://www.instagram.com/reel/DbYu44QhI2V/" target="_blank" rel="noopener">📹 See it in use</a>
+        <a class="shop-btn" href="https://us.nothing.tech/products/ear-open" target="_blank" rel="noopener">Shop Deal at Nothing</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/viral.html#deal-nothing-ear-open" data-share-image="/images/deals/deal-nothing-ear-open.jpg" data-share-title="Nothing Ear (open) Open-Ear Earbuds" data-share-text="$84.00 was $99.00 at Nothing">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-nothing-ear-open" data-deal-name="Nothing Ear (open) Open-Ear Earbuds" data-deal-price="84.00" data-deal-was="99.00" data-deal-store="Nothing" data-deal-href="https://us.nothing.tech/products/ear-open" data-deal-source="viral" data-deal-page="viral.html" data-deal-img="/images/deals/deal-nothing-ear-open.jpg">💾 Save</button>
+      </div>
+    </article>
+  </main>
+  <section class="history" id="deal-history">
+    <h2>📜 Deal history</h2>
+    <p class="hist-note">Prices checked Nov 18, 2026; when a live deal ends or its price changes it moves here.</p>
+    <ul>
+      <li><b>Bona Spray Mop Air for Multi-Surface Floors Kit</b> — $19.97 (was $24.97), Walmart, Nov 17, 2026. Sale ended; back to $24.97 list price (Zola mirrors ~Nov 11; the $19.97 price was a September rollback, not seen since — needs a live Walmart check to confirm).</li>
+      <li><b>BISSELL PowerForce Pet XL Upright Deep Cleaner 3748</b> — $98.00 (was $249.99), Walmart, Nov 17, 2026. Sale ended Nov 17 (DealCatcher: expired Nov 17); now ~$149 (Fashlyst mirror, Nov 16 — needs a live Walmart check to confirm).</li>
+      <li><b>BISSELL PowerClean 200W Cordless Stick Vacuum 4172</b> — $78.00 (was $148.00), Walmart, Nov 16, 2026. Sale ended Nov 16; back to list price.</li>
+      <li><b>medicube Zero Pore Pad 2.0 (70 ct)</b> — $14.70 (was $21.00) — Ulta Early Black Friday Nov 8–14 weekly batch ended Nov 14; now $21.00.</li>
+      <li><b>medicube Kojic Acid Turmeric Pad (70 ct)</b> — $14.70 (was $21.00) — Ulta Early Black Friday Nov 8–14 weekly batch ended Nov 14; now $21.00.</li>
+      <li><b>medicube PDRN Pink Collagen Capsule Cream (1.94 oz)</b> — $15.40 (was $22.00) — Ulta Early Black Friday Nov 8–14 weekly batch ended Nov 14; now $22.00.</li>
+      <li><b>medicube Deep Vita C Capsule Cream (1.94 oz)</b> — $15.40 (was $22.00) — Ulta Early Black Friday Nov 8–14 weekly batch ended Nov 14; now $22.00.</li>
+      <li><b>medicube Collagen Niacinamide Jelly Cream (3.71 oz)</b> — $15.40 (was $22.00) — Ulta Early Black Friday Nov 8–14 weekly batch ended Nov 14; now $22.00.</li>
+      <li><b>medicube Hyaluronic Multi Peptide Serum (1.01 oz)</b> — $14.70 (was $21.00) — Ulta Early Black Friday Nov 8–14 weekly batch ended Nov 14; now $21.00.</li>
+      <li><b>medicube PDRN Pink Collagen Gel Mask (4 ct)</b> — $13.93 (was $19.90) — Ulta Early Black Friday Nov 8–14 weekly batch ended Nov 14; now $19.90.</li>
+      <li><b>medicube Kojic Acid Turmeric Gel Mask (4 ct)</b> — $13.93 (was $19.90) — Ulta Early Black Friday Nov 8–14 weekly batch ended Nov 14; now $19.90.</li>
+      <li><b>ULTA Ultra Gloss Hydrating Hybrid Lip Gloss Oil</b> — $7.20 (was $12.00) — Ulta Early Black Friday Nov 8–14 weekly batch ended Nov 14; now $12.00.</li>
+      <li><b>Eucerin Radiant Tone Dual Serum</b> — $31.49 (was $44.99) — Ulta Early Black Friday Nov 8–14 weekly batch ended Nov 14; now $44.99.</li>
+      <li><b>Shark Beauty FlexStyle IonCurl (Lilac)</b> — $249.99 (was $349.99) — Ulta Early Black Friday Nov 8–14 weekly batch ended Nov 14; now $349.99 at Ulta and SharkNinja.</li>
+    </ul>
+  </section>
+  <footer>
+    <p>Some links on this page are affiliate links. If you shop through them, I may earn a small commission at no extra cost to you. Thanks for supporting the Pond!</p>
+    <img class="footer-duck-v4" src="icon-512.png" alt="The Pond duck">
+    <p class="nest">Feather Your Nest</p>
+    <p class="nest" style="margin-top:10px">© 2026 TreatYourselfDiscounts™. All rights reserved.</p>
+    <nav class="foot-links"><a href="rules.html">Pond Rules</a><a href="terms.html">Terms of Use</a><a href="feedback.html">Give Feedback</a><a href="account.html">Pond Account</a><a href="mailto:treatyourselfdiscounts@gmail.com">Contact</a><a href="https://discord.gg/zfcwECetx2" data-goatcounter-click="click-discord">Join the Pond</a><a href="https://ko-fi.com/treatyourselfdiscounts" data-goatcounter-click="click-kofi">Ko-fi Tip Jar</a></nav>
+  </footer>
+</div>
+<script type="module" src="lists.js"></script>
+<script src="site-nav.js?v=372"></script>
+<script src="pull-refresh.js?v=341"></script>
+<script>
+if ("serviceWorker" in navigator) { window.addEventListener("load", function() { navigator.serviceWorker.register("sw.js"); }); }
+(function () {
+  var grid = document.getElementById("lego-grid");
+  var searchInput = document.getElementById("lego-search");
+  var storeSelect = document.getElementById("lego-store");
+  var sortSelect = document.getElementById("lego-sort");
+  var noResults = document.getElementById("lego-no-results");
+  var countEl = document.getElementById("lego-count");
+  var refreshBtn = document.getElementById("refresh-btn");
+  var cards = Array.prototype.slice.call(grid.querySelectorAll(".lego-card"));
+  var defaultOrder = cards.slice();
+  var hasSearched = false;
+  function cardName(card) { return (card.querySelector(".lego-name") || {}).textContent || ""; }
+  function matchesTerm(text, term) {
+    var t = text.toLowerCase();
+    return term.split(/\s+/).every(function (wd) { return t.indexOf(wd) !== -1; });
+  }
+  function applyFilters() {
+    var term = searchInput.value.trim().toLowerCase();
+    var store = storeSelect.value;
+    var sort = sortSelect.value;
+    var sorted = defaultOrder.slice();
+    if (sort === "pct") sorted.sort(function (a, b) { return parseFloat(b.dataset.pct) - parseFloat(a.dataset.pct); });
+    if (sort === "price-asc") sorted.sort(function (a, b) { return parseFloat(a.dataset.price) - parseFloat(b.dataset.price); });
+    if (sort === "price-desc") sorted.sort(function (a, b) { return parseFloat(b.dataset.price) - parseFloat(a.dataset.price); });
+    if (sort === "az") sorted.sort(function (a, b) { return cardName(a).localeCompare(cardName(b)); });
+    var visible = 0;
+    sorted.forEach(function (card) {
+      grid.appendChild(card);
+      var show = (!term || matchesTerm(card.dataset.name + " " + card.textContent, term)) && (!store || card.dataset.store === store);
+      card.style.display = show ? "" : "none";
+      if (show) visible++;
+    });
+    noResults.hidden = !(hasSearched && visible === 0);
+    if (countEl) {
+      countEl.textContent = (term || store)
+        ? ("Showing " + visible + " of " + cards.length + " viral deals.")
+        : (cards.length + " viral deals, checked November 16, 2026.");
+    }
+  }
+  searchInput.addEventListener("input", function () { if (searchInput.value.trim()) hasSearched = true; applyFilters(); });
+  storeSelect.addEventListener("change", function () { hasSearched = true; applyFilters(); });
+  sortSelect.addEventListener("change", applyFilters);
+  /* Refresh reloads the page so the browser re-fetches the latest saved
+     check. It does not scrape live prices and does not claim to. */
+  refreshBtn.addEventListener("click", function () {
+    refreshBtn.disabled = true;
+    refreshBtn.textContent = "Refreshing…";
+    window.location.reload();
+  });
+  applyFilters();
+})();
+</script>
+<script src="pond-staging.js"></script>
+</body>
+</html>
