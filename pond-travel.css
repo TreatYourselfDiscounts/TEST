@@ -1,0 +1,415 @@
+/* pond-travel.css — STAGING PREVIEW ONLY.
+ * Clean travel-app restyle of the Pond (Airbnb-style layout, Pond's own
+ * identity): warm cream #FFF6EE, white cards, near-black text, Pond teal
+ * #1f5f74 accent with Pond yellow #ffd94d highlights. No Airbnb branding.
+ * Loaded on every staging page; pond-staging.js appends a small override
+ * sheet after it for the few rules that must beat site-nav.js's injected
+ * styles (wallpaper off, cream surfaces, pill nav).
+ */
+:root {
+  --pond-cream: #FFF6EE;
+  --pond-ink: #211d19;
+  --pond-muted: #6f6a63;
+  --pond-teal: #1f5f74;
+  --pond-teal-2: #2b7ea0;
+  --pond-yellow: #ffd94d;
+  --pond-card: #ffffff;
+  --pond-line: #f0e2d3;
+  --pond-r: 28px;
+  --pond-shadow: 0 10px 30px rgba(60, 40, 20, 0.10);
+  --pond-shadow-sm: 0 4px 14px rgba(60, 40, 20, 0.08);
+}
+
+html { background: var(--pond-cream) !important; }
+html:not([data-theme="dark"]) body {
+  background: var(--pond-cream) !important;
+  color: var(--pond-ink) !important;
+  font-family: "Nunito", system-ui, -apple-system, "Segoe UI", sans-serif !important;
+}
+body {
+  background: var(--pond-cream) !important;
+  color: var(--pond-ink) !important;
+  font-family: "Nunito", system-ui, -apple-system, "Segoe UI", sans-serif !important;
+}
+body::before { display: none !important; } /* duck wallpaper off in the preview */
+.app, .wrap {
+  background: var(--pond-cream) !important;
+  box-shadow: none !important;
+  color: var(--pond-ink);
+}
+a { color: var(--pond-teal); }
+
+/* ---- generic cards: big radii, soft shadow, white ---- */
+.card, .deal, .welcome, #home-hero, .dailystrip, .tdcard,
+.play-banner, .fixnote, #whatsnew, .brand-row {
+  border-radius: 24px !important;
+  border: 1px solid var(--pond-line) !important;
+  box-shadow: var(--pond-shadow-sm) !important;
+  background: var(--pond-card) !important;
+}
+.card .name, .deal .name, h1, h2, h3 { color: var(--pond-ink) !important; }
+.card .offer, .deal .offer, .tagline, .td-sub { color: var(--pond-muted) !important; }
+.pond-hero h1, .pond-hero h1 em { color: var(--pond-teal) !important; }
+
+/* ---- preview banner (also injected by pond-staging.js) ---- */
+#tyd-preview-banner {
+  position: sticky; top: 0; z-index: 10050;
+  background: var(--pond-teal); color: #fff;
+  font-size: 13px; font-weight: 800; text-align: center;
+  padding: 9px 12px; letter-spacing: .02em;
+}
+#tyd-preview-banner b { color: var(--pond-yellow); }
+#tyd-preview-toast {
+  position: fixed; left: 50%; transform: translateX(-50%);
+  bottom: calc(96px + env(safe-area-inset-bottom)); z-index: 10070;
+  background: #211d19; color: #fff; font-size: 14px; font-weight: 700;
+  padding: 12px 18px; border-radius: 999px; box-shadow: 0 12px 32px rgba(0,0,0,.35);
+  max-width: calc(100vw - 40px); text-align: center; display: none;
+}
+#tyd-preview-toast.show { display: block; }
+
+/* ---- travel top row: duck logo + wordmark left, avatar right ---- */
+.tyd-top {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; margin: 14px 16px 0;
+}
+.tyd-top .tyd-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; min-width: 0; }
+.tyd-top .tyd-brand img {
+  width: 46px; height: 46px; border-radius: 50%; object-fit: cover;
+  border: 3px solid var(--pond-yellow); background: var(--pond-yellow); flex: none;
+}
+.tyd-top .tyd-brand b { font-size: 24px; font-weight: 900; color: var(--pond-teal); letter-spacing: -.01em; }
+.tyd-top .tyd-avatar {
+  position: relative; flex: none; width: 44px; height: 44px; border-radius: 50%;
+  background: #fff; border: 2px solid var(--pond-line); box-shadow: var(--pond-shadow-sm);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; text-decoration: none; cursor: pointer;
+}
+.tyd-top .tyd-avatar::after {
+  content: ""; position: absolute; top: -1px; right: -1px;
+  width: 12px; height: 12px; border-radius: 50%;
+  background: var(--pond-yellow); border: 2px solid #fff;
+}
+
+/* ---- home search, dressed as the travel pill (form still works) ---- */
+#home-search {
+  display: flex; align-items: center; gap: 10px;
+  margin: 16px 16px 0; padding: 7px 7px 7px 18px;
+  background: #fff; border-radius: 999px; box-shadow: var(--pond-shadow);
+  border: 1px solid rgba(240, 226, 211, .9);
+}
+#home-search::before { content: "\1F50D"; font-size: 19px; flex: none; }
+#home-search input {
+  flex: 1; min-width: 0; border: none !important; outline: none; background: transparent !important;
+  font-size: 16px; font-weight: 700; color: var(--pond-ink); padding: 10px 0 !important;
+}
+#home-search input::placeholder { color: var(--pond-ink); font-weight: 800; }
+#home-search button {
+  flex: none; width: 44px; height: 44px; border-radius: 50% !important; padding: 0 !important;
+  background: var(--pond-teal) !important; color: #fff !important; font-size: 20px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+}
+.tyd-browse-link {
+  display: block; text-align: center; margin: 10px 16px 0;
+  font-size: 13.5px; font-weight: 800; color: var(--pond-teal); text-decoration: none;
+}
+
+/* ---- search pill: "Where to, ducky?" ---- */
+.tyd-searchpill {
+  display: flex; align-items: center; gap: 12px;
+  margin: 16px 16px 0; padding: 12px 12px 12px 18px;
+  background: #fff; border-radius: 999px; box-shadow: var(--pond-shadow);
+  cursor: pointer; border: 1px solid rgba(240, 226, 211, .9);
+}
+.tyd-searchpill .tyd-mag { font-size: 20px; flex: none; }
+.tyd-searchpill .tyd-sp-txt { flex: 1; min-width: 0; text-align: left; }
+.tyd-searchpill .tyd-sp-txt b { display: block; font-size: 16px; font-weight: 800; color: var(--pond-ink); }
+.tyd-searchpill .tyd-sp-txt span { display: block; font-size: 12.5px; color: var(--pond-muted); margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tyd-searchpill .tyd-sp-go {
+  flex: none; width: 44px; height: 44px; border-radius: 50%;
+  background: var(--pond-teal); color: #fff; border: none;
+  font-size: 20px; font-weight: 800; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* ---- category tiles ---- */
+.tyd-tiles {
+  display: flex; gap: 10px; overflow-x: auto; padding: 16px 16px 4px;
+  scrollbar-width: none;
+}
+.tyd-tiles::-webkit-scrollbar { display: none; }
+.tyd-tile {
+  flex: none; width: 76px; padding: 12px 6px 10px; text-align: center;
+  background: #fff; border: 1px solid var(--pond-line); border-radius: 20px;
+  box-shadow: var(--pond-shadow-sm); text-decoration: none; color: var(--pond-ink);
+}
+.tyd-tile .tyd-tile-ic { font-size: 26px; line-height: 1; display: block; }
+.tyd-tile .tyd-tile-lb { display: block; margin-top: 7px; font-size: 12px; font-weight: 800; line-height: 1.2; }
+.tyd-tile.on { background: var(--pond-teal); border-color: var(--pond-teal); color: #fff; box-shadow: 0 8px 20px rgba(31, 95, 116, .35); }
+.tyd-tile.on .tyd-tile-lb { color: #fff; }
+.tyd-tile.on::after {
+  content: ""; display: block; width: 22px; height: 3px; border-radius: 99px;
+  background: var(--pond-yellow); margin: 7px auto 0;
+}
+
+/* ---- hero carousel ---- */
+#tyd-hero { margin: 14px 0 0; }
+#tyd-hero h2, #tyd-fresh h2 {
+  margin: 0 16px 10px; font-size: 21px; font-weight: 900; color: var(--pond-ink);
+}
+.tyd-hero-track {
+  display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory;
+  padding: 4px 16px 12px; scrollbar-width: none;
+}
+.tyd-hero-track::-webkit-scrollbar { display: none; }
+.tyd-hero-card {
+  position: relative; flex: 0 0 86%; scroll-snap-align: center;
+  height: 300px; border-radius: 32px; overflow: hidden; cursor: pointer;
+  box-shadow: var(--pond-shadow); background: #dfeef4; text-decoration: none;
+  transform: rotate(0deg);
+}
+.tyd-hero-card:nth-child(even) { transform: rotate(.6deg); }
+.tyd-hero-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.tyd-hero-card .tyd-hero-grad {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(10, 20, 26, .82) 0%, rgba(10, 20, 26, .25) 45%, rgba(10, 20, 26, 0) 70%);
+}
+.tyd-hero-badge {
+  position: absolute; top: 14px; left: 14px;
+  background: rgba(255, 255, 255, .92); color: var(--pond-ink);
+  font-size: 12.5px; font-weight: 800; padding: 7px 13px; border-radius: 999px;
+  backdrop-filter: blur(6px);
+}
+.tyd-hero-heart {
+  position: absolute; top: 12px; right: 12px; width: 38px; height: 38px;
+  border-radius: 50%; border: none; cursor: pointer;
+  background: rgba(255, 255, 255, .92); font-size: 17px;
+  display: flex; align-items: center; justify-content: center;
+  backdrop-filter: blur(6px);
+}
+.tyd-hero-heart.saved { color: #d23b3b; }
+.tyd-hero-meta { position: absolute; left: 16px; right: 86px; bottom: 16px; color: #fff; }
+.tyd-hero-meta b { display: block; font-size: 21px; font-weight: 900; line-height: 1.15; }
+.tyd-hero-meta span { display: block; font-size: 13.5px; opacity: .92; margin-top: 3px; }
+.tyd-hero-meta .tyd-stars { color: var(--pond-yellow); font-size: 13px; letter-spacing: 1px; }
+.tyd-hero-price {
+  position: absolute; right: 14px; bottom: 14px; display: flex; align-items: center; gap: 8px;
+}
+.tyd-hero-price .tyd-price {
+  background: #fff; color: var(--pond-ink); font-size: 14px; font-weight: 900;
+  padding: 9px 13px; border-radius: 999px; box-shadow: 0 4px 12px rgba(0,0,0,.25);
+}
+.tyd-hero-price .tyd-go {
+  width: 44px; height: 44px; border-radius: 50%; border: none; cursor: pointer;
+  background: var(--pond-teal); color: #fff; font-size: 19px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,.3);
+}
+.tyd-hero-dots { display: flex; gap: 6px; justify-content: center; padding: 2px 0 6px; }
+.tyd-hero-dots button {
+  width: 8px; height: 8px; border-radius: 99px; border: none; padding: 0; cursor: pointer;
+  background: #d8c9b8;
+}
+.tyd-hero-dots button.on { width: 22px; background: var(--pond-teal); }
+
+/* ---- Fresh in the Pond row ---- */
+#tyd-fresh { margin: 18px 0 0; }
+.tyd-fresh-track {
+  display: flex; gap: 12px; overflow-x: auto; padding: 4px 16px 12px;
+  scrollbar-width: none;
+}
+.tyd-fresh-track::-webkit-scrollbar { display: none; }
+.tyd-fresh-card {
+  position: relative; flex: 0 0 168px; height: 216px; border-radius: 24px;
+  overflow: hidden; cursor: pointer; box-shadow: var(--pond-shadow-sm);
+  background: #dfeef4; text-decoration: none;
+}
+.tyd-fresh-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.tyd-fresh-card .tyd-fresh-grad {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(10, 20, 26, .8) 0%, rgba(10, 20, 26, 0) 55%);
+}
+.tyd-fresh-card .tyd-fresh-meta { position: absolute; left: 12px; right: 12px; bottom: 12px; color: #fff; }
+.tyd-fresh-card .tyd-fresh-meta b { display: block; font-size: 14.5px; font-weight: 800; line-height: 1.25; }
+.tyd-fresh-card .tyd-fresh-meta span { display: block; font-size: 12.5px; font-weight: 700; color: var(--pond-yellow); margin-top: 2px; }
+.tyd-fresh-card .tyd-fresh-go {
+  position: absolute; right: 10px; top: 10px; width: 32px; height: 32px;
+  border-radius: 50%; background: rgba(255,255,255,.92); color: var(--pond-teal);
+  border: none; font-size: 15px; font-weight: 800; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* ---- pond carousel restyle (keeps working, v371 equal ducks) ---- */
+#pond-banner { margin: 18px 16px 0; background: #fff; border: 1px solid var(--pond-line); border-radius: 32px; box-shadow: var(--pond-shadow); padding: 14px 10px 10px; overflow: hidden; }
+#pond-banner .pond-stage { border-radius: 24px; }
+#pond-banner .pond-hint { color: var(--pond-muted); }
+#pond-banner .pond-arrow, #pond-crumbs-btn {
+  border-radius: 999px !important; border: 1px solid var(--pond-line) !important;
+  background: #fff !important; color: var(--pond-teal) !important; box-shadow: var(--pond-shadow-sm);
+}
+
+/* ---- Where-to panel (slides up over blurred home) ---- */
+#tyd-whereto {
+  position: fixed; inset: 0; z-index: 10040; display: none;
+  background: rgba(33, 29, 25, .35); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+}
+#tyd-whereto.open { display: flex; align-items: flex-end; justify-content: center; }
+.tyd-whereto-sheet {
+  width: min(560px, 100vw); max-height: 86vh; overflow-y: auto;
+  background: rgba(255, 255, 255, .96); border-radius: 32px 32px 0 0;
+  padding: 12px 18px calc(20px + env(safe-area-inset-bottom));
+  box-shadow: 0 -12px 40px rgba(0,0,0,.25);
+}
+.tyd-whereto-sheet .tyd-drag {
+  width: 44px; height: 5px; border-radius: 99px; background: #d8c9b8; margin: 2px auto 14px;
+}
+.tyd-whereto-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.tyd-whereto-head h2 { margin: 0; font-size: 22px; font-weight: 900; }
+.tyd-whereto-x {
+  width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--pond-line);
+  background: #fff; font-size: 17px; cursor: pointer; color: var(--pond-ink);
+}
+.tyd-whereto-field {
+  display: flex; align-items: center; gap: 10px; margin-top: 14px;
+  background: #fff; border: 1px solid var(--pond-line); border-radius: 999px;
+  padding: 6px 6px 6px 16px; box-shadow: var(--pond-shadow-sm);
+}
+.tyd-whereto-field input {
+  flex: 1; min-width: 0; border: none; outline: none; background: transparent;
+  font: inherit; font-size: 16px; color: var(--pond-ink);
+}
+.tyd-whereto-field button {
+  flex: none; width: 42px; height: 42px; border-radius: 50%; border: none; cursor: pointer;
+  background: var(--pond-teal); color: #fff; font-size: 18px;
+}
+.tyd-whereto-sec { margin: 18px 0 0; font-size: 13px; font-weight: 800; color: var(--pond-muted); text-transform: uppercase; letter-spacing: .06em; }
+.tyd-sugg { display: flex; align-items: center; gap: 12px; padding: 10px 2px; text-decoration: none; color: var(--pond-ink); border-bottom: 1px solid #f6ead9; }
+.tyd-sugg img { width: 52px; height: 52px; border-radius: 14px; object-fit: cover; flex: none; background: #eaf7fb; }
+.tyd-sugg .tyd-sugg-txt { flex: 1; min-width: 0; }
+.tyd-sugg .tyd-sugg-txt b { display: block; font-size: 15px; font-weight: 800; }
+.tyd-sugg .tyd-sugg-txt span { display: block; font-size: 13px; color: var(--pond-muted); margin-top: 2px; }
+.tyd-sugg .tyd-sugg-arrow { color: var(--pond-teal); font-size: 19px; flex: none; }
+.tyd-filterpills { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
+.tyd-filterpills a {
+  text-decoration: none; font-size: 13.5px; font-weight: 800; color: var(--pond-teal);
+  background: #fff; border: 1px solid var(--pond-line); border-radius: 999px; padding: 8px 14px;
+}
+.tyd-filterpills a.on { background: var(--pond-teal); border-color: var(--pond-teal); color: #fff; }
+
+/* ---- detail sheet (stay-detail style) ---- */
+#tyd-sheet { position: fixed; inset: 0; z-index: 10060; display: none; background: rgba(33, 29, 25, .4); }
+#tyd-sheet.open { display: block; }
+.tyd-sheet-card {
+  position: absolute; inset: 0; background: var(--pond-cream); overflow-y: auto;
+  display: flex; flex-direction: column;
+}
+.tyd-sheet-hero { position: relative; flex: none; height: min(46vh, 380px); background: #dfeef4; }
+.tyd-sheet-hero img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.tyd-sheet-hero .tyd-sheet-back, .tyd-sheet-hero .tyd-sheet-heart {
+  position: absolute; top: calc(14px + env(safe-area-inset-top)); width: 40px; height: 40px;
+  border-radius: 50%; border: none; cursor: pointer; font-size: 18px;
+  background: rgba(255,255,255,.94); color: var(--pond-ink);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,.2);
+}
+.tyd-sheet-hero .tyd-sheet-back { left: 14px; }
+.tyd-sheet-hero .tyd-sheet-heart { right: 14px; }
+.tyd-sheet-body {
+  flex: 1; background: #fff; border-radius: 32px 32px 0 0; margin-top: -28px;
+  position: relative; padding: 12px 20px 120px; box-shadow: 0 -8px 30px rgba(0,0,0,.12);
+}
+.tyd-sheet-body .tyd-drag { width: 44px; height: 5px; border-radius: 99px; background: #d8c9b8; margin: 2px auto 14px; }
+.tyd-sheet-body h2 { margin: 0; font-size: 24px; font-weight: 900; line-height: 1.2; }
+.tyd-sheet-rating { margin-top: 6px; font-size: 14px; font-weight: 700; color: var(--pond-muted); }
+.tyd-sheet-rating .tyd-stars { color: #e8a100; letter-spacing: 1px; }
+.tyd-sheet-stats { display: flex; gap: 10px; margin-top: 16px; }
+.tyd-sheet-stat {
+  flex: 1; background: var(--pond-cream); border: 1px solid var(--pond-line);
+  border-radius: 18px; padding: 12px 8px; text-align: center;
+}
+.tyd-sheet-stat b { display: block; font-size: 16px; color: var(--pond-teal); }
+.tyd-sheet-stat span { display: block; font-size: 11.5px; font-weight: 700; color: var(--pond-muted); margin-top: 2px; }
+.tyd-sheet-host { display: flex; align-items: center; gap: 12px; margin-top: 18px; }
+.tyd-sheet-host img { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 2px solid var(--pond-yellow); background: var(--pond-yellow); }
+.tyd-sheet-host b { display: block; font-size: 15px; }
+.tyd-sheet-host span { display: block; font-size: 13px; color: var(--pond-muted); }
+.tyd-sheet-offers { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 16px; }
+.tyd-sheet-offers div {
+  background: var(--pond-cream); border: 1px solid var(--pond-line);
+  border-radius: 16px; padding: 12px; font-size: 13.5px; font-weight: 700; color: var(--pond-ink);
+}
+.tyd-sheet-desc { margin-top: 16px; font-size: 14.5px; line-height: 1.6; color: #3d3833; }
+.tyd-sheet-bar {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 10061;
+  display: none; align-items: center; justify-content: space-between; gap: 12px;
+  background: rgba(255,255,255,.96); backdrop-filter: blur(10px);
+  border-top: 1px solid var(--pond-line); padding: 12px 18px calc(12px + env(safe-area-inset-bottom));
+}
+.tyd-sheet-bar.show { display: flex; }
+.tyd-sheet-bar .tyd-sheet-price b { display: block; font-size: 19px; font-weight: 900; }
+.tyd-sheet-bar .tyd-sheet-price span { display: block; font-size: 12.5px; color: var(--pond-muted); }
+.tyd-sheet-bar .tyd-sheet-cta {
+  flex: none; min-width: 150px; padding: 14px 22px; border-radius: 999px; border: none; cursor: pointer;
+  background: var(--pond-teal); color: #fff; font-size: 15px; font-weight: 900; font-family: inherit;
+  text-decoration: none; text-align: center;
+}
+
+/* ---- section page head (Deals, LEGO, Recipes, Movies, Travel, Quack Shack) ---- */
+.tyd-pagehead {
+  display: flex; align-items: center; gap: 10px; margin: 14px 16px 0;
+}
+.tyd-pagehead a {
+  text-decoration: none; font-size: 13.5px; font-weight: 800; color: var(--pond-teal);
+  background: #fff; border: 1px solid var(--pond-line); border-radius: 999px;
+  padding: 9px 15px; box-shadow: var(--pond-shadow-sm);
+}
+.tyd-pagehead a.tyd-ph-search { flex: 1; color: var(--pond-muted); display: flex; gap: 8px; align-items: center; }
+
+/* ---- section pages: rounder content ---- */
+#home-search input, .search-row input { border-radius: 999px !important; }
+button, .btn, input[type="submit"] { border-radius: 999px; }
+
+/* ---- desktop widening for the travel look ---- */
+@media (min-width: 760px) {
+  .app { max-width: 1120px; }
+  .tyd-hero-card { flex-basis: 560px; height: 340px; }
+  .tyd-fresh-card { flex-basis: 200px; height: 240px; }
+  .tyd-sheet-card { max-width: 640px; margin: 0 auto; box-shadow: 0 0 60px rgba(0,0,0,.3); }
+  .tyd-sheet-bar { left: 50%; right: auto; transform: translateX(-50%); width: 640px; border-radius: 24px 24px 0 0; }
+}
+
+/* ---- dark mode: warm dark, still readable ---- */
+html[data-theme="dark"] body { background: #201b16 !important; color: #f3ead9 !important; }
+html[data-theme="dark"] .app, html[data-theme="dark"] .wrap { background: #201b16 !important; }
+html[data-theme="dark"] .card, html[data-theme="dark"] .deal, html[data-theme="dark"] .welcome,
+html[data-theme="dark"] #home-hero, html[data-theme="dark"] .dailystrip, html[data-theme="dark"] .tdcard,
+html[data-theme="dark"] .play-banner, html[data-theme="dark"] .fixnote, html[data-theme="dark"] #whatsnew,
+html[data-theme="dark"] #pond-banner, html[data-theme="dark"] .tyd-tile, html[data-theme="dark"] .tyd-searchpill,
+html[data-theme="dark"] .tyd-pagehead a {
+  background: #2b2620 !important; border-color: #453d33 !important; color: #f3ead9 !important;
+  box-shadow: 0 4px 14px rgba(0,0,0,.35) !important;
+}
+html[data-theme="dark"] h1, html[data-theme="dark"] h2, html[data-theme="dark"] h3,
+html[data-theme="dark"] .card .name, html[data-theme="dark"] .deal .name,
+html[data-theme="dark"] #tyd-hero h2, html[data-theme="dark"] #tyd-fresh h2,
+html[data-theme="dark"] .tyd-tile .tyd-tile-lb, html[data-theme="dark"] .tyd-searchpill .tyd-sp-txt b {
+  color: #f3ead9 !important;
+}
+html[data-theme="dark"] .card .offer, html[data-theme="dark"] .deal .offer,
+html[data-theme="dark"] .tagline, html[data-theme="dark"] .td-sub,
+html[data-theme="dark"] .tyd-searchpill .tyd-sp-txt span, html[data-theme="dark"] #pond-banner .pond-hint {
+  color: #c9bda9 !important;
+}
+html[data-theme="dark"] .pond-hero h1, html[data-theme="dark"] .pond-hero h1 em,
+html[data-theme="dark"] .tyd-top .tyd-brand b { color: #ffd94d !important; }
+html[data-theme="dark"] .tyd-whereto-sheet { background: rgba(43, 38, 32, .97); color: #f3ead9; }
+html[data-theme="dark"] .tyd-whereto-field { background: #201b16; border-color: #453d33; }
+html[data-theme="dark"] .tyd-whereto-field input { color: #f3ead9; }
+html[data-theme="dark"] .tyd-sugg { border-color: #453d33; color: #f3ead9; }
+html[data-theme="dark"] .tyd-filterpills a { background: #201b16; border-color: #453d33; color: #c9f0fc; }
+html[data-theme="dark"] .tyd-sheet-card { background: #201b16; }
+html[data-theme="dark"] .tyd-sheet-body { background: #2b2620; }
+html[data-theme="dark"] .tyd-sheet-body h2 { color: #f3ead9; }
+html[data-theme="dark"] .tyd-sheet-stat, html[data-theme="dark"] .tyd-sheet-offers div { background: #201b16; border-color: #453d33; color: #f3ead9; }
+html[data-theme="dark"] .tyd-sheet-desc { color: #d8cdbb; }
+html[data-theme="dark"] .tyd-sheet-bar { background: rgba(43, 38, 32, .97); border-color: #453d33; }

@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="color-scheme" content="light dark">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="apple-touch-icon-v2.png">
+<meta name="theme-color" content="#ffd94d">
+<meta name="description" content="Pond Polls at TreatYourselfDiscounts: quick questions for the Pond. Vote, watch the results fill in live, and help shape what comes next.">
+<meta property="og:title" content="Pond Polls | TreatYourselfDiscounts">
+<meta property="og:description" content="Pond Polls at TreatYourselfDiscounts: quick questions for the Pond. Vote, watch the results fill in live, and help shape what comes next.">
+<meta property="og:image" content="/icon-512.png">
+<meta property="og:url" content="/polls">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Pond Polls | TreatYourselfDiscounts">
+<meta name="twitter:description" content="Pond Polls at TreatYourselfDiscounts: quick questions for the Pond. Vote, watch the results fill in live, and help shape what comes next.">
+<meta name="twitter:image" content="/icon-512.png">
+<title>Pond Polls | TreatYourselfDiscounts</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #d9f0f7; color: #23414d; }
+  .app { max-width: 760px; margin: 0 auto; min-height: 100vh; background: #bfe6f2; box-shadow: 0 0 24px rgba(35,65,77,.12); padding: 16px 16px 40px; }
+  a.back { color: #1f5f74; font-weight: 700; text-decoration: none; font-size: 14px; }
+  header.top { text-align: center; margin: 10px 0 4px; }
+  header.top img.duck { width: 76px; height: 76px; border-radius: 50%; border: 3px solid #ffd94d; background: #ffd94d; }
+  h1 { margin: 6px 0 0; font-size: 30px; color: #1f5f74; }
+  .sub { margin: 6px 0 0; color: #3f6b7a; font-size: 15px; line-height: 1.5; }
+  .card { background: #fff; border-radius: 18px; padding: 16px 18px; margin: 14px 0; box-shadow: 0 2px 8px rgba(35,65,77,.08); }
+  .card h2 { margin: 0 0 8px; font-size: 20px; color: #1f5f74; }
+  .card h3 { margin: 14px 0 6px; font-size: 16px; color: #1f5f74; }
+  .card p { margin: 6px 0; font-size: 14.5px; line-height: 1.5; }
+  label { display: block; font-size: 13px; font-weight: 700; color: #1f5f74; margin: 10px 0 4px; }
+  input, select, textarea { width: 100%; border: 2px solid #bcd9e4; border-radius: 12px; padding: 10px 12px; font-size: 15px; font-family: inherit; color: #23414d; background: #fbfdfe; }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: #1f5f74; }
+  .btn { display: inline-block; border: none; cursor: pointer; font-family: inherit; font-weight: 800; font-size: 14.5px; border-radius: 999px; padding: 10px 18px; margin: 4px 4px 4px 0; }
+  .btn-main { background: #1f5f74; color: #fff; }
+  .btn-alt { background: #ffd94d; color: #6b5900; border: 2px solid #f0c93e; }
+  .btn-ghost { background: #eaf7fb; color: #1f5f74; border: 2px solid #bcd9e4; }
+  .btn-danger { background: #fdecec; color: #8c2b2b; border: 2px solid #f2c1c1; }
+  .syncnote { font-size: 13px; color: #3f6b7a; text-align: center; margin: 8px 0 0; line-height: 1.5; }
+  .emptybox { text-align: center; padding: 26px 16px; }
+  .emptybox img { width: 92px; height: 92px; border-radius: 50%; border: 3px solid #ffd94d; background: #ffd94d; }
+  .emptybox p { color: #3f6b7a; font-size: 15px; line-height: 1.55; }
+  footer { margin-top: 26px; text-align: center; }
+  .disc { font-size: 12px; color: #5b7d89; line-height: 1.5; max-width: 560px; margin: 10px auto 0; }
+  /* polls */
+  .pbadge { display: inline-block; font-size: 11.5px; font-weight: 800; border-radius: 999px; padding: 2px 10px; vertical-align: 2px; }
+  .pbadge.open { background: #e2f4e5; color: #256b31; }
+  .pbadge.closed { background: #fdecec; color: #8c2b2b; }
+  .pmeta { font-size: 13px; color: #3f6b7a; margin: 2px 0 6px; }
+  .poll-opt { position: relative; display: block; width: 100%; text-align: left; border: 2px solid #bcd9e4; background: #fff; border-radius: 14px; padding: 11px 13px; margin: 8px 0; cursor: pointer; font-family: inherit; overflow: hidden; }
+  .poll-opt .fill { position: absolute; left: 0; top: 0; bottom: 0; background: #fff3b0; width: 0; transition: width .45s ease; }
+  .poll-opt .orow { position: relative; display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+  .poll-opt .otxt { font-weight: 700; font-size: 15px; color: #23414d; }
+  .poll-opt .opct { font-weight: 800; color: #1f5f74; font-size: 14.5px; flex: none; }
+  .poll-opt.mine { border-color: #1f5f74; }
+  .poll-opt.mine .fill { background: #ffe270; }
+  .poll-opt.static { cursor: default; }
+  .poll-opt:hover { border-color: #1f5f74; }
+  .poll-opt.static:hover { border-color: #bcd9e4; }
+  .poll-opt.mine:hover { border-color: #1f5f74; }
+  .phint { font-size: 13px; color: #3f6b7a; margin-top: 8px; line-height: 1.5; }
+  .pflash { background: #eaf7fb; border: 1.5px solid #bcd9e4; border-radius: 12px; padding: 10px 13px; font-size: 14px; font-weight: 700; color: #1f5f74; margin-top: 10px; line-height: 1.5; }
+  .pflash a { color: #1f5f74; }
+  .perr { background: #fdecec; border-color: #f2c1c1; color: #8c2b2b; }
+  .ownerrow { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; border-top: 1.5px dashed #d7e6ec; padding-top: 12px; }
+  html[data-theme="dark"] .poll-opt { background: var(--tyd-acc-dark, #172635) !important; border-color: #2e4a5f !important; }
+  html[data-theme="dark"] .poll-opt .otxt { color: #eefaff !important; }
+  html[data-theme="dark"] .poll-opt .opct { color: #ffd94d !important; }
+  html[data-theme="dark"] #np-err { color: #ff9d9d !important; }
+  html[data-theme="dark"] .poll-opt .fill { background: #23414d; }
+  html[data-theme="dark"] .poll-opt.mine { border-color: #ffd94d !important; }
+  html[data-theme="dark"] .poll-opt.mine .fill { background: #4d4310; }
+  html[data-theme="dark"] .pflash { background: #101e2c !important; border-color: #2e4a5f !important; color: #d7ecf5 !important; }
+  html[data-theme="dark"] .perr { background: #3a1d1d !important; border-color: #6e3434 !important; color: #f3c1c1 !important; }
+</style>
+<meta name="robots" content="noindex,nofollow">
+<link rel="stylesheet" href="pond-travel.css">
+<script>window.__TYD_PREVIEW__=true;</script>
+</head>
+<body>
+<div class="app">
+  <div style="text-align:right; margin-top:8px;"><a id="acctpill" href="account.html" style="display:inline-block; background:#1f5f74; color:#fff; font-weight:800; font-size:13px; text-decoration:none; border-radius:999px; padding:8px 15px;">🦆 Pond Account · Log in / Sign up</a></div>
+
+  <header class="top">
+    <img class="duck" src="images/corners/duck-polls.jpg" onerror="this.onerror=null;this.src='icon-512.png';" alt="The Pond duck">
+    <h1>🗳️ Pond Polls</h1>
+    <p class="sub">Quick questions for the flock. Tap an option to vote, watch the results fill in live, and help shape what the Pond builds next. Only the Pond owner can start a new poll.</p>
+    <p class="syncnote" id="sync-note">You can read every poll and its results right here. Sign in with your free Pond Account when you want to cast a vote.</p>
+  </header>
+
+  <div class="card" id="newpoll-card" style="display:none;">
+    <h2>🦆 New poll <span class="pbadge open">Pond owner</span></h2>
+    <p style="color:#3f6b7a;">Ask the Pond a question. Only you can see this form.</p>
+    <label for="np-q">Question *</label>
+    <input id="np-q" type="text" placeholder="Like: What should the Pond build next?">
+    <label for="np-o1">Option 1 *</label>
+    <input id="np-o1" type="text" placeholder="First choice">
+    <label for="np-o2">Option 2 *</label>
+    <input id="np-o2" type="text" placeholder="Second choice">
+    <label for="np-o3">Option 3</label>
+    <input id="np-o3" type="text" placeholder="Optional">
+    <label for="np-o4">Option 4</label>
+    <input id="np-o4" type="text" placeholder="Optional">
+    <label for="np-o5">Option 5</label>
+    <input id="np-o5" type="text" placeholder="Optional">
+    <label for="np-close">Close date (optional)</label>
+    <input id="np-close" type="datetime-local">
+    <div style="margin-top:12px;">
+      <button type="button" class="btn btn-main" id="np-create">Float this poll 🛟</button>
+    </div>
+    <p id="np-err" style="color:#8c2b2b; font-size:13.5px; font-weight:700; display:none;"></p>
+  </div>
+
+  <div id="polls-root">
+    <div class="card emptybox"><img src="images/corners/duck-polls.jpg" onerror="this.onerror=null;this.src='icon-512.png';" alt="The Pond duck"><p>Loading the polls… the duck is fetching them. 🦆</p></div>
+  </div>
+
+  <footer>
+    <p class="disc">Part of TreatYourselfDiscounts, the Pond. Polls are just for fun and for shaping what the Pond does next; results update live as votes paddle in. Welcome to the Pond!</p>
+  <p style="text-align:center;font-size:12.5px;color:#4a6b78">© 2026 TreatYourselfDiscounts™. All rights reserved. · <a href="terms.html">Terms of Use</a></p></footer>
+</div>
+<script type="module" src="auth-pill.js"></script>
+<script type="module">
+  import { initializeApp, getApp } from "./pond-firebase-stub.js";
+  import { getAuth, onAuthStateChanged } from "./pond-firebase-stub.js";
+  import { getFirestore, collection, doc, setDoc, addDoc, updateDoc, deleteDoc, onSnapshot } from "./pond-firebase-stub.js";
+
+  var cfg = { apiKey: "preview-disabled", authDomain: "pond-preview-disabled.firebaseapp.com", projectId: "pond-preview-disabled", storageBucket: "pond-preview-disabled.firebasestorage.app", messagingSenderId: "000000000000", appId: "1:000000000000:web:previewdisabled" };
+  var app; try { app = getApp(); } catch (e) { app = initializeApp(cfg); }
+  var auth = getAuth(app), db = getFirestore(app);
+  var OWNER_UID = "1hbpZnS7gfPd0ptzygwiaDBfjo63";
+
+  var me = null, authKnown = false;
+  var polls = null, pollsErr = false;
+  var votes = [];
+  var signinFlash = null, voteErrFor = null;
+
+  function esc(s) { return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
+  function fmtTs(ms) { try { return new Date(ms).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" }); } catch (e) { return ""; } }
+  function isOwner() { return !!(me && me.uid === OWNER_UID); }
+  function isOpen(p) { return p.active !== false && !(p.closesAt && Number(p.closesAt) <= Date.now()); }
+  function tally(p) {
+    var counts = (p.options || []).map(function () { return 0; });
+    var total = 0;
+    votes.forEach(function (v) {
+      if (v.pollId !== p.id) return;
+      var c = Number(v.choice);
+      if (c >= 0 && c < counts.length) { counts[c]++; total++; }
+    });
+    return { counts: counts, total: total };
+  }
+  function myChoice(p) {
+    if (!me) return -1;
+    for (var i = 0; i < votes.length; i++) if (votes[i].pollId === p.id && votes[i].uid === me.uid) return Number(votes[i].choice);
+    return -1;
+  }
+
+  var note = document.getElementById("sync-note");
+  var formCard = document.getElementById("newpoll-card");
+
+  function render() {
+    window.TYDPollsBridge = { ready: polls !== null, error: pollsErr, signedIn: !!me, isOwner: isOwner(), total: (polls || []).length, open: (polls || []).filter(isOpen).length, closed: (polls || []).filter(function (p) { return !isOpen(p); }).length, openList: (polls || []).filter(isOpen).map(function (p) { var t = tally(p); return { q: p.question || "", options: p.options || [], counts: t.counts, total: t.total, mine: myChoice(p) }; }) };
+    formCard.style.display = isOwner() ? "block" : "none";
+    if (note) {
+      note.textContent = me
+        ? "You are signed in, so your taps count. Tap an option to vote, and tap a different one any time to change your vote while the poll is open."
+        : "You can read every poll and its results right here. Sign in with your free Pond Account when you want to cast a vote.";
+    }
+    var root = document.getElementById("polls-root");
+    if (pollsErr) {
+      root.innerHTML = '<div class="card emptybox"><img src="images/corners/duck-polls.jpg" onerror="this.onerror=null;this.src=\'icon-512.png\';" alt="The Pond duck"><p>Polls are still switching on, so they cannot load just yet. Give it a little while and paddle back. 🦆</p></div>';
+      return;
+    }
+    if (polls === null) {
+      root.innerHTML = '<div class="card emptybox"><img src="images/corners/duck-polls.jpg" onerror="this.onerror=null;this.src=\'icon-512.png\';" alt="The Pond duck"><p>Loading the polls… the duck is fetching them. 🦆</p></div>';
+      return;
+    }
+    if (!polls.length) {
+      root.innerHTML = '<div class="card emptybox"><img src="images/corners/duck-polls.jpg" onerror="this.onerror=null;this.src=\'icon-512.png\';" alt="The Pond duck"><p><b>No polls paddling around yet.</b><br>'
+        + (isOwner()
+          ? "Use the New poll form above to float your first question to the Pond. 🛟"
+          : "Lucy will float the first question soon. Check back and have your vote ready! 🦆")
+        + "</p></div>";
+      return;
+    }
+    var sorted = polls.slice().sort(function (a, b) {
+      var ao = isOpen(a) ? 0 : 1, bo = isOpen(b) ? 0 : 1;
+      if (ao !== bo) return ao - bo;
+      return (Number(b.createdAt) || 0) - (Number(a.createdAt) || 0);
+    });
+    root.innerHTML = sorted.map(function (p) {
+      var open = isOpen(p), t = tally(p), mine = myChoice(p);
+      var h = '<div class="card"><h2>' + esc(p.question || "Untitled poll") + ' <span class="pbadge ' + (open ? "open" : "closed") + '">' + (open ? "Open" : "Closed") + "</span></h2>";
+      var meta = [];
+      meta.push(t.total + (t.total === 1 ? " vote" : " votes") + " so far");
+      if (p.closesAt) meta.push(open ? "Closes " + fmtTs(Number(p.closesAt)) : "Closed " + fmtTs(Number(p.closesAt)));
+      if (!open && p.active === false) meta.push("Final results");
+      h += '<div class="pmeta">' + esc(meta.join(" · ")) + "</div>";
+      h += (p.options || []).map(function (opt, i) {
+        var pct = t.total ? Math.round(t.counts[i] / t.total * 100) : 0;
+        var cls = "poll-opt" + (mine === i ? " mine" : "") + (open ? "" : " static");
+        var inner = '<span class="fill" style="width:' + pct + '%;"></span><span class="orow"><span class="otxt">' + esc(opt) + (mine === i ? " · Your vote ✓" : "") + '</span><span class="opct">' + pct + "%</span></span>";
+        if (open) return '<button type="button" class="' + cls + '" data-vote="' + esc(p.id) + '" data-choice="' + i + '">' + inner + "</button>";
+        return '<div class="' + cls + '">' + inner + "</div>";
+      }).join("");
+      if (open) {
+        if (me) h += '<p class="phint">' + (mine >= 0 ? "That is your vote above. Tap a different option to change it, as often as you like while this poll is open." : "Tap an option to cast your vote.") + "</p>";
+        else h += '<p class="phint">Tap an option to vote. Voting needs a free Pond Account, so the Pond can count one vote per member.</p>';
+      } else {
+        h += '<p class="phint">This poll has closed. These are the final results, thanks for paddling in, everyone! 🦆</p>';
+      }
+      if (signinFlash === p.id) h += '<p class="pflash">🦆 Voting needs you signed in, so each member gets one vote. <a href="account.html">Sign in or create your free Pond Account</a>, then come back and tap your pick.</p>';
+      if (voteErrFor === p.id) h += '<p class="pflash perr">That vote did not save just now. Polls may still be switching on; try again in a little while.</p>';
+      if (isOwner()) {
+        h += '<div class="ownerrow">'
+          + (open && p.active !== false
+              ? '<button type="button" class="btn btn-ghost" data-pclose="' + esc(p.id) + '" style="padding:8px 15px;">Close poll</button>'
+              : '<button type="button" class="btn btn-ghost" data-preopen="' + esc(p.id) + '" style="padding:8px 15px;">Reopen poll</button>')
+          + '<button type="button" class="btn btn-danger" data-pdel="' + esc(p.id) + '" style="padding:8px 15px;">Delete</button></div>';
+      }
+      return h + "</div>";
+    }).join("");
+    wire(root);
+  }
+
+  function wire(root) {
+    root.querySelectorAll("[data-vote]").forEach(function (b) {
+      b.addEventListener("click", function () { castVote(b.getAttribute("data-vote"), Number(b.getAttribute("data-choice"))); });
+    });
+    root.querySelectorAll("[data-pclose]").forEach(function (b) {
+      b.addEventListener("click", function () { setActive(b.getAttribute("data-pclose"), false); });
+    });
+    root.querySelectorAll("[data-preopen]").forEach(function (b) {
+      b.addEventListener("click", function () { setActive(b.getAttribute("data-preopen"), true); });
+    });
+    root.querySelectorAll("[data-pdel]").forEach(function (b) {
+      b.addEventListener("click", function () { deletePoll(b.getAttribute("data-pdel")); });
+    });
+  }
+
+  function castVote(pollId, choice) {
+    voteErrFor = null;
+    if (!me) { signinFlash = pollId; render(); return; }
+    signinFlash = null;
+    var p = null;
+    (polls || []).forEach(function (x) { if (x.id === pollId) p = x; });
+    if (!p || !isOpen(p)) return;
+    setDoc(doc(db, "pollVotes", pollId + "_" + me.uid), { pollId: pollId, uid: me.uid, choice: choice, createdAt: Date.now() })
+      .catch(function () { voteErrFor = pollId; render(); });
+  }
+  function setActive(pollId, on) {
+    if (!isOwner()) return;
+    updateDoc(doc(db, "polls", pollId), { active: on }).catch(function () {});
+  }
+  function deletePoll(pollId) {
+    if (!isOwner()) return;
+    if (!confirm("Delete this poll and its results for good?")) return;
+    var mine = votes.filter(function (v) { return v.pollId === pollId; });
+    deleteDoc(doc(db, "polls", pollId)).then(function () {
+      mine.forEach(function (v) { deleteDoc(doc(db, "pollVotes", pollId + "_" + v.uid)).catch(function () {}); });
+    }).catch(function () {});
+  }
+
+  /* v368 duplicate check (Lucy, Nov 18, 2026): a poll whose question
+     already exists warns first through the shared TYDDup sheet. The
+     check only runs on a new poll, never on an edit (polls have no edit
+     form), and only after the question and options pass validation. */
+  var dupConfirmed = false;
+  function dupNorm(s) { return window.TYDDup ? window.TYDDup.norm(s) : String(s || "").toLowerCase().replace(/\s+/g, " ").trim(); }
+  function findDupPoll(q) {
+    var nq = dupNorm(q);
+    if (!nq) return null;
+    var found = null;
+    (polls || []).forEach(function (p) { if (!found && dupNorm(p.question) === nq) found = p; });
+    return found;
+  }
+  document.getElementById("np-q").addEventListener("input", function () { dupConfirmed = false; });
+  document.getElementById("np-create").addEventListener("click", function () {
+    if (!isOwner()) return;
+    var err = document.getElementById("np-err");
+    function fail(msg) { err.textContent = msg; err.style.display = "block"; }
+    var q = document.getElementById("np-q").value.trim();
+    var opts = ["np-o1", "np-o2", "np-o3", "np-o4", "np-o5"].map(function (id) { return document.getElementById(id).value.trim(); }).filter(function (v) { return v; });
+    if (!q) { fail("Give the poll a question first."); document.getElementById("np-q").focus(); return; }
+    if (opts.length < 2) { fail("A poll needs at least two options."); return; }
+    var closeVal = document.getElementById("np-close").value;
+    var closesAt = null;
+    if (closeVal) { var ms = new Date(closeVal).getTime(); if (!isNaN(ms)) closesAt = ms; }
+    if (!dupConfirmed && window.TYDDup) {
+      var dup = findDupPoll(q);
+      if (dup) {
+        window.TYDDup.show("This poll is already in the Pond: " + q + ". Add it again, or cancel and keep the one you have.", function () { dupConfirmed = true; savePoll(q, opts, closesAt, err); });
+        return;
+      }
+    }
+    savePoll(q, opts, closesAt, err);
+  });
+  function savePoll(q, opts, closesAt, err) {
+    err.style.display = "none";
+    addDoc(collection(db, "polls"), { question: q, options: opts, createdAt: Date.now(), closesAt: closesAt, active: true })
+      .then(function () {
+        dupConfirmed = false;
+        ["np-q", "np-o1", "np-o2", "np-o3", "np-o4", "np-o5", "np-close"].forEach(function (id) { document.getElementById(id).value = ""; });
+      })
+      .catch(function () { err.textContent = "That poll did not save. Polls may still be switching on; try again in a little while."; err.style.display = "block"; });
+  }
+  window.TYDPollsDup = { find: findDupPoll };
+
+  onSnapshot(collection(db, "polls"), function (snap) {
+    var list = [];
+    snap.forEach(function (d) { var x = d.data() || {}; x.id = d.id; list.push(x); });
+    polls = list; pollsErr = false;
+    render();
+  }, function () { pollsErr = true; render(); });
+  onSnapshot(collection(db, "pollVotes"), function (snap) {
+    var list = [];
+    snap.forEach(function (d) { list.push(d.data() || {}); });
+    votes = list;
+    render();
+  }, function () { votes = []; render(); });
+
+  onAuthStateChanged(auth, function (user) {
+    authKnown = true;
+    me = user || null;
+    render();
+  });
+  render();
+</script>
+<script src="site-nav.js?v=372"></script>
+<script src="pull-refresh.js?v=341"></script>
+<script type="module">
+/* Saved helper chats: users/{uid}.helperChats (newest first, capped at 20),
+   following the same users-doc pattern as the rest of the Pond (default-app
+   reuse, setDoc with merge). This module also paints the page's own #acctpill
+   bar when one exists: auth-pill.js deliberately skips #acctpill whenever the
+   site-nav chip (#tydacctchip) is on the page, so pages that carry both a
+   chip and an in-page bar (Travel, Polls) would otherwise leave the bar stuck
+   on its signed-out text. Pages without #acctpill are unaffected. */
+import { getApp, initializeApp } from "./pond-firebase-stub.js";
+import { getAuth, onAuthStateChanged } from "./pond-firebase-stub.js";
+import { getFirestore, doc, getDoc, setDoc } from "./pond-firebase-stub.js";
+var cfg = { apiKey: "preview-disabled", authDomain: "pond-preview-disabled.firebaseapp.com", projectId: "pond-preview-disabled", storageBucket: "pond-preview-disabled.firebasestorage.app", messagingSenderId: "000000000000", appId: "1:000000000000:web:previewdisabled" };
+var app; try { app = getApp(); } catch (e) { app = initializeApp(cfg); }
+var auth = getAuth(app), db = getFirestore(app);
+var C = { user: null, list: [], ready: false };
+function emit() { try { window.dispatchEvent(new Event("tydchats")); } catch (e) {} }
+window.TYDChats = {
+  get user() { return C.user; },
+  get list() { return C.list; },
+  get ready() { return C.ready; },
+  save: function (entry) {
+    if (!C.user) return Promise.reject(new Error("signed out"));
+    var list = [entry].concat(C.list).slice(0, 20);
+    return setDoc(doc(db, "users", C.user.uid), { helperChats: list }, { merge: true }).then(function () { C.list = list; emit(); });
+  },
+  remove: function (id) {
+    if (!C.user) return Promise.reject(new Error("signed out"));
+    var list = C.list.filter(function (x) { return x.id !== id; });
+    return setDoc(doc(db, "users", C.user.uid), { helperChats: list }, { merge: true }).then(function () { C.list = list; emit(); });
+  }
+};
+var pill = document.getElementById("acctpill");
+function paintPill(label, av) {
+  if (!pill) return;
+  var escLabel = String(label == null ? "" : label).replace(/</g, "&lt;");
+  var img = "";
+  if (/^duck-[a-z]+$/.test(av || "")) img = "images/avatars/" + av + ".jpg";
+  var imgHtml = img ? '<img src="' + img + '" alt="" style="width:20px; height:20px; border-radius:50%; object-fit:cover; vertical-align:-5px; margin-right:6px;">' : "";
+  pill.innerHTML = imgHtml + "🦆 " + escLabel + (C.user ? " · My Account" : " · Log in / Sign up");
+}
+onAuthStateChanged(auth, function (user) {
+  C.user = user ? { uid: user.uid, email: user.email || "" } : null;
+  C.ready = true;
+  if (!user) { C.list = []; paintPill("Pond Account", ""); emit(); return; }
+  paintPill(C.user.email, "");
+  getDoc(doc(db, "profiles", user.uid)).then(function (snap) {
+    var un = snap.exists() ? (snap.data().username || "") : "";
+    var av = snap.exists() ? (snap.data().avatar || "") : "";
+    paintPill(un ? "@" + un : C.user.email, av);
+  }).catch(function () {});
+  getDoc(doc(db, "users", user.uid)).then(function (snap) {
+    var d = snap.exists() ? snap.data() : {};
+    C.list = Array.isArray(d.helperChats) ? d.helperChats : [];
+    emit();
+  }).catch(function () { emit(); });
+});
+emit();
+</script>
+
+<script>
+/* Section helper bot: floating duck chat for this section, with export. */
+window.BOTCFG = {
+  section: "Pond Polls",   duck: "images/corners/duck-polls.jpg",
+  title: "🦆 Pond Polls Helper",
+  placeholder: "Ask about the polls...",
+  honest: "I answer from the polls on this page, not a full AI.",
+  greet: "Quack! I'm the Pond Polls duck. 🗳️ Ask me how voting works, how many polls are open, or who's winning, and I'll read the results right off this page.",
+  fallback: "Quack, that one's beyond this little duck. I can explain voting, count the open polls, and read who's winning in each. Try one of the chips!",
+  chips: function (U) {
+    var b = window.TYDPollsBridge || {};
+    var chips = [
+      ["🗳️ How do I vote?", "How do I vote?"],
+      ["📊 Open polls", "How many polls are open?"],
+      ["🏆 Who's winning?", "Who is winning?"]
+    ];
+    if (b.isOwner) chips.push(["🦆 New poll", "How do I create a poll?"]);
+    return chips;
+  },
+  answer: function (q, U) {
+    var b = window.TYDPollsBridge || null;
+    var low = q.toLowerCase();
+    function leadLine(p) {
+      var best = -1, bi = -1;
+      (p.counts || []).forEach(function (c, i) { if (c > best) { best = c; bi = i; } });
+      if (bi < 0 || p.total === 0) return "\"" + p.q + "\" — no votes yet, be the first!";
+      var pct = Math.round(best / p.total * 100);
+      return "\"" + p.q + "\" — \"" + (p.options[bi] || "") + "\" leads with " + pct + "% of " + p.total + (p.total === 1 ? " vote" : " votes") + (p.mine === bi ? " (that's your pick ✓)" : "") + ".";
+    }
+    if (/create|new poll|make a poll|add a poll|owner|close|reopen|delete/.test(low)) {
+      if (b && b.isOwner) return "You're the Pond owner, so the New poll form sits at the top of this page: a question, 2 to 5 options, and an optional close date, then \"Float this poll 🛟\". Each poll also has Close poll / Reopen and Delete buttons under it, just for you. Closing keeps the final results on show.";
+      return "Only Lucy, the Pond owner, can float new polls and close or delete them. If you've got a question the Pond should vote on, she'd love to hear it; meanwhile every open poll below is yours to vote in.";
+    }
+    if (/win|winning|lead|ahead|result|standing|score/.test(low)) {
+      if (!b || !b.ready) return "The polls are still loading on this page. Give it a second and ask me again. 🦆";
+      if (!b.openList || !b.openList.length) return "No open polls right now, so nobody's winning anything. Closed polls below keep their final results on show.";
+      return "Current standings:\n" + b.openList.map(function (p) { return "• " + leadLine(p); }).join("\n");
+    }
+    if (/how many|open|count|list|what polls|which polls/.test(low)) {
+      if (!b || !b.ready) return b && b.error ? "Polls can't load just yet on this page (they may still be switching on). Paddle back in a little while." : "The polls are still loading. One moment and ask me again. 🦆";
+      var out = "There " + (b.open === 1 ? "is 1 open poll" : "are " + b.open + " open polls") + (b.closed ? " and " + b.closed + " closed" : "") + " (" + b.total + " in all).";
+      if (b.openList && b.openList.length) out += "\nOpen now:\n" + b.openList.map(function (p) { return "• " + p.q + " — " + p.total + (p.total === 1 ? " vote" : " votes") + " so far"; }).join("\n");
+      if (!b.signedIn) out += "\nReading results is open to everyone; voting needs a free Pond Account.";
+      return out;
+    }
+    if (/vote|voting|tap|pick|choose/.test(low)) {
+      return "Voting is easy: tap any option on an open poll and that's your vote, counted right away, one per member. You can tap a different option any time while the poll is open to change your mind; your bar fills in yellow so you can spot it. " + ((b && b.signedIn) ? "You're signed in, so your taps count." : "Voting needs you signed in (so it's one vote per member), tap Pond Account at the top for a free account.") + " Results update live as votes paddle in.";
+    }
+    if (/change|mind|again|twice/.test(low)) return "Changed your mind? Just tap a different option on the same open poll. Your vote moves over, no undo buttons or fuss, as often as you like until the poll closes.";
+    if (/close|closes|end|deadline|when/.test(low)) return "A poll closes when its close date arrives or Lucy closes it by hand. Closed polls stop taking votes and show their final results with a Closed badge.";
+    if (/sign in|account|anonymous|who can/.test(low)) return "Anyone can read the polls and watch results fill in. Voting needs a free Pond Account, so each member gets exactly one vote per poll. Sign in or join at the top of the page.";
+    if (/sync|device/.test(low)) return "Polls and votes live in the Pond itself (not just this device), so results are the same for everyone and update live as votes come in.";
+    return null;
+  }
+};
+
+(function () {
+  "use strict";
+  var CFG = window.BOTCFG || {};
+  var css = [
+    ".phelp-launch{display:inline-flex;align-items:center;gap:8px;position:fixed;right:12px;bottom:calc(84px + env(safe-area-inset-bottom));z-index:10080;background:#1f5f74;border:2px solid #174a5b;color:#fff;font-family:inherit;font-weight:900;font-size:14.5px;border-radius:999px;padding:11px 16px;box-shadow:0 8px 22px rgba(35,65,77,.35);cursor:pointer;}",
+    ".botduck{width:27px;height:27px;border-radius:50%;object-fit:cover;flex:none;border:2px solid rgba(255,255,255,.65);}",
+    ".phelp-head .t .botduck{width:31px;height:31px;}",
+    ".phelp-panel{position:fixed;right:12px;bottom:calc(84px + env(safe-area-inset-bottom));z-index:10090;width:min(94vw,384px);height:min(72vh,580px);background:#fff;border-radius:20px;box-shadow:0 18px 44px rgba(10,25,32,.4);display:none;flex-direction:column;overflow:hidden;border:2px solid #bcd9e4;}",
+    ".phelp-panel.show{display:flex;}",
+    "@media (max-width:520px){.phelp-panel{left:12px;width:auto;}}",
+    ".phelp-head{background:#1f5f74;color:#fff;padding:12px 14px;flex:none;}",
+    ".phelp-head .t{font-weight:900;font-size:16.5px;display:flex;align-items:center;gap:8px;}",
+    ".phelp-head .ctx{font-size:12.5px;opacity:.92;margin-top:3px;line-height:1.4;}",
+    ".phelp-x{margin-left:2px;background:rgba(255,255,255,.16);border:none;color:#fff;width:30px;height:30px;border-radius:50%;font-weight:900;cursor:pointer;font-family:inherit;flex:none;}",
+    ".phelp-expbtn{margin-left:auto;background:#ffd94d;border:2px solid #e3c93f;color:#6b5900;font-family:inherit;font-weight:900;font-size:12.5px;border-radius:999px;padding:6px 11px;cursor:pointer;flex:none;}",
+    ".phelp-drawer{display:none;background:#fff;border-bottom:1px solid #e3eff4;padding:10px 12px;flex:none;max-height:46%;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;touch-action:pan-y;}",
+    ".phelp-drawer.show{display:block;}",
+    ".phelp-drow{display:flex;gap:6px;flex-wrap:wrap;}",
+    ".pdbtn{border:2px solid #bcd9e4;background:#eaf7fb;color:#1f5f74;font-family:inherit;font-weight:800;font-size:12.5px;border-radius:999px;padding:7px 12px;cursor:pointer;}",
+    ".pdbtn.main{background:#ffd94d;border-color:#e3c93f;color:#6b5900;}",
+    ".phelp-note{font-size:12.5px;color:#3f6b7a;margin-top:7px;line-height:1.45;}",
+    ".phelp-dhead{font-weight:900;font-size:13px;color:#1f5f74;margin:11px 0 4px;}",
+    ".psaved{padding:7px 0;border-bottom:1px solid #e3eff4;font-size:13.5px;color:#23414d;}",
+    ".psaved:last-child{border-bottom:none;}",
+    ".psaved .pm{font-size:12px;color:#5b7a87;margin-top:1px;}",
+    ".psaved .pa{margin-top:4px;display:flex;gap:6px;}",
+    ".psaved .pa button{border:2px solid #bcd9e4;background:#fff;color:#1f5f74;font-family:inherit;font-weight:800;font-size:11.5px;border-radius:999px;padding:4px 9px;cursor:pointer;}",
+    ".phelp-msgs{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;touch-action:pan-y;padding:12px;background:#f4fafc;display:flex;flex-direction:column;gap:8px;}",
+    ".pmsg{max-width:88%;padding:9px 12px;border-radius:14px;font-size:14px;line-height:1.5;white-space:pre-wrap;word-wrap:break-word;}",
+    ".pmsg.bot{background:#fff;border:1.5px solid #d7e6ec;color:#23414d;align-self:flex-start;border-bottom-left-radius:4px;}",
+    ".pmsg.me{background:#1f5f74;color:#fff;align-self:flex-end;border-bottom-right-radius:4px;}",
+    ".phelp-chips{display:flex;gap:6px;flex-wrap:wrap;padding:8px 10px;background:#fff;border-top:1px solid #e3eff4;flex:none;}",
+    ".pchip{border:2px solid #bcd9e4;background:#eaf7fb;color:#1f5f74;font-family:inherit;font-weight:800;font-size:12.5px;border-radius:999px;padding:6px 11px;cursor:pointer;}",
+    ".phelp-form{display:flex;gap:6px;padding:10px;background:#fff;border-top:1px solid #e3eff4;flex:none;}",
+    ".phelp-form input{flex:1;border:2px solid #bcd9e4;border-radius:12px;padding:10px;font-size:15px;font-family:inherit;min-width:0;color:#23414d;background:#fff;}",
+    ".phelp-form button{background:#ffd94d;border:2px solid #e3c93f;color:#6b5900;font-family:inherit;font-weight:900;font-size:14px;border-radius:12px;padding:10px 14px;cursor:pointer;}",
+    "html[data-theme=\"dark\"] .phelp-panel{background:var(--tyd-acc-dark, #172635);border-color:#2e4a5f;}",
+    "html[data-theme=\"dark\"] .phelp-msgs{background:#101e2c;}",
+    "html[data-theme=\"dark\"] .pmsg.bot{background:#23414d;border-color:#2e4a5f;color:#eefaff;}",
+    "html[data-theme=\"dark\"] .phelp-chips,html[data-theme=\"dark\"] .phelp-form,html[data-theme=\"dark\"] .phelp-drawer{background:var(--tyd-acc-dark, #172635);border-color:#2e4a5f;}",
+    "html[data-theme=\"dark\"] .pchip{background:#23414d;color:#d7ecf5;border-color:#2e4a5f;}",
+    "html[data-theme=\"dark\"] .pdbtn{background:#23414d;color:#d7ecf5;border-color:#2e4a5f;}",
+    "html[data-theme=\"dark\"] .phelp-form input{background:#101e2c;color:#eefaff;border-color:#2e4a5f;}",
+    "html[data-theme=\"dark\"] .phelp-note{color:#bcd6e4;}",
+    "html[data-theme=\"dark\"] .phelp-dhead{color:#ffd94d;}",
+    "html[data-theme=\"dark\"] .psaved{color:#eefaff;border-color:#2e4a5f;}",
+    "@media print{.phelp-launch,.phelp-panel{display:none !important;}}"
+  ].join("\n");
+  var st = document.createElement("style"); st.textContent = css; document.head.appendChild(st);
+  function esc(t) { return String(t == null ? "" : t).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+
+  /* Utilities handed to each page's answer function. */
+  var U = {
+    ls: function (k, d) { try { var v = JSON.parse(localStorage.getItem(k)); return v == null ? d : v; } catch (e) { return d; } },
+    snap: function () { try { return (window.TYDPage && window.TYDPage.snapshot) ? window.TYDPage.snapshot() : null; } catch (e) { return null; } },
+    todayISO: function () { var d = new Date(); return d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2); },
+    daysUntil: function (ds) { if (!ds) return null; return Math.round((new Date(ds + "T12:00:00") - new Date(U.todayISO() + "T12:00:00")) / 86400000); },
+    fmtDate: function (ds) { if (!ds) return ""; try { return new Date(ds + "T12:00:00").toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" }); } catch (e) { return String(ds); } },
+    money: function (n) { n = Number(n) || 0; var r = Math.round(n * 100) / 100; return "$" + r.toLocaleString(undefined, { minimumFractionDigits: (r % 1 !== 0) ? 2 : 0, maximumFractionDigits: 2 }); },
+    when: function (ds) { var d = U.daysUntil(ds); if (d === null) return ""; if (d < 0) return "overdue by " + (-d) + (d === -1 ? " day" : " days"); if (d === 0) return "today"; if (d === 1) return "tomorrow"; return "in " + d + " days"; },
+    plural: function (n, one, many) { return n + " " + (n === 1 ? one : many); }
+  };
+
+  var log = [];
+  var greeted = false;
+  var openStamp = 0;
+  var drawerOpen = false;
+
+  var launch = document.createElement("button");
+  launch.className = "phelp-launch"; launch.type = "button";
+  launch.innerHTML = '<img class="botduck" src="' + (CFG.duck || "") + '" alt="">' + "Polls help";
+  launch.setAttribute("aria-label", "Open the " + (CFG.section || "") + " helper chat");
+  document.body.appendChild(launch);
+
+  var panel = document.createElement("div");
+  panel.className = "phelp-panel";
+  panel.innerHTML = '<div class="phelp-head"><div class="t"><img class="botduck" src="' + (CFG.duck || "") + '" alt="">' + esc((CFG.title || "Helper").replace(/^🦆 /, ""))
+    + '<button type="button" class="phelp-expbtn" data-expbtn>⬇ Export</button>'
+    + '<button type="button" class="phelp-x" data-close aria-label="Close">✕</button></div>'
+    + '<div class="ctx">' + esc(CFG.honest || "") + "</div></div>"
+    + '<div class="phelp-drawer" data-drawer>'
+    + '<div class="phelp-drow"><button type="button" class="pdbtn main" data-expfile>💾 Save as a file</button>'
+    + '<button type="button" class="pdbtn" data-expacct>☁️ Save to my account</button></div>'
+    + '<div class="phelp-note" data-expnote></div>'
+    + '<div class="phelp-dhead">📁 Saved chats</div><div data-savedlist></div>'
+    + "</div>"
+    + '<div class="phelp-msgs" data-msgs></div>'
+    + '<div class="phelp-chips" data-chips></div>'
+    + '<form class="phelp-form"><input type="text" placeholder="' + esc(CFG.placeholder || "Ask the duck...") + '" aria-label="Ask the helper"><button type="submit">Send</button></form>';
+  document.body.appendChild(panel);
+
+  var msgs = panel.querySelector("[data-msgs]");
+  var chipsBox = panel.querySelector("[data-chips]");
+  var drawer = panel.querySelector("[data-drawer]");
+  var expNote = panel.querySelector("[data-expnote]");
+  var savedList = panel.querySelector("[data-savedlist]");
+  var input = panel.querySelector(".phelp-form input");
+
+  function renderMsgs() {
+    msgs.innerHTML = log.map(function (m) {
+      return '<div class="pmsg ' + (m.who === "me" ? "me" : "bot") + '">' + esc(m.text).replace(/\n/g, "<br>") + "</div>";
+    }).join("");
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+  function renderChips() {
+    var chips = [];
+    try { chips = (typeof CFG.chips === "function") ? CFG.chips(U) : (CFG.chips || []); } catch (e) { chips = []; }
+    chipsBox.innerHTML = "";
+    (chips || []).forEach(function (c) {
+      var b = document.createElement("button");
+      b.type = "button"; b.className = "pchip"; b.textContent = c[0];
+      b.addEventListener("click", function () { ask(c[1]); });
+      chipsBox.appendChild(b);
+    });
+  }
+  function say(text) { log.push({ who: "duck", text: String(text == null ? "" : text) }); renderMsgs(); }
+  function ask(q) {
+    q = String(q || "").trim();
+    if (!q) return;
+    log.push({ who: "me", text: q });
+    var a = null;
+    try { a = CFG.answer ? CFG.answer(q, U) : null; } catch (e) { a = null; }
+    if (!a) a = CFG.fallback || "Quack, that one is beyond this little duck. Try one of the topics above!";
+    log.push({ who: "duck", text: a });
+    renderMsgs();
+    renderChips();
+  }
+  function openPanel() {
+    panel.classList.add("show");
+    launch.style.display = "none";
+    if (!greeted) { greeted = true; if (CFG.greet) log.push({ who: "duck", text: CFG.greet }); }
+    openStamp = Date.now();
+    renderMsgs(); renderChips(); renderSaved();
+    setTimeout(function () { if (panel.classList.contains("show")) renderSaved(); }, 1600);
+    setTimeout(function () { if (panel.classList.contains("show")) renderSaved(); }, 4200);
+    setTimeout(function () { try { input.focus(); } catch (e) {} }, 60);
+  }
+  function closePanel() {
+    panel.classList.remove("show");
+    launch.style.display = "";
+  }
+  launch.addEventListener("click", openPanel);
+  panel.querySelector("[data-close]").addEventListener("click", closePanel);
+  panel.querySelector(".phelp-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var v = input.value; input.value = "";
+    ask(v);
+  });
+
+  /* ---------- export ---------- */
+  function transcript() {
+    var lines = [(CFG.section || "Pond") + " Helper chat", "Exported " + new Date().toLocaleString(), ""];
+    log.forEach(function (m) { lines.push((m.who === "me" ? "You: " : "Duck: ") + m.text); });
+    return lines.join("\n");
+  }
+  function download(name, text) {
+    try {
+      var blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement("a");
+      a.href = url; a.download = name;
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(function () { URL.revokeObjectURL(url); }, 400);
+    } catch (e) {}
+  }
+  function fileName(section) {
+    return String(section || "pond").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") + "-chat-" + U.todayISO() + ".txt";
+  }
+  function chats() { return window.TYDChats || null; }
+  function renderSaved() {
+    var C = chats();
+    if (!C || !C.ready) { savedList.innerHTML = '<div class="phelp-note">' + (Date.now() - openStamp > 4000 ? "Sign in with your Pond Account to keep chats here. Saving as a file works any time." : "Checking your Pond Account...") + '</div>'; return; }
+    if (!C.user) { savedList.innerHTML = '<div class="phelp-note">Sign in with your Pond Account to keep chats here. Saving as a file works any time.</div>'; return; }
+    if (!C.list.length) { savedList.innerHTML = '<div class="phelp-note">No saved chats yet. Export this chat to your account and it will live here.</div>'; return; }
+    savedList.innerHTML = C.list.map(function (e) {
+      var when = "";
+      try { when = new Date(e.createdAt).toLocaleString([], { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }); } catch (x) {}
+      return '<div class="psaved"><div>' + esc(e.title || (e.section || "Chat")) + '</div><div class="pm">' + esc(e.section || "") + (when ? " · " + esc(when) : "") + '</div>'
+        + '<div class="pa"><button type="button" data-dl="' + esc(e.id) + '">⬇ Download</button><button type="button" data-del="' + esc(e.id) + '">✕ Delete</button></div></div>';
+    }).join("");
+    savedList.querySelectorAll("[data-dl]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var id = b.getAttribute("data-dl");
+        var e = (chats() ? chats().list : []).filter(function (x) { return x.id === id; })[0];
+        if (e) download(fileName(e.section), String(e.text || ""));
+      });
+    });
+    savedList.querySelectorAll("[data-del]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var C2 = chats(); if (!C2) return;
+        C2.remove(b.getAttribute("data-del")).then(renderSaved).catch(renderSaved);
+      });
+    });
+  }
+  panel.querySelector("[data-expbtn]").addEventListener("click", function () {
+    drawerOpen = !drawerOpen;
+    drawer.classList.toggle("show", drawerOpen);
+    if (drawerOpen) { expNote.textContent = ""; renderSaved(); }
+  });
+  panel.querySelector("[data-expfile]").addEventListener("click", function () {
+    download(fileName(CFG.section), transcript());
+    expNote.textContent = "Saved as a file on this device. 💾";
+  });
+  panel.querySelector("[data-expacct]").addEventListener("click", function () {
+    var C = chats();
+    if (!C || !C.user) { expNote.textContent = "Saving to your account needs you signed in. Sign in with your Pond Account, then tap Export again. The file download above works either way."; return; }
+    var entry = {
+      id: "c" + Date.now().toString(36) + Math.random().toString(36).slice(2, 7),
+      section: CFG.section || "",
+      title: (CFG.section || "Pond") + " chat · " + new Date().toLocaleDateString(undefined, { month: "short", day: "numeric" }),
+      text: transcript().slice(0, 20000),
+      createdAt: Date.now()
+    };
+    C.save(entry).then(function () {
+      expNote.textContent = "Saved to your Pond Account. ☁️ Find it under Saved chats on any of the helper ducks.";
+      renderSaved();
+    }).catch(function () {
+      expNote.textContent = "That save did not go through just now. Try the file download instead, and check back soon.";
+    });
+  });
+  window.addEventListener("tydchats", function () { if (panel.classList.contains("show")) renderSaved(); });
+})();
+
+</script>
+<script src="pond-staging.js"></script>
+</body>
+</html>

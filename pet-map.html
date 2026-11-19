@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="color-scheme" content="light dark">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="apple-touch-icon-v2.png">
+<title>Pet Map - TreatYourselfDiscounts</title>
+<meta name="description" content="Pet Map at TreatYourselfDiscounts: vets and pet-friendly places near a town you type in, plus the places you pin yourself.">
+<meta property="og:title" content="Pet Map - TreatYourselfDiscounts">
+<meta property="og:description" content="Pet Map at TreatYourselfDiscounts: vets and pet-friendly places near a town you type in, plus the places you pin yourself.">
+<meta property="og:image" content="/images/corners/duck-pet.jpg">
+<meta property="og:url" content="/pet-map">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Pet Map - TreatYourselfDiscounts">
+<meta name="twitter:description" content="Pet Map at TreatYourselfDiscounts: vets and pet-friendly places near a town you type in, plus the places you pin yourself.">
+<meta name="twitter:image" content="/images/corners/duck-pet.jpg">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+  body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #bfe6f2; color: #23414d; }
+  .wrap { max-width: 430px; margin: 0 auto; padding: 18px 16px 40px; background: #bfe6f2; }
+  .back { display: inline-block; color: #1f5f74; font-weight: 700; text-decoration: none; margin-bottom: 10px; }
+  header.top { display: flex; align-items: center; gap: 12px; }
+  header.top img { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; background: #bfe6f2; }
+  h1 { font-size: 26px; margin: 0; color: #17455a; }
+  .sub { margin: 2px 0 0; color: #40606e; font-size: 14.5px; }
+  .card { background: #fff; border-radius: 16px; padding: 14px 16px; margin-top: 14px; box-shadow: 0 2px 10px rgba(23,69,90,.08); }
+  .card h2 { margin: 0 0 6px; font-size: 18px; color: #17455a; }
+  .card p { margin: 6px 0; font-size: 14.5px; line-height: 1.5; }
+  #map { height: 54vh; min-height: 330px; border-radius: 16px; margin-top: 14px; box-shadow: 0 2px 10px rgba(23,69,90,.12); z-index: 1; }
+  .row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .row input, .row select { flex: 1; min-width: 170px; padding: 10px 12px; border: 2px solid #cfe6ee; border-radius: 10px; font: inherit; font-size: 15px; }
+  .row select { flex: 0 1 150px; min-width: 140px; }
+  label { display: block; font-weight: 700; font-size: 13.5px; margin: 10px 0 4px; color: #17455a; }
+  .btn { background: #1f5f74; color: #fff; border: none; border-radius: 999px; padding: 10px 18px; font-weight: 800; font-size: 14.5px; cursor: pointer; font-family: inherit; }
+  .btn.alt { background: #ffe066; color: #5c4a00; }
+  .status { font-size: 13.5px; color: #5b7d89; min-height: 18px; margin-top: 8px; }
+  .pick { background: #fffdf5; border: 2px solid #ffe9a8; border-radius: 12px; padding: 10px 12px; margin-top: 8px; }
+  .pick b { color: #17455a; }
+  .when { display: inline-block; background: #e8f6fb; color: #1f5f74; border-radius: 999px; padding: 2px 10px; font-size: 12px; font-weight: 800; margin-right: 6px; }
+  .catgroup { margin-top: 14px; }
+  .catgroup h3 { margin: 0 0 8px; font-size: 16px; color: #1f5f74; display: flex; align-items: center; gap: 6px; }
+  .catgroup h3 .cnt { font-size: 12px; font-weight: 800; color: #5b7d89; background: #eef8fb; border-radius: 999px; padding: 2px 8px; }
+  .placegrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+  .placecard { background: #fff; border-radius: 14px; padding: 11px 12px; box-shadow: 0 2px 8px rgba(23,69,90,.08); border-left: 4px solid #1f5f74; color: inherit; }
+  .placecard b { display: block; font-size: 14.5px; color: #17455a; line-height: 1.3; }
+  .placecard .ptrip { display: block; font-size: 12.5px; color: #5b7d89; margin-top: 3px; }
+  .placecard .paddr { display: block; font-size: 12.5px; color: #5b7d89; margin-top: 2px; }
+  .placecard .pnot { display: block; font-size: 12px; color: #8a6d00; margin-top: 4px; font-weight: 700; }
+  .foot { text-align: center; color: #5b7d89; font-size: 12.5px; margin-top: 18px; }
+  a.src { color: #1f5f74; font-weight: 700; }
+  .leaflet-popup-content { font-family: inherit; font-size: 14px; }
+  html[data-theme="dark"] .placecard { background: var(--tyd-acc-dark, #172635) !important; }
+  html[data-theme="dark"] .placecard b { color: #eefaff !important; }
+  html[data-theme="dark"] .catgroup h3 { color: #c9f0fc !important; }
+  html[data-theme="dark"] .catgroup h3 .cnt { background: #2e4a5f !important; color: #c9f0fc !important; }
+  html[data-theme="dark"] a.src { color: #c9f0fc !important; }
+  html[data-theme="dark"] .status { color: #c9f0fc !important; }
+</style>
+<meta name="robots" content="noindex,nofollow">
+<link rel="stylesheet" href="pond-travel.css">
+<script>window.__TYD_PREVIEW__=true;</script>
+</head>
+<body>
+<div class="wrap">
+<a class="back" href="pets.html">‹ Back to Pet Corner</a>
+<header class="top">
+<img src="images/corners/duck-pet.jpg" alt="Pet Corner duck">
+<div>
+<h1>Pet Map 🗺️</h1>
+<p class="sub">Vets and pet-friendly places near a town you type in, plus the places you pin yourself.</p>
+</div>
+</header>
+
+<div id="map"></div>
+<p class="status" id="mapstatus">Loading your places…</p>
+
+<div class="card">
+<h2>Search near a town 🔎</h2>
+<p>Type a town and find vets, dog parks, pet shops, boarding and pet-friendly cafés near it, on the free map.</p>
+<div class="row">
+<input type="text" id="searchq" placeholder="Like: a town near you" autocomplete="off">
+<button type="button" class="btn" id="searchbtn">Search</button>
+</div>
+<div id="searchout"></div>
+<p class="status">Results come from OpenStreetMap, the free map — a place may be missing or out of date. No town is ever saved or assumed; the map starts empty until you type one.</p>
+</div>
+
+<div class="card">
+<h2>Pin a place you add 📌</h2>
+<p>Know a good vet, park or café? Pin it by name and it stays in your saved places.</p>
+<label for="addname">Place name</label>
+<input type="text" id="addname" placeholder="Like: Riverside Vet, or Sunny Dog Park" autocomplete="off" style="width:100%; padding:10px 12px; border:2px solid #cfe6ee; border-radius:10px; font:inherit; font-size:15px;">
+<div class="row" style="margin-top:8px;">
+<select id="addcat" aria-label="Category">
+<option>Vet</option>
+<option>Dog park</option>
+<option>Pet shop</option>
+<option>Pet-friendly cafe</option>
+<option>Boarding</option>
+<option>Other</option>
+</select>
+<input type="text" id="addtown" placeholder="Town or area (optional)" autocomplete="off">
+</div>
+<label for="addnote">Note (optional)</label>
+<input type="text" id="addnote" placeholder="Like: open late, big fenced field" autocomplete="off" style="width:100%; padding:10px 12px; border:2px solid #cfe6ee; border-radius:10px; font:inherit; font-size:15px;">
+<div style="margin-top:10px;"><button type="button" class="btn" id="addbtn">📌 Pin this place</button></div>
+<p class="status" id="addstat"></p>
+</div>
+
+<div class="card">
+<h2>Your saved places 📍</h2>
+<div id="placelist"><p>Loading…</p></div>
+</div>
+
+<p class="foot">Map © OpenStreetMap contributors. Pins are placed with the free OpenStreetMap lookup, so a very new or tiny place may not pin yet; it still shows in your list.</p>
+<p class="foot">© 2026 TreatYourselfDiscounts™</p>
+</div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+(function () {
+  /* Pet map (v327, Lucy Nov 16, 2026). Modeled on travel-map.html:
+     Leaflet + OpenStreetMap tiles + Nominatim lookup, same geo cache
+     (tydGeoCacheV1), same place-card groups. Two modes, both Lucy's:
+     (a) search near a town she types in (Overpass query around the town
+     for vets, dog parks, pet shops, boarding and dog-friendly cafés);
+     (b) pin places she adds by name. Saved per account in tydPetPlaces
+     (local) + users/{uid}.petPlaces (Firestore). NEVER a default town:
+     the map starts empty until she types a town or adds a place. */
+  function esc(s) { return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
+  function loadJSON(k, d) { try { var v = JSON.parse(localStorage.getItem(k)); return v == null ? d : v; } catch (e) { return d; } }
+  var CATCOLORS = { Vet: "#1f5f74", "Dog park": "#3d9970", "Pet shop": "#e8873a", "Pet-friendly cafe": "#8a6d3b", Boarding: "#7b5ea7", Other: "#5b7d89" };
+  var CATORDER = ["Vet", "Dog park", "Pet shop", "Pet-friendly cafe", "Boarding", "Other"];
+  var CATICONS = { Vet: "🩺", "Dog park": "🐕", "Pet shop": "🛍️", "Pet-friendly cafe": "☕", Boarding: "🏠", Other: "📍" };
+  function pinColor(cat) { return CATCOLORS[cat] || "#5b7d89"; }
+  function uid() { return "pp" + Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
+  var places = loadJSON("tydPetPlaces", []);
+  function savePlaces() {
+    try { localStorage.setItem("tydPetPlaces", JSON.stringify(places)); } catch (e) {}
+    if (window.TYDMapSavePetPlaces) window.TYDMapSavePetPlaces(places);
+  }
+  var searchResults = [];
+  var map = null, markers = [];
+  if (window.L) {
+    map = L.map("map").setView([39.5, -98.35], 4);
+    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 19, attribution: "© OpenStreetMap contributors" }).addTo(map);
+    setTimeout(function () { if (map) map.invalidateSize(); }, 100);
+    setTimeout(function () { if (map) map.invalidateSize(); }, 600);
+    window.addEventListener("resize", function () { if (map) map.invalidateSize(); });
+    window.addEventListener("load", function () { if (map) map.invalidateSize(); });
+  } else {
+    document.getElementById("mapstatus").textContent = "The map could not load (it needs an internet connection). Your places are still listed below.";
+  }
+  function addPin(lat, lon, html, color, cat) {
+    if (!map) return null;
+    var m = L.circleMarker([lat, lon], { radius: 9, color: "#ffffff", weight: 2, fillColor: color || "#1f5f74", fillOpacity: 0.95 }).addTo(map);
+    m.bindPopup(html);
+    m._tydCat = cat || "";
+    markers.push(m);
+    return m;
+  }
+  var geoCache = loadJSON("tydGeoCacheV1", {});
+  function saveGeo() { try { localStorage.setItem("tydGeoCacheV1", JSON.stringify(geoCache)); } catch (e) {} }
+  function geocode(q) {
+    if (Object.prototype.hasOwnProperty.call(geoCache, q)) return Promise.resolve(geoCache[q]);
+    return fetch("https://nominatim.openstreetmap.org/search?format=json&limit=1&q=" + encodeURIComponent(q))
+      .then(function (r) { return r.json(); })
+      .then(function (j) {
+        var out = j && j[0] ? { lat: +j[0].lat, lon: +j[0].lon } : null;
+        geoCache[q] = out; saveGeo();
+        return out;
+      })
+      .catch(function () { return null; });
+  }
+  function renderList() {
+    var box = document.getElementById("placelist");
+    if (!places.length) { box.innerHTML = "<p>No saved places yet. Search near a town above, or pin a place below.</p>"; return; }
+    var byCat = {};
+    places.forEach(function (p) { var cat = p.category || "Other"; (byCat[cat] = byCat[cat] || []).push(p); });
+    var cats = CATORDER.filter(function (c) { return byCat[c] && byCat[c].length; });
+    Object.keys(byCat).forEach(function (c) { if (CATORDER.indexOf(c) === -1) cats.push(c); });
+    var html = "";
+    cats.forEach(function (cat) {
+      var items = byCat[cat];
+      var color = pinColor(cat);
+      html += '<div class="catgroup"><h3>' + (CATICONS[cat] || "📍") + " " + esc(cat) + ' <span class="cnt">' + items.length + "</span></h3><div class=\"placegrid\">";
+      items.forEach(function (p) {
+        html += '<div class="placecard" style="border-left-color:' + color + ';"><b>' + esc(p.name) + "</b>"
+          + (p.address ? '<span class="paddr">' + esc(p.address) + "</span>" : "")
+          + (p.note ? '<span class="pnot">' + esc(p.note) + "</span>" : "")
+          + '<span class="ptrip"><button type="button" class="btn alt" data-fly="' + p.id + '" style="padding:4px 10px; font-size:12.5px; margin-top:4px;">Show on map</button> '
+          + '<button type="button" class="btn" data-delplace="' + p.id + '" style="padding:4px 10px; font-size:12.5px; margin-top:4px; background:#fde8e8; color:#a33;">Delete</button></span>'
+          + "</div>";
+      });
+      html += "</div></div>";
+    });
+    box.innerHTML = html;
+  }
+  function placeAll() {
+    markers.forEach(function (m) { if (map) map.removeLayer(m); });
+    markers = [];
+    var st = document.getElementById("mapstatus");
+    if (!places.length) { st.textContent = "No places yet. Search near a town above, or pin a place below."; return; }
+    if (!map) { st.textContent = places.length + " place" + (places.length === 1 ? "" : "s") + " saved — the map needs an internet connection to show them."; return; }
+    var pinned = places.filter(function (p) { return p.lat != null && p.lon != null; });
+    var bounds = [];
+    pinned.forEach(function (p) {
+      addPin(p.lat, p.lon, "<b>" + esc(p.name) + "</b><br>" + esc(p.category) + (p.address ? " · " + esc(p.address) : "") + (p.note ? "<br>" + esc(p.note) : ""), pinColor(p.category), p.category);
+      bounds.push([p.lat, p.lon]);
+    });
+    if (bounds.length) { try { map.fitBounds(bounds, { padding: [30, 30] }); } catch (e) {} }
+    st.textContent = pinned.length + " of " + places.length + " place" + (places.length === 1 ? "" : "s") + " on the map." + (places.length - pinned.length ? " " + (places.length - pinned.length) + " could not be pinned yet — they are still listed below." : "");
+  }
+  /* ---------- search near a town (Overpass around the town) ---------- */
+  document.getElementById("searchbtn").addEventListener("click", function () {
+    var town = document.getElementById("searchq").value.trim();
+    var out = document.getElementById("searchout");
+    if (!town) { out.innerHTML = '<p class="status">Type a town first.</p>'; return; }
+    out.innerHTML = '<p class="status">Looking up ' + esc(town) + "…</p>";
+    geocode(town).then(function (g) {
+      if (!g) { out.innerHTML = '<p class="status">I could not find "' + esc(town) + '" on the map. Try a nearby bigger town.</p>'; return; }
+      if (map) map.flyTo([g.lat, g.lon], 12);
+      var around = "(around:10000," + g.lat + "," + g.lon + ")";
+      var q = '[out:json][timeout:25];(node["amenity"="veterinary"]' + around + ';way["amenity"="veterinary"]' + around
+        + ';node["leisure"="dog_park"]' + around + ';way["leisure"="dog_park"]' + around
+        + ';node["shop"="pet"]' + around + ';node["amenity"="animal_boarding"]' + around + ';way["amenity"="animal_boarding"]' + around
+        + ';node["amenity"="cafe"]["dog"="yes"]' + around + ';node["amenity"="restaurant"]["dog"="yes"]' + around + ");out center 60;";
+      out.innerHTML = '<p class="status">Searching for vets and pet-friendly places near ' + esc(town) + "…</p>";
+      fetch("https://overpass-api.de/api/interpreter?data=" + encodeURIComponent(q))
+        .then(function (r) { return r.json(); })
+        .then(function (j) {
+          var els = (j && j.elements) || [];
+          var results = [];
+          els.forEach(function (el) {
+            var tags = el.tags || {};
+            var name = tags.name;
+            if (!name) return;
+            var cat = "Other";
+            if (tags.amenity === "veterinary") cat = "Vet";
+            else if (tags.leisure === "dog_park") cat = "Dog park";
+            else if (tags.shop === "pet") cat = "Pet shop";
+            else if (tags.amenity === "animal_boarding") cat = "Boarding";
+            else if ((tags.amenity === "cafe" || tags.amenity === "restaurant") && tags.dog === "yes") cat = "Pet-friendly cafe";
+            var lat = el.lat != null ? el.lat : (el.center && el.center.lat);
+            var lon = el.lon != null ? el.lon : (el.center && el.center.lon);
+            if (lat == null || lon == null) return;
+            var addr = [tags["addr:housenumber"], tags["addr:street"]].filter(Boolean).join(" ") || (tags["addr:suburb"] || tags["addr:city"] || "");
+            results.push({ name: name, category: cat, lat: lat, lon: lon, address: addr });
+          });
+          var seen = {};
+          results = results.filter(function (r) { var k = r.name + "|" + r.category; if (seen[k]) return false; seen[k] = true; return true; });
+          if (!results.length) { out.innerHTML = '<p class="status">Nothing listed near "' + esc(town) + '" in the free map data yet. Try a bigger nearby town, or pin a place yourself below.</p>'; return; }
+          searchResults = results;
+          var html = '<p style="margin-top:10px;"><b>' + results.length + ' place' + (results.length === 1 ? "" : "s") + ' near ' + esc(town) + ':</b></p>';
+          results.forEach(function (r, i) {
+            html += '<div class="pick"><b>' + esc(r.name) + '</b> <span class="when">' + esc(r.category) + '</span>' + (r.address ? '<br><span style="color:#5b7d89;">' + esc(r.address) + '</span>' : '') + '<br><button type="button" class="btn" data-pinres="' + i + '" style="margin-top:6px;">📌 Pin it</button></div>';
+          });
+          html += '<p class="status">Pins come from OpenStreetMap, the free map — a place may be missing or out of date. Tap 📌 Pin it to keep one in your saved places.</p>';
+          out.innerHTML = html;
+          results.forEach(function (r) { addPin(r.lat, r.lon, "<b>" + esc(r.name) + "</b><br>" + esc(r.category) + " · near " + esc(town), "#c9a227", "search"); });
+        })
+        .catch(function () { out.innerHTML = '<p class="status">That search hiccuped. Check your connection and try again.</p>'; });
+    });
+  });
+  /* ---------- pin a search result / fly to a place / delete a place ---------- */
+  document.addEventListener("click", function (e) {
+    var b = e.target.closest ? e.target.closest("[data-pinres]") : null;
+    if (b) {
+      var r = searchResults[+b.getAttribute("data-pinres")];
+      if (!r) return;
+      if (places.some(function (p) { return p.name === r.name && p.category === r.category; })) { b.textContent = "Already pinned ✓"; return; }
+      places.push({ id: uid(), name: r.name, category: r.category, address: r.address || "", note: "", lat: r.lat, lon: r.lon, updatedAt: Date.now() });
+      savePlaces(); placeAll(); renderList();
+      b.textContent = "Pinned ✓";
+      return;
+    }
+    var fly = e.target.closest ? e.target.closest("[data-fly]") : null;
+    if (fly) {
+      var p = places.filter(function (x) { return x.id === fly.getAttribute("data-fly"); })[0];
+      if (p && p.lat != null && map) map.flyTo([p.lat, p.lon], 14);
+      return;
+    }
+    var del = e.target.closest ? e.target.closest("[data-delplace]") : null;
+    if (del) {
+      places = places.filter(function (x) { return x.id !== del.getAttribute("data-delplace"); });
+      savePlaces(); placeAll(); renderList();
+      return;
+    }
+  });
+  /* ---------- pin a place you add ---------- */
+  document.getElementById("addbtn").addEventListener("click", function () {
+    var name = document.getElementById("addname").value.trim();
+    var cat = document.getElementById("addcat").value;
+    var town = document.getElementById("addtown").value.trim();
+    var note = document.getElementById("addnote").value.trim();
+    var stat = document.getElementById("addstat");
+    if (!name) { stat.textContent = "Give the place a name first."; return; }
+    stat.textContent = "Pinning it…";
+    geocode(town ? (name + ", " + town) : name).then(function (g) {
+      if (!g && town) return geocode(name);
+      return g;
+    }).then(function (g) {
+      places.push({ id: uid(), name: name, category: cat, address: town, note: note, lat: g ? g.lat : null, lon: g ? g.lon : null, updatedAt: Date.now() });
+      savePlaces(); placeAll(); renderList();
+      document.getElementById("addname").value = ""; document.getElementById("addtown").value = ""; document.getElementById("addnote").value = "";
+      stat.textContent = g ? "Pinned! It is in your saved places now." : "Saved in your list — the map lookup could not pin it yet, but it is still listed below.";
+      if (g && map) map.flyTo([g.lat, g.lon], 14);
+    });
+  });
+  window.TYDMapMergePetPlaces = function (remote) {
+    if (!Array.isArray(remote) || !remote.length) return;
+    var byId = {};
+    places.forEach(function (p) { byId[p.id] = p; });
+    var changed = false;
+    remote.forEach(function (p) { if (p && p.id && !byId[p.id]) { places.push(p); changed = true; } });
+    if (changed) { savePlaces(); placeAll(); renderList(); }
+  };
+  placeAll();
+  renderList();
+})();
+</script>
+<script type="module">
+  import { initializeApp, getApps, getApp } from "./pond-firebase-stub.js";
+  import { getAuth, onAuthStateChanged } from "./pond-firebase-stub.js";
+  import { getFirestore, doc, getDoc, setDoc } from "./pond-firebase-stub.js";
+  var firebaseConfig = { apiKey: "preview-disabled", authDomain: "pond-preview-disabled.firebaseapp.com", projectId: "pond-preview-disabled", storageBucket: "pond-preview-disabled.firebasestorage.app", messagingSenderId: "000000000000", appId: "1:000000000000:web:previewdisabled" };
+  var app3 = getApps().length ? getApp() : initializeApp(firebaseConfig);
+  var auth3 = getAuth(app3), db3 = getFirestore(app3);
+  var mUid = null;
+  window.TYDMapSavePetPlaces = function (places) { if (!mUid) return; setDoc(doc(db3, "users", mUid), { petPlaces: places }, { merge: true }).catch(function () {}); };
+  onAuthStateChanged(auth3, function (user) {
+    if (!user) { mUid = null; return; }
+    mUid = user.uid;
+    getDoc(doc(db3, "users", user.uid)).then(function (snap) {
+      if (snap.exists() && window.TYDMapMergePetPlaces) window.TYDMapMergePetPlaces(snap.data().petPlaces);
+    }).catch(function () {});
+  });
+</script>
+<script type="module" src="auth-pill.js"></script>
+<script src="site-nav.js?v=372"></script>
+<script src="pull-refresh.js?v=341"></script>
+
+<script src="pond-staging.js"></script>
+</body>
+</html>

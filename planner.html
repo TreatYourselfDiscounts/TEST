@@ -2,40 +2,1777 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="color-scheme" content="light dark">
+<link rel="manifest" href="manifest.json">
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<link rel="apple-touch-icon" href="apple-touch-icon-v2.png">
+<meta name="theme-color" content="#ffd94d">
+<meta name="description" content="Pond Planner: your private day planner at TreatYourselfDiscounts. Flip day and week pages, draw with your pencil, keep to-dos, notes and reminders next to your meal plan.">
+<meta property="og:title" content="Pond Planner | TreatYourselfDiscounts">
+<meta property="og:description" content="Pond Planner: your private day planner at TreatYourselfDiscounts. Flip day and week pages, draw with your pencil, keep to-dos, notes and reminders next to your meal plan.">
+<meta property="og:image" content="/icon-512.png">
+<meta property="og:url" content="/planner">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Pond Planner | TreatYourselfDiscounts">
+<meta name="twitter:description" content="Pond Planner: your private day planner at TreatYourselfDiscounts. Flip day and week pages, draw with your pencil, keep to-dos, notes and reminders next to your meal plan.">
+<meta name="twitter:image" content="/icon-512.png">
 <title>Pond Planner | TreatYourselfDiscounts</title>
-<meta name="description" content="Your day, week and notes in one place.">
-<link rel="stylesheet" href="style.css">
-</head>
-<body data-page="planner" id="top">
-<header class="site-header"><div class="header-inner"><a class="brand" href="index.html">TreatYourselfDiscounts<small>Welcome to the Pond!</small></a><button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="main-nav-list">Menu</button><nav class="main-nav" aria-label="Main navigation"><ul id="main-nav-list"><li><a href="index.html">Home</a></li><li><a href="deals.html">Today's Deals</a></li><li><a href="recipes.html">Lucy's Recipes</a></li><li><a href="korean.html">Korean Corner</a></li><li><a href="travel.html">Travel</a></li><li><a href="planner.html" aria-current="page">Planner</a></li><li><a href="books.html">Book Nook</a></li><li><a href="pantry.html">Pantry</a></li><li><a href="countdowns.html">Countdowns</a></li><li><a href="news.html">Pond Post</a></li><li><a href="about.html">About</a></li><li><a href="search.html">Search</a></li></ul></nav></div></header>
-<main class="wrap">
-<h1>Pond Planner</h1>
-<p>Your day, week and notes in one place.</p>
-<p><strong>Sunday, November 15, 2026</strong></p>
-<section class="card"><h2>Add an event</h2>
-<form id="event-form"><label for="event-title">Event</label><input id="event-title" required placeholder="e.g. Birthday lunch"><label for="event-date">Date</label><input id="event-date" type="date" value="2026-11-15"><p><button class="btn" type="submit">Add event</button></p></form>
-<ul class="plain-list" id="event-list"></ul><p id="event-empty" class="muted">No events yet — add your first one above.</p></section>
-<section class="card"><h2>Quick note</h2>
-<form id="note-form"><label for="note-text">Write a quick note</label><input id="note-text" required placeholder="Write a quick note"><p><button class="btn" type="submit">Add note</button></p></form>
-<ul class="plain-list" id="note-list"></ul><p id="note-empty" class="muted">No notes yet — write your first one above.</p></section>
-<section class="card"><h2>This week's checklist — November 15 to 21</h2>
-<form id="task-form"><label for="task-text">Add a task</label><input id="task-text" required placeholder="e.g. Buy birthday gift"><p><button class="btn" type="submit">Add task</button></p></form>
-<ul class="plain-list" id="task-list"></ul><p id="task-empty" class="muted">No checklist items yet — add your first task above.</p></section>
-<section class="card"><h2>Draw</h2><p>Your doodle pad — draw anything you like.</p>
-<canvas id="doodle" width="560" height="300" aria-label="Doodle pad"></canvas>
-<p><button class="btn btn-secondary" type="button" data-pen="#0f766e" data-size="4">Pen</button> <button class="btn btn-secondary" type="button" data-pen="#0f766e" data-size="12">Marker</button> <button class="btn btn-secondary" type="button" data-pen="#e11d48" data-size="8">Brush</button> <button class="btn btn-secondary" type="button" data-pen="#f59e0b" data-size="8">Rainbow</button> <button class="btn btn-secondary" type="button" data-pen="#ffffff" data-size="20">Eraser</button> <button class="btn btn-secondary" type="button" id="doodle-undo">Undo (clear)</button> <button class="btn btn-secondary" type="button" id="doodle-clear">Clear</button> <button class="btn" type="button" id="doodle-save">Save drawing</button></p></section>
-<section class="card"><h2>Lucky Duck</h2><p>Tap the duck for a surprise.</p><p><button class="btn btn-yellow" id="lucky-duck" type="button">Roll the dice</button></p><p id="lucky-msg"></p></section>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #d9f0f7; color: #23414d; }
+  .app { max-width: 760px; margin: 0 auto; min-height: 100vh; background: #bfe6f2; box-shadow: 0 0 24px rgba(35,65,77,.12); padding: 16px 16px 40px; }
+  a.back { color: #1f5f74; font-weight: 700; text-decoration: none; font-size: 14px; }
+  header.top { text-align: center; margin: 10px 0 4px; }
+  header.top img.duck { width: 76px; height: 76px; border-radius: 50%; border: 3px solid #ffd94d; background: #ffd94d; }
+  h1 { margin: 6px 0 0; font-size: 30px; color: #1f5f74; }
+  .sub { margin: 6px 0 0; color: #3f6b7a; font-size: 15px; line-height: 1.5; }
+  .card { background: #fff; border-radius: 18px; padding: 16px 18px; margin: 14px 0; box-shadow: 0 2px 8px rgba(35,65,77,.08); }
+  .card h2 { margin: 0 0 8px; font-size: 20px; color: #1f5f74; }
+  .card p { margin: 6px 0; font-size: 14.5px; line-height: 1.5; }
+  label { display: block; font-size: 13px; font-weight: 700; color: #1f5f74; margin: 10px 0 4px; }
+  input, select, textarea { width: 100%; border: 2px solid #bcd9e4; border-radius: 12px; padding: 10px 12px; font-size: 15px; font-family: inherit; color: #23414d; background: #fbfdfe; }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: #1f5f74; }
+  input[type="checkbox"] { width: auto; accent-color: #1f5f74; }
+  .btn { display: inline-block; border: none; cursor: pointer; font-family: inherit; font-weight: 800; font-size: 14.5px; border-radius: 999px; padding: 10px 18px; margin: 4px 4px 4px 0; }
+  .btn-main { background: #1f5f74; color: #fff; }
+  .btn-alt { background: #ffd94d; color: #6b5900; border: 2px solid #f0c93e; }
+  .btn-ghost { background: #eaf7fb; color: #1f5f74; border: 2px solid #bcd9e4; }
+  .syncnote { font-size: 13px; color: #3f6b7a; text-align: center; margin: 8px 0 0; line-height: 1.5; }
+  .syncnote a { color: #1f5f74; font-weight: 800; }
+  footer { margin-top: 26px; text-align: center; }
+  .disc { font-size: 12px; color: #5b7d89; line-height: 1.5; max-width: 560px; margin: 10px auto 0; }
+  .iconbtn { border: 2px solid #bcd9e4; background: #eaf7fb; border-radius: 999px; padding: 5px 11px; font-size: 12.5px; font-weight: 700; cursor: pointer; font-family: inherit; color: #1f5f74; flex: none; }
+  .iconbtn.del { background: #fdecec; border-color: #f2c1c1; color: #8c2b2b; }
 
-</main>
-<footer class="site-footer"><div class="footer-inner">
-<p><strong>TreatYourselfDiscounts</strong> — Feather your nest, happy hunting!</p>
-<ul>
-<li><a href="about.html">About the Pond</a></li><li><a href="deals.html">Today's Deals</a></li><li><a href="recipes.html">Lucy's Recipes</a></li><li><a href="korean.html">Korean Corner</a></li><li><a href="travel.html">Travel</a></li><li><a href="planner.html">Planner</a></li><li><a href="books.html">Book Nook</a></li><li><a href="pantry.html">Pantry</a></li><li><a href="countdowns.html">Countdowns</a></li><li><a href="news.html">Pond Post</a></li><li><a href="search.html">Search the Pond</a></li>
-</ul>
-<p>Some links on this page are affiliate links. If you shop through them, I may earn a small commission. It never costs you extra, and it keeps the Pond swimming.</p>
-<p>© 2026 TreatYourselfDiscounts™. All rights reserved.</p>
-</div></footer>
-<script src="app.js"></script>
+  /* ---- planner sheet (the book page) ---- */
+  .sheetwrap { perspective: 1400px; margin-top: 14px; }
+  .sheet { background: #fff; border-radius: 18px; box-shadow: 0 4px 16px rgba(35,65,77,.14); padding: 18px; transform-origin: left center;
+    background-image: repeating-linear-gradient(to bottom, rgba(255,255,255,0) 0, rgba(255,255,255,0) 27px, rgba(31,95,116,.08) 28px); }
+  .sheet.flipanim { animation: pageflip .46s ease; }
+  @keyframes pageflip { 0% { transform: rotateY(0deg); opacity: 1; } 45% { transform: rotateY(-72deg); opacity: .3; } 55% { transform: rotateY(72deg); opacity: .3; } 100% { transform: rotateY(0deg); opacity: 1; } }
+  html[data-theme="dark"] .sheet { background-color: #172635; background-image: repeating-linear-gradient(to bottom, rgba(255,255,255,0) 0, rgba(255,255,255,0) 27px, rgba(255,255,255,.06) 28px); }
+  .daynav { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+  .daynav h2 { flex: 1; margin: 0; font-size: 21px; color: #1f5f74; text-align: center; line-height: 1.25; }
+  html[data-theme="dark"] .daynav h2, html[data-theme="dark"] #week-heading { color: #c9f0fc !important; }
+  html[data-theme="dark"] .block h3 { color: #c9f0fc !important; }
+  .daynav .navbtn { flex: none; width: 42px; height: 42px; border-radius: 50%; border: 2px solid #e8b93c; background: #ffd94d; color: #6b5900; font-size: 19px; font-weight: 800; cursor: pointer; font-family: inherit; box-shadow: 0 2px 6px rgba(35,65,77,.15); }
+  .todaychip { display: inline-block; background: #fff3b0; color: #6b5900; font-weight: 800; font-size: 11.5px; border-radius: 999px; padding: 2px 9px; vertical-align: 3px; margin-left: 6px; }
+  .block { border-top: 1.5px dashed #d7e6ec; padding-top: 12px; margin-top: 14px; }
+  .block:first-of-type { border-top: none; margin-top: 4px; }
+  .block h3 { margin: 0 0 8px; font-size: 16.5px; color: #1f5f74; }
+  .block .hint { font-size: 13px; color: #3f6b7a; line-height: 1.5; margin: 4px 0; }
+  .block .hint a, .mealitem a { color: #1f5f74; font-weight: 700; }
+  .mealitem { font-size: 15px; padding: 5px 0; }
+  .gcal { font-size: 12.5px; font-weight: 700; white-space: nowrap; }
+  .todoitem, .remitem { display: flex; gap: 9px; align-items: flex-start; padding: 7px 0; border-bottom: 1px solid #e3eff4; font-size: 14.5px; }
+  .todoitem:last-child, .remitem:last-child { border-bottom: none; }
+  .todoitem .grow, .remitem .grow { flex: 1; min-width: 0; line-height: 1.45; }
+  .todoitem input[type="checkbox"] { width: 19px; height: 19px; margin-top: 1px; flex: none; }
+  .done-txt { text-decoration: line-through; color: #5b7d89; }
+  .addrow { display: flex; gap: 8px; margin-top: 10px; }
+  .addrow input { flex: 1; min-width: 0; }
+  .addrow .btn { margin: 0; flex: none; }
+  .remform { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+  .remform input[type="text"] { flex: 2; min-width: 150px; }
+  .remform input[type="date"] { flex: 1; min-width: 130px; }
+  .remform input[type="time"] { flex: 1; min-width: 105px; }
+  .remform .btn { margin: 0; }
+  @media (max-width: 560px) { .remform input[type="text"], .remform input[type="date"], .remform input[type="time"] { flex: 1 1 100%; min-width: 0; } }
+  .remwhen { font-size: 12.5px; color: #3f6b7a; font-weight: 700; }
+  canvas.pad { width: 100%; height: auto; display: block; border: 2px solid #bcd9e4; border-radius: 12px; background: #fff; touch-action: none; }
+  .padtools { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin: 10px 0 8px; }
+  .sw { width: 30px; height: 30px; border-radius: 50%; border: 2.5px solid #bcd9e4; cursor: pointer; padding: 0; flex: none; }
+  .sw.on { border-color: #1f5f74; transform: scale(1.14); }
+  .toolbtn { border: 2px solid #bcd9e4; background: #eaf7fb; color: #1f5f74; font-family: inherit; font-weight: 700; font-size: 12.5px; border-radius: 999px; padding: 6px 11px; cursor: pointer; }
+  .toolbtn.on { background: #ffd94d; border-color: #f0c93e; color: #6b5900; }
+  .padnote { font-size: 12px; color: #5b7d89; margin: 6px 0 0; }
+  .saveday { display: block; width: 100%; padding: 14px; border-radius: 14px; border: 2px solid #e8c93c; background: #ffe066; font-size: 16px; font-weight: 800; color: #4a3b00; cursor: pointer; }
+
+  /* ---- planner app bar (Lucy, Nov 14, 2026): the Planner should feel
+     like a planner app, so the views sit in a tab bar at the top and a
+     quick add drops a reminder or to-do on any date without opening
+     the day page first. ---- */
+  .ptabs { display: flex; gap: 6px; margin: 4px 0 10px; overflow-x: auto; }
+  .ptabs a { flex: 1; min-width: 0; text-align: center; text-decoration: none; font-weight: 800; font-size: 13.5px; color: #1f5f74; background: #eaf6fa; border: 2px solid #bcd9e4; border-radius: 999px; padding: 8px 4px; white-space: nowrap; }
+  .ptabs a.on { background: #ffd94d; border-color: #e8b93c; color: #6b5900; }
+  .pquick { display: flex; gap: 8px; flex-wrap: wrap; margin: 0 0 4px; }
+  .pquick input[type="text"] { flex: 2; min-width: 160px; }
+  .pquick input[type="date"] { flex: 1; min-width: 135px; }
+  .pquick select { flex: none; font: inherit; font-size: 14px; font-weight: 700; color: #1f5f74; border: 2px solid #bcd9e4; border-radius: 10px; padding: 8px; background: #fff; }
+  .pquick .btn { margin: 0; flex: none; }
+  /* Phone (Lucy, Nov 14, 2026): the Add button wrapped onto its own
+     line and stuck out alone. The text box takes its own row, and the
+     date, kind and Add share the next row so nothing sits by itself. */
+  @media (max-width: 560px) {
+    .pquick input[type="text"] { flex: 1 1 100%; min-width: 0; }
+    .pquick input[type="date"] { flex: 1 1 auto; min-width: 0; }
+    /* Phone (Lucy, Nov 15, 2026): all six tabs (Day, Week, Month, Year,
+       Notes, Sales) must fit without scrolling, so the last one is not
+       clipped off the right edge. Smaller text and tighter gaps. */
+    .ptabs { gap: 4px; }
+    .ptabs a { font-size: 12px; padding: 7px 2px; }
+    /* Phone (Lucy, Nov 15, 2026): the floating Hide pill sits fixed at
+       the bottom right and covered the next-day arrow. Give the date
+       navs right-side clearance so the > button stays tappable. */
+    .daynav { padding-right: 56px; }
+  }
+  .pquick-status { font-size: 12.5px; color: #3f6b7a; font-weight: 700; margin: 2px 0 10px; min-height: 16px; }
+  .gotodate { font: inherit; font-size: 14px; padding: 7px 8px; border: 2px solid #bcd9e4; border-radius: 999px; margin-left: 6px; vertical-align: middle; background: #fff; color: #1f5f74; }
+  html[data-theme="dark"] .ptabs a { background: var(--tyd-acc-dark, #172635) !important; border-color: #2e4a5f !important; color: #c9f0fc !important; }
+  html[data-theme="dark"] .ptabs a.on { background: #ffd94d !important; border-color: #e8b93c !important; color: #6b5900 !important; }
+  /* Sales calendar (Lucy, Nov 14, 2026): two-column form rows and sale rows. */
+  .prow2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  @media (max-width: 480px) { .prow2 { grid-template-columns: 1fr; } }
+  .sav-row { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border: 1.5px solid #d9edf4; border-radius: 12px; margin-bottom: 8px; background: #fff; }
+  .sav-row .sinfo { flex: 1; min-width: 0; }
+  .sav-row .sname { font-weight: 800; font-size: 14.5px; color: #1f5f74; }
+  .sav-row .smeta { font-size: 12.5px; color: #4a6b78; margin-top: 2px; }
+  .sav-row .sdel { background: none; border: none; color: #b04a4a; font-size: 16px; cursor: pointer; padding: 4px; flex: none; }
+  html[data-theme="dark"] .sav-row { background: #101e2c; border-color: #2e4a5f; }
+  html[data-theme="dark"] .sav-row .sname { color: #eefaff; }
+  html[data-theme="dark"] .sav-row .smeta { color: #bcd6e4; }
+  html[data-theme="dark"] .pquick select, html[data-theme="dark"] .gotodate { background: var(--tyd-acc-dark, #172635) !important; border-color: #2e4a5f !important; color: #f8fdff !important; }
+  html[data-theme="dark"] .pquick-status { color: #bcd6e4 !important; }
+
+  /* ---- week view ---- */
+  .wgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(158px, 1fr)); gap: 10px; margin-top: 12px; }
+  .wday { text-align: left; background: #fff; border: 2px solid #bcd9e4; border-radius: 16px; padding: 12px; cursor: pointer; font-family: inherit; color: #23414d; box-shadow: 0 2px 8px rgba(35,65,77,.08); width: 100%; }
+  .wday.today { outline: 3px solid #ffd94d; }
+  .wday .wdow { font-size: 12px; font-weight: 800; color: #5b7d89; text-transform: uppercase; letter-spacing: .4px; }
+  .wday .wnum { font-size: 24px; font-weight: 800; color: #1f5f74; line-height: 1.15; }
+  .wday .wmeal { font-size: 13px; font-weight: 700; margin-top: 5px; line-height: 1.4; }
+  .wday .wmeta { font-size: 12px; color: #3f6b7a; margin-top: 4px; line-height: 1.45; }
+  html[data-theme="dark"] .wday { background: var(--tyd-acc-dark, #172635) !important; border-color: #2e4a5f !important; color: #f8fdff !important; }
+  html[data-theme="dark"] .wday .wnum { color: #c9f0fc !important; }
+  html[data-theme="dark"] .wday .wmeta, html[data-theme="dark"] .wday .wdow { color: #bcd6e4 !important; }
+
+  /* ---- month view (Lucy, Nov 14, 2026): flip through the year by
+     months. Dots under a day mean something is on it: teal reminder,
+     green to-do, orange meal, gold code expiring. ---- */
+  .mgrid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-top: 12px; }
+  .mdow { text-align: center; font-size: 11.5px; font-weight: 800; color: #5b7d89; text-transform: uppercase; letter-spacing: .4px; padding: 2px 0; }
+  .mday { background: #fff; border: 2px solid #bcd9e4; border-radius: 12px; padding: 7px 2px 6px; cursor: pointer; font-family: inherit; color: #23414d; min-height: 52px; display: flex; flex-direction: column; align-items: center; gap: 3px; }
+  .mday .mnum { font-size: 16px; font-weight: 800; color: #1f5f74; line-height: 1.1; }
+  .mday.today { outline: 3px solid #ffd94d; }
+  .mday.other { opacity: .45; }
+  .mdots { display: flex; gap: 3px; min-height: 7px; align-items: center; }
+  .mdot { width: 7px; height: 7px; border-radius: 50%; flex: none; }
+  .mdot.rem { background: #1f5f74; } .mdot.todo { background: #3d9970; } .mdot.meal { background: #e8873a; } .mdot.code { background: #e6b800; }
+  .mlegend { font-size: 12.5px; color: #3f6b7a; margin: 10px 2px 0; line-height: 1.6; }
+  .mlegend .mdot { display: inline-block; vertical-align: -1px; margin: 0 2px 0 8px; }
+  html[data-theme="dark"] .mday { background: var(--tyd-acc-dark, #172635) !important; border-color: #2e4a5f !important; color: #f8fdff !important; }
+  html[data-theme="dark"] .mday .mnum { color: #c9f0fc !important; }
+  html[data-theme="dark"] .mdow, html[data-theme="dark"] .mlegend { color: #bcd6e4 !important; }
+  html[data-theme="dark"] .mdot.rem { background: #7cc4dc; }
+
+  /* ---- year view: twelve mini months. Tap a month to open it, or a
+     day to open its page. ---- */
+  .ygrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; margin-top: 12px; }
+  .ymini { background: #fff; border: 2px solid #bcd9e4; border-radius: 14px; padding: 10px; }
+  .ymini h3 { margin: 0 0 6px; font-size: 15px; color: #1f5f74; text-align: center; }
+  .ymini h3 button { background: none; border: none; font: inherit; font-weight: 800; color: inherit; cursor: pointer; padding: 2px 6px; }
+  .ymgrid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+  .ymday { background: none; border: none; font: inherit; font-size: 11px; color: #23414d; padding: 2px 0; cursor: pointer; border-radius: 6px; position: relative; }
+  .ymday.today { outline: 2px solid #ffd94d; font-weight: 800; }
+  .ymday.has { font-weight: 800; color: #1f5f74; }
+  .ymday.has::after { content: ""; position: absolute; left: 50%; bottom: 0; transform: translateX(-50%); width: 4px; height: 4px; border-radius: 50%; background: #e6b800; }
+  .ymday.blank { cursor: default; }
+  html[data-theme="dark"] .ymini { background: var(--tyd-acc-dark, #172635) !important; border-color: #2e4a5f !important; }
+  html[data-theme="dark"] .ymini h3 { color: #c9f0fc !important; }
+  html[data-theme="dark"] .ymday { color: #f8fdff !important; }
+  html[data-theme="dark"] .ymday.has { color: #c9f0fc !important; }
+
+  /* ---- clipped codes (Lucy, Nov 14, 2026): the codes a member
+     clipped, with the expiry date that puts each one on the calendar
+     and the notify switch for the bell nudge. ---- */
+  .coderow { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding: 10px 0; border-bottom: 1px solid #e3eff4; font-size: 14.5px; }
+  .coderow:last-child { border-bottom: none; }
+  .coderow .grow { flex: 1; min-width: 120px; line-height: 1.45; }
+  .coderow input[type="date"] { font: inherit; font-size: 14px; padding: 6px 8px; border: 2px solid #bcd9e4; border-radius: 10px; height: 33px; }
+  .coderow label { font-size: 12.5px; font-weight: 700; color: #3f6b7a; display: flex; gap: 5px; align-items: center; }
+  .codex { background: none; border: none; color: #1f5f74; font-weight: 800; cursor: pointer; font-size: 16px; padding: 4px 6px; }
+  html[data-theme="dark"] .coderow label { color: #bcd6e4 !important; }
+
+  /* ---- notes view ---- */
+  .noterow { display: block; width: 100%; text-align: left; background: #fff; border: 2px solid #bcd9e4; border-radius: 14px; padding: 11px 13px; margin: 8px 0; cursor: pointer; font-family: inherit; color: #23414d; font-size: 14.5px; line-height: 1.45; }
+  .noterow b { color: #1f5f74; display: block; font-size: 13.5px; }
+  html[data-theme="dark"] .noterow { background: var(--tyd-acc-dark, #172635) !important; border-color: #2e4a5f !important; color: #f8fdff !important; }
+  html[data-theme="dark"] .noterow b { color: #c9f0fc !important; }
+  .emptybox { text-align: center; padding: 20px 14px; }
+  .emptybox p { color: #3f6b7a; font-size: 15px; line-height: 1.55; }
+</style>
+<script type="module" src="auth-pill.js"></script>
+<meta name="robots" content="noindex,nofollow">
+<link rel="stylesheet" href="pond-travel.css">
+<script>window.__TYD_PREVIEW__=true;</script>
+</head>
+<body>
+<div class="app">
+
+  <header class="top">
+    <img class="duck" src="images/avatars/duck-artist.jpg" onerror="this.onerror=null;this.src='icon-512.png';" alt="The Pond duck">
+    <h1>📒 Pond Planner</h1>
+    <p class="sub">Your own planner book in the Pond: flip the pages, draw with your pencil, and keep your days, meals and reminders in one nest.</p>
+    <p class="syncnote" id="sync-note">Your planner is saved on this device. <a href="account.html">Sign in to sync your planner</a> across your devices.</p>
+  </header>
+  <p class="howto-note" style="font-size:13px;color:#4a6b78;margin:0 0 12px;">📒 Your planner book in the Pond. Flip between Day, Week, Month, Year and Notes at the top, and use Quick add to drop a reminder or to-do on any date.</p>
+
+  <div class="ptabs" role="tablist" aria-label="Planner views">
+    <a href="#day" data-ptab="day" role="tab">📖 Day</a>
+    <a href="#week" data-ptab="week" role="tab">🗓️ Week</a>
+    <a href="#month" data-ptab="month" role="tab">📅 Month</a>
+    <a href="#year" data-ptab="year" role="tab">📆 Year</a>
+    <a href="#notes" data-ptab="notes" role="tab">📝 Notes</a>
+    <a href="#sales" data-ptab="sales" role="tab">🏷️ Sales</a>
+  </div>
+  <div class="pquick">
+    <input type="text" id="quick-text" placeholder="Quick add: Water the plants…" autocomplete="off">
+    <input type="date" id="quick-date" aria-label="Date for the quick add">
+    <select id="quick-kind" aria-label="What to add">
+      <option value="reminder">⏰ Reminder</option>
+      <option value="todo">✅ To-do</option>
+    </select>
+    <button type="button" class="btn btn-main" id="quick-add">Add</button>
+  </div>
+  <p class="pquick-status" id="quick-status"></p>
+
+  <!-- DAY VIEW -->
+  <section id="view-day">
+    <div class="sheetwrap">
+      <div class="sheet" id="sheet">
+        <div class="daynav">
+          <button type="button" class="navbtn" id="day-prev" aria-label="Previous day">&#8249;</button>
+          <h2 id="day-heading">Today</h2>
+          <button type="button" class="navbtn" id="day-next" aria-label="Next day">&#8250;</button>
+        </div>
+        <div style="text-align:center;"><button type="button" class="iconbtn" id="day-today">Jump to today</button></div>
+
+        <div class="block">
+          <h3>🍽️ Meal plan</h3>
+          <div id="day-meal"></div>
+        </div>
+
+        <div class="block">
+          <h3>✅ To-dos</h3>
+          <div id="day-todos"></div>
+          <div class="addrow">
+            <input type="text" id="todo-text" placeholder="Add a to-do for this day…" autocomplete="off">
+            <button type="button" class="btn btn-main" id="todo-add">Add</button>
+          </div>
+        </div>
+
+        <div class="block">
+          <h3>⏰ Reminders</h3>
+          <div id="day-reminders"></div>
+          <div class="remform">
+            <input type="text" id="rem-title" placeholder="Reminder, like: Water the plants" autocomplete="off">
+            <input type="date" id="rem-date">
+            <input type="time" id="rem-time" aria-label="Time (optional)">
+            <button type="button" class="btn btn-alt" id="rem-add">Add reminder</button>
+          </div>
+        </div>
+
+        <div class="block">
+          <h3>📅 Put this day on your calendar</h3>
+          <p class="hint">One calendar file with this day's reminders, to-dos and meals. Apple Calendar and Outlook open it right up. Google Calendar takes it too: Settings, then Import &amp; export, then Import. Each reminder above also has its own one-tap Google link.</p>
+          <button type="button" class="btn btn-alt" id="day-ics">📅 Download this day (.ics)</button>
+          <div style="margin-top:12px;border-top:1.5px solid #d9edf4;padding-top:10px;">
+          <p class="hint"><b>Or go live with Google Calendar:</b> connect your Google account and reminders you add here appear on your Google Calendar (deletes included), and your Google events show on each day page. A Google connection lasts about an hour at a time; tap Connect again when one runs out.</p>
+          <button type="button" class="btn btn-main" id="gcal-connect">Connect Google Calendar</button>
+          <button type="button" class="btn btn-alt" id="gcal-pushall" style="display:none;">Push all my reminders to Google</button>
+          <button type="button" id="gcal-disconnect" style="display:none;background:none;border:none;color:#1f5f74;font-weight:700;cursor:pointer;font:inherit;padding:8px 4px;">Disconnect</button>
+          <p class="hint" id="gcal-status"></p>
+          <div id="gcal-events"></div>
+          </div>
+        </div>
+
+        <div class="block">
+          <h3>📝 Notes</h3>
+          <textarea id="day-note" rows="4" placeholder="Notes for this day…"></textarea>
+        </div>
+
+        <div class="block">
+          <h3>🎨 Drawing page</h3>
+          <div class="padtools" id="day-padtools"></div>
+          <canvas class="pad" id="day-pad" width="1000" height="560"></canvas>
+          <p class="padnote">Drawings save on this device and to your Pond Account when you're signed in.</p>
+        </div>
+
+        <div class="block">
+          <button type="button" class="saveday" id="save-day">💾 Save this day's entry</button>
+          <p class="padnote" id="save-day-status">One tap saves the whole day at once: to-dos, reminders, notes and your drawing.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WEEK VIEW -->
+  <section id="view-week" style="display:none;">
+    <div class="sheetwrap">
+      <div class="sheet" id="weeksheet">
+        <div class="daynav">
+          <button type="button" class="navbtn" id="week-prev" aria-label="Previous week">&#8249;</button>
+          <h2 id="week-heading">This week</h2>
+          <button type="button" class="navbtn" id="week-next" aria-label="Next week">&#8250;</button>
+        </div>
+        <div class="wgrid" id="week-grid"></div>
+        <p class="hint" style="font-size:13px; color:#3f6b7a; margin-top:12px;">Tap any day to open its page. 🦆</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- MONTH VIEW -->
+  <section id="view-month" style="display:none;">
+    <div class="sheetwrap">
+      <div class="sheet" id="monthsheet">
+        <div class="daynav">
+          <button type="button" class="navbtn" id="month-prev" aria-label="Previous month">&#8249;</button>
+          <h2 id="month-heading">This month</h2>
+          <button type="button" class="navbtn" id="month-next" aria-label="Next month">&#8250;</button>
+        </div>
+        <div style="text-align:center;"><button type="button" class="iconbtn" id="month-today">Jump to today</button><input type="date" class="gotodate" id="month-goto" aria-label="Go to a date"></div>
+        <div class="mgrid" id="month-grid"></div>
+        <p class="mlegend"><span class="mdot rem"></span> reminder <span class="mdot todo"></span> to-do <span class="mdot meal"></span> meal <span class="mdot code"></span> code expiring</p>
+        <p class="hint" style="font-size:13px; color:#3f6b7a; margin-top:8px;">Tap any day to open its page. 🦆</p>
+      </div>
+    </div>
+    <div class="card" style="margin-top:14px;">
+      <h2>🏷️ Clipped codes</h2>
+      <p style="font-size:14px;color:#4a6b78;">Codes you clipped from the deals. Set the expiry date and the code lands on your calendar that day, with a bell nudge if the notify switch is on.</p>
+      <div id="codes-list"></div>
+    </div>
+  </section>
+
+  <!-- YEAR VIEW -->
+  <section id="view-year" style="display:none;">
+    <div class="sheetwrap">
+      <div class="sheet" id="yearsheet">
+        <div class="daynav">
+          <button type="button" class="navbtn" id="year-prev" aria-label="Previous year">&#8249;</button>
+          <h2 id="year-heading">This year</h2>
+          <button type="button" class="navbtn" id="year-next" aria-label="Next year">&#8250;</button>
+        </div>
+        <div style="text-align:center;"><button type="button" class="iconbtn" id="year-today">Jump to this year</button><input type="date" class="gotodate" id="year-goto" aria-label="Go to a date in another year"></div>
+        <div class="ygrid" id="year-grid"></div>
+        <p class="hint" style="font-size:13px; color:#3f6b7a; margin-top:12px;">Tap a month to open it, or tap a day to open its page. 🦆</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- NOTES VIEW -->
+  <section id="view-notes" style="display:none;">
+    <div class="card">
+      <h2>📝 Scratch notes</h2>
+      <p>One free page for anything at all. It syncs with your Pond Account.</p>
+      <textarea id="scratch-text" rows="5" placeholder="Ideas, lists, little duck thoughts…"></textarea>
+      <h3 style="margin:16px 0 6px; font-size:16px; color:#1f5f74;">🎨 Scratch drawing</h3>
+      <div class="padtools" id="scratch-padtools"></div>
+      <canvas class="pad" id="scratch-pad" width="1000" height="560"></canvas>
+      <p class="padnote">Drawings save on this device and to your Pond Account when you're signed in.</p>
+    </div>
+    <div class="card">
+      <h2>📚 Notes by day</h2>
+      <div id="notes-list"></div>
+    </div>
+  </section>
+
+  <!-- SALES VIEW -->
+  <section id="view-sales" style="display:none;">
+    <div class="card">
+      <h2>🏷️ Upcoming sales</h2>
+      <p>Never miss a big sale again. The Pond's known sale dates live here, and you can add your own. Sales also show up as dots on your Month calendar.</p>
+      <div id="sales-list"></div>
+    </div>
+    <div class="card">
+      <h2>Add a sale</h2>
+      <label for="sale-name">Sale name *</label>
+      <input id="sale-name" type="text" placeholder="Like: Black Friday, Aurzen Black Friday">
+      <div class="prow2">
+        <div>
+          <label for="sale-start">Starts *</label>
+          <input id="sale-start" type="date">
+        </div>
+        <div>
+          <label for="sale-end">Ends</label>
+          <input id="sale-end" type="date">
+        </div>
+      </div>
+      <label for="sale-note">Note</label>
+      <input id="sale-note" type="text" placeholder="Like: ZIP drops to $199.99, SEEQ 30% ends">
+      <p class="err" id="sale-err"></p>
+      <div style="margin-top:10px;">
+        <button type="button" class="btn btn-main" id="sale-add">Add sale</button>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p class="disc">Your planner is private: it lives on your device and, when you sign in, in your own Pond Account. Nobody else in the Pond can see it.</p>
+  </footer>
+</div>
+
+<script>
+(function () {
+  var LS_LOCAL = "tydPlannerLocal", LS_DRAW = "tydPlannerDrawings", LS_MEAL = "tydMealPlan";
+  function $(id) { return document.getElementById(id); }
+  function esc(s) { return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
+  function loadJSON(k, dflt) { try { var v = JSON.parse(localStorage.getItem(k)); return v == null ? dflt : v; } catch (e) { return dflt; } }
+  function saveJSON(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+  function pad2(n) { return ("0" + n).slice(-2); }
+  function isoOf(d) { return d.getFullYear() + "-" + pad2(d.getMonth() + 1) + "-" + pad2(d.getDate()); }
+  function parseISO(s) { return new Date(s + "T12:00:00"); }
+  function todayISO() { return isoOf(new Date()); }
+  function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
+
+  var state = loadJSON(LS_LOCAL, {});
+  if (!state.days || typeof state.days !== "object") state.days = {};
+  if (!Array.isArray(state.reminders)) state.reminders = [];
+  if (typeof state.scratch !== "string") state.scratch = "";
+  var mealPlan = loadJSON(LS_MEAL, {});
+  var drawings = loadJSON(LS_DRAW, {});
+  var LS_DRAWTS = "tydPlannerDrawingsTs";
+  var drawingsTs = loadJSON(LS_DRAWTS, {});
+
+  var viewDate = new Date(); viewDate.setHours(12, 0, 0, 0);
+  var currentView = "day";
+
+  function saveLocal() { saveJSON(LS_LOCAL, state); }
+  function changed() { saveLocal(); if (window.TYDPlannerChanged) window.TYDPlannerChanged(); }
+  function dayData(iso) { return state.days[iso] || { todos: [], note: "" }; }
+  function ensureDay(iso) { if (!state.days[iso]) state.days[iso] = { todos: [], note: "" }; return state.days[iso]; }
+
+  /* ---------- Google Calendar template links (same format as Recipes) ---------- */
+  function gcalMeal(dateISO, name, slug) {
+    var d = dateISO.replace(/-/g, "");
+    var next = parseISO(dateISO); next.setDate(next.getDate() + 1);
+    var nd = isoOf(next).replace(/-/g, "");
+    var url = new URL("recipes.html", location.href).href + "#" + slug;
+    var details = "Recipe: " + url;
+    return "https://calendar.google.com/calendar/render?action=TEMPLATE&text=" + encodeURIComponent("Cook: " + name) + "&dates=" + d + "/" + nd + "&details=" + encodeURIComponent(details);
+  }
+  function gcalReminder(r) {
+    var base = "https://calendar.google.com/calendar/render?action=TEMPLATE&text=" + encodeURIComponent(r.title) + "&details=" + encodeURIComponent("Reminder from your Pond Planner");
+    if (r.time) {
+      var start = r.date.replace(/-/g, "") + "T" + r.time.replace(":", "") + "00";
+      var dt = new Date(r.date + "T" + r.time + ":00"); dt.setHours(dt.getHours() + 1);
+      var end = isoOf(dt).replace(/-/g, "") + "T" + pad2(dt.getHours()) + pad2(dt.getMinutes()) + "00";
+      return base + "&dates=" + start + "/" + end;
+    }
+    var next = parseISO(r.date); next.setDate(next.getDate() + 1);
+    return base + "&dates=" + r.date.replace(/-/g, "") + "/" + isoOf(next).replace(/-/g, "");
+  }
+
+  /* ---------- drawing pads ---------- */
+  function makePad(canvas, toolsEl, keyFn) {
+    var ctx = canvas.getContext("2d");
+    var color = "#1f5f74", size = 4, erase = false, drawing = false, last = null;
+    function paper() { ctx.fillStyle = "#ffffff"; ctx.fillRect(0, 0, canvas.width, canvas.height); }
+    paper();
+    function load() {
+      paper();
+      undoStack = []; redoStack = [];
+      var src = drawings[keyFn()];
+      if (src) {
+        var img = new Image();
+        img.onload = function () { ctx.drawImage(img, 0, 0, canvas.width, canvas.height); };
+        img.src = src;
+      }
+    }
+    function save() {
+      try {
+        var k = keyFn();
+        drawings[k] = canvas.toDataURL("image/jpeg", 0.65);
+        drawingsTs[k] = Date.now();
+        saveJSON(LS_DRAW, drawings); saveJSON(LS_DRAWTS, drawingsTs);
+        if (window.TYDDrawingPush) window.TYDDrawingPush(k, drawings[k], drawingsTs[k]);
+      } catch (e) {}
+    }
+    var undoStack = [], redoStack = [];
+    function snap() { try { return canvas.toDataURL("image/jpeg", 0.85); } catch (e) { return null; } }
+    function pushUndo() { var s = snap(); if (!s) return; undoStack.push(s); if (undoStack.length > 30) undoStack.shift(); redoStack = []; }
+    function restoreFrom(url) {
+      paper();
+      if (!url) { save(); return; }
+      var img = new Image();
+      img.onload = function () { ctx.drawImage(img, 0, 0, canvas.width, canvas.height); save(); };
+      img.src = url;
+    }
+    function doUndo() { if (!undoStack.length) return; var cur = snap(); if (cur) redoStack.push(cur); restoreFrom(undoStack.pop()); }
+    function doRedo() { if (!redoStack.length) return; var cur = snap(); if (cur) undoStack.push(cur); restoreFrom(redoStack.pop()); }
+    function pos(e) {
+      var r = canvas.getBoundingClientRect();
+      return { x: (e.clientX - r.left) * canvas.width / r.width, y: (e.clientY - r.top) * canvas.height / r.height, p: (e.pressure && e.pressure > 0) ? e.pressure : 0.5 };
+    }
+    function stroke(a, b) {
+      ctx.strokeStyle = erase ? "#ffffff" : color;
+      ctx.lineWidth = Math.max(1, size * (erase ? 3 : 1) * (0.45 + b.p));
+      ctx.lineCap = "round"; ctx.lineJoin = "round";
+      ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+    }
+    function dot(p) {
+      ctx.fillStyle = erase ? "#ffffff" : color;
+      ctx.beginPath(); ctx.arc(p.x, p.y, Math.max(0.8, size * (0.45 + p.p) / 2), 0, 7); ctx.fill();
+    }
+    canvas.addEventListener("pointerdown", function (e) {
+      e.preventDefault();
+      try { canvas.setPointerCapture(e.pointerId); } catch (err) {}
+      pushUndo();
+      drawing = true; last = pos(e); dot(last);
+    });
+    canvas.addEventListener("pointermove", function (e) {
+      if (!drawing) return;
+      e.preventDefault();
+      var evs = (e.getCoalescedEvents && e.getCoalescedEvents().length) ? e.getCoalescedEvents() : [e];
+      for (var i = 0; i < evs.length; i++) { var p = pos(evs[i]); stroke(last, p); last = p; }
+    });
+    function end() { if (!drawing) return; drawing = false; save(); }
+    canvas.addEventListener("pointerup", end);
+    canvas.addEventListener("pointercancel", end);
+
+    var COLORS = [["#1f5f74", "Pond teal"], ["#e8a90c", "Duck yellow"], ["#ef7fa8", "Pond pink"], ["#23414d", "Deep pond"], ["#7cb350", "Lily green"]];
+    var html = "";
+    COLORS.forEach(function (c) {
+      html += '<button type="button" class="sw' + (c[0] === color ? " on" : "") + '" data-color="' + c[0] + '" title="' + c[1] + '" aria-label="' + c[1] + '" style="background:' + c[0] + ';"></button>';
+    });
+    html += '<button type="button" class="toolbtn" data-size="2">Fine</button><button type="button" class="toolbtn on" data-size="4">Medium</button><button type="button" class="toolbtn" data-size="8">Bold</button>';
+    html += '<button type="button" class="toolbtn" data-erase="1">Eraser</button>';
+    html += '<button type="button" class="toolbtn" data-undo="1" title="Take back the last stroke">\u21A9 Undo</button><button type="button" class="toolbtn" data-redo="1" title="Put back what Undo took away">\u21AA Redo</button>';
+    html += '<button type="button" class="toolbtn" data-clear="1">Clear page</button>';
+    html += '<button type="button" class="toolbtn" data-save="1" style="background:#ffe066;border-color:#e8c93c;font-weight:800;">\uD83D\uDCBE Save drawing</button>';
+    toolsEl.innerHTML = html;
+    toolsEl.addEventListener("click", function (e) {
+      var b = e.target.closest("button"); if (!b) return;
+      if (b.hasAttribute("data-color")) {
+        color = b.getAttribute("data-color"); erase = false;
+        toolsEl.querySelectorAll(".sw").forEach(function (s) { s.classList.toggle("on", s === b); });
+        toolsEl.querySelectorAll("[data-erase]").forEach(function (s) { s.classList.remove("on"); });
+      } else if (b.hasAttribute("data-size")) {
+        size = parseInt(b.getAttribute("data-size"), 10) || 4;
+        toolsEl.querySelectorAll("[data-size]").forEach(function (s) { s.classList.toggle("on", s === b); });
+      } else if (b.hasAttribute("data-erase")) {
+        erase = !erase; b.classList.toggle("on", erase);
+      } else if (b.hasAttribute("data-undo")) {
+        doUndo();
+      } else if (b.hasAttribute("data-redo")) {
+        doRedo();
+      } else if (b.hasAttribute("data-save")) {
+        save();
+        var oldT = b.textContent;
+        b.textContent = "\u2713 Saved!";
+        setTimeout(function () { b.textContent = oldT; }, 1600);
+      } else if (b.hasAttribute("data-clear")) {
+        pushUndo(); paper(); save();
+      }
+    });
+    return { load: load, key: keyFn, saveNow: save };
+  }
+  var dayPad = makePad($("day-pad"), $("day-padtools"), function () { return isoOf(viewDate); });
+  var scratchPad = makePad($("scratch-pad"), $("scratch-padtools"), function () { return "scratch"; });
+
+  /* ---------- day view ---------- */
+  function mealHtml(iso) {
+    var items = mealPlan[iso] || [];
+    if (!items.length) return '<p class="hint">Nothing planned for this day yet. Plan a meal in <a href="recipes.html">Recipes</a> and it will waddle right onto this page. 🦆</p>';
+    return items.map(function (it) {
+      return '<div class="mealitem">🍽️ <a href="recipes.html#' + esc(it.slug || "") + '">' + esc(it.name || "Recipe") + '</a> · <a class="gcal" href="' + gcalMeal(iso, it.name || "Recipe", it.slug || "") + '" target="_blank" rel="noopener">Add to Google Calendar ›</a></div>';
+    }).join("");
+  }
+  function todosHtml(iso) {
+    var todos = dayData(iso).todos || [];
+    if (!todos.length) return '<p class="hint">No to-dos yet for this day. Add the first one below.</p>';
+    return todos.map(function (t) {
+      return '<div class="todoitem"><input type="checkbox" data-todo="' + esc(t.id) + '"' + (t.done ? " checked" : "") + '><span class="grow' + (t.done ? " done-txt" : "") + '">' + esc(t.text) + '</span><button type="button" class="iconbtn del" data-tododel="' + esc(t.id) + '">✕</button></div>';
+    }).join("");
+  }
+  function remindersHtml(iso) {
+    var rems = state.reminders.filter(function (r) { return r.date === iso; });
+    if (!rems.length) return '<p class="hint">No reminders on this day.</p>';
+    return rems.map(function (r) {
+      return '<div class="remitem"><span class="grow">⏰ <b>' + esc(r.title) + "</b>" + (r.time ? ' <span class="remwhen">at ' + esc(r.time) + "</span>" : "") + ' · <a class="gcal" href="' + gcalReminder(r) + '" target="_blank" rel="noopener">Add to Google Calendar ›</a> · <button type="button" class="gcal" data-icsrem="' + esc(r.id) + '" style="background:none;border:none;padding:0;cursor:pointer;font:inherit;">Add to Apple Calendar ›</button></span><button type="button" class="iconbtn del" data-remdel="' + esc(r.id) + '">✕</button></div>';
+    }).join("");
+  }
+  function fillDay() {
+    var iso = isoOf(viewDate);
+    var label = viewDate.toLocaleDateString(undefined, { weekday: "long", month: "long", day: "numeric", year: "numeric" });
+    $("day-heading").innerHTML = esc(label) + (iso === todayISO() ? '<span class="todaychip">TODAY</span>' : "");
+    $("day-meal").innerHTML = mealHtml(iso);
+    $("day-todos").innerHTML = todosHtml(iso);
+    $("day-reminders").innerHTML = remindersHtml(iso);
+    $("rem-date").value = iso;
+    var noteEl = $("day-note");
+    if (document.activeElement !== noteEl) noteEl.value = dayData(iso).note || "";
+    dayPad.load();
+    gcalShowDay(iso);
+  }
+  function flipTo(fn) {
+    var sheet = $("sheet");
+    sheet.classList.remove("flipanim");
+    void sheet.offsetWidth;
+    sheet.classList.add("flipanim");
+    setTimeout(fn, 215);
+    setTimeout(function () { sheet.classList.remove("flipanim"); }, 480);
+  }
+  function goDay(delta) {
+    flipTo(function () {
+      viewDate.setDate(viewDate.getDate() + delta);
+      fillDay();
+    });
+  }
+  $("day-prev").addEventListener("click", function () { goDay(-1); });
+  $("day-next").addEventListener("click", function () { goDay(1); });
+  $("day-today").addEventListener("click", function () {
+    var t = new Date(); t.setHours(12, 0, 0, 0);
+    if (isoOf(t) === isoOf(viewDate)) return;
+    flipTo(function () { viewDate = t; fillDay(); });
+  });
+
+  $("day-todos").addEventListener("change", function (e) {
+    var id = e.target.getAttribute("data-todo"); if (!id) return;
+    var day = ensureDay(isoOf(viewDate));
+    (day.todos || []).forEach(function (t) { if (t.id === id) t.done = e.target.checked; });
+    changed();
+    $("day-todos").innerHTML = todosHtml(isoOf(viewDate));
+  });
+  $("day-todos").addEventListener("click", function (e) {
+    var id = e.target.getAttribute("data-tododel"); if (!id) return;
+    var day = ensureDay(isoOf(viewDate));
+    day.todos = (day.todos || []).filter(function (t) { return t.id !== id; });
+    changed();
+    $("day-todos").innerHTML = todosHtml(isoOf(viewDate));
+  });
+  function addTodo() {
+    var v = $("todo-text").value.trim(); if (!v) { $("todo-text").focus(); return; }
+    var day = ensureDay(isoOf(viewDate));
+    if (!Array.isArray(day.todos)) day.todos = [];
+    day.todos.push({ id: uid(), text: v, done: false });
+    $("todo-text").value = "";
+    changed();
+    $("day-todos").innerHTML = todosHtml(isoOf(viewDate));
+  }
+  $("todo-add").addEventListener("click", addTodo);
+  $("todo-text").addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); addTodo(); } });
+
+  $("day-reminders").addEventListener("click", function (e) {
+    var id = e.target.getAttribute("data-remdel"); if (!id) return;
+    var gone = state.reminders.filter(function (r) { return r.id === id; })[0];
+    state.reminders = state.reminders.filter(function (r) { return r.id !== id; });
+    changed();
+    $("day-reminders").innerHTML = remindersHtml(isoOf(viewDate));
+    if (gone) gcalRemove(gone);
+  });
+  function icsPad(n) { return (n < 10 ? "0" : "") + n; }
+  function icsEsc(s) { return String(s || "").replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,").replace(/\n/g, "\\n"); }
+  function downloadIcs(fname, evts) {
+    var n = new Date();
+    var stamp = n.getUTCFullYear() + icsPad(n.getUTCMonth() + 1) + icsPad(n.getUTCDate()) + "T" + icsPad(n.getUTCHours()) + icsPad(n.getUTCMinutes()) + "00Z";
+    var lines = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//TreatYourselfDiscounts//Pond Planner//EN"];
+    evts.forEach(function (ev, i) {
+      lines.push("BEGIN:VEVENT");
+      lines.push("UID:" + Date.now() + "-" + i + "@treatyourselfdiscounts.com");
+      lines.push("DTSTAMP:" + stamp);
+      if (ev.allDay) {
+        lines.push("DTSTART;VALUE=DATE:" + ev.date.replace(/-/g, ""));
+        var d = new Date(ev.date + "T12:00:00"); d.setDate(d.getDate() + 1);
+        lines.push("DTEND;VALUE=DATE:" + d.getFullYear() + icsPad(d.getMonth() + 1) + icsPad(d.getDate()));
+      } else {
+        lines.push("DTSTART:" + ev.date.replace(/-/g, "") + "T" + (ev.time || "09:00").replace(":", "") + "00");
+        var e2 = new Date(ev.date + "T" + (ev.time || "09:00") + ":00"); e2.setHours(e2.getHours() + 1);
+        lines.push("DTEND:" + e2.getFullYear() + icsPad(e2.getMonth() + 1) + icsPad(e2.getDate()) + "T" + icsPad(e2.getHours()) + icsPad(e2.getMinutes()) + "00");
+      }
+      lines.push("SUMMARY:" + icsEsc(ev.title));
+      lines.push("END:VEVENT");
+    });
+    lines.push("END:VCALENDAR");
+    var blob = new Blob([lines.join("\r\n")], { type: "text/calendar" });
+    var a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = fname; document.body.appendChild(a); a.click();
+    setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 400);
+  }
+  $("day-reminders").addEventListener("click", function (e) {
+    var id = e.target.getAttribute("data-icsrem"); if (!id) return;
+    var r = state.reminders.filter(function (x) { return x.id === id; })[0]; if (!r) return;
+    downloadIcs("pond-reminder.ics", [{ title: r.title, date: r.date, time: r.time || "", allDay: !r.time }]);
+  });
+  $("day-ics").addEventListener("click", function () {
+    var iso = isoOf(viewDate); var evts = [];
+    state.reminders.filter(function (r) { return r.date === iso; }).forEach(function (r) { evts.push({ title: "⏰ " + r.title, date: r.date, time: r.time || "", allDay: !r.time }); });
+    var day = ensureDay(iso);
+    (day.todos || []).forEach(function (t) { if (!t.done) evts.push({ title: "✅ " + t.text, date: iso, allDay: true }); });
+    (mealPlan[iso] || []).forEach(function (m) { evts.push({ title: "🍽️ " + (m.name || "Meal"), date: iso, allDay: true }); });
+    if (!evts.length) { alert("Nothing on this day yet. Add a reminder, to-do or meal first."); return; }
+    downloadIcs("pond-day-" + iso + ".ics", evts);
+  });
+
+  /* ----- Google Calendar two-way sync (Planner stage 2) -----
+     Out: Planner reminders create/update/delete events on the member's
+     primary Google Calendar. In: the viewed day's Google events list
+     under the calendar block. Mapping planner id -> Google event id
+     saves on-device and to the Pond Account (plannerGcalMap). */
+  var GCAL_CLIENT_ID = "000000000000-gqacig73jdda2declgci20t69dd34q8v.apps.googleusercontent.com";
+  var gcal = { token: null, expires: 0, client: null, map: loadJSON("tydGcalMap", {}) };
+  function gcalSaveMap() { try { localStorage.setItem("tydGcalMap", JSON.stringify(gcal.map)); } catch (e) {} if (typeof schedulePlannerPush === "function") schedulePlannerPush(); changed(); }
+  window.TYDGcalGetMap = function () { return gcal.map; };
+  window.TYDGcalSetMap = function (m) { if (m && typeof m === "object" && !Array.isArray(m)) { var before = JSON.stringify(gcal.map); gcal.map = m; try { localStorage.setItem("tydGcalMap", JSON.stringify(m)); } catch (e) {} if (before !== JSON.stringify(m)) {} } };
+  function gcalStatus(t) { var el = $("gcal-status"); if (el) el.textContent = t || ""; }
+  function gcalReady() { return !!gcal.token && Date.now() < gcal.expires - 30000; }
+  function gcalPaint() {
+    var on = gcalReady();
+    var c = $("gcal-connect"), p = $("gcal-pushall"), d = $("gcal-disconnect");
+    if (c) c.style.display = on ? "none" : "";
+    if (p) p.style.display = on ? "" : "none";
+    if (d) d.style.display = on ? "" : "none";
+    if (!on) { var box = $("gcal-events"); if (box) box.innerHTML = ""; }
+  }
+  function gcalInitClient() {
+    if (gcal.client) return true;
+    if (!window.google || !google.accounts || !google.accounts.oauth2) return false;
+    gcal.client = google.accounts.oauth2.initTokenClient({
+      client_id: GCAL_CLIENT_ID,
+      scope: "https://www.googleapis.com/auth/calendar.events",
+      callback: function (resp) {
+        gcalSilent = false; gcalAutoFailMsg = "";
+        if (resp && resp.access_token) {
+          gcal.token = resp.access_token;
+          gcal.expires = Date.now() + (resp.expires_in ? resp.expires_in * 1000 : 3500000);
+          try { localStorage.setItem("tydGcalWanted", "1"); } catch (e) {}
+          gcalPaint();
+          gcalStatus("Connected. New reminders will land on your Google Calendar, and each day page shows your Google events.");
+          gcalShowDay(isoOf(viewDate));
+        } else gcalStatus("Google did not finish connecting. Tap Connect and try again.");
+      },
+      error_callback: function () {
+        gcalPaint();
+        if (gcalSilent) {
+          if (gcalAutoFailMsg) gcalStatus(gcalAutoFailMsg);
+          gcalSilent = false; gcalAutoFailMsg = "";
+        } else gcalStatus("That connection did not go through. Tap Connect Google Calendar to try again.");
+      }
+    });
+    return true;
+  }
+  function gcalConnect() {
+    if (!gcalInitClient()) { gcalStatus("Google's sign-in is still loading. Give it a second and tap again."); return; }
+    gcal.client.requestAccessToken({ prompt: "consent" });
+  }
+  /* Reconnect quietly when she already connected before and never hit
+     Disconnect. Google only hands out an hour-long token and the site keeps
+     it in the page only, so a reload used to drop the connection and show
+     Connect again. A silent request gets a fresh token with no pop-up when
+     she already said yes to it, and stays quiet when it cannot. */
+  var gcalSilent = false, gcalAutoTries = 0, gcalAutoFailMsg = "";
+  function gcalAutoConnect(failMsg) {
+    var wanted = false;
+    try { wanted = localStorage.getItem("tydGcalWanted") === "1"; } catch (e) {}
+    if (!wanted || gcalReady()) return;
+    if (!gcalInitClient()) {
+      if (++gcalAutoTries < 20) setTimeout(function () { gcalAutoConnect(failMsg); }, 500);
+      return;
+    }
+    gcalSilent = true;
+    gcalAutoFailMsg = failMsg || "";
+    gcal.client.requestAccessToken({ prompt: "" });
+  }
+  function gcalFetch(path, opts) {
+    opts = opts || {};
+    opts.headers = Object.assign({ "Authorization": "Bearer " + gcal.token, "Content-Type": "application/json" }, opts.headers || {});
+    return fetch("https://www.googleapis.com/calendar/v3/" + path, opts).then(function (r) {
+      if (r.status === 401) { gcal.token = null; gcalPaint(); gcalAutoConnect("Your Google connection ran out (about an hour is Google's limit). Tap Connect to refresh it."); throw new Error("expired"); }
+      return r;
+    });
+  }
+  function gcalEventBody(r) {
+    var tz = ""; try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ""; } catch (e) {}
+    var start, end;
+    if (r.time) {
+      start = { dateTime: r.date + "T" + r.time + ":00", timeZone: tz };
+      var e = new Date(r.date + "T" + r.time + ":00"); e.setHours(e.getHours() + 1);
+      end = { dateTime: isoOf(e) + "T" + icsPad(e.getHours()) + ":" + icsPad(e.getMinutes()) + ":00", timeZone: tz };
+    } else {
+      start = { date: r.date };
+      var d = new Date(r.date + "T12:00:00"); d.setDate(d.getDate() + 1);
+      end = { date: isoOf(d) };
+    }
+    return { summary: r.title, start: start, end: end, description: "From your Pond Planner", extendedProperties: { private: { pondReminder: r.id } } };
+  }
+  function gcalPush(r) {
+    if (!gcalReady() || !r) return;
+    var existing = gcal.map[r.id];
+    var req = existing
+      ? gcalFetch("calendars/primary/events/" + encodeURIComponent(existing), { method: "PUT", body: JSON.stringify(gcalEventBody(r)) })
+      : gcalFetch("calendars/primary/events", { method: "POST", body: JSON.stringify(gcalEventBody(r)) });
+    req.then(function (resp) { return resp.json(); }).then(function (j) { if (j && j.id && gcal.map[r.id] !== j.id) { gcal.map[r.id] = j.id; gcalSaveMap(); } }).catch(function () {});
+  }
+  function gcalRemove(r) {
+    if (!r || !gcal.map[r.id]) return;
+    var evId = gcal.map[r.id];
+    delete gcal.map[r.id]; gcalSaveMap();
+    if (!gcalReady()) return;
+    gcalFetch("calendars/primary/events/" + encodeURIComponent(evId), { method: "DELETE" }).catch(function () {});
+  }
+  function gcalShowDay(iso) {
+    var box = $("gcal-events"); if (!box) return;
+    if (!gcalReady()) { box.innerHTML = ""; return; }
+    var d0 = new Date(iso + "T00:00:00"), d1 = new Date(iso + "T23:59:59");
+    var q = "calendars/primary/events?singleEvents=true&orderBy=startTime&timeMin=" + encodeURIComponent(d0.toISOString()) + "&timeMax=" + encodeURIComponent(d1.toISOString()) + "&maxResults=30";
+    gcalFetch(q).then(function (r) { return r.json(); }).then(function (j) {
+      var items = (j && j.items) || [];
+      if (!items.length) { box.innerHTML = '<p class="hint">Nothing on your Google Calendar this day.</p>'; return; }
+      var mine = {}; Object.keys(gcal.map).forEach(function (k) { mine[gcal.map[k]] = true; });
+      box.innerHTML = '<p class="hint" style="margin-bottom:4px;">On your Google Calendar this day:</p>' + items.map(function (ev) {
+        var when = ev.start && ev.start.dateTime ? new Date(ev.start.dateTime).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" }) : "All day";
+        return '<div class="remitem"><span class="grow">📅 <b>' + esc(ev.summary || "(no title)") + '</b> <span class="remwhen">' + esc(when) + "</span>" + (mine[ev.id] ? ' <span class="remwhen">· from your Planner</span>' : "") + "</span></div>";
+      }).join("");
+    }).catch(function () {});
+  }
+  $("gcal-connect").addEventListener("click", gcalConnect);
+  $("gcal-disconnect").addEventListener("click", function () {
+    if (gcal.token && window.google && google.accounts && google.accounts.oauth2) { try { google.accounts.oauth2.revoke(gcal.token, function () {}); } catch (e) {} }
+    gcal.token = null; gcal.expires = 0;
+    try { localStorage.removeItem("tydGcalWanted"); } catch (e) {}
+    gcalPaint(); gcalStatus("Disconnected. Your Google events stay on Google; the Planner just stopped syncing.");
+  });
+  $("gcal-pushall").addEventListener("click", function () {
+    if (!gcalReady()) { gcalStatus("Connect Google Calendar first."); return; }
+    var list = state.reminders.slice(), n = 0;
+    gcalStatus("Pushing your reminders to Google…");
+    (function next() {
+      if (!list.length) { gcalStatus("Done. " + n + " reminder" + (n === 1 ? "" : "s") + " on your Google Calendar."); gcalSaveMap(); return; }
+      var r = list.shift();
+      var was = gcal.map[r.id];
+      var done = function () { if (gcal.map[r.id]) n++; next(); };
+      var existing = gcal.map[r.id];
+      var req = existing
+        ? gcalFetch("calendars/primary/events/" + encodeURIComponent(existing), { method: "PUT", body: JSON.stringify(gcalEventBody(r)) })
+        : gcalFetch("calendars/primary/events", { method: "POST", body: JSON.stringify(gcalEventBody(r)) });
+      req.then(function (resp) { return resp.json(); }).then(function (j) { if (j && j.id) gcal.map[r.id] = j.id; done(); }).catch(function () { done(); });
+    })();
+  });
+  gcalPaint();
+  gcalAutoConnect();
+
+  $("rem-add").addEventListener("click", function () {
+    var title = $("rem-title").value.trim();
+    if (!title) { $("rem-title").focus(); return; }
+    var nr = { id: uid(), title: title, date: $("rem-date").value || isoOf(viewDate), time: $("rem-time").value || "" };
+    state.reminders.push(nr);
+    $("rem-title").value = ""; $("rem-time").value = "";
+    changed();
+    $("day-reminders").innerHTML = remindersHtml(isoOf(viewDate));
+    gcalPush(nr);
+  });
+
+  $("save-day").addEventListener("click", function () {
+    var iso = isoOf(viewDate);
+    var d = ensureDay(iso);
+    var nv = $("day-note").value;
+    if (d.note !== nv) d.note = nv;
+    changed();
+    if (dayPad.saveNow) dayPad.saveNow();
+    if (window.TYDPlannerFlush) window.TYDPlannerFlush();
+    var t = new Date();
+    var hh = t.getHours() % 12 || 12, mm = ("0" + t.getMinutes()).slice(-2), ap = t.getHours() >= 12 ? "PM" : "AM";
+    var st = $("save-day-status");
+    if (st) st.textContent = "\u2713 Saved at " + hh + ":" + mm + " " + ap + ". The whole day is in your planner: to-dos, reminders, notes and drawing.";
+    var b = $("save-day"), old = b.textContent;
+    b.textContent = "\u2713 Saved!";
+    setTimeout(function () { b.textContent = old; }, 1600);
+  });
+
+  var noteTimer = null;
+  $("day-note").addEventListener("input", function () {
+    var iso = isoOf(viewDate), v = $("day-note").value;
+    clearTimeout(noteTimer);
+    noteTimer = setTimeout(function () { ensureDay(iso).note = v; changed(); }, 350);
+  });
+
+  /* ---------- week view ---------- */
+  function mondayOf(d) {
+    var x = new Date(d); x.setHours(12, 0, 0, 0);
+    var dow = (x.getDay() + 6) % 7;
+    x.setDate(x.getDate() - dow);
+    return x;
+  }
+  function renderWeek() {
+    var mon = mondayOf(viewDate);
+    var sun = new Date(mon); sun.setDate(sun.getDate() + 6);
+    var fmt = { month: "short", day: "numeric" };
+    $("week-heading").textContent = "Week of " + mon.toLocaleDateString(undefined, fmt) + " – " + sun.toLocaleDateString(undefined, fmt);
+    var html = "";
+    for (var i = 0; i < 7; i++) {
+      var d = new Date(mon); d.setDate(d.getDate() + i);
+      var iso = isoOf(d);
+      var day = dayData(iso);
+      var meals = mealPlan[iso] || [];
+      var todos = day.todos || [];
+      var open = todos.filter(function (t) { return !t.done; }).length;
+      var note = (day.note || "").trim();
+      html += '<button type="button" class="wday' + (iso === todayISO() ? " today" : "") + '" data-goto="' + iso + '">'
+        + '<span class="wdow">' + d.toLocaleDateString(undefined, { weekday: "short" }) + '</span>'
+        + '<span class="wnum">' + d.getDate() + '</span>'
+        + '<div class="wmeal">' + (meals.length ? "🍽️ " + esc(meals[0].name || "Recipe") + (meals.length > 1 ? " +" + (meals.length - 1) : "") : "🍽️ Nothing planned") + "</div>"
+        + '<div class="wmeta">' + (todos.length ? "✅ " + (todos.length - open) + "/" + todos.length + " to-dos done" : "✅ No to-dos")
+        + (note ? "<br>📝 " + esc(note.split("\n")[0].slice(0, 42)) + (note.length > 42 ? "…" : "") : "")
+        + "</div></button>";
+    }
+    $("week-grid").innerHTML = html;
+  }
+  $("week-grid").addEventListener("click", function (e) {
+    var b = e.target.closest("[data-goto]"); if (!b) return;
+    viewDate = parseISO(b.getAttribute("data-goto"));
+    if (location.hash === "#day") { show("day"); flipTo(fillDay); }
+    else location.hash = "#day";
+  });
+  function goWeek(delta) {
+    var sheet = $("weeksheet");
+    sheet.classList.remove("flipanim");
+    void sheet.offsetWidth;
+    sheet.classList.add("flipanim");
+    setTimeout(function () { viewDate.setDate(viewDate.getDate() + delta * 7); renderWeek(); }, 215);
+    setTimeout(function () { sheet.classList.remove("flipanim"); }, 480);
+  }
+  $("week-prev").addEventListener("click", function () { goWeek(-1); });
+  $("week-next").addEventListener("click", function () { goWeek(1); });
+
+  /* ---------- month + year views (Lucy, Nov 14, 2026) ---------- */
+  /* Read straight from localStorage, not through TYDCodeClips: the
+     month view renders before site-nav.js loads, so the clip module
+     may not exist yet when this runs. */
+  function codesList() {
+    try { var v = JSON.parse(localStorage.getItem("tydClippedCodes") || "[]"); return Array.isArray(v) ? v : []; } catch (e) { return []; }
+  }
+  function dayMarks(iso) {
+    var day = dayData(iso);
+    var todos = day.todos || [];
+    var open = todos.filter(function (t) { return !t.done; }).length;
+    return {
+      rem: state.reminders.filter(function (r) { return r.date === iso; }).length,
+      todo: open,
+      meal: (mealPlan[iso] || []).length,
+      code: codesList().filter(function (c) { return c.expires === iso; }).length
+    };
+  }
+  function dotsHtml(m) {
+    var h = "";
+    if (m.rem) h += '<span class="mdot rem"></span>';
+    if (m.todo) h += '<span class="mdot todo"></span>';
+    if (m.meal) h += '<span class="mdot meal"></span>';
+    if (m.code) h += '<span class="mdot code"></span>';
+    return h;
+  }
+  function renderMonth() {
+    var y = viewDate.getFullYear(), mo = viewDate.getMonth();
+    $("month-heading").textContent = viewDate.toLocaleDateString(undefined, { month: "long", year: "numeric" });
+    var first = new Date(y, mo, 1);
+    var offset = (first.getDay() + 6) % 7; /* Monday first, like the week view */
+    var html = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map(function (d) { return '<span class="mdow">' + d + '</span>'; }).join("");
+    var today = todayISO();
+    for (var i = 0; i < 42; i++) {
+      var d = new Date(y, mo, 1 - offset + i);
+      var iso = isoOf(d);
+      var other = d.getMonth() !== mo;
+      var m = dayMarks(iso);
+      html += '<button type="button" class="mday' + (iso === today ? " today" : "") + (other ? " other" : "") + '" data-goto="' + iso + '">'
+        + '<span class="mnum">' + d.getDate() + '</span>'
+        + '<span class="mdots">' + dotsHtml(m) + '</span></button>';
+    }
+    $("month-grid").innerHTML = html;
+    renderCodes();
+  }
+  function goMonth(delta) {
+    var sheet = $("monthsheet");
+    sheet.classList.remove("flipanim");
+    void sheet.offsetWidth;
+    sheet.classList.add("flipanim");
+    setTimeout(function () { viewDate.setMonth(viewDate.getMonth() + delta); renderMonth(); }, 215);
+    setTimeout(function () { sheet.classList.remove("flipanim"); }, 480);
+  }
+  $("month-prev").addEventListener("click", function () { goMonth(-1); });
+  $("month-next").addEventListener("click", function () { goMonth(1); });
+  $("month-today").addEventListener("click", function () { viewDate = new Date(); viewDate.setHours(12, 0, 0, 0); renderMonth(); });
+  $("month-grid").addEventListener("click", function (e) {
+    var b = e.target.closest("[data-goto]"); if (!b) return;
+    viewDate = parseISO(b.getAttribute("data-goto"));
+    if (location.hash === "#day") { show("day"); flipTo(fillDay); }
+    else location.hash = "#day";
+  });
+  function renderYear() {
+    var y = viewDate.getFullYear();
+    $("year-heading").textContent = String(y);
+    var today = todayISO();
+    var html = "";
+    for (var mo = 0; mo < 12; mo++) {
+      var first = new Date(y, mo, 1);
+      var offset = (first.getDay() + 6) % 7;
+      var daysIn = new Date(y, mo + 1, 0).getDate();
+      var cells = "";
+      for (var b = 0; b < offset; b++) cells += '<span class="ymday blank"></span>';
+      for (var d = 1; d <= daysIn; d++) {
+        var dt = new Date(y, mo, d);
+        var iso = isoOf(dt);
+        var m = dayMarks(iso);
+        var has = (m.rem || m.todo || m.meal || m.code) ? " has" : "";
+        cells += '<button type="button" class="ymday' + has + (iso === today ? " today" : "") + '" data-goto="' + iso + '">' + d + '</button>';
+      }
+      html += '<div class="ymini"><h3><button type="button" data-gotomonth="' + y + '-' + pad2(mo + 1) + '">' + first.toLocaleDateString(undefined, { month: "long" }) + '</button></h3><div class="ymgrid">' + cells + '</div></div>';
+    }
+    $("year-grid").innerHTML = html;
+  }
+  function goYear(delta) {
+    var sheet = $("yearsheet");
+    sheet.classList.remove("flipanim");
+    void sheet.offsetWidth;
+    sheet.classList.add("flipanim");
+    setTimeout(function () { viewDate.setFullYear(viewDate.getFullYear() + delta); renderYear(); }, 215);
+    setTimeout(function () { sheet.classList.remove("flipanim"); }, 480);
+  }
+  $("year-prev").addEventListener("click", function () { goYear(-1); });
+  $("year-next").addEventListener("click", function () { goYear(1); });
+  $("year-today").addEventListener("click", function () { viewDate = new Date(); viewDate.setHours(12, 0, 0, 0); renderYear(); });
+  $("year-grid").addEventListener("click", function (e) {
+    var gm = e.target.closest("[data-gotomonth]");
+    if (gm) {
+      var parts = gm.getAttribute("data-gotomonth").split("-");
+      viewDate = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, 1);
+      viewDate.setHours(12, 0, 0, 0);
+      if (location.hash === "#month") { show("month"); }
+      else location.hash = "#month";
+      return;
+    }
+    var b = e.target.closest("[data-goto]"); if (!b) return;
+    viewDate = parseISO(b.getAttribute("data-goto"));
+    if (location.hash === "#day") { show("day"); flipTo(fillDay); }
+    else location.hash = "#day";
+  });
+
+  /* ---------- clipped codes manager ---------- */
+  function renderCodes() {
+    var box = $("codes-list"); if (!box) return;
+    var list = codesList();
+    if (!list.length) {
+      box.innerHTML = '<div class="emptybox"><p>No codes clipped yet. Tap “📌 Clip code” on a deal to save it here, then set its expiry date so it lands on your calendar.</p></div>';
+      return;
+    }
+    box.innerHTML = list.map(function (c) {
+      var when = c.expires
+        ? "On your calendar for " + parseISO(c.expires).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" }) + "."
+        : "No expiry date yet. Add one to put it on your calendar.";
+      return '<div class="coderow"><span class="grow"><b>' + esc(c.code) + '</b>' + (c.brand ? ' · ' + esc(c.brand) : '') + '<br><span style="font-size:12.5px;color:#3f6b7a;">' + esc(when) + '</span></span>'
+        + '<input type="date" data-codeexp="' + esc(c.id) + '" value="' + esc(c.expires || "") + '" aria-label="Expiry date">'
+        + '<label><input type="checkbox" data-codenotify="' + esc(c.id) + '"' + (c.notify === false ? "" : " checked") + '> Notify me</label>'
+        + '<button type="button" class="codex" data-codeunclip="' + esc(c.id) + '" aria-label="Unclip">✕</button></div>';
+    }).join("");
+  }
+  $("codes-list").addEventListener("change", function (e) {
+    var d = e.target.getAttribute("data-codeexp");
+    if (d && window.TYDCodeClips) { window.TYDCodeClips.setExpires(d, e.target.value); renderMonth(); return; }
+    var n = e.target.getAttribute("data-codenotify");
+    if (n && window.TYDCodeClips) window.TYDCodeClips.setNotify(n, e.target.checked);
+  });
+  $("codes-list").addEventListener("click", function (e) {
+    var x = e.target.closest("[data-codeunclip]"); if (!x) return;
+    var id = x.getAttribute("data-codeunclip");
+    var list = codesList();
+    var it = null;
+    list.forEach(function (c) { if (c.id === id) it = c; });
+    if (it && window.TYDCodeClips) window.TYDCodeClips.unclip(it.code);
+    renderMonth();
+  });
+  window.addEventListener("tyd:codes", function () { if (currentView === "month") renderMonth(); else renderCodes(); });
+
+  /* ---------- notes view ---------- */
+  function renderNotes() {
+    var dates = Object.keys(state.days).filter(function (k) { return (state.days[k].note || "").trim(); }).sort().reverse();
+    if (!dates.length) {
+      $("notes-list").innerHTML = '<div class="emptybox"><p>No day notes yet. Open a day page and jot something in its Notes, and it will be shelved here. 🦆</p></div>';
+    } else {
+      $("notes-list").innerHTML = dates.map(function (k) {
+        var label = parseISO(k).toLocaleDateString(undefined, { weekday: "short", month: "short", day: "numeric", year: "numeric" });
+        var first = (state.days[k].note || "").trim().split("\n")[0];
+        return '<button type="button" class="noterow" data-goto="' + k + '"><b>' + esc(label) + "</b>" + esc(first.slice(0, 90)) + (first.length > 90 ? "…" : "") + "</button>";
+      }).join("");
+    }
+    var st = $("scratch-text");
+    if (document.activeElement !== st) st.value = state.scratch || "";
+    scratchPad.load();
+  }
+  $("notes-list").addEventListener("click", function (e) {
+    var b = e.target.closest("[data-goto]"); if (!b) return;
+    viewDate = parseISO(b.getAttribute("data-goto"));
+    if (location.hash === "#day") { show("day"); flipTo(fillDay); }
+    else location.hash = "#day";
+  });
+  var scratchTimer = null;
+  $("scratch-text").addEventListener("input", function () {
+    var v = $("scratch-text").value;
+    clearTimeout(scratchTimer);
+    scratchTimer = setTimeout(function () { state.scratch = v; changed(); }, 350);
+  });
+
+  /* ---------- sales calendar (Lucy, Nov 14, 2026): the Pond's known
+     sale dates, plus any you add. Lives in state.sales so it syncs with
+     your Pond Account like the rest of the planner. ---------- */
+  var SALE_SEED = [
+    { id: "seed-aurzen-bf", name: "Aurzen Black Friday", start: "2026-11-19", end: "2026-11-30", note: "ZIP drops to $199.99. Code CJ10 still works." },
+    { id: "seed-black-friday", name: "Black Friday", start: "2026-11-27", end: "2026-11-27", note: "The big one. Watch the Pond for the best drops." },
+    { id: "seed-seeq-30", name: "SEEQ 30% ends", start: "2026-11-30", end: "2026-11-30", note: "Last day of 30% off your first Subscribe & Save order. Then it goes back to 10% refills." },
+    { id: "seed-cyber-monday", name: "Cyber Monday", start: "2026-11-30", end: "2026-11-30", note: "Online deals all day. Check the Pond in the morning." }
+  ];
+  function getSales() {
+    if (!Array.isArray(state.sales)) state.sales = [];
+    var have = {};
+    state.sales.forEach(function (x) { if (x && x.id) have[x.id] = true; });
+    SALE_SEED.forEach(function (sd) { if (!have[sd.id]) state.sales.push({ id: sd.id, name: sd.name, start: sd.start, end: sd.end, note: sd.note, seed: true }); });
+    return state.sales;
+  }
+  function daysUntilSale(ds) { if (!ds) return null; return Math.round((parseISO(ds) - parseISO(todayISO())) / 86400000); }
+  function fmtSaleDate(ds) { if (!ds) return ""; var d = parseISO(ds); return d.toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" }); }
+  function renderSales() {
+    var host = $("sales-list"); if (!host) return;
+    var list = getSales().slice();
+    list.sort(function (a, b) { return (a.start || "") < (b.start || "") ? -1 : (a.start || "") > (b.start || "") ? 1 : 0; });
+    var today = todayISO();
+    var upcoming = list.filter(function (x) { return (x.end || x.start || "") >= today; });
+    var past = list.filter(function (x) { return (x.end || x.start || "") < today; });
+    function row(x) {
+      var d = daysUntilSale(x.start);
+      var when = x.end && x.end !== x.start ? fmtSaleDate(x.start) + " – " + fmtSaleDate(x.end) : fmtSaleDate(x.start);
+      var tag = d === null ? "" : d < 0 ? " · ended" : d === 0 ? " · today!" : d === 1 ? " · tomorrow" : " · in " + d + " days";
+      return '<div class="sav-row"><div class="sinfo"><div class="sname">' + esc(x.name) + '</div><div class="smeta">' + esc(when + tag) + (x.note ? "<br>" + esc(x.note) : "") + '</div></div><button type="button" class="sdel" data-sale-del="' + esc(x.id) + '" aria-label="Delete this sale">✕</button></div>';
+    }
+    var html = "";
+    if (upcoming.length) html += upcoming.map(row).join("");
+    else html += '<p>No upcoming sales on the list yet. Add one below! 🦆</p>';
+    if (past.length) html += '<h3 style="margin:16px 0 8px;font-size:15px;color:#1f5f74;">Past sales</h3>' + past.map(row).join("");
+    host.innerHTML = html;
+    host.querySelectorAll("[data-sale-del]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        state.sales = getSales().filter(function (x) { return x.id !== btn.getAttribute("data-sale-del"); });
+        changed(); renderSales();
+      });
+    });
+  }
+  /* v368 duplicate check (Lucy, Nov 18, 2026): adding a sale that is
+     already in the Pond shows the shared confirm sheet instead of
+     saving silently. Cancel is the safe default; Add it anyway saves
+     a second copy. */
+  var dupSaleConfirmed = false;
+  function dupNorm(s) { return String(s || "").toLowerCase().replace(/\s+/g, " ").trim(); }
+  function findDupSale(name, start) {
+    var n = dupNorm(name);
+    if (!n) return null;
+    var list = getSales();
+    for (var i = 0; i < list.length; i++) {
+      if (dupNorm(list[i].name) === n && (list[i].start || "") === (start || "")) return list[i];
+    }
+    return null;
+  }
+  var saleAddBtn = $("sale-add");
+  function addSale() {
+    var name = ($("sale-name").value || "").trim();
+    var start = $("sale-start").value, end = $("sale-end").value;
+    var err = $("sale-err");
+    if (!name) { err.textContent = "Give the sale a name first."; return; }
+    if (!start) { err.textContent = "Pick a start date so the duck knows when it begins."; return; }
+    if (end && end < start) { err.textContent = "The end date should be on or after the start date."; return; }
+    err.textContent = "";
+    if (!dupSaleConfirmed && window.TYDDup) {
+      var dup = findDupSale(name, start);
+      if (dup) {
+        window.TYDDup.show("This sale is already in the Pond: " + (dup.name || name) + " on " + (dup.start || start) + ". Add it again, or cancel and keep the one you have.", function () { dupSaleConfirmed = true; addSale(); });
+        return;
+      }
+    }
+    getSales().push({ id: uid(), name: name, start: start, end: end || start, note: ($("sale-note").value || "").trim() });
+    changed(); renderSales();
+    $("sale-name").value = ""; $("sale-start").value = ""; $("sale-end").value = ""; $("sale-note").value = "";
+    dupSaleConfirmed = false;
+  }
+  if (saleAddBtn) saleAddBtn.addEventListener("click", addSale);
+  ["sale-name", "sale-start"].forEach(function (id) { var el = $(id); if (el) el.addEventListener("input", function () { dupSaleConfirmed = false; }); });
+
+  /* ---------- views / routing ---------- */
+  function show(view) {
+    currentView = view;
+    $("view-day").style.display = view === "day" ? "" : "none";
+    $("view-week").style.display = view === "week" ? "" : "none";
+    $("view-month").style.display = view === "month" ? "" : "none";
+    $("view-year").style.display = view === "year" ? "" : "none";
+    $("view-notes").style.display = view === "notes" ? "" : "none";
+    $("view-sales").style.display = view === "sales" ? "" : "none";
+    document.querySelectorAll(".ptabs a").forEach(function (a) { a.classList.toggle("on", a.getAttribute("data-ptab") === view); });
+    var qd = $("quick-date"); if (qd) qd.value = isoOf(viewDate);
+    if (view === "day") fillDay();
+    if (view === "week") renderWeek();
+    if (view === "month") renderMonth();
+    if (view === "year") renderYear();
+    if (view === "notes") renderNotes();
+    if (view === "sales") renderSales();
+  }
+  function route() {
+    var h = (location.hash || "#day").slice(1);
+    show(["day", "week", "month", "year", "notes", "sales"].indexOf(h) > -1 ? h : "day");
+  }
+  window.addEventListener("hashchange", route);
+  /* Tab taps (Lucy, Nov 14, 2026): the tabs are plain #hash links, so
+     tapping Notes made the browser jump down to the Notes section and the
+     duck wallpaper (which only shows in the top margin on a phone) vanished
+     from view. Taps now switch the view without jumping, and the page
+     returns to the top so the ducks stay visible. */
+  document.querySelector(".ptabs").addEventListener("click", function (e) {
+    var a = e.target.closest ? e.target.closest("a[data-ptab]") : null;
+    if (!a) return;
+    e.preventDefault();
+    var view = a.getAttribute("data-ptab");
+    try { history.pushState(null, "", "#" + view); } catch (err) { location.hash = view; }
+    show(view);
+    window.scrollTo(0, 0);
+  });
+  /* Direct #notes (or #month / #year) loads: the browser jumps to the
+     section on load, which hides the ducks on a phone. Bring it back up. */
+  window.addEventListener("load", function () {
+    var h = (location.hash || "").slice(1);
+    if (["day", "week", "month", "year", "notes", "sales"].indexOf(h) > -1) window.scrollTo(0, 0);
+  });
+  route();
+
+  /* ---------- quick add (Lucy, Nov 14, 2026): a reminder or to-do on
+     any date, from any view, without opening the day page first. The
+     date starts on the day being viewed. ---------- */
+  function quickAdd() {
+    var text = $("quick-text").value.trim();
+    if (!text) { $("quick-text").focus(); return; }
+    var iso = $("quick-date").value || isoOf(viewDate);
+    var label = parseISO(iso).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" });
+    if ($("quick-kind").value === "todo") {
+      ensureDay(iso).todos.push({ id: uid(), text: text, done: false });
+      $("quick-status").textContent = "✓ To-do added for " + label + ".";
+    } else {
+      var nr = { id: uid(), title: text, date: iso, time: "" };
+      state.reminders.push(nr);
+      gcalPush(nr);
+      $("quick-status").textContent = "✓ Reminder added for " + label + ".";
+    }
+    changed();
+    $("quick-text").value = "";
+    show(currentView);
+  }
+  $("quick-add").addEventListener("click", quickAdd);
+  $("quick-text").addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); quickAdd(); } });
+
+  /* ---------- go to a date (Lucy, Nov 14, 2026): jump the month or
+     year grid straight to any date, including other years. ---------- */
+  $("month-goto").addEventListener("change", function () {
+    var v = $("month-goto").value; if (!v) return;
+    viewDate = parseISO(v); renderMonth();
+    $("month-goto").value = "";
+  });
+  $("year-goto").addEventListener("change", function () {
+    var v = $("year-goto").value; if (!v) return;
+    viewDate = parseISO(v); renderYear();
+    $("year-goto").value = "";
+  });
+
+  /* ---------- sync bridge (used by the Firebase script below) ---------- */
+  window.TYDPlanner = {
+    state: function () { return state; },
+    localDrawings: function () { return { data: drawings, ts: drawingsTs }; },
+    adoptDrawing: function (key, data, ts) {
+      drawings[key] = data; drawingsTs[key] = ts || Date.now();
+      saveJSON(LS_DRAW, drawings); saveJSON(LS_DRAWTS, drawingsTs);
+      if (dayPad.key() === key) dayPad.load();
+      if (scratchPad.key() === key) scratchPad.load();
+    },
+    applyRemote: function (data) {
+      if (data && data.plannerGcalMap && window.TYDGcalSetMap) window.TYDGcalSetMap(data.plannerGcalMap);
+      var rd = (data && data.plannerDays) || {};
+      Object.keys(rd).forEach(function (k) {
+        if (!state.days[k]) { state.days[k] = rd[k]; return; }
+        var day = state.days[k];
+        var ids = {};
+        (day.todos || []).forEach(function (t) { ids[t.id] = 1; });
+        (rd[k].todos || []).forEach(function (t) { if (t && t.id && !ids[t.id]) (day.todos = day.todos || []).push(t); });
+        if (!day.note && rd[k].note) day.note = rd[k].note;
+      });
+      var rr = (data && data.plannerReminders) || [];
+      var rids = {};
+      state.reminders.forEach(function (r) { rids[r.id] = 1; });
+      rr.forEach(function (r) { if (r && r.id && !rids[r.id]) state.reminders.push(r); });
+      /* Sales (v339, Nov 16, 2026): the Sales tab used to live only in
+         localStorage, so a deal clipped from Deal Pockets never reached
+         the account. Sales now ride the account as plannerSales,
+         union-merged by id like the reminders; on the same id the
+         account copy wins. Empty local sales never wipe the account:
+         the merge only ever adds. */
+      var rs = (data && data.plannerSales) || [];
+      if (!Array.isArray(state.sales)) state.sales = [];
+      var sids = {};
+      state.sales.forEach(function (x) { if (x && x.id) sids[x.id] = x; });
+      rs.forEach(function (x) {
+        if (!x || !x.id) return;
+        if (!sids[x.id]) { state.sales.push(x); sids[x.id] = x; }
+        else { var ix = state.sales.indexOf(sids[x.id]); if (ix > -1) state.sales[ix] = x; sids[x.id] = x; }
+      });
+      /* Clipped codes (Lucy, Nov 14, 2026): stored in localStorage
+         tydClippedCodes, union-merged by id like the reminders. */
+      var rc = (data && data.plannerCodes) || [];
+      var localCodes = [];
+      try { localCodes = JSON.parse(localStorage.getItem("tydClippedCodes") || "[]") || []; } catch (e) { localCodes = []; }
+      if (!Array.isArray(localCodes)) localCodes = [];
+      var cids = {};
+      localCodes.forEach(function (c) { if (c && c.id) cids[c.id] = 1; });
+      rc.forEach(function (c) { if (c && c.id && !cids[c.id]) localCodes.push(c); });
+      try { localStorage.setItem("tydClippedCodes", JSON.stringify(localCodes)); } catch (e) {}
+      try { window.dispatchEvent(new CustomEvent("tyd:codes")); } catch (e) {}
+      if (!state.scratch && data && data.plannerScratch) state.scratch = data.plannerScratch;
+      var rp = (data && data.mealPlan) || {};
+      var mergedP = {};
+      Object.keys(rp).forEach(function (k) { mergedP[k] = rp[k]; });
+      Object.keys(mealPlan).forEach(function (k) { mergedP[k] = mealPlan[k]; });
+      mealPlan = mergedP;
+      saveLocal();
+      show(currentView);
+    }
+  };
+  window.TYDPlannerChanged = function () {};
+})();
+</script>
+
+<script>
+/* Pond Planner sync: same users/{uid} pattern as the rest of the Pond.
+   Local first, always; when Lucy is signed in, plannerDays, plannerReminders,
+   plannerSales, plannerCodes and plannerScratch merge with her account copies
+   and every change is pushed back, debounce-style. The meal plan is read
+   (never written) here: it belongs to Recipes. */
+(function () {
+  var cfg = { apiKey: "preview-disabled", authDomain: "pond-preview-disabled.firebaseapp.com", projectId: "pond-preview-disabled", storageBucket: "pond-preview-disabled.firebasestorage.app", messagingSenderId: "000000000000", appId: "1:000000000000:web:previewdisabled" };
+  Promise.all([
+    import("./pond-firebase-stub.js"),
+    import("./pond-firebase-stub.js"),
+    import("./pond-firebase-stub.js")
+  ]).then(function (mods) {
+    var app;
+    try { app = mods[0].getApp(); } catch (e) { app = mods[0].initializeApp(cfg); }
+    var auth = mods[1].getAuth(app);
+    var db = mods[2].getFirestore(app);
+    var F = mods[2];
+    var uid = null, pushT = null, merged = false;
+    function push() {
+      if (!uid || !window.TYDPlanner) return;
+      var s = window.TYDPlanner.state();
+      F.setDoc(F.doc(db, "users", uid), { plannerDays: s.days, plannerReminders: s.reminders, plannerScratch: s.scratch, plannerCodes: window.TYDCodeClips ? window.TYDCodeClips.list() : [], plannerSales: Array.isArray(s.sales) ? s.sales : [], plannerGcalMap: window.TYDGcalGetMap ? window.TYDGcalGetMap() : {} }, { merge: true }).catch(function () {});
+    }
+    window.TYDPlannerChanged = function () { clearTimeout(pushT); pushT = setTimeout(push, 800); };
+    var drawTimers = {}, drawPending = {};
+    function drawWrite(key) {
+      var p = drawPending[key]; delete drawPending[key];
+      if (!uid || !p || !p.data || p.data.length > 700000) return;
+      F.setDoc(F.doc(db, "users", uid, "photos", "drawing-" + key), { item: "drawing:" + key, data: p.data, ts: p.ts || Date.now() }, { merge: true }).catch(function () {});
+    }
+    window.TYDDrawingPush = function (key, data, ts) {
+      if (!uid || !data) return;
+      drawPending[key] = { data: data, ts: ts || Date.now() };
+      clearTimeout(drawTimers[key]);
+      drawTimers[key] = setTimeout(function () { drawWrite(key); }, 2500);
+    };
+    window.TYDPlannerFlush = function () {
+      clearTimeout(pushT); push();
+      Object.keys(drawPending).forEach(function (key) { clearTimeout(drawTimers[key]); drawWrite(key); });
+    };
+    function pullDrawings() {
+      if (!uid || !window.TYDPlanner || !window.TYDPlanner.localDrawings) return;
+      F.getDocs(F.collection(db, "users", uid, "photos")).then(function (snap) {
+        var local = window.TYDPlanner.localDrawings();
+        var seen = {};
+        snap.forEach(function (d) {
+          if (d.id.indexOf("drawing-") !== 0) return;
+          var key = d.id.slice(8);
+          var rd = d.data() || {};
+          if (!rd.data) return;
+          seen[key] = true;
+          var lts = (local.ts && local.ts[key]) || 0;
+          if ((rd.ts || 0) >= lts && local.data[key] !== rd.data) window.TYDPlanner.adoptDrawing(key, rd.data, rd.ts || Date.now());
+          else if (lts > (rd.ts || 0) && local.data[key]) window.TYDDrawingPush(key, local.data[key], lts);
+        });
+        Object.keys(local.data || {}).forEach(function (key) {
+          if (local.data[key] && !seen[key]) window.TYDDrawingPush(key, local.data[key], (local.ts || {})[key] || Date.now());
+        });
+      }).catch(function () {});
+    }
+    mods[1].onAuthStateChanged(auth, function (user) {
+      var note = document.getElementById("sync-note");
+      if (!user) {
+        uid = null;
+        if (note) note.innerHTML = 'Your planner is saved on this device. <a href="account.html">Sign in to sync your planner</a> across your devices.';
+        return;
+      }
+      uid = user.uid;
+      if (note) note.textContent = "Your planner is synced to your Pond account, so it follows you across your devices. 🦆";
+      if (merged || !window.TYDPlanner) return;
+      merged = true;
+      F.getDoc(F.doc(db, "users", user.uid)).then(function (snap) {
+        var data = snap.exists() ? snap.data() : {};
+        window.TYDPlanner.applyRemote(data);
+        push();
+        pullDrawings();
+      }).catch(function () {});
+    });
+  }).catch(function () {});
+})();
+</script>
+<script src="site-nav.js?v=372"></script>
+<script src="pull-refresh.js?v=341"></script>
+<script type="module">
+/* Saved helper chats: users/{uid}.helperChats (newest first, capped at 20),
+   following the same users-doc pattern as the rest of the Pond (default-app
+   reuse, setDoc with merge). This module also paints the page's own #acctpill
+   bar when one exists: auth-pill.js deliberately skips #acctpill whenever the
+   site-nav chip (#tydacctchip) is on the page, so pages that carry both a
+   chip and an in-page bar (Travel, Polls) would otherwise leave the bar stuck
+   on its signed-out text. Pages without #acctpill are unaffected. */
+import { getApp, initializeApp } from "./pond-firebase-stub.js";
+import { getAuth, onAuthStateChanged } from "./pond-firebase-stub.js";
+import { getFirestore, doc, getDoc, setDoc } from "./pond-firebase-stub.js";
+var cfg = { apiKey: "preview-disabled", authDomain: "pond-preview-disabled.firebaseapp.com", projectId: "pond-preview-disabled", storageBucket: "pond-preview-disabled.firebasestorage.app", messagingSenderId: "000000000000", appId: "1:000000000000:web:previewdisabled" };
+var app; try { app = getApp(); } catch (e) { app = initializeApp(cfg); }
+var auth = getAuth(app), db = getFirestore(app);
+var C = { user: null, list: [], ready: false };
+function emit() { try { window.dispatchEvent(new Event("tydchats")); } catch (e) {} }
+window.TYDChats = {
+  get user() { return C.user; },
+  get list() { return C.list; },
+  get ready() { return C.ready; },
+  save: function (entry) {
+    if (!C.user) return Promise.reject(new Error("signed out"));
+    var list = [entry].concat(C.list).slice(0, 20);
+    return setDoc(doc(db, "users", C.user.uid), { helperChats: list }, { merge: true }).then(function () { C.list = list; emit(); });
+  },
+  remove: function (id) {
+    if (!C.user) return Promise.reject(new Error("signed out"));
+    var list = C.list.filter(function (x) { return x.id !== id; });
+    return setDoc(doc(db, "users", C.user.uid), { helperChats: list }, { merge: true }).then(function () { C.list = list; emit(); });
+  }
+};
+var pill = document.getElementById("acctpill");
+function paintPill(label, av) {
+  if (!pill) return;
+  var escLabel = String(label == null ? "" : label).replace(/</g, "&lt;");
+  var img = "";
+  if (/^duck-[a-z]+$/.test(av || "")) img = "images/avatars/" + av + ".jpg";
+  var imgHtml = img ? '<img src="' + img + '" alt="" style="width:20px; height:20px; border-radius:50%; object-fit:cover; vertical-align:-5px; margin-right:6px;">' : "";
+  pill.innerHTML = imgHtml + "🦆 " + escLabel + (C.user ? " · My Account" : " · Log in / Sign up");
+}
+onAuthStateChanged(auth, function (user) {
+  C.user = user ? { uid: user.uid, email: user.email || "" } : null;
+  C.ready = true;
+  if (!user) { C.list = []; paintPill("Pond Account", ""); emit(); return; }
+  paintPill(C.user.email, "");
+  getDoc(doc(db, "profiles", user.uid)).then(function (snap) {
+    var un = snap.exists() ? (snap.data().username || "") : "";
+    var av = snap.exists() ? (snap.data().avatar || "") : "";
+    paintPill(un ? "@" + un : C.user.email, av);
+  }).catch(function () {});
+  getDoc(doc(db, "users", user.uid)).then(function (snap) {
+    var d = snap.exists() ? snap.data() : {};
+    C.list = Array.isArray(d.helperChats) ? d.helperChats : [];
+    emit();
+  }).catch(function () { emit(); });
+});
+emit();
+</script>
+
+<script>
+/* Section helper bot: floating duck chat for this section, with export. */
+window.BOTCFG = {
+  section: "Planner",   duck: "images/avatars/duck-artist.jpg",
+  title: "🦆 Planner Helper",
+  placeholder: "Ask about your day...",
+  honest: "I answer from this page and your own planner, not a full AI.",
+  greet: "Quack! I'm the Planner duck. 📖 Ask me what's on today, your to-dos, reminders, or tonight's meal plan, or how the Day, Week and Notes pages work.",
+  fallback: "Quack, that one's beyond this little duck. I can sum up today, list to-dos and reminders, check the meal plan, or explain the Day, Week and Notes pages, the drawing pad and syncing. Try one of the chips!",
+  chips: [
+    ["📋 What's on today?", "What's on today?"],
+    ["✅ Today's to-dos", "Show today's to-dos"],
+    ["⏰ Reminders", "What reminders do I have?"],
+    ["🍽️ Dinner plan", "What's the meal plan today?"]
+  ],
+  answer: function (q, U) {
+    var state = null;
+    try { if (window.TYDPlanner && window.TYDPlanner.state) state = window.TYDPlanner.state(); } catch (e) {}
+    if (!state) state = U.ls("tydPlannerLocal", {});
+    var days = state.days || {};
+    var reminders = Array.isArray(state.reminders) ? state.reminders : [];
+    var meal = U.ls("tydMealPlan", {});
+    var today = U.todayISO();
+    var low = q.toLowerCase();
+    function dayTodos(iso) { var d = days[iso] || {}; return Array.isArray(d.todos) ? d.todos : []; }
+    function remsOn(iso) { return reminders.filter(function (r) { return r.date === iso; }).sort(function (a, b) { return (a.time || "") < (b.time || "") ? -1 : 1; }); }
+    function mealNames(iso) { return (meal[iso] || []).map(function (m) { return m.name || m.slug || "Recipe"; }); }
+    function todaySummary() {
+      var t = dayTodos(today), done = t.filter(function (x) { return x.done; }).length;
+      var r = remsOn(today), m = mealNames(today);
+      var out = "Today (" + U.fmtDate(today) + "):";
+      out += "\n✅ To-dos: " + done + " of " + t.length + " done" + (t.length ? " — " + t.filter(function (x) { return !x.done; }).map(function (x) { return x.text; }).slice(0, 4).join("; ") + (t.filter(function (x) { return !x.done; }).length > 4 ? "…" : "") : "") + ".";
+      out += "\n⏰ Reminders: " + (r.length ? r.map(function (x) { return (x.time ? x.time + " " : "") + x.title; }).join("; ") : "none today") + ".";
+      out += "\n🍽️ Meal plan: " + (m.length ? m.join(", ") : "nothing planned (the meal plan is made over in Recipes)") + ".";
+      return out;
+    }
+    if (/meal|dinner|supper|eat|cook|recipe/.test(low)) {
+      var m2 = mealNames(today);
+      if (!m2.length) return "Nothing on today's meal plan. The meal plan itself is made in Recipes (add a recipe to a day there) and this planner shows it on the Day page and can add it to Google Calendar for you.";
+      return "On today's meal plan: " + m2.join(", ") + ". Tap one on the Day page to open the recipe, or use its Add to Google Calendar button.";
+    }
+    if (/remind/.test(low)) {
+      var rt = remsOn(today);
+      var upcoming = reminders.filter(function (r) { return r.date > today; }).sort(function (a, b) { return (a.date + (a.time || "")) < (b.date + (b.time || "")) ? -1 : 1; });
+      var out2 = rt.length ? "Today's reminders:\n" + rt.map(function (x) { return "• " + (x.time ? x.time + " · " : "") + x.title; }).join("\n") : "No reminders set for today.";
+      if (upcoming.length) out2 += "\nComing up:\n" + upcoming.slice(0, 3).map(function (x) { return "• " + U.fmtDate(x.date) + (x.time ? " " + x.time : "") + " · " + x.title; }).join("\n");
+      out2 += "\nAdd new ones on the Day page; each has an Add to Google Calendar button for a proper nudge.";
+      return out2;
+    }
+    if (/to-?do|task|checklist|done/.test(low)) {
+      var t2 = dayTodos(today);
+      if (!t2.length) return "No to-dos yet for today. Add the first one on the Day page below the date, and tick them off as you paddle through the day.";
+      var dn = t2.filter(function (x) { return x.done; }).length;
+      return "Today's to-dos (" + dn + " of " + t2.length + " done):\n" + t2.map(function (x) { return (x.done ? "✅ " : "⬜ ") + x.text; }).join("\n");
+    }
+    if (/today|my day|on today|schedule/.test(low)) return todaySummary();
+    if (/week/.test(low)) return "The Week page (bottom bar, or add #week to the address) shows seven day cards starting Monday: each day's meal, to-do progress and a peek at its note. Tap a day card to jump straight to it.";
+    if (/note|notes|scratch|write/.test(low)) return "Every day has its own note on the Day page, and the Notes page (bottom bar, or #notes) gathers them all newest-first, plus a Scratch notes page for the loose bits. Notes save as you type.";
+    if (/draw|pencil|sketch|doodle/.test(low)) return "The Day page has a little drawing pad that loves an Apple Pencil (it feels pressure, too): five pond colours, three nib sizes and an eraser. Drawings save on this device only, per day; the Notes page has a scratch pad as well.";
+    if (/flip|page|turn|yesterday|tomorrow|another day|browse/.test(low)) return "On the Day page, use the ‹ › arrows (or tap a day on the Week page) to hop between days; the page does a little flip as you go. \"Today\" brings you home.";
+    if (/calendar|google/.test(low)) return "Reminders and meals each carry an Add to Google Calendar button that opens a ready-made Google Calendar event (same trick as Recipes). Full two-way calendar sync is a possible stage 2; for now the buttons do the job.";
+    if (/sync|account|sign in|device/.test(low)) return "Your days, reminders and scratch notes save on this device right away. Signed in with your Pond Account they sync as plannerDays, plannerReminders and plannerScratch, so the Planner follows you. Drawings are the one thing that stays on the device they're drawn on.";
+    if (/meal plan.*(come|where|from)|where.*meal/.test(low)) return "The meal plan is made in Recipes: plan a recipe onto a day there and it shows up here on the Day page, ready to cook or add to Google Calendar.";
+    if (/delete|remove|clear/.test(low)) return "To-dos and reminders each have a little ✕ to remove them. Day notes just delete their text. Nothing here deletes silently.";
+    return null;
+  }
+};
+
+(function () {
+  "use strict";
+  var CFG = window.BOTCFG || {};
+  var css = [
+    ".phelp-launch{display:inline-flex;align-items:center;gap:8px;position:fixed;right:12px;bottom:calc(84px + env(safe-area-inset-bottom));z-index:10080;background:#1f5f74;border:2px solid #174a5b;color:#fff;font-family:inherit;font-weight:900;font-size:14.5px;border-radius:999px;padding:11px 16px;box-shadow:0 8px 22px rgba(35,65,77,.35);cursor:pointer;}",
+    ".botduck{width:27px;height:27px;border-radius:50%;object-fit:cover;flex:none;border:2px solid rgba(255,255,255,.65);}",
+    ".phelp-head .t .botduck{width:31px;height:31px;}",
+    ".phelp-panel{position:fixed;right:12px;bottom:calc(84px + env(safe-area-inset-bottom));z-index:10090;width:min(94vw,384px);height:min(72vh,580px);background:#fff;border-radius:20px;box-shadow:0 18px 44px rgba(10,25,32,.4);display:none;flex-direction:column;overflow:hidden;border:2px solid #bcd9e4;}",
+    ".phelp-panel.show{display:flex;}",
+    "@media (max-width:520px){.phelp-panel{left:12px;width:auto;}}",
+    ".phelp-head{background:#1f5f74;color:#fff;padding:12px 14px;flex:none;}",
+    ".phelp-head .t{font-weight:900;font-size:16.5px;display:flex;align-items:center;gap:8px;}",
+    ".phelp-head .ctx{font-size:12.5px;opacity:.92;margin-top:3px;line-height:1.4;}",
+    ".phelp-x{margin-left:2px;background:rgba(255,255,255,.16);border:none;color:#fff;width:30px;height:30px;border-radius:50%;font-weight:900;cursor:pointer;font-family:inherit;flex:none;}",
+    ".phelp-expbtn{margin-left:auto;background:#ffd94d;border:2px solid #e3c93f;color:#6b5900;font-family:inherit;font-weight:900;font-size:12.5px;border-radius:999px;padding:6px 11px;cursor:pointer;flex:none;}",
+    ".phelp-drawer{display:none;background:#fff;border-bottom:1px solid #e3eff4;padding:10px 12px;flex:none;max-height:46%;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;touch-action:pan-y;}",
+    ".phelp-drawer.show{display:block;}",
+    ".phelp-drow{display:flex;gap:6px;flex-wrap:wrap;}",
+    ".pdbtn{border:2px solid #bcd9e4;background:#eaf7fb;color:#1f5f74;font-family:inherit;font-weight:800;font-size:12.5px;border-radius:999px;padding:7px 12px;cursor:pointer;}",
+    ".pdbtn.main{background:#ffd94d;border-color:#e3c93f;color:#6b5900;}",
+    ".phelp-note{font-size:12.5px;color:#3f6b7a;margin-top:7px;line-height:1.45;}",
+    ".phelp-dhead{font-weight:900;font-size:13px;color:#1f5f74;margin:11px 0 4px;}",
+    ".psaved{padding:7px 0;border-bottom:1px solid #e3eff4;font-size:13.5px;color:#23414d;}",
+    ".psaved:last-child{border-bottom:none;}",
+    ".psaved .pm{font-size:12px;color:#5b7a87;margin-top:1px;}",
+    ".psaved .pa{margin-top:4px;display:flex;gap:6px;}",
+    ".psaved .pa button{border:2px solid #bcd9e4;background:#fff;color:#1f5f74;font-family:inherit;font-weight:800;font-size:11.5px;border-radius:999px;padding:4px 9px;cursor:pointer;}",
+    ".phelp-msgs{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;touch-action:pan-y;padding:12px;background:#f4fafc;display:flex;flex-direction:column;gap:8px;}",
+    ".pmsg{max-width:88%;padding:9px 12px;border-radius:14px;font-size:14px;line-height:1.5;white-space:pre-wrap;word-wrap:break-word;}",
+    ".pmsg.bot{background:#fff;border:1.5px solid #d7e6ec;color:#23414d;align-self:flex-start;border-bottom-left-radius:4px;}",
+    ".pmsg.me{background:#1f5f74;color:#fff;align-self:flex-end;border-bottom-right-radius:4px;}",
+    ".phelp-chips{display:flex;gap:6px;flex-wrap:wrap;padding:8px 10px;background:#fff;border-top:1px solid #e3eff4;flex:none;}",
+    ".pchip{border:2px solid #bcd9e4;background:#eaf7fb;color:#1f5f74;font-family:inherit;font-weight:800;font-size:12.5px;border-radius:999px;padding:6px 11px;cursor:pointer;}",
+    ".phelp-form{display:flex;gap:6px;padding:10px;background:#fff;border-top:1px solid #e3eff4;flex:none;}",
+    ".phelp-form input{flex:1;border:2px solid #bcd9e4;border-radius:12px;padding:10px;font-size:15px;font-family:inherit;min-width:0;color:#23414d;background:#fff;}",
+    ".phelp-form button{background:#ffd94d;border:2px solid #e3c93f;color:#6b5900;font-family:inherit;font-weight:900;font-size:14px;border-radius:12px;padding:10px 14px;cursor:pointer;}",
+    "html[data-theme=\"dark\"] .phelp-panel{background:var(--tyd-acc-dark, #172635);border-color:#2e4a5f;}",
+    "html[data-theme=\"dark\"] .phelp-msgs{background:#101e2c;}",
+    "html[data-theme=\"dark\"] .pmsg.bot{background:#23414d;border-color:#2e4a5f;color:#eefaff;}",
+    "html[data-theme=\"dark\"] .phelp-chips,html[data-theme=\"dark\"] .phelp-form,html[data-theme=\"dark\"] .phelp-drawer{background:var(--tyd-acc-dark, #172635);border-color:#2e4a5f;}",
+    "html[data-theme=\"dark\"] .pchip{background:#23414d;color:#d7ecf5;border-color:#2e4a5f;}",
+    "html[data-theme=\"dark\"] .pdbtn{background:#23414d;color:#d7ecf5;border-color:#2e4a5f;}",
+    "html[data-theme=\"dark\"] .phelp-form input{background:#101e2c;color:#eefaff;border-color:#2e4a5f;}",
+    "html[data-theme=\"dark\"] .phelp-note{color:#bcd6e4;}",
+    "html[data-theme=\"dark\"] .phelp-dhead{color:#ffd94d;}",
+    "html[data-theme=\"dark\"] .psaved{color:#eefaff;border-color:#2e4a5f;}",
+    "@media print{.phelp-launch,.phelp-panel{display:none !important;}}"
+  ].join("\n");
+  var st = document.createElement("style"); st.textContent = css; document.head.appendChild(st);
+  function esc(t) { return String(t == null ? "" : t).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+
+  /* Utilities handed to each page's answer function. */
+  var U = {
+    ls: function (k, d) { try { var v = JSON.parse(localStorage.getItem(k)); return v == null ? d : v; } catch (e) { return d; } },
+    snap: function () { try { return (window.TYDPage && window.TYDPage.snapshot) ? window.TYDPage.snapshot() : null; } catch (e) { return null; } },
+    todayISO: function () { var d = new Date(); return d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2); },
+    daysUntil: function (ds) { if (!ds) return null; return Math.round((new Date(ds + "T12:00:00") - new Date(U.todayISO() + "T12:00:00")) / 86400000); },
+    fmtDate: function (ds) { if (!ds) return ""; try { return new Date(ds + "T12:00:00").toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" }); } catch (e) { return String(ds); } },
+    money: function (n) { n = Number(n) || 0; var r = Math.round(n * 100) / 100; return "$" + r.toLocaleString(undefined, { minimumFractionDigits: (r % 1 !== 0) ? 2 : 0, maximumFractionDigits: 2 }); },
+    when: function (ds) { var d = U.daysUntil(ds); if (d === null) return ""; if (d < 0) return "overdue by " + (-d) + (d === -1 ? " day" : " days"); if (d === 0) return "today"; if (d === 1) return "tomorrow"; return "in " + d + " days"; },
+    plural: function (n, one, many) { return n + " " + (n === 1 ? one : many); }
+  };
+
+  var log = [];
+  var greeted = false;
+  var openStamp = 0;
+  var drawerOpen = false;
+
+  var launch = document.createElement("button");
+  launch.className = "phelp-launch"; launch.type = "button";
+  launch.innerHTML = '<img class="botduck" src="' + (CFG.duck || "") + '" alt="">' + "Planner help";
+  launch.setAttribute("aria-label", "Open the " + (CFG.section || "") + " helper chat");
+  document.body.appendChild(launch);
+
+  var panel = document.createElement("div");
+  panel.className = "phelp-panel";
+  panel.innerHTML = '<div class="phelp-head"><div class="t"><img class="botduck" src="' + (CFG.duck || "") + '" alt="">' + esc((CFG.title || "Helper").replace(/^🦆 /, ""))
+    + '<button type="button" class="phelp-expbtn" data-expbtn>⬇ Export</button>'
+    + '<button type="button" class="phelp-x" data-close aria-label="Close">✕</button></div>'
+    + '<div class="ctx">' + esc(CFG.honest || "") + "</div></div>"
+    + '<div class="phelp-drawer" data-drawer>'
+    + '<div class="phelp-drow"><button type="button" class="pdbtn main" data-expfile>💾 Save as a file</button>'
+    + '<button type="button" class="pdbtn" data-expacct>☁️ Save to my account</button></div>'
+    + '<div class="phelp-note" data-expnote></div>'
+    + '<div class="phelp-dhead">📁 Saved chats</div><div data-savedlist></div>'
+    + "</div>"
+    + '<div class="phelp-msgs" data-msgs></div>'
+    + '<div class="phelp-chips" data-chips></div>'
+    + '<form class="phelp-form"><input type="text" placeholder="' + esc(CFG.placeholder || "Ask the duck...") + '" aria-label="Ask the helper"><button type="submit">Send</button></form>';
+  document.body.appendChild(panel);
+
+  var msgs = panel.querySelector("[data-msgs]");
+  var chipsBox = panel.querySelector("[data-chips]");
+  var drawer = panel.querySelector("[data-drawer]");
+  var expNote = panel.querySelector("[data-expnote]");
+  var savedList = panel.querySelector("[data-savedlist]");
+  var input = panel.querySelector(".phelp-form input");
+
+  function renderMsgs() {
+    msgs.innerHTML = log.map(function (m) {
+      return '<div class="pmsg ' + (m.who === "me" ? "me" : "bot") + '">' + esc(m.text).replace(/\n/g, "<br>") + "</div>";
+    }).join("");
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+  function renderChips() {
+    var chips = [];
+    try { chips = (typeof CFG.chips === "function") ? CFG.chips(U) : (CFG.chips || []); } catch (e) { chips = []; }
+    chipsBox.innerHTML = "";
+    (chips || []).forEach(function (c) {
+      var b = document.createElement("button");
+      b.type = "button"; b.className = "pchip"; b.textContent = c[0];
+      b.addEventListener("click", function () { ask(c[1]); });
+      chipsBox.appendChild(b);
+    });
+  }
+  function say(text) { log.push({ who: "duck", text: String(text == null ? "" : text) }); renderMsgs(); }
+  function ask(q) {
+    q = String(q || "").trim();
+    if (!q) return;
+    log.push({ who: "me", text: q });
+    var a = null;
+    try { a = CFG.answer ? CFG.answer(q, U) : null; } catch (e) { a = null; }
+    if (!a) a = CFG.fallback || "Quack, that one is beyond this little duck. Try one of the topics above!";
+    log.push({ who: "duck", text: a });
+    renderMsgs();
+    renderChips();
+  }
+  function openPanel() {
+    panel.classList.add("show");
+    launch.style.display = "none";
+    if (!greeted) { greeted = true; if (CFG.greet) log.push({ who: "duck", text: CFG.greet }); }
+    openStamp = Date.now();
+    renderMsgs(); renderChips(); renderSaved();
+    setTimeout(function () { if (panel.classList.contains("show")) renderSaved(); }, 1600);
+    setTimeout(function () { if (panel.classList.contains("show")) renderSaved(); }, 4200);
+    setTimeout(function () { try { input.focus(); } catch (e) {} }, 60);
+  }
+  function closePanel() {
+    panel.classList.remove("show");
+    launch.style.display = "";
+  }
+  launch.addEventListener("click", openPanel);
+  panel.querySelector("[data-close]").addEventListener("click", closePanel);
+  panel.querySelector(".phelp-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var v = input.value; input.value = "";
+    ask(v);
+  });
+
+  /* ---------- export ---------- */
+  function transcript() {
+    var lines = [(CFG.section || "Pond") + " Helper chat", "Exported " + new Date().toLocaleString(), ""];
+    log.forEach(function (m) { lines.push((m.who === "me" ? "You: " : "Duck: ") + m.text); });
+    return lines.join("\n");
+  }
+  function download(name, text) {
+    try {
+      var blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement("a");
+      a.href = url; a.download = name;
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(function () { URL.revokeObjectURL(url); }, 400);
+    } catch (e) {}
+  }
+  function fileName(section) {
+    return String(section || "pond").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") + "-chat-" + U.todayISO() + ".txt";
+  }
+  function chats() { return window.TYDChats || null; }
+  function renderSaved() {
+    var C = chats();
+    if (!C || !C.ready) { savedList.innerHTML = '<div class="phelp-note">' + (Date.now() - openStamp > 4000 ? "Sign in with your Pond Account to keep chats here. Saving as a file works any time." : "Checking your Pond Account...") + '</div>'; return; }
+    if (!C.user) { savedList.innerHTML = '<div class="phelp-note">Sign in with your Pond Account to keep chats here. Saving as a file works any time.</div>'; return; }
+    if (!C.list.length) { savedList.innerHTML = '<div class="phelp-note">No saved chats yet. Export this chat to your account and it will live here.</div>'; return; }
+    savedList.innerHTML = C.list.map(function (e) {
+      var when = "";
+      try { when = new Date(e.createdAt).toLocaleString([], { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }); } catch (x) {}
+      return '<div class="psaved"><div>' + esc(e.title || (e.section || "Chat")) + '</div><div class="pm">' + esc(e.section || "") + (when ? " · " + esc(when) : "") + '</div>'
+        + '<div class="pa"><button type="button" data-dl="' + esc(e.id) + '">⬇ Download</button><button type="button" data-del="' + esc(e.id) + '">✕ Delete</button></div></div>';
+    }).join("");
+    savedList.querySelectorAll("[data-dl]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var id = b.getAttribute("data-dl");
+        var e = (chats() ? chats().list : []).filter(function (x) { return x.id === id; })[0];
+        if (e) download(fileName(e.section), String(e.text || ""));
+      });
+    });
+    savedList.querySelectorAll("[data-del]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var C2 = chats(); if (!C2) return;
+        C2.remove(b.getAttribute("data-del")).then(renderSaved).catch(renderSaved);
+      });
+    });
+  }
+  panel.querySelector("[data-expbtn]").addEventListener("click", function () {
+    drawerOpen = !drawerOpen;
+    drawer.classList.toggle("show", drawerOpen);
+    if (drawerOpen) { expNote.textContent = ""; renderSaved(); }
+  });
+  panel.querySelector("[data-expfile]").addEventListener("click", function () {
+    download(fileName(CFG.section), transcript());
+    expNote.textContent = "Saved as a file on this device. 💾";
+  });
+  panel.querySelector("[data-expacct]").addEventListener("click", function () {
+    var C = chats();
+    if (!C || !C.user) { expNote.textContent = "Saving to your account needs you signed in. Sign in with your Pond Account, then tap Export again. The file download above works either way."; return; }
+    var entry = {
+      id: "c" + Date.now().toString(36) + Math.random().toString(36).slice(2, 7),
+      section: CFG.section || "",
+      title: (CFG.section || "Pond") + " chat · " + new Date().toLocaleDateString(undefined, { month: "short", day: "numeric" }),
+      text: transcript().slice(0, 20000),
+      createdAt: Date.now()
+    };
+    C.save(entry).then(function () {
+      expNote.textContent = "Saved to your Pond Account. ☁️ Find it under Saved chats on any of the helper ducks.";
+      renderSaved();
+    }).catch(function () {
+      expNote.textContent = "That save did not go through just now. Try the file download instead, and check back soon.";
+    });
+  });
+  window.addEventListener("tydchats", function () { if (panel.classList.contains("show")) renderSaved(); });
+})();
+
+</script>
+<script src="pond-staging.js"></script>
 </body>
 </html>

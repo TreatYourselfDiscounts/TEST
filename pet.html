@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, viewport-fit=cover">
+<title>Pet | Pet Corner | TreatYourselfDiscounts</title>
+<meta name="description" content="One pet's own page in the Pond: care dates, vet visits, notes and photos.">
+<link rel="icon" href="images/favicon.ico">
+<style>
+  * { box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; color: #1f5f74; line-height: 1.5; margin: 0; padding: 0 0 120px; }
+  .app { max-width: 760px; margin: 0 auto; padding: 14px; }
+  h1 { font-size: 26px; margin: 6px 0 2px; color: #1f5f74; }
+  h2 { font-size: 18px; margin: 0 0 8px; color: #1f5f74; }
+  .back { margin: 2px 0 8px; }
+  .back a { color: #1f5f74; font-weight: 700; text-decoration: none; }
+  .sub { color: #3f6b7a; margin: 0 0 12px; }
+  .card { background: #fff; border: 2px solid #bcd9e4; border-radius: 18px; padding: 16px; margin-bottom: 14px; box-shadow: 0 2px 8px rgba(31, 95, 116, .08); }
+  .syncnote { font-size: 13px; color: #4a6b78; margin: 0 0 12px; }
+  .btn { display: inline-block; border: 0; border-radius: 999px; padding: 11px 18px; font-size: 15px; font-weight: 800; cursor: pointer; text-decoration: none; }
+  .btn-main { background: #ffd94d; color: #1f5f74; }
+  .btn-alt { background: #dff1f8; color: #1f5f74; }
+  .btn-ghost { background: transparent; color: #1f5f74; border: 2px solid #bcd9e4; }
+  .btn-danger { background: #fde8e8; color: #a33; }
+  input, select, textarea { width: 100%; padding: 12px; border: 2px solid #bcd9e4; border-radius: 12px; font: inherit; background: #fff; color: #1f5f74; }
+  label { display: block; font-weight: 700; font-size: 13.5px; margin: 10px 0 4px; color: #1f5f74; }
+  .prow2 { display: flex; gap: 8px; flex-wrap: wrap; }
+  .prow2 > div { flex: 1 1 0; min-width: 0; }
+  .prow2 input, .prow2 select { min-width: 0; max-width: 100%; }
+  @media (max-width: 560px) { .prow2 { flex-direction: column; } .prow2 > div { flex: none; width: 100%; } }
+  .pethead { display: flex; gap: 12px; align-items: center; }
+  .pethead .grow { flex: 1; min-width: 0; }
+  .petphoto { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; flex: none; border: 2px solid #bcd9e4; }
+  .petface { width: 64px; height: 64px; border-radius: 50%; background: #dff1f8; display: flex; align-items: center; justify-content: center; font-size: 34px; flex: none; }
+  .petname { font-weight: 800; font-size: 19px; }
+  .petmeta { font-size: 13.5px; color: #5b7d89; }
+  .petdates { font-size: 13.5px; color: #3f6b7a; margin-top: 4px; line-height: 1.6; }
+  .petdates b { color: #1f5f74; }
+  .iconbtn { border: 2px solid #bcd9e4; background: #fff; color: #1f5f74; border-radius: 999px; padding: 5px 10px; font-size: 13px; font-weight: 700; cursor: pointer; flex: none; }
+  .iconbtn.del { color: #a33; border-color: #eec9c9; }
+  .iconbtn.done { color: #2b7a4b; border-color: #bfe3cd; }
+  .care { display: flex; gap: 8px; align-items: flex-start; padding: 8px 0; border-bottom: 1px solid #e3eff4; }
+  .care:last-child { border-bottom: none; }
+  .care .grow { flex: 1; min-width: 0; }
+  .cmeta { font-size: 13px; color: #5b7d89; }
+  .careform, .vetform { background: #f4fafc; border: 1.5px dashed #bcd9e4; border-radius: 14px; padding: 12px; margin-top: 12px; }
+  .careform .prow2, .vetform .prow2 { margin-top: 6px; }
+  .openlink { display: inline-block; margin-top: 8px; font-weight: 800; color: #1f5f74; text-decoration: none; font-size: 14px; }
+  .galgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; }
+  .galgrid figure { margin: 0; position: relative; }
+  .galgrid img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 12px; border: 1.5px solid #dceef5; display: block; background: #fff; }
+  .galdel { position: absolute; top: 4px; right: 4px; width: 32px; height: 32px; border-radius: 50%; border: 2px solid #a33; background: #fff; color: #a33; font-size: 17px; font-weight: 800; cursor: pointer; line-height: 1; padding: 0; box-shadow: 0 1px 5px rgba(0,0,0,.35); }
+  /* v332: document cards in the gallery — a tap opens the document in
+     a new tab; the × still deletes. v335: the square card is an inner
+     .docface div so the caption + date can sit below it, like a photo. */
+  .galgrid .docface { background: #f4fafc; border: 1.5px solid #dceef5; border-radius: 12px; aspect-ratio: 1 / 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; padding: 8px; cursor: pointer; text-align: center; }
+  .galgrid .docface .docico { font-size: 30px; line-height: 1; }
+  .galgrid .docface .docname { font-size: 12px; font-weight: 700; color: #1f5f74; word-break: break-word; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .galgrid .docface .docmeta { font-size: 11.5px; color: #5b7d89; }
+  /* v335: caption + date under each gallery item, the ✏️ edit button,
+     and the date-order picker. Tap the caption (or the ✏️) to edit. */
+  .galgrid figcaption { padding: 5px 2px 0; cursor: pointer; }
+  .galcap { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size: 12.5px; font-weight: 600; color: #1f5f74; line-height: 1.3; }
+  .galcap.empty { color: #7ba3b0; font-weight: 400; font-style: italic; }
+  .galdate { display: block; font-size: 11.5px; color: #5b7d89; margin-top: 1px; }
+  .galedit { position: absolute; top: 4px; left: 4px; width: 32px; height: 32px; border-radius: 50%; border: 2px solid #bcd9e4; background: #fff; color: #1f5f74; font-size: 15px; font-weight: 800; cursor: pointer; line-height: 1; padding: 0; box-shadow: 0 1px 5px rgba(0,0,0,.35); }
+  .galtools { display: flex; align-items: center; gap: 8px; margin-top: 10px; font-size: 13.5px; color: #3f6b7a; }
+  .galtools select { height: 38px; border-radius: 10px; border: 1.5px solid #bcd9e4; background: #fff; color: #1f5f74; font-weight: 700; padding: 0 8px; }
+  /* v335: per-photo caption + date editor — a small sheet over the page. */
+  .galedit-sheet { position: fixed; inset: 0; z-index: 10090; background: rgba(8,18,24,.55); display: flex; align-items: flex-end; justify-content: center; }
+  /* v336: the author display:flex above beats the UA [hidden] rule, so
+     without this the sheet stayed visible on load and Cancel/Save/
+     backdrop could never hide it — the hidden attribute had no effect. */
+  .galedit-sheet[hidden] { display: none; }
+  .galedit-card { background: #fff; border-radius: 18px 18px 0 0; width: 100%; max-width: 480px; padding: 18px 18px calc(18px + env(safe-area-inset-bottom)); box-sizing: border-box; }
+  .galedit-card h3 { margin: 0 0 4px; color: #1f5f74; font-size: 17px; }
+  .galedit-card label { display: block; font-size: 13px; font-weight: 700; color: #1f5f74; margin-top: 10px; }
+  .galedit-card input { width: 100%; min-width: 0; max-width: 100%; height: 46px; border: 1.5px solid #bcd9e4; border-radius: 10px; padding: 0 10px; font-size: 15px; margin-top: 4px; box-sizing: border-box; }
+  .galedit-btns { display: flex; gap: 8px; margin-top: 14px; }
+  #galedit-date::-webkit-datetime-edit, #galedit-date::-webkit-datetime-edit-fields-wrapper,
+  #galedit-date::-webkit-datetime-edit-month-field, #galedit-date::-webkit-datetime-edit-day-field,
+  #galedit-date::-webkit-datetime-edit-year-field { padding-block: 0; }
+  @supports (-webkit-touch-callout: none) {
+    #galedit-date { -webkit-appearance: none; appearance: none; }
+  }
+  .galmsg { font-size: 13.5px; font-weight: 700; color: #a33; margin: 8px 0 0; }
+  .galmsg.ok { color: #2b7a4b; }
+  /* v334: the gallery intro + empty-state lines are classes (not inline
+     #3f6b7a) so they get a real dark-mode color; the empty line is bold
+     and unmistakable so it can never be missed when the gallery is empty. */
+  .galnote { color: #3f6b7a; font-size: 14px; margin-top: 0; }
+  .galempty { color: #1f5f74; font-size: 15px; font-weight: 700; margin: 10px 0 0; }
+  .vetrow { display: flex; gap: 8px; align-items: flex-start; padding: 8px 0; border-bottom: 1px solid #e3eff4; }
+  .vetrow:last-child { border-bottom: none; }
+  .vetrow .grow { flex: 1; min-width: 0; }
+  /* v331 date-input fix: iOS Safari renders native date controls from
+     their own intrinsic size (RenderThemeIOS "new look") instead of the
+     author's width/height, so the empty Date box came out taller and wider
+     than its siblings at phone width — the v327 max-width:none below (which
+     defeated the 100% cap and the site-nav.js 320px cap) let the native
+     control overflow the form, and its inner value container laid out tall
+     with no segments visible. Fix: pin every date input on this page to
+     its container at the same 46px height as its row-mates, and on iOS
+     only (via -webkit-touch-callout, which only iOS Safari supports)
+     strip the native appearance so the control lays out like the
+     text/number/select fields. The old site-nav.js :has() rule that forced
+     the Date column to a 320px basis (rows overlapping on Lucy's tablet)
+     stays gone. The 1px block padding the UA stylesheet adds inside the
+     date fields is reset everywhere (harmless on desktop). */
+  #petdetail input[type="date"] {
+    min-width: 0; width: 100%; max-width: 100%;
+    height: 46px; min-height: 46px;
+  }
+  #petdetail input[type="date"]::-webkit-datetime-edit,
+  #petdetail input[type="date"]::-webkit-datetime-edit-fields-wrapper,
+  #petdetail input[type="date"]::-webkit-datetime-edit-month-field,
+  #petdetail input[type="date"]::-webkit-datetime-edit-day-field,
+  #petdetail input[type="date"]::-webkit-datetime-edit-year-field { padding-block: 0; }
+  @supports (-webkit-touch-callout: none) {
+    #petdetail input[type="date"] { -webkit-appearance: none; appearance: none; }
+  }
+  #petdetail .careform input, #petdetail .careform select,
+  #petdetail .vetform input, #petdetail .vetform select { height: 46px; }
+  #petdetail .editform input, #petdetail .editform select { height: 46px; }
+  html[data-theme="dark"] body { color: #eefaff; }
+  html[data-theme="dark"] h1, html[data-theme="dark"] h2, html[data-theme="dark"] .back a,
+  html[data-theme="dark"] .petdates b, html[data-theme="dark"] .openlink { color: #c9f0fc; }
+  html[data-theme="dark"] .sub, html[data-theme="dark"] .syncnote, html[data-theme="dark"] .petmeta,
+  html[data-theme="dark"] .cmeta, html[data-theme="dark"] .petdates { color: #bcd6e4; }
+  html[data-theme="dark"] .card { background: #172635; border-color: #2e4a5f; }
+  html[data-theme="dark"] input, html[data-theme="dark"] select, html[data-theme="dark"] textarea { background: #0f1c29; border-color: #2e4a5f; color: #eefaff; }
+  html[data-theme="dark"] label { color: #c9f0fc; }
+  html[data-theme="dark"] .careform, html[data-theme="dark"] .vetform { background: #101e2c; border-color: #2e4a5f; }
+  html[data-theme="dark"] .care, html[data-theme="dark"] .vetrow { border-color: #2e4a5f; }
+  html[data-theme="dark"] .iconbtn { background: #0f1c29; border-color: #2e4a5f; color: #c9f0fc; }
+  html[data-theme="dark"] .iconbtn.del { color: #ffb3b3; border-color: #5a2e2e; }
+  html[data-theme="dark"] .iconbtn.done { color: #a9e8c0; border-color: #2e5a40; }
+  html[data-theme="dark"] .petface { background: #23414d; }
+  html[data-theme="dark"] .galgrid img { border-color: #2e4a5f; background: #0f1c29; }
+  html[data-theme="dark"] .galdel { background: #fff; border-color: #a33; color: #a33; }
+  html[data-theme="dark"] .galnote { color: #bcd6e4; }
+  html[data-theme="dark"] .galempty { color: #c9f0fc; }
+  html[data-theme="dark"] .galgrid .docface { background: #101e2c; border-color: #2e4a5f; }
+  html[data-theme="dark"] .galgrid .docface .docname { color: #c9f0fc; }
+  html[data-theme="dark"] .galgrid .docface .docmeta { color: #bcd6e4; }
+  html[data-theme="dark"] .galcap { color: #c9f0fc; }
+  html[data-theme="dark"] .galcap.empty { color: #7ba3b0; }
+  html[data-theme="dark"] .galdate { color: #bcd6e4; }
+  html[data-theme="dark"] .galedit { background: #fff; border-color: #a33; color: #a33; }
+  html[data-theme="dark"] .galtools { color: #bcd6e4; }
+  html[data-theme="dark"] .galtools select { background: #0f1c29; border-color: #2e4a5f; color: #eefaff; }
+  html[data-theme="dark"] .galedit-card { background: #172635; }
+  html[data-theme="dark"] .galedit-card h3, html[data-theme="dark"] .galedit-card label { color: #c9f0fc; }
+  html[data-theme="dark"] .galedit-card input { background: #0f1c29; border-color: #2e4a5f; color: #eefaff; }
+  html[data-theme="dark"] .galmsg { color: #ffb3b3; }
+  html[data-theme="dark"] .galmsg.ok { color: #a9e8c0; }
+</style>
+<meta name="robots" content="noindex,nofollow">
+<link rel="stylesheet" href="pond-travel.css">
+<script>window.__TYD_PREVIEW__=true;</script>
+</head>
+<body>
+<div class="app">
+  <p class="back"><a href="pets.html">← Back to Pet Corner</a></p>
+  <header class="top" style="text-align:center; margin-bottom: 14px;">
+    <img src="images/corners/duck-pet.jpg" alt="Pet Corner duck" style="width: 92px; height: 92px; border-radius: 50%; object-fit: cover; border: 2px solid #bcd9e4;">
+    <h1>🐱 <span id="pagetitle">Pet Corner</span></h1>
+    <p class="sub">Their own little page — care dates, vet visits, notes and photos, all under their name.</p>
+  </header>
+  <p class="syncnote" id="sync-note">Saved on this device. <a href="account.html">Sign in to sync</a> it to your Pond Account.</p>
+
+  <div id="petdetail"></div>
+
+  <div class="card">
+    <h2>🗺️ Pet places</h2>
+    <p>Vets and pet-friendly places near a town you type in, plus the places you pin yourself — all on one map.</p>
+    <a class="btn btn-main" href="pet-map.html">Open the pet map</a>
+  </div>
+
+  <div class="card">
+    <h2>🐾 All pets together</h2>
+    <p>One calendar for every pet — care dates, vet visits, birthdays and gotcha days — lives on the main Pet Corner page.</p>
+    <a class="btn btn-alt" href="pets.html">Back to Pet Corner</a>
+    <a class="btn btn-alt" href="calendar.html" style="margin-left:6px;">Pond calendar</a>
+  </div>
+
+  <footer class="site-foot" style="text-align:center; margin: 26px 0 8px; font-size: 13px;">
+    <p><a href="index.html">Home</a> · <a href="pets.html">Pet Corner</a> · <a href="account.html">My Account</a></p>
+    <p style="color:#5b7d89;">Made with 💛 in the Pond. <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a></p>
+  </footer>
+</div>
+<div id="galedit" class="galedit-sheet" hidden>
+  <div class="galedit-card" role="dialog" aria-label="Edit photo note">
+    <h3 id="galedit-title">Edit photo note</h3>
+    <label for="galedit-cap">Caption</label>
+    <input id="galedit-cap" type="text" maxlength="200" placeholder="What is this about? Like: Nemo's first vet visit">
+    <label for="galedit-date">Date</label>
+    <input id="galedit-date" type="date">
+    <div class="galedit-btns"><button type="button" class="btn btn-main" id="galedit-save" style="padding:9px 16px;">Save</button><button type="button" class="btn btn-alt" id="galedit-cancel" style="padding:9px 16px;">Cancel</button></div>
+  </div>
+</div>
+<script src="auth-pill.js" type="module"></script>
+<script>
+(function () {
+  /* One pet's own page (v327, Lucy Nov 16, 2026). ?pet=<id> picks the pet;
+     all data lives in the same localStorage keys as pets.html (tydPets /
+     tydPetCare / tydPetVetVisits / tydPetGallery / tydPetPhotos), so the
+     main page and the pet pages never drift apart. */
+  function esc(s) { return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
+  function todayStr() { var d = new Date(); return d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2); }
+  function daysUntil(ds) { if (!ds) return null; return Math.round((new Date(ds + "T12:00:00") - new Date(todayStr() + "T12:00:00")) / 86400000); }
+  function addDays(ds, n) { var d = new Date(ds + "T12:00:00"); d.setDate(d.getDate() + n); return d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2); }
+  function fmtDate(ds) { if (!ds) return ""; var d = new Date(ds + "T12:00:00"); return d.toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" }); }
+  function uid() { return "p" + Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
+  var KINDS = { Food: "🍽️", Vet: "🩺", Medicine: "💊", Grooming: "✂️", Other: "🐾" };
+  function whenHtml(c) {
+    var d = daysUntil(c.date);
+    if (d === null) return "";
+    if (d < 0) return '<span class="when late">Overdue by ' + (-d) + (d === -1 ? " day" : " days") + "</span>";
+    if (d === 0) return '<span class="when today">Due today</span>';
+    if (d <= 3) return '<span class="when soon">In ' + d + (d === 1 ? " day" : " days") + "</span>";
+    return '<span class="when">In ' + d + " days</span>";
+  }
+  function yearlyNext(ds) {
+    if (!ds) return null;
+    var now = new Date(), y = now.getFullYear();
+    var m = +ds.slice(5, 7) - 1, d = +ds.slice(8, 10);
+    function occIn(yy) { var o = new Date(yy, m, d); if (d === 29 && m === 1 && o.getMonth() !== 1) o = new Date(yy, 1, 28); return o; }
+    var occ = occIn(y);
+    if (occ < new Date(todayStr() + "T12:00:00")) occ = occIn(y + 1);
+    return occ.getFullYear() + "-" + ("0" + (occ.getMonth() + 1)).slice(-2) + "-" + ("0" + occ.getDate()).slice(-2);
+  }
+  function ageOn(ds, onDs) {
+    if (!ds || !onDs) return null;
+    var b = new Date(ds + "T12:00:00"), o = new Date(onDs + "T12:00:00");
+    var a = o.getFullYear() - b.getFullYear();
+    if (o.getMonth() < b.getMonth() || (o.getMonth() === b.getMonth() && o.getDate() < b.getDate())) a--;
+    return a;
+  }
+  function bdayNote(ds, label) {
+    if (!ds) return "";
+    var next = yearlyNext(ds);
+    if (!next) return "";
+    var d = daysUntil(next);
+    var yrs = ageOn(ds, next);
+    if (d === 0) return " · " + label + " today! 🎉" + (yrs != null ? " Turns " + yrs + "." : "");
+    if (d > 0 && d <= 30) return " · " + label + " in " + d + (d === 1 ? " day" : " days") + (yrs != null ? " (turns " + yrs + ")" : "");
+    return "";
+  }
+
+  var LS_PETS = "tydPets", LS_CARE = "tydPetCare", LS_VET = "tydPetVetVisits",
+      LS_GAL = "tydPetGallery", LS_PHOTOS = "tydPetPhotos";
+  var pets = [], care = [], vetVisits = [], gallery = {}, nestPhotos = {};
+  try { var v1 = JSON.parse(localStorage.getItem(LS_PETS)); if (Array.isArray(v1)) pets = v1; } catch (e) {}
+  try { var v2 = JSON.parse(localStorage.getItem(LS_CARE)); if (Array.isArray(v2)) care = v2; } catch (e) {}
+  try { var v3 = JSON.parse(localStorage.getItem(LS_VET)); if (Array.isArray(v3)) vetVisits = v3; } catch (e) {}
+  try { var v4 = JSON.parse(localStorage.getItem(LS_GAL)); if (v4 && typeof v4 === "object" && !Array.isArray(v4)) gallery = v4; } catch (e) {}
+  try { var v5 = JSON.parse(localStorage.getItem(LS_PHOTOS)); if (v5 && typeof v5 === "object" && !Array.isArray(v5)) nestPhotos = v5; } catch (e) {}
+
+  function save() {
+    try { localStorage.setItem(LS_PETS, JSON.stringify(pets)); localStorage.setItem(LS_CARE, JSON.stringify(care)); localStorage.setItem(LS_VET, JSON.stringify(vetVisits)); localStorage.setItem(LS_GAL, JSON.stringify(gallery)); } catch (e) {}
+    if (window.TYDPageChanged) window.TYDPageChanged();
+  }
+  function savePhotos() { try { localStorage.setItem(LS_PHOTOS, JSON.stringify(nestPhotos)); return true; } catch (e) { return false; } }
+
+  var petId = new URLSearchParams(location.search).get("pet") || "";
+  var pet = pets.filter(function (p) { return p.id === petId; })[0] || null;
+  var editing = false;
+
+  /* ---- profile photo (same pipeline as pets.html) ---- */
+  function nestPhotoFor(id) { var e = nestPhotos[id]; return e && e.s ? e.s : ""; }
+  function nestPhotoPid() { return "L" + Date.now().toString(36) + Math.random().toString(36).slice(2, 8); }
+  function nestChoosePhoto(cb) {
+    var inp = document.createElement("input");
+    inp.type = "file"; inp.accept = "image/*";
+    inp.addEventListener("change", function () {
+      var f = inp.files && inp.files[0]; if (!f) return;
+      var url = URL.createObjectURL(f), img = new Image();
+      img.onload = function () {
+        var w = img.naturalWidth || 900, h = img.naturalHeight || 900;
+        function enc(max, q) {
+          var sc = Math.min(1, max / Math.max(w, h));
+          var c = document.createElement("canvas");
+          c.width = Math.max(1, Math.round(w * sc)); c.height = Math.max(1, Math.round(h * sc));
+          c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+          return c.toDataURL("image/jpeg", q);
+        }
+        var data = enc(900, 0.75);
+        if (data.length > 340000) data = enc(680, 0.68);
+        if (data.length > 340000) data = enc(500, 0.6);
+        URL.revokeObjectURL(url);
+        cb(data);
+      };
+      img.onerror = function () { URL.revokeObjectURL(url); alert("That photo format would not load here. A regular photo or a screenshot works best."); };
+      img.src = url;
+    });
+    inp.click();
+  }
+  function nestSetPhoto(key, url) {
+    nestPhotos[key] = { p: nestPhotoPid(), s: url };
+    if (!savePhotos()) alert("This device is short on room for photos, so this one may not stick around.");
+    if (window.TYDPetPhotos && window.TYDPetPhotos.up) window.TYDPetPhotos.up();
+  }
+  function nestRemovePhoto(key) {
+    var e = nestPhotos[key];
+    if (e && e.p && e.p.charAt(0) !== "L" && window.TYDPetPhotos && window.TYDPetPhotos.del) window.TYDPetPhotos.del(e.p, "pet:" + key);
+    delete nestPhotos[key];
+    savePhotos();
+  }
+
+  function items() { return care.filter(function (c) { return c.petId === petId; }).slice().sort(function (a, b) { return (a.date || "9999") < (b.date || "9999") ? -1 : 1; }); }
+  function vets() { return vetVisits.filter(function (v) { return v.petId === petId; }).slice().sort(function (a, b) { return (a.date || "9999") < (b.date || "9999") ? -1 : 1; }); }
+  function gal() { return gallery[petId] || []; }
+  /* v335: captions + dates. New items prefill today's date (the photo
+     was most likely taken around then); old items have no date until
+     Lucy fills one in. capTs stamps the last caption/date change so
+     the sync can tell which copy is newer. */
+  var GAL_SORT_KEY = "tydGalSort";
+  function galSortMode() { try { return localStorage.getItem(GAL_SORT_KEY) || "added"; } catch (e) { return "added"; } }
+  function galSorted() {
+    var list = gal().slice();
+    var mode = galSortMode();
+    if (mode === "added") return list;
+    list.sort(function (a, b) {
+      var da = a.dt || "", db = b.dt || "";
+      if (!da && !db) return 0;
+      if (!da) return 1; /* undated always last, either direction */
+      if (!db) return -1;
+      if (da === db) return 0;
+      var c = da < db ? -1 : 1;
+      return mode === "newest" ? -c : c;
+    });
+    return list;
+  }
+  function galItemById(id) { var list = gal(); for (var i = 0; i < list.length; i++) if (list[i].id === id) return list[i]; return null; }
+  var editingGalId = null;
+  function openGalEdit(id) {
+    var im = galItemById(id); if (!im) return;
+    editingGalId = id;
+    var sh = document.getElementById("galedit");
+    if (!sh) return;
+    document.getElementById("galedit-cap").value = im.cap || "";
+    document.getElementById("galedit-date").value = im.dt || "";
+    document.getElementById("galedit-title").textContent = im.kind === "doc" ? "Edit document note" : "Edit photo note";
+    sh.hidden = false;
+    var cap = document.getElementById("galedit-cap"); if (cap) cap.focus();
+  }
+  function closeGalEdit() { var sh = document.getElementById("galedit"); if (sh) sh.hidden = true; editingGalId = null; }
+  function saveGalEdit() {
+    if (!editingGalId) return;
+    var im = galItemById(editingGalId); if (!im) { closeGalEdit(); return; }
+    var capEl = document.getElementById("galedit-cap"), dtEl = document.getElementById("galedit-date");
+    im.cap = (capEl.value || "").trim().slice(0, 200);
+    im.dt = dtEl.value || "";
+    im.capTs = Date.now();
+    save();
+    if (im.p && im.p.charAt(0) !== "L" && window.TYDPetPhotos && window.TYDPetPhotos.update) window.TYDPetPhotos.update(im.p, { caption: im.cap, capDate: im.dt, capTs: im.capTs });
+    closeGalEdit(); render();
+  }
+  /* v332: document source lookup for the shared viewer. The gallery
+     binds before site-nav.js loads, so registration alone would miss;
+     the viewer calls this provider at tap time instead. */
+  window.TYDPetDocSrc = function (id) {
+    var list = gal();
+    for (var i = 0; i < list.length; i++) {
+      if (list[i].id === id && list[i].kind === "doc") return list[i].s || "";
+    }
+    return "";
+  };
+  /* v332 documents: a document rides the same Firestore photos path as
+     a photo, as a base64 data URL in one photos doc. A 1MB Firestore
+     doc holds ~933KB of base64 plus ~1KB of fields, so the largest raw
+     file that provably fits is 700KB — anything bigger is refused with
+     an on-screen message instead of a silent failed sync. */
+  var DOC_MAX_BYTES = 700 * 1024;
+  function fmtSize(n) { n = Number(n) || 0; if (n < 1024) return n + " B"; if (n < 1024 * 1024) return (Math.round(n / 102.4) / 10) + " KB"; return (Math.round(n / 104857.6) / 10) + " MB"; }
+  function docTypeLabel(t) { if (!t) return "Document"; if (t.indexOf("pdf") !== -1) return "PDF"; if (t.indexOf("text") !== -1 || t.indexOf("plain") !== -1) return "Text"; return "Document"; }
+
+  function render() {
+    var host = document.getElementById("petdetail");
+    if (!pet) {
+      document.getElementById("pagetitle").textContent = "Pet Corner";
+      var list = pets.slice().sort(function (a, b) { return (a.ord || 0) - (b.ord || 0); }).map(function (p) {
+        return '<div class="care"><div class="grow"><div><b>' + esc(p.name) + '</b> <span class="cmeta">' + esc(p.species || "Pet") + '</span></div></div><a class="btn btn-alt" style="padding:7px 14px;" href="pet.html?pet=' + p.id + '">Open →</a></div>';
+      }).join("");
+      host.innerHTML = '<div class="card"><h2>Which pet?</h2><p>' + (pets.length ? "Pick a pet to open their own page." : "No pets in the corner yet — add your first one on the main Pet Corner page.") + '</p>' + list + '<p style="margin:12px 0 0;"><a class="openlink" href="pets.html">← Back to Pet Corner</a></p></div>';
+      return;
+    }
+    document.getElementById("pagetitle").textContent = pet.name;
+    document.title = pet.name + " | Pet Corner | TreatYourselfDiscounts";
+    var photo = nestPhotoFor(pet.id);
+    var datesLine = "";
+    if (pet.birthday) datesLine += "🎂 Birthday " + fmtDate(pet.birthday) + bdayNote(pet.birthday, "Birthday");
+    if (pet.gotcha) datesLine += (datesLine ? " · " : "") + "🏡 Gotcha day " + fmtDate(pet.gotcha) + bdayNote(pet.gotcha, "Gotcha day");
+    var yrs = pet.birthday ? ageOn(pet.birthday, todayStr()) : null;
+    var h = "";
+    /* details */
+    h += '<div class="card"><div class="pethead">' +
+      (photo ? '<img class="petphoto" src="' + photo + '" alt="" data-tydlb>' : '<div class="petface">' + esc(pet.emoji || "🐾") + '</div>') +
+      '<div class="grow"><div class="petname">' + esc(pet.name) + '</div>' +
+      '<div class="petmeta">' + esc(pet.species || "Pet") + (yrs != null ? " · " + yrs + (yrs === 1 ? " year" : " years") + " old" : "") + '</div>' +
+      (datesLine ? '<div class="petdates">' + datesLine + '</div>' : "") + '</div>' +
+      '<button type="button" class="iconbtn" id="editbtn">' + (editing ? "Close" : "Edit") + '</button></div>';
+    if (editing) {
+      h += '<form class="editform" id="editform" style="margin-top:12px;"><div class="prow2"><div>' +
+        '<label>Name</label><input id="ed-name" type="text" value="' + esc(pet.name) + '"></div>' +
+        '<div><label>Species</label><input id="ed-species" type="text" value="' + esc(pet.species || "Cat") + '"></div></div>' +
+        '<div class="prow2"><div><label>Emoji</label><input id="ed-emoji" type="text" value="' + esc(pet.emoji || "🐈") + '"></div>' +
+        '<div><label>Birthday</label><input id="ed-birthday" type="date" value="' + esc(pet.birthday || "") + '"></div>' +
+        '<div><label>Gotcha day</label><input id="ed-gotcha" type="date" value="' + esc(pet.gotcha || "") + '"></div></div>' +
+        '<div style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap;">' +
+        '<button type="submit" class="btn btn-main" style="padding:9px 16px;">Save details</button>' +
+        '<button type="button" class="btn btn-alt" id="changephoto" style="padding:9px 16px;">📷 Change photo</button>' +
+        (photo ? '<button type="button" class="btn btn-ghost" id="removephoto" style="padding:9px 16px;">Remove photo</button>' : "") +
+        '</div></form>';
+    }
+    h += '</div>';
+    /* care dates (form layout fixed in v327 — see the CSS note) */
+    var rows = items().map(function (c) {
+      return '<div class="care"><div class="grow"><div>' + (KINDS[c.kind] || "🐾") + " <b>" + esc(c.title) + "</b></div>" +
+        '<div class="cmeta">' + esc(c.kind || "Other") + (c.date ? " · " + fmtDate(c.date) + " · " : " · ") + whenHtml(c) +
+        (c.repeatDays ? " · repeats every " + c.repeatDays + " days" : "") +
+        (c.note ? "<br>“" + esc(c.note) + "”" : "") + "</div></div>" +
+        '<button type="button" class="iconbtn done" data-done="' + c.id + '">✓ Done</button>' +
+        '<button type="button" class="iconbtn del" data-delcare="' + c.id + '">✕</button></div>';
+    }).join("");
+    h += '<div class="card"><h2>🩺 Care dates</h2>' +
+      (rows || '<p style="color:#3f6b7a; font-size:14px;">No care dates yet for ' + esc(pet.name) + ". Add the first one below.</p>") +
+      '<form class="careform" id="careform"><div class="prow2"><div>' +
+      '<label>Kind</label><select class="ck-kind"><option>Food</option><option>Vet</option><option>Medicine</option><option>Grooming</option><option>Other</option></select></div>' +
+      '<div><label>What</label><input class="ck-title" type="text" placeholder="Like: Flea meds, Annual checkup"></div></div>' +
+      '<div class="prow2"><div><label>Date</label><input class="ck-date" type="date"></div>' +
+      '<div><label>Repeat every (days, optional)</label><input class="ck-rep" type="number" min="1" placeholder="Like: 30"></div></div>' +
+      '<label>Note (optional)</label><input class="ck-note" type="text" placeholder="Anything to remember">' +
+      '<div style="margin-top:8px;"><button type="submit" class="btn btn-alt" style="margin:0; padding:9px 14px;">+ Add care</button></div></form></div>';
+    /* vet visits */
+    var vrows = vets().map(function (v) {
+      return '<div class="vetrow"><div class="grow"><div>🩺 <b>' + esc(v.vet || v.clinic || "Vet visit") + '</b>' + (v.clinic && v.vet ? ' <span class="cmeta">· ' + esc(v.clinic) + '</span>' : "") + '</div>' +
+        '<div class="cmeta">' + (v.date ? fmtDate(v.date) + " · " : "") + esc(v.reason || "") +
+        (v.notes ? "<br>“" + esc(v.notes) + "”" : "") + "</div></div>" +
+        '<button type="button" class="iconbtn del" data-delvet="' + v.id + '">✕</button></div>';
+    }).join("");
+    h += '<div class="card"><h2>🏥 Vet visits</h2>' +
+      (vrows || '<p style="color:#3f6b7a; font-size:14px;">No vet visits recorded yet for ' + esc(pet.name) + ".</p>") +
+      '<form class="vetform" id="vetform"><div class="prow2"><div>' +
+      '<label>Vet name</label><input class="vv-vet" type="text" placeholder="Like: Dr. Patel"></div>' +
+      '<div><label>Clinic</label><input class="vv-clinic" type="text" placeholder="Like: Riverside Animal Hospital"></div></div>' +
+      '<div class="prow2"><div><label>Date</label><input class="vv-date" type="date"></div>' +
+      '<div><label>Reason</label><input class="vv-reason" type="text" placeholder="Like: Annual checkup"></div></div>' +
+      '<label>Notes (optional)</label><input class="vv-notes" type="text" placeholder="Anything to remember">' +
+      '<div style="margin-top:8px;"><button type="submit" class="btn btn-alt" style="margin:0; padding:9px 14px;">+ Add vet visit</button></div></form></div>';
+    /* notes */
+    h += '<div class="card"><h2>📝 Notes</h2><p style="color:#3f6b7a; font-size:14px; margin-top:0;">Anything about ' + esc(pet.name) + ' — habits, likes, things the sitter should know.</p>' +
+      '<textarea id="petnotes" rows="4" placeholder="Like: Hides under the bed when it thunders. Loves the sunny spot by the window.">' + esc(pet.notes || "") + '</textarea>' +
+      '<div style="margin-top:8px; display:flex; gap:8px; align-items:center;"><button type="button" class="btn btn-main" id="savenotes" style="padding:9px 16px;">Save notes</button><span id="notesaved" style="color:#2b7a4b; font-weight:700; font-size:13.5px;"></span></div></div>';
+    /* gallery (v332: tap a photo to open it full-size in the shared
+       lightbox; documents live here too, as doc cards that open in a
+       new tab to read. v335: every item carries a caption + a date —
+       shown under the thumbnail and in the lightbox — and the list can
+       be ordered by date. Tap the caption or the ✏️ to edit it.) */
+    var g = galSorted();
+    function galCapHtml(im) {
+      var cap = im.cap || "", dt = im.dt || "";
+      return '<figcaption data-editgal="' + im.id + '" title="Tap to add a note"><span class="galcap' + (cap ? "" : " empty") + '">' + esc(cap || "Add a note…") + '</span>' + (dt ? '<span class="galdate">' + esc(fmtDate(dt)) + "</span>" : "") + "</figcaption>";
+    }
+    var ghtml = g.map(function (im) {
+      if (im.kind === "doc") {
+        return '<figure class="doccard" data-tyddoc="' + im.id + '"><div class="docface"><span class="docico">📄</span><span class="docname">' + esc(im.name || "Document") + '</span><span class="docmeta">' + esc(docTypeLabel(im.type)) + " · " + fmtSize(im.size || 0) + '</span></div><button type="button" class="galedit" data-editgal="' + im.id + '" aria-label="Edit caption and date">✏️</button><button type="button" class="galdel" data-delgal="' + im.id + '" aria-label="Delete document">✕</button>' + galCapHtml(im) + "</figure>";
+      }
+      return '<figure><img src="' + im.s + '" alt="" data-tydlb data-tydlb-group="petgal" data-tydlb-cap="' + esc(im.cap || "") + '" data-tydlb-date="' + esc(im.dt || "") + '"><button type="button" class="galedit" data-editgal="' + im.id + '" aria-label="Edit caption and date">✏️</button><button type="button" class="galdel" data-delgal="' + im.id + '" aria-label="Delete photo">✕</button>' + galCapHtml(im) + "</figure>";
+    }).join("");
+    var sortMode = galSortMode();
+    var sortRow = g.length > 1 ? '<div class="galtools"><label for="galsort">Order</label><select id="galsort"><option value="added"' + (sortMode === "added" ? " selected" : "") + '>As added</option><option value="newest"' + (sortMode === "newest" ? " selected" : "") + '>Newest first</option><option value="oldest"' + (sortMode === "oldest" ? " selected" : "") + '>Oldest first</option></select></div>' : "";
+    h += '<div class="card"><h2>📷 Photos, drawings &amp; documents</h2><p class="galnote">Photos and drawings of ' + esc(pet.name) + ' — tap one to see it full-size. Documents open in a new tab to read. Tap a caption or the ✏️ to add a note and a date.</p>' + sortRow +
+      (ghtml ? '<div class="galgrid">' + ghtml + '</div>' : '<p class="galempty">No photos or documents yet.</p>') +
+      '<div style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap;"><button type="button" class="btn btn-alt" id="addgal">📷 Add a photo or drawing</button><button type="button" class="btn btn-alt" id="addgaldoc">📄 Add a document</button></div><p class="galmsg" id="galmsg"></p></div>';
+    host.innerHTML = h;
+    bind();
+  }
+
+  function bind() {
+    if (!pet) return;
+    /* v332: register document sources for the shared viewer (data URLs
+       stay out of the DOM; the viewer looks them up by id). */
+    if (window.TYDLightbox && window.TYDLightbox.registerDoc) {
+      gal().forEach(function (im) {
+        if (im.kind === "doc") window.TYDLightbox.registerDoc(im.id, im.s, im.name, im.type);
+      });
+    }
+    var eb = document.getElementById("editbtn");
+    if (eb) eb.addEventListener("click", function () { editing = !editing; render(); });
+    var ef = document.getElementById("editform");
+    if (ef) ef.addEventListener("submit", function (e) {
+      e.preventDefault();
+      pet.name = document.getElementById("ed-name").value.trim() || pet.name;
+      pet.species = document.getElementById("ed-species").value.trim() || "Cat";
+      pet.emoji = document.getElementById("ed-emoji").value.trim() || "🐈";
+      pet.birthday = document.getElementById("ed-birthday").value || "";
+      pet.gotcha = document.getElementById("ed-gotcha").value || "";
+      pet.updatedAt = Date.now();
+      editing = false;
+      save(); render();
+    });
+    var cp = document.getElementById("changephoto");
+    if (cp) cp.addEventListener("click", function () { nestChoosePhoto(function (url) { nestSetPhoto(pet.id, url); render(); }); });
+    var rp = document.getElementById("removephoto");
+    if (rp) rp.addEventListener("click", function () { if (confirm("Remove " + pet.name + "'s photo?")) { nestRemovePhoto(pet.id); render(); } });
+    var cf = document.getElementById("careform");
+    if (cf) cf.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var title = cf.querySelector(".ck-title").value.trim();
+      if (!title) { cf.querySelector(".ck-title").focus(); return; }
+      var rep = parseInt(cf.querySelector(".ck-rep").value, 10);
+      care.push({ id: uid(), petId: petId, kind: cf.querySelector(".ck-kind").value, title: title, date: cf.querySelector(".ck-date").value || "", repeatDays: rep > 0 ? rep : null, note: cf.querySelector(".ck-note").value.trim(), updatedAt: Date.now() });
+      save(); render();
+    });
+    document.querySelectorAll("[data-done]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var id = b.getAttribute("data-done");
+        var c = care.filter(function (x) { return x.id === id; })[0];
+        if (!c) return;
+        if (c.repeatDays && c.date) {
+          var next = c.date, guard = 0;
+          do { next = addDays(next, Number(c.repeatDays) || 0); guard++; } while (daysUntil(next) < 0 && guard < 60);
+          care = care.map(function (x) { return x.id === id ? Object.assign({}, x, { date: next, updatedAt: Date.now() }) : x; });
+        } else {
+          care = care.filter(function (x) { return x.id !== id; });
+        }
+        save(); render();
+      });
+    });
+    document.querySelectorAll("[data-delcare]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        care = care.filter(function (x) { return x.id !== b.getAttribute("data-delcare"); });
+        save(); render();
+      });
+    });
+    var vf = document.getElementById("vetform");
+    if (vf) vf.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var vet = vf.querySelector(".vv-vet").value.trim();
+      var clinic = vf.querySelector(".vv-clinic").value.trim();
+      if (!vet && !clinic) { vf.querySelector(".vv-vet").focus(); return; }
+      vetVisits.push({ id: uid(), petId: petId, vet: vet, clinic: clinic, date: vf.querySelector(".vv-date").value || "", reason: vf.querySelector(".vv-reason").value.trim(), notes: vf.querySelector(".vv-notes").value.trim(), updatedAt: Date.now() });
+      save(); render();
+    });
+    document.querySelectorAll("[data-delvet]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        vetVisits = vetVisits.filter(function (x) { return x.id !== b.getAttribute("data-delvet"); });
+        save(); render();
+      });
+    });
+    var sn = document.getElementById("savenotes");
+    if (sn) sn.addEventListener("click", function () {
+      pet.notes = document.getElementById("petnotes").value;
+      pet.updatedAt = Date.now();
+      save();
+      document.getElementById("notesaved").textContent = "Saved ✓";
+    });
+    var ag = document.getElementById("addgal");
+    if (ag) ag.addEventListener("click", function () {
+      nestChoosePhoto(function (url) {
+        var list = gallery[petId] || (gallery[petId] = []);
+        list.push({ id: uid(), p: "L" + Date.now().toString(36) + Math.random().toString(36).slice(2, 8), s: url, cap: "", dt: todayStr(), capTs: Date.now() });
+        save();
+        if (window.TYDPetPhotos && window.TYDPetPhotos.up) window.TYDPetPhotos.up();
+        render();
+      });
+    });
+    /* v332: documents (PDF or text, under 700KB so the file fits the
+       same Firestore photos doc as a photo). The cap is enforced here,
+       before anything is saved — a file over it never starts syncing. */
+    var agd = document.getElementById("addgaldoc");
+    if (agd) agd.addEventListener("click", function () {
+      var inp = document.createElement("input");
+      inp.type = "file"; inp.accept = "application/pdf,.pdf,text/plain,.txt";
+      inp.addEventListener("change", function () {
+        var f = inp.files && inp.files[0]; if (!f) return;
+        var msg = document.getElementById("galmsg");
+        function say(t, ok) { if (msg) { msg.textContent = t; msg.className = "galmsg" + (ok ? " ok" : ""); } }
+        if (f.size > DOC_MAX_BYTES) { say("That file is too large to save here — keep documents under 700 KB."); return; }
+        var okType = f.type === "application/pdf" || f.type === "text/plain" || /\.pdf$/i.test(f.name) || /\.txt$/i.test(f.name);
+        if (!okType) { say("That file type does not open here. PDFs and text files work."); return; }
+        var reader = new FileReader();
+        reader.onload = function () {
+          var list = gallery[petId] || (gallery[petId] = []);
+          list.push({ id: uid(), p: "L" + Date.now().toString(36) + Math.random().toString(36).slice(2, 8), kind: "doc", name: f.name, type: f.type || (/\.txt$/i.test(f.name) ? "text/plain" : "application/pdf"), size: f.size, s: reader.result, cap: "", dt: todayStr(), capTs: Date.now() });
+          save();
+          if (window.TYDPetPhotos && window.TYDPetPhotos.up) window.TYDPetPhotos.up();
+          render();
+          var m2 = document.getElementById("galmsg");
+          if (m2) { m2.textContent = "Document added ✓"; m2.className = "galmsg ok"; }
+        };
+        reader.onerror = function () { say("That document could not be read. Try a different one."); };
+        reader.readAsDataURL(f);
+      });
+      inp.click();
+    });
+    document.querySelectorAll("[data-delgal]").forEach(function (b) {
+      b.addEventListener("click", function (e) {
+        if (e && e.stopPropagation) e.stopPropagation();
+        var id = b.getAttribute("data-delgal");
+        var list = gallery[petId] || [];
+        var im = list.filter(function (x) { return x.id === id; })[0];
+        /* v335: a delete leaves a tombstone in the cloud (same doc id,
+           item "pettomb:..." ) so other devices prune their copy instead
+           of re-uploading it; a photo the cloud lost with no tombstone
+           is an orphan and gets re-uploaded (see repairOrphans). */
+        if (im && im.p && im.p.charAt(0) !== "L" && window.TYDPetPhotos && window.TYDPetPhotos.del) window.TYDPetPhotos.del(im.p, (im.kind === "doc" ? "petdoc:" : "petgal:") + petId + ":" + im.id);
+        gallery[petId] = list.filter(function (x) { return x.id !== id; });
+        save(); render();
+      });
+    });
+    /* v335: caption + date editor (✏️ on the item, or tap the caption). */
+    document.querySelectorAll("[data-editgal]").forEach(function (b) {
+      b.addEventListener("click", function (e) {
+        if (e && e.stopPropagation) e.stopPropagation();
+        openGalEdit(b.getAttribute("data-editgal"));
+      });
+    });
+    var gs = document.getElementById("galsort");
+    if (gs) gs.addEventListener("change", function () {
+      try { localStorage.setItem(GAL_SORT_KEY, gs.value); } catch (e) {}
+      render();
+    });
+  }
+
+  /* ---- account sync: same TYDPage contract as pets.html ---- */
+  function mergeArr(base, remote) {
+    if (!Array.isArray(remote)) return base;
+    var byId = {};
+    base.forEach(function (x) { if (x && x.id) byId[x.id] = x; });
+    remote.forEach(function (x) {
+      if (!x || !x.id) return;
+      var cur = byId[x.id];
+      if (!cur || (x.updatedAt || 0) > (cur.updatedAt || 0)) byId[x.id] = x;
+    });
+    return Object.keys(byId).map(function (k) { return byId[k]; });
+  }
+  window.TYDPage = {
+    fields: ["pets", "petCare", "petVetVisits"],
+    snapshot: function () { return { pets: JSON.parse(JSON.stringify(pets)), petCare: JSON.parse(JSON.stringify(care)), petVetVisits: JSON.parse(JSON.stringify(vetVisits)) }; },
+    mergeRemote: function (remote) {
+      if (!remote) return;
+      pets = mergeArr(pets, remote.pets);
+      care = mergeArr(care, remote.petCare);
+      vetVisits = mergeArr(vetVisits, remote.petVetVisits);
+      pet = pets.filter(function (p) { return p.id === petId; })[0] || null;
+      save(); render();
+    },
+    onAuth: function () { render(); }
+  };
+  /* Photo sync interface for the module below: profile photos ("pet:<id>")
+     and gallery photos ("petgal:<petId>:<imgId>") and gallery documents
+     ("petdoc:<petId>:<docId>", with name/type/size on the doc) in
+     users/{uid}/photos. v335: captions/dates ride the photos doc too
+     (caption/capDate/capTs); deletes leave a "pettomb:<itemId>"
+     tombstone at the same doc id, and mergePhotos prunes tombstoned
+     local copies instead of resurrecting them. */
+  window.TYDPetSync = {
+    localPhotoEntries: function () {
+      var out = [];
+      Object.keys(nestPhotos).forEach(function (k) { out.push({ itemId: "pet:" + k, entry: nestPhotos[k] }); });
+      Object.keys(gallery).forEach(function (pid) {
+        (gallery[pid] || []).forEach(function (g) { out.push({ itemId: (g.kind === "doc" ? "petdoc:" : "petgal:") + pid + ":" + g.id, entry: g }); });
+      });
+      return out;
+    },
+    /* v335: mergePhotos takes the tombstone set too. A delete on one
+       device leaves a tombstone in the cloud; this device prunes its
+       local copy instead of re-uploading it. Captions/dates ride the
+       photos doc (caption/capDate/capTs) and the newer edit wins. */
+    mergePhotos: function (remote, tombs) {
+      var changed = false;
+      tombs = tombs || {};
+      Object.keys(gallery).forEach(function (pid) {
+        var list = gallery[pid] || [];
+        var kept = list.filter(function (g) {
+          return !tombs[(g.kind === "doc" ? "petdoc:" : "petgal:") + pid + ":" + g.id];
+        });
+        if (kept.length !== list.length) { gallery[pid] = kept; changed = true; }
+      });
+      Object.keys(nestPhotos).forEach(function (k) {
+        if (tombs["pet:" + k]) { delete nestPhotos[k]; changed = true; }
+      });
+      function adoptCaption(local, v) {
+        if ((v.capTs || 0) > (local.capTs || 0)) {
+          local.cap = v.caption || ""; local.dt = v.capDate || ""; local.capTs = v.capTs || 0;
+          return true;
+        }
+        return false;
+      }
+      Object.keys(remote || {}).forEach(function (key) {
+        var v = remote[key];
+        if (tombs[key]) return;
+        if (key.indexOf("petgal:") === 0) {
+          var parts = key.split(":");
+          var pid = parts[1], imgId = parts[2];
+          if (!pets.filter(function (p) { return p.id === pid; }).length) return;
+          var list = gallery[pid] || (gallery[pid] = []);
+          var ex = list.filter(function (x) { return x.id === imgId; })[0];
+          if (!ex) { list.push({ id: imgId, p: v.p, s: v.s, cap: v.caption || "", dt: v.capDate || "", capTs: v.capTs || 0 }); changed = true; }
+          else {
+            if (ex.p && ex.p.charAt(0) === "L") { ex.p = v.p; ex.s = v.s; changed = true; }
+            if (adoptCaption(ex, v)) changed = true;
+          }
+        } else if (key.indexOf("petdoc:") === 0) {
+          var dparts = key.split(":");
+          var dpid = dparts[1], docId = dparts[2];
+          if (!pets.filter(function (p) { return p.id === dpid; }).length) return;
+          var dlist = gallery[dpid] || (gallery[dpid] = []);
+          var dex = dlist.filter(function (x) { return x.id === docId; })[0];
+          if (!dex) { dlist.push({ id: docId, kind: "doc", name: v.name || "Document", type: v.type || "", size: v.size || 0, p: v.p, s: v.s, cap: v.caption || "", dt: v.capDate || "", capTs: v.capTs || 0 }); changed = true; }
+          else {
+            if (dex.p && dex.p.charAt(0) === "L") { dex.p = v.p; dex.s = v.s; changed = true; }
+            if (adoptCaption(dex, v)) changed = true;
+          }
+        } else if (key.indexOf("pet:") === 0) {
+          var id = key.slice(4);
+          var cur = nestPhotos[id];
+          if (!cur || (cur.p && cur.p.charAt(0) === "L")) { nestPhotos[id] = { p: v.p, s: v.s }; changed = true; }
+        }
+      });
+      if (changed) { save(); savePhotos(); render(); }
+    },
+    photosSaved: function () { save(); savePhotos(); }
+  };
+  /* v335: the caption/date edit sheet is static markup (outside
+     #petdetail, so re-renders never wipe it) — wire it once here. */
+  var ges = document.getElementById("galedit-save");
+  if (ges) ges.addEventListener("click", saveGalEdit);
+  var gec = document.getElementById("galedit-cancel");
+  if (gec) gec.addEventListener("click", closeGalEdit);
+  var gesh = document.getElementById("galedit");
+  if (gesh) gesh.addEventListener("click", function (e) { if (e.target === gesh) closeGalEdit(); });
+  /* v336: Escape had no handler at all — the sheet could not be closed
+     from the keyboard. Close it on Escape whenever it is open. */
+  document.addEventListener("keydown", function (e) {
+    if (e && e.key === "Escape") { var s2 = document.getElementById("galedit"); if (s2 && !s2.hidden) closeGalEdit(); }
+  });
+  render();
+})();
+</script>
+
+<script type="module">
+/* Pet page sync (v327): the same TYDPage push/pull as pets.html, plus
+   photo sync for profile photos ("pet:<id>") and gallery photos
+   ("petgal:<petId>:<imgId>") in users/{uid}/photos. v332 adds gallery
+   documents ("petdoc:<petId>:<docId>", name/type/size on the doc).
+   v335 adds captions/dates on the photos doc (caption/capDate/capTs),
+   tombstoned deletes ("pettomb:<itemId>" replaces the photo doc at the
+   same id) and orphan re-upload after a pull. */
+(function () {
+  var cfg = { apiKey: "preview-disabled", authDomain: "pond-preview-disabled.firebaseapp.com", projectId: "pond-preview-disabled", storageBucket: "pond-preview-disabled.firebasestorage.app", messagingSenderId: "000000000000", appId: "1:000000000000:web:previewdisabled" };
+  Promise.all([
+    import("./pond-firebase-stub.js"),
+    import("./pond-firebase-stub.js"),
+    import("./pond-firebase-stub.js")
+  ]).then(function (mods) {
+    var app;
+    try { app = mods[0].getApp(); } catch (e) { app = mods[0].initializeApp(cfg); }
+    var auth = mods[1].getAuth(app);
+    var db = mods[2].getFirestore(app);
+    var F = mods[2];
+    var uid = null, ready = false, pushT = null;
+    window.TYDPageChanged = function () {
+      if (!uid || !ready || !window.TYDPage) return;
+      clearTimeout(pushT);
+      pushT = setTimeout(function () {
+        if (!uid || !window.TYDPage) return;
+        F.setDoc(F.doc(db, "users", uid), window.TYDPage.snapshot(), { merge: true }).catch(function () {});
+      }, 500);
+    };
+    function upPhotos() {
+      if (!uid || !window.TYDPetSync) return;
+      window.TYDPetSync.localPhotoEntries().forEach(function (en) {
+        if (!en.entry.p || en.entry.p.charAt(0) !== "L") return;
+        var np = "p" + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+        en.entry.p = np;
+        var doc = { item: en.itemId, data: en.entry.s, ts: Date.now() };
+        if (en.entry.kind === "doc") { doc.name = en.entry.name || "Document"; doc.type = en.entry.type || ""; doc.size = en.entry.size || 0; }
+        /* v335: caption + date ride the same photos doc as the image. */
+        doc.caption = en.entry.cap || ""; doc.capDate = en.entry.dt || ""; doc.capTs = en.entry.capTs || 0;
+        F.setDoc(F.doc(db, "users", uid, "photos", np), doc)
+          .then(function () { if (window.TYDPetSync) window.TYDPetSync.photosSaved(); }).catch(function () {});
+      });
+    }
+    /* v335: after a pull, repair orphans — a locally-held photo whose
+       cloud doc is gone and which nobody deliberately deleted (no
+       tombstone) gets its cloud copy written back to the SAME doc id.
+       A caption edited here after the cloud copy was written gets
+       pushed up the same way when this device's edit is the newer one. */
+    function repairOrphans(cloudIds, tombs, map) {
+      if (!uid || !window.TYDPetSync) return;
+      window.TYDPetSync.localPhotoEntries().forEach(function (en) {
+        var p = en.entry.p;
+        if (!p || p.charAt(0) === "L") return;
+        if (tombs[en.itemId]) return;
+        if (!cloudIds[p]) {
+          var doc = { item: en.itemId, data: en.entry.s, ts: Date.now() };
+          if (en.entry.kind === "doc") { doc.name = en.entry.name || "Document"; doc.type = en.entry.type || ""; doc.size = en.entry.size || 0; }
+          doc.caption = en.entry.cap || ""; doc.capDate = en.entry.dt || ""; doc.capTs = en.entry.capTs || 0;
+          F.setDoc(F.doc(db, "users", uid, "photos", p), doc).catch(function () {});
+        } else {
+          var remote = map[en.itemId];
+          if (remote && (en.entry.capTs || 0) > (remote.capTs || 0)) {
+            F.setDoc(F.doc(db, "users", uid, "photos", p), { caption: en.entry.cap || "", capDate: en.entry.dt || "", capTs: en.entry.capTs || 0 }, { merge: true }).catch(function () {});
+          }
+        }
+      });
+    }
+    function pullPhotos() {
+      if (!uid) return;
+      F.getDocs(F.collection(db, "users", uid, "photos")).then(function (qs) {
+        var all = [], tombs = {}, cloudIds = {};
+        qs.forEach(function (d) { var v = d.data(); if (!v || !v.item) return; cloudIds[d.id] = true; all.push({ id: d.id, v: v }); });
+        all.forEach(function (e) { if (e.v.item.indexOf("pettomb:") === 0) tombs[e.v.item.slice("pettomb:".length)] = true; });
+        var map = {};
+        all.forEach(function (e) {
+          var v = e.v;
+          if (tombs[v.item]) return;
+          if ((v.item.indexOf("pet:") === 0 || v.item.indexOf("petgal:") === 0 || v.item.indexOf("petdoc:") === 0) && v.data) map[v.item] = { p: e.id, s: v.data, name: v.name || "", type: v.type || "", size: v.size || 0, caption: v.caption || "", capDate: v.capDate || "", capTs: v.capTs || 0 };
+        });
+        if (window.TYDPetSync) window.TYDPetSync.mergePhotos(map, tombs);
+        repairOrphans(cloudIds, tombs, map);
+      }).catch(function () {});
+    }
+    window.TYDPetPhotos = {
+      up: function () { upPhotos(); },
+      /* v335: a delete writes a tombstone (same doc id, item
+         "pettomb:<itemId>") instead of removing the doc, so other
+         devices prune their copy instead of re-uploading it. One
+         write, so there is no window where the doc is gone but the
+         tombstone is not written yet. No itemId falls back to a plain
+         delete (safety for any caller that does not pass one). */
+      del: function (pid, itemId) {
+        if (!uid || !pid) return;
+        if (itemId) F.setDoc(F.doc(db, "users", uid, "photos", pid), { item: "pettomb:" + itemId, ts: Date.now() }).catch(function () {});
+        else F.deleteDoc(F.doc(db, "users", uid, "photos", pid)).catch(function () {});
+      },
+      /* v335: caption/date edits on an already-synced photo update the
+         fields on its existing photos doc (merge, data untouched). */
+      update: function (pid, fields) { if (uid && pid && fields) F.setDoc(F.doc(db, "users", uid, "photos", pid), fields, { merge: true }).catch(function () {}); }
+    };
+    mods[1].onAuthStateChanged(auth, function (user) {
+      var note = document.getElementById("sync-note");
+      if (!user) {
+        uid = null; ready = false;
+        if (window.TYDPage && window.TYDPage.onAuth) window.TYDPage.onAuth(null);
+        if (note) note.innerHTML = 'Saved on this device. <a href="account.html">Sign in to sync</a> it to your Pond Account.';
+        return;
+      }
+      uid = user.uid;
+      F.getDoc(F.doc(db, "users", uid)).then(function (snap) {
+        if (window.TYDPage) window.TYDPage.mergeRemote(snap.exists() ? snap.data() : {});
+        ready = true;
+        pullPhotos();
+        if (window.TYDPageChanged) window.TYDPageChanged();
+        if (window.TYDPage && window.TYDPage.onAuth) window.TYDPage.onAuth({ email: user.email || "" });
+        if (note) note.textContent = "Synced to your Pond Account, so your pet corner follows you across your devices. 🦆";
+      }).catch(function () { ready = true; });
+    });
+  }).catch(function () {});
+})();
+</script>
+<script src="site-nav.js?v=372"></script>
+<script src="pull-refresh.js?v=341"></script>
+<script src="pond-staging.js"></script>
+</body>
+</html>
