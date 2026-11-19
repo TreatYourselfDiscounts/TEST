@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="color-scheme" content="light dark">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="apple-touch-icon-v2.png">
+<title>Travel Map - TreatYourselfDiscounts</title>
+<meta name="description" content="Travel Map at TreatYourselfDiscounts: see your saved places on a map, with a pin color for each category.">
+<meta property="og:title" content="Travel Map - TreatYourselfDiscounts">
+<meta property="og:description" content="Travel Map at TreatYourselfDiscounts: see your saved places on a map, with a pin color for each category.">
+<meta property="og:image" content="/images/corners/duck-travel.jpg">
+<meta property="og:url" content="/travel-map">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Travel Map - TreatYourselfDiscounts">
+<meta name="twitter:description" content="Travel Map at TreatYourselfDiscounts: see your saved places on a map, with a pin color for each category.">
+<meta name="twitter:image" content="/images/corners/duck-travel.jpg">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+  body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #bfe6f2; color: #23414d; }
+  .wrap { max-width: 430px; margin: 0 auto; padding: 18px 16px 40px; background: #bfe6f2; }
+  .back { display: inline-block; color: #1f5f74; font-weight: 700; text-decoration: none; margin-bottom: 10px; }
+  header.top { display: flex; align-items: center; gap: 12px; }
+  header.top img { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; background: #bfe6f2; }
+  h1 { font-size: 26px; margin: 0; color: #17455a; }
+  .sub { margin: 2px 0 0; color: #40606e; font-size: 14.5px; }
+  .card { background: #fff; border-radius: 16px; padding: 14px 16px; margin-top: 14px; box-shadow: 0 2px 10px rgba(23,69,90,.08); }
+  .card h2 { margin: 0 0 6px; font-size: 18px; color: #17455a; }
+  .card p { margin: 6px 0; font-size: 14.5px; line-height: 1.5; }
+  #map { height: 54vh; min-height: 330px; border-radius: 16px; margin-top: 14px; box-shadow: 0 2px 10px rgba(23,69,90,.12); z-index: 1; }
+  .row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .row input { flex: 1; min-width: 170px; padding: 10px 12px; border: 2px solid #cfe6ee; border-radius: 10px; font: inherit; font-size: 15px; }
+  .btn { background: #1f5f74; color: #fff; border: none; border-radius: 999px; padding: 10px 18px; font-weight: 800; font-size: 14.5px; cursor: pointer; font-family: inherit; }
+  .btn.alt { background: #ffe066; color: #5c4a00; }
+  .status { font-size: 13.5px; color: #5b7d89; min-height: 18px; margin-top: 8px; }
+  .pick { background: #fffdf5; border: 2px solid #ffe9a8; border-radius: 12px; padding: 10px 12px; margin-top: 8px; }
+  .pick b { color: #17455a; }
+  .when { display: inline-block; background: #e8f6fb; color: #1f5f74; border-radius: 999px; padding: 2px 10px; font-size: 12px; font-weight: 800; margin-right: 6px; }
+  .price { color: #2e7d32; font-weight: 700; }
+  .noprice { color: #8a6d00; }
+  .tripgroup { margin-top: 10px; }
+  .tripgroup h3 { margin: 0 0 4px; font-size: 15.5px; color: #1f5f74; }
+  .place { display: inline-block; background: #eef8fb; border-radius: 999px; padding: 4px 11px; margin: 2px 3px 2px 0; font-size: 13.5px; }
+  /* Saved places as cards, grouped by category (Lucy, Nov 14, 2026):
+     each category is a sub-section, each place is a tappable card. */
+  .catgroup { margin-top: 14px; }
+  .catgroup h3 { margin: 0 0 8px; font-size: 16px; color: #1f5f74; display: flex; align-items: center; gap: 6px; }
+  .catgroup h3 .cnt { font-size: 12px; font-weight: 800; color: #5b7d89; background: #eef8fb; border-radius: 999px; padding: 2px 8px; }
+  .placegrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+  .placecard { background: #fff; border-radius: 14px; padding: 11px 12px; box-shadow: 0 2px 8px rgba(23,69,90,.08); border-left: 4px solid #1f5f74; cursor: pointer; text-align: left; font: inherit; color: inherit; }
+  .placecard b { display: block; font-size: 14.5px; color: #17455a; line-height: 1.3; }
+  .placecard .ptrip { display: block; font-size: 12.5px; color: #5b7d89; margin-top: 3px; }
+  .placecard .paddr { display: block; font-size: 12.5px; color: #5b7d89; margin-top: 2px; }
+  .placecard .pnot { display: block; font-size: 12px; color: #8a6d00; margin-top: 4px; font-weight: 700; }
+  /* Pin color pickers (Lucy, Nov 14, 2026). */
+  .pinrow { display: flex; align-items: center; gap: 10px; padding: 7px 0; border-bottom: 1px solid #eef8fb; }
+  .pinrow:last-child { border-bottom: none; }
+  .pinrow .pdot { width: 18px; height: 18px; border-radius: 50%; flex: none; border: 2px solid #fff; box-shadow: 0 0 0 1px rgba(35,65,77,.25); }
+  .pinrow .pname { flex: 1; font-weight: 700; font-size: 14.5px; color: #17455a; }
+  .pinrow input[type="color"] { width: 44px; height: 32px; border: 2px solid #cfe6ee; border-radius: 8px; padding: 2px; background: #fff; cursor: pointer; }
+  html[data-theme="dark"] .pinrow { border-bottom-color: #2e4a5f; }
+  html[data-theme="dark"] .pinrow .pname { color: #eefaff !important; }
+  html[data-theme="dark"] .placecard { background: var(--tyd-acc-dark, #172635) !important; }
+  html[data-theme="dark"] .placecard b { color: #eefaff !important; }
+  html[data-theme="dark"] .catgroup h3 { color: #c9f0fc !important; }
+  html[data-theme="dark"] .catgroup h3 .cnt { background: #2e4a5f !important; color: #c9f0fc !important; }
+  .foot { text-align: center; color: #5b7d89; font-size: 12.5px; margin-top: 18px; }
+  a.src { color: #1f5f74; font-weight: 700; }
+  .leaflet-popup-content { font-family: inherit; font-size: 14px; }
+  html[data-theme="dark"] .tripgroup h3 { color: #eefaff !important; }
+  html[data-theme="dark"] a.src { color: #c9f0fc !important; }
+  html[data-theme="dark"] .status { color: #c9f0fc !important; }
+</style>
+<meta name="robots" content="noindex,nofollow">
+<link rel="stylesheet" href="pond-travel.css">
+<script>window.__TYD_PREVIEW__=true;</script>
+</head>
+<body>
+<div class="wrap">
+<a class="back" href="travel.html">‹ Back to the Travel Planner</a>
+<header class="top">
+<img src="images/corners/duck-travel.jpg" alt="Travel duck">
+<div>
+<h1>Travel Map 🗺️</h1>
+<p class="sub">Every place you have saved, on one map.</p>
+</div>
+</header>
+
+<div id="map"></div>
+<p class="status" id="mapstatus">Loading your trips…</p>
+
+<div class="card">
+<h2>Ask about a place 🔎</h2>
+<p>Type any place and get the short version from the free travel guides, plus a pin on your map.</p>
+<div class="row">
+<input type="text" id="askq" placeholder="Like: Banff, or Eiffel Tower" autocomplete="off">
+<button type="button" class="btn" id="askbtn">Ask</button>
+</div>
+<div id="askout"></div>
+<p class="status">Answers come from Wikipedia and Wikivoyage, the free travel guides, not a full AI. Always check details before you go.</p>
+</div>
+
+<div class="card">
+<h2>A day near… 🎲</h2>
+<p>Put in your town, or anywhere nearby, and get a surprise mini trip built from that area's real guide listings: something to see, something to do, somewhere to eat. Prices show where the guide lists them.</p>
+<div class="row">
+<input type="text" id="nearq" placeholder="Like: Denver, Colorado" autocomplete="off">
+<button type="button" class="btn alt" id="nearsbtn">🎲 Surprise me</button>
+</div>
+<div id="dayout"></div>
+<div id="daysave" style="display:none;margin-top:10px;">
+<button type="button" class="btn" id="daysavebtn">Save as a trip</button>
+<span class="status" id="daysavestat"></span>
+</div>
+</div>
+
+<div class="card">
+<h2>Your saved places 📍</h2>
+<div id="placelist"><p>Loading…</p></div>
+</div>
+
+<div class="card">
+<h2>Pin colors 🎨</h2>
+<p>Pick a color for each kind of place. The map pins and the cards below use these colors.</p>
+<div id="pincolors"></div>
+<div style="margin-top:10px;"><button type="button" class="btn alt" id="pinreset">Reset to default colors</button></div>
+</div>
+
+<p class="foot">Map © OpenStreetMap contributors. Pins are placed with the free OpenStreetMap lookup, so a very new or tiny place may not pin yet; it still shows in your list.</p>
+<p class="foot">© 2026 TreatYourselfDiscounts™</p>
+</div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+(function () {
+  function esc(s) { return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
+  function loadJSON(k, d) { try { var v = JSON.parse(localStorage.getItem(k)); return v == null ? d : v; } catch (e) { return d; } }
+  var CATCOLORS = { Sight: "#1f5f74", Food: "#e8873a", Hotel: "#7b5ea7", Activity: "#3d9970", Flight: "#4a7fb5" };
+  /* Custom pin colors (Lucy, Nov 14, 2026): each category's pin (and
+     card accent) color can be changed here; saved on the Pond Account
+     (v339, Nov 16, 2026) so they follow the member across devices. */
+  var customPinColors = loadJSON("tydMapPinColors", {});
+  function pinColor(cat) {
+    var c = customPinColors && customPinColors[cat];
+    if (typeof c === "string" && /^#[0-9a-fA-F]{6}$/.test(c)) return c;
+    return CATCOLORS[cat] || "#1f5f74";
+  }
+  function savePinColors() { try { localStorage.setItem("tydMapPinColors", JSON.stringify(customPinColors)); } catch (e) {} if (window.TYDMapSavePinColors) window.TYDMapSavePinColors(customPinColors); }
+  function renderPinColors() {
+    var box = document.getElementById("pincolors");
+    if (!box) return;
+    var html = "";
+    CATORDER.forEach(function (cat) {
+      var col = pinColor(cat);
+      html += '<div class="pinrow"><span class="pdot" style="background:' + col + ';"></span><span class="pname">' + (CATICONS[cat] || "📍") + " " + esc(cat) + '</span><input type="color" data-pincat="' + esc(cat) + '" value="' + col + '" aria-label="' + esc(cat) + ' pin color"></div>';
+    });
+    box.innerHTML = html;
+  }
+  var CATORDER = ["Sight", "Food", "Hotel", "Activity", "Flight"];
+  var CATICONS = { Sight: "🔭", Food: "🍽️", Hotel: "🛏️", Activity: "🎡", Flight: "✈️" };
+  /* Changing a pin color recolors the pins already on the map and the
+     cards below, right away, and saves the choice. */
+  function recolorPins() {
+    markers.forEach(function (m) { if (m && m._tydCat && m.setStyle) { try { m.setStyle({ fillColor: pinColor(m._tydCat) }); } catch (e) {} } });
+    renderList(null);
+  }
+  document.addEventListener("input", function (e) {
+    var inp = e.target && e.target.closest ? e.target.closest("[data-pincat]") : null;
+    if (!inp) return;
+    customPinColors[inp.getAttribute("data-pincat")] = inp.value;
+    savePinColors();
+    var dot = inp.parentElement ? inp.parentElement.querySelector(".pdot") : null;
+    if (dot) dot.style.background = inp.value;
+    recolorPins();
+  });
+  document.getElementById("pinreset").addEventListener("click", function () {
+    customPinColors = {};
+    savePinColors();
+    renderPinColors();
+    recolorPins();
+  });
+  renderPinColors();
+  var trips = loadJSON("tydTravelTrips", []);
+  var map = null, markers = [];
+  if (window.L) {
+    map = L.map("map").setView([39.5, -98.35], 4);
+    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 19, attribution: "© OpenStreetMap contributors" }).addTo(map);
+    /* The map can render only half its tiles if Leaflet measures the
+       box before the page finishes laying out, so re-measure once the
+       layout settles and whenever the window changes size. */
+    setTimeout(function () { if (map) map.invalidateSize(); }, 100);
+    setTimeout(function () { if (map) map.invalidateSize(); }, 600);
+    window.addEventListener("resize", function () { if (map) map.invalidateSize(); });
+    window.addEventListener("load", function () { if (map) map.invalidateSize(); });
+  } else {
+    document.getElementById("mapstatus").textContent = "The map could not load (it needs an internet connection). Your places are still listed below.";
+  }
+  function addPin(lat, lon, html, color, cat) {
+    if (!map) return null;
+    var m = L.circleMarker([lat, lon], { radius: 9, color: "#ffffff", weight: 2, fillColor: color || "#1f5f74", fillOpacity: 0.95 }).addTo(map);
+    m.bindPopup(html);
+    m._tydCat = cat || "";
+    markers.push(m);
+    return m;
+  }
+  var geoCache = loadJSON("tydGeoCacheV1", {});
+  function saveGeo() { try { localStorage.setItem("tydGeoCacheV1", JSON.stringify(geoCache)); } catch (e) {} }
+  function geocode(q) {
+    if (Object.prototype.hasOwnProperty.call(geoCache, q)) return Promise.resolve(geoCache[q]);
+    return fetch("https://nominatim.openstreetmap.org/search?format=json&limit=1&q=" + encodeURIComponent(q))
+      .then(function (r) { return r.json(); })
+      .then(function (j) {
+        var out = j && j[0] ? { lat: +j[0].lat, lon: +j[0].lon } : null;
+        geoCache[q] = out; saveGeo();
+        return out;
+      })
+      .catch(function () { return null; });
+  }
+  function wait(ms) { return new Promise(function (res) { setTimeout(res, ms); }); }
+  var allPlaces = [];
+  function collectPlaces() {
+    allPlaces = [];
+    trips.forEach(function (t) {
+      (t.places || []).forEach(function (p) { if (p && p.name) allPlaces.push({ name: p.name, category: p.category || "Sight", address: p.address || "", trip: t }); });
+    });
+  }
+  function renderList(unplaced) {
+    var box = document.getElementById("placelist");
+    if (!trips.length) { box.innerHTML = "<p>You have no trips yet. Start one in the Travel Planner and save some places, and they will pin here.</p>"; return; }
+    /* Group every saved place by its category, so each category is a
+       sub-section of place cards (Lucy, Nov 14, 2026). */
+    var byCat = {};
+    trips.forEach(function (t) {
+      (t.places || []).forEach(function (p) {
+        if (!p || !p.name) return;
+        var cat = p.category || "Sight";
+        (byCat[cat] = byCat[cat] || []).push({ p: p, t: t });
+      });
+    });
+    var cats = CATORDER.filter(function (c) { return byCat[c] && byCat[c].length; });
+    Object.keys(byCat).forEach(function (c) { if (CATORDER.indexOf(c) === -1) cats.push(c); });
+    if (!cats.length) { box.innerHTML = '<p style="margin:2px 0;font-size:13.5px;color:#5b7d89;">No saved places yet.</p>'; return; }
+    var html = "";
+    cats.forEach(function (cat) {
+      var items = byCat[cat];
+      var color = pinColor(cat);
+      html += '<div class="catgroup"><h3>' + (CATICONS[cat] || "📍") + " " + esc(cat) + ' <span class="cnt">' + items.length + "</span></h3><div class=\"placegrid\">";
+      items.forEach(function (it) {
+        var p = it.p, t = it.t;
+        var un = unplaced && unplaced[p.name + "|" + t.id];
+        html += '<button type="button" class="placecard" data-opentrip="' + esc(t.id) + '" style="border-left-color:' + color + ';"><b>' + esc(p.name) + "</b>"
+          + '<span class="ptrip">' + esc(t.title || "Trip") + (t.destination ? " · " + esc(t.destination) : "") + "</span>"
+          + (p.address ? '<span class="paddr">' + esc(p.address) + "</span>" : "")
+          + (un ? '<span class="pnot">Not pinned yet</span>' : "")
+          + "</button>";
+      });
+      html += "</div></div>";
+    });
+    box.innerHTML = html;
+  }
+  function placeAll() {
+    collectPlaces();
+    renderList(null);
+    var st = document.getElementById("mapstatus");
+    if (!map) { st.textContent = allPlaces.length ? "Your places are listed below." : ""; return; }
+    if (!allPlaces.length) { st.textContent = "No saved places yet. Add places to a trip and they will pin here."; return; }
+    var unplaced = {}, bounds = [], done = 0, capped = allPlaces.slice(0, 60), chain = Promise.resolve();
+    st.textContent = "Placing your places on the map… 0/" + capped.length;
+    capped.forEach(function (pl) {
+      chain = chain.then(function () {
+        var q = pl.address ? (pl.name + ", " + pl.address) : (pl.name + (pl.trip.destination ? ", " + pl.trip.destination : ""));
+        /* If the full address does not pin (the free lookup often misses
+           landmark-style addresses), retry with simpler queries so the
+           place still lands on the map. */
+        var queries = [q];
+        if (pl.trip.destination) { var q2 = pl.name + ", " + pl.trip.destination; if (q2 !== q) queries.push(q2); }
+        if (queries.indexOf(pl.name) === -1) queries.push(pl.name);
+        var attempt = Promise.resolve(null);
+        queries.forEach(function (qq) {
+          attempt = attempt.then(function (g) {
+            if (g) return g;
+            var wasCached = Object.prototype.hasOwnProperty.call(geoCache, qq);
+            return geocode(qq).then(function (gg) {
+              if (!wasCached) return wait(1050).then(function () { return gg; });
+              return gg;
+            });
+          });
+        });
+        return attempt.then(function (g) {
+          done++;
+          st.textContent = "Placing your places on the map… " + done + "/" + capped.length;
+          if (g) {
+            addPin(g.lat, g.lon, "<b>" + esc(pl.name) + "</b><br>" + esc(pl.category) + " · " + esc(pl.trip.title || "Trip") + '<br><a href="#" data-opentrip="' + esc(pl.trip.id) + '">Open this trip ›</a>', pinColor(pl.category), pl.category);
+            bounds.push([g.lat, g.lon]);
+          } else unplaced[pl.name + "|" + pl.trip.id] = true;
+          renderList(unplaced);
+        });
+      });
+    });
+    chain.then(function () {
+      if (bounds.length) { try { map.fitBounds(bounds, { padding: [30, 30] }); } catch (e) {} st.textContent = bounds.length + " of your places are on the map. Tap a pin to jump to its trip."; }
+      else st.textContent = "The map lookup could not pin these places yet. They are all listed below.";
+      if (allPlaces.length > capped.length) st.textContent += " (" + (allPlaces.length - capped.length) + " more are in the list below.)";
+    });
+  }
+  document.addEventListener("click", function (e) {
+    var a = e.target.closest ? e.target.closest("[data-opentrip]") : null;
+    if (!a) return;
+    e.preventDefault();
+    try { localStorage.setItem("tydOpenTrip", a.getAttribute("data-opentrip")); } catch (err) {}
+    location.href = "travel.html";
+  });
+  /* v339: pin colors ride the account as mapPinColors (per category,
+     account wins on the same category) so they follow the member. */
+  window.TYDMapGetPinColors = function () { return customPinColors; };
+  window.TYDMapMerge = function (remote, remotePinColors) {
+    var changed = false;
+    if (Array.isArray(remote) && remote.length) {
+      var byId = {};
+      trips.forEach(function (t) { byId[t.id] = t; });
+      remote.forEach(function (t) { if (t && t.id && !byId[t.id]) { trips.push(t); changed = true; } });
+      if (changed) markers.forEach(function (m) { if (map) map.removeLayer(m); }), markers = [], placeAll();
+    }
+    if (remotePinColors && typeof remotePinColors === "object") {
+      var colorsChanged = false;
+      Object.keys(remotePinColors).forEach(function (cat) {
+        var c = remotePinColors[cat];
+        if (typeof c === "string" && /^#[0-9a-fA-F]{6}$/.test(c) && customPinColors[cat] !== c) { customPinColors[cat] = c; colorsChanged = true; }
+      });
+      if (colorsChanged) { savePinColors(); renderPinColors(); recolorPins(); changed = true; }
+    }
+    return changed;
+  };
+  /* ---------- Ask about a place ---------- */
+  document.getElementById("askbtn").addEventListener("click", function () {
+    var q = document.getElementById("askq").value.trim();
+    var out = document.getElementById("askout");
+    if (!q) { out.innerHTML = '<p class="status">Type a place first.</p>'; return; }
+    out.innerHTML = '<p class="status">Looking it up in the guides…</p>';
+    fetch("https://en.wikipedia.org/api/rest_v1/page/summary/" + encodeURIComponent(q.replace(/ /g, "_")))
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (j) {
+        if (!j || !j.extract) { out.innerHTML = '<p class="status">The guides do not have a page for that one yet. Try the nearest bigger town.</p>'; return; }
+        var html = '<div class="pick"><b>' + esc(j.title || q) + "</b><p>" + esc(j.extract) + "</p>" +
+          '<p><a class="src" href="https://en.wikipedia.org/wiki/' + encodeURIComponent((j.title || q).replace(/ /g, "_")) + '" target="_blank" rel="noopener">Wikipedia</a> · <a class="src" href="https://en.wikivoyage.org/wiki/' + encodeURIComponent((j.title || q).replace(/ /g, "_")) + '" target="_blank" rel="noopener">Wikivoyage guide</a></p></div>';
+        out.innerHTML = html;
+        geocode(q).then(function (g) {
+          if (g && map) { var m = addPin(g.lat, g.lon, "<b>" + esc(j.title || q) + "</b><br>From your Ask search", "#c9a227"); map.flyTo([g.lat, g.lon], 11); if (m) m.openPopup(); }
+        });
+      })
+      .catch(function () { out.innerHTML = '<p class="status">That lookup hiccuped. Check your connection and try again.</p>'; });
+  });
+  /* ---------- A day near... (randomized from real guide listings) ---------- */
+  var lastPlan = null;
+  function priceOf(text) {
+    var m = String(text || "").match(/(\$|€|£)\s?\d[\d.,]*(\s?[-–]\s?(\$|€|£)?\s?\d[\d.,]*)?/);
+    if (m) return "Guide lists " + m[0].trim();
+    if (/\bfree\b/i.test(text || "")) return "Guide says free";
+    return "";
+  }
+  function fetchListings(title) {
+    return fetch("https://en.wikivoyage.org/w/api.php?action=parse&format=json&origin=*&prop=text&redirects=1&page=" + encodeURIComponent(title))
+      .then(function (r) { return r.json(); })
+      .then(function (j) {
+        if (!j || !j.parse || !j.parse.text) return null;
+        var doc = new DOMParser().parseFromString(j.parse.text["*"], "text/html");
+        var out = { see: [], do: [], eat: [] };
+        doc.querySelectorAll("h2").forEach(function (h) {
+          var nm = (h.textContent || "").replace(/\[edit\]/g, "").trim().toLowerCase();
+          var key = nm === "see" ? "see" : nm === "do" ? "do" : nm === "eat" ? "eat" : null;
+          if (!key) return;
+          var node = h; var holder = h.closest ? h.closest(".mw-heading") : null; if (holder) node = holder;
+          var sib = node.nextElementSibling, guard = 0;
+          while (sib && guard++ < 40 && !/^H2$/.test(sib.tagName) && !(sib.classList && sib.classList.contains("mw-heading"))) {
+            sib.querySelectorAll("li").forEach(function (li) {
+              var nameEl = li.querySelector(".listing-name") || li.querySelector("b, a");
+              var name = nameEl ? nameEl.textContent.trim() : "";
+              var text = (li.textContent || "").replace(/\s+/g, " ").trim().slice(0, 320);
+              if (name && name.length > 1 && text.length > name.length + 3) out[key].push({ name: name, text: text });
+            });
+            sib = sib.nextElementSibling;
+          }
+        });
+        return out;
+      })
+      .catch(function () { return null; });
+  }
+  function pick(arr, used) {
+    var pool = arr.filter(function (x) { return used.indexOf(x.name) === -1; });
+    if (!pool.length) return null;
+    var p = pool[Math.floor(Math.random() * pool.length)];
+    used.push(p.name);
+    return p;
+  }
+  document.getElementById("nearsbtn").addEventListener("click", function () {
+    var town = document.getElementById("nearq").value.trim();
+    var out = document.getElementById("dayout");
+    document.getElementById("daysave").style.display = "none";
+    if (!town) { out.innerHTML = '<p class="status">Put a town or area first.</p>'; return; }
+    out.innerHTML = '<p class="status">Reading the guide for ' + esc(town) + "…</p>";
+    fetchListings(town).then(function (L) {
+      if (!L || (!L.see.length && !L.do.length && !L.eat.length)) {
+        out.innerHTML = '<p class="status">The travel guide does not list things to do for "' + esc(town) + '" yet. Try the nearest town with a guide page, or ask about it above.</p>';
+        return;
+      }
+      var used = [];
+      var plan = [
+        { when: "Morning", slot: "See", item: pick(L.see, used) || pick(L.do, used), cat: "Sight" },
+        { when: "Afternoon", slot: "Do", item: pick(L.do, used) || pick(L.see, used), cat: "Activity" },
+        { when: "Evening", slot: "Eat", item: pick(L.eat, used), cat: "Food" }
+      ].filter(function (s) { return s.item; });
+      lastPlan = { town: town, plan: plan };
+      var html = '<p style="margin-top:10px;"><b>Your surprise day near ' + esc(town) + ":</b></p>";
+      plan.forEach(function (s) {
+        var pr = priceOf(s.item.text);
+        html += '<div class="pick"><span class="when">' + s.when + " · " + s.slot + "</span><b>" + esc(s.item.name) + "</b><br>" + esc(s.item.text) +
+          "<br>" + (pr ? '<span class="price">' + esc(pr) + "</span>" : '<span class="noprice">Price not listed in the guide</span>') + "</div>";
+      });
+      html += '<p class="status">Tap 🎲 again for a different roll. Prices come from the guide listings; plenty of listings do not list one, and I will never make one up.</p>';
+      out.innerHTML = html;
+      document.getElementById("daysave").style.display = "";
+      document.getElementById("daysavestat").textContent = "";
+      geocode(town).then(function (g) { if (g && map) map.flyTo([g.lat, g.lon], 12); });
+      plan.forEach(function (s, i) {
+        setTimeout(function () {
+          geocode(s.item.name + ", " + town).then(function (g) { if (g) addPin(g.lat, g.lon, "<b>" + esc(s.item.name) + "</b><br>From your surprise day near " + esc(town), pinColor(s.cat), s.cat); });
+        }, i * 1100);
+      });
+    });
+  });
+  document.getElementById("daysavebtn").addEventListener("click", function () {
+    if (!lastPlan) return;
+    function uid() { return "t" + Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
+    var t = { id: uid(), title: "A day near " + lastPlan.town, destination: lastPlan.town, start: "", end: "", cover: "", status: "active", fav: false, reminders: [], budget: [], places: lastPlan.plan.map(function (s) { return { id: uid(), name: s.item.name, category: s.cat, address: "", image: "", notes: priceOf(s.item.text) || "From the surprise day planner" }; }) };
+    trips.push(t);
+    try { localStorage.setItem("tydTravelTrips", JSON.stringify(trips)); } catch (e) {}
+    if (window.TYDMapSaveTrips) window.TYDMapSaveTrips(trips);
+    document.getElementById("daysavestat").textContent = "Saved! It is in your Travel Planner now.";
+    placeAll();
+  });
+  placeAll();
+})();
+</script>
+<script type="module">
+  import { initializeApp, getApps, getApp } from "./pond-firebase-stub.js";
+  import { getAuth, onAuthStateChanged } from "./pond-firebase-stub.js";
+  import { getFirestore, doc, getDoc, setDoc } from "./pond-firebase-stub.js";
+  var firebaseConfig = { apiKey: "preview-disabled", authDomain: "pond-preview-disabled.firebaseapp.com", projectId: "pond-preview-disabled", storageBucket: "pond-preview-disabled.firebasestorage.app", messagingSenderId: "000000000000", appId: "1:000000000000:web:previewdisabled" };
+  var app3 = getApps().length ? getApp() : initializeApp(firebaseConfig);
+  var auth3 = getAuth(app3), db3 = getFirestore(app3);
+  var mUid = null;
+  window.TYDMapSaveTrips = function (trips) { if (!mUid) return; setDoc(doc(db3, "users", mUid), { travelTrips: trips }, { merge: true }).catch(function () {}); };
+  /* v339: custom pin colors ride the account as mapPinColors. */
+  window.TYDMapSavePinColors = function (colors) { if (!mUid) return; setDoc(doc(db3, "users", mUid), { mapPinColors: colors }, { merge: true }).catch(function () {}); };
+  onAuthStateChanged(auth3, function (user) {
+    if (!user) { mUid = null; return; }
+    mUid = user.uid;
+    getDoc(doc(db3, "users", user.uid)).then(function (snap) {
+      var d = snap.exists() ? snap.data() : {};
+      if (window.TYDMapMerge) window.TYDMapMerge(d.travelTrips, d.mapPinColors);
+      /* Push local pin colors the account lacks (set while signed out). */
+      if ((!d.mapPinColors || !Object.keys(d.mapPinColors).length) && window.TYDMapGetPinColors) {
+        var local = window.TYDMapGetPinColors();
+        if (local && Object.keys(local).length) window.TYDMapSavePinColors(local);
+      }
+    }).catch(function () {});
+  });
+</script>
+<script type="module" src="auth-pill.js"></script>
+<script src="site-nav.js?v=372"></script>
+<script src="pull-refresh.js?v=341"></script>
+<script src="pond-staging.js"></script>
+</body>
+</html>

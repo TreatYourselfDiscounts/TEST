@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#ffd94d">
+<meta name="description" content="Verified tech deals on sale, refreshed every morning. Welcome to the Pond!">
+<meta property="og:title" content="Tech Deals | TreatYourselfDiscounts">
+<meta property="og:description" content="Verified tech deals on sale, refreshed every morning. Welcome to the Pond!">
+<meta property="og:image" content="/images/corners/duck-deals.jpg">
+<meta property="og:url" content="/tech">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Tech Deals | TreatYourselfDiscounts">
+<meta name="twitter:description" content="Verified tech deals on sale, refreshed every morning. Welcome to the Pond!">
+<meta name="twitter:image" content="/images/corners/duck-deals.jpg">
+<title>Tech Deals | TreatYourselfDiscounts</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body { overflow-x: clip; /* clip, not hidden: hidden makes a scroll container and breaks the sticky top bar (Nov 13, 2026) */ }
+  /* No solid body background here: the duck wallpaper lives in site-nav.js and must show through on every page. */
+  body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; color: #23414d; }
+  .app { max-width: 430px; margin: 0 auto; min-height: 100vh; background: #bfe6f2; box-shadow: 0 0 24px rgba(35,65,77,.12); padding-bottom: 32px; }
+  .tyd-pill { display: none !important; }
+  header.top { text-align: center; margin: 10px 16px 4px; }
+  header.top .duck { width: 76px; height: 76px; border-radius: 50%; border: 3px solid #ffd94d; background: #ffd94d; }
+  header.top .sub { margin: 6px 0 0; color: #3f6b7a; font-size: 15px; line-height: 1.5; }
+  .back { color: #1f5f74; font-weight: 700; text-decoration: none; font-size: 14px; display: inline-block; margin: 14px 16px 0; }
+  h1 { margin: 0; font-size: 26px; letter-spacing: .2px; }
+  .tagline { margin: 8px 0 0; font-size: 15px; color: #3f6b7a; line-height: 1.45; }
+  .stamp-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin: 14px 16px 0; }
+  .stamp { font-size: 13.5px; font-weight: 700; color: #1f5f74; }
+  .refresh-btn { background: #ffd94d; border: 2px solid #e8b93c; color: #6b5900; font-weight: 800; font-size: 14px; border-radius: 999px; padding: 9px 16px; cursor: pointer; font-family: inherit; }
+  .refresh-btn:disabled { opacity: .6; cursor: wait; }
+  .refresh-note { font-size: 13px; color: #4a6b78; margin: 8px 16px 0; line-height: 1.5; }
+  .controls { padding: 16px 16px 0; }
+  /* v307: solid white + solid border, not the two-layer gradient (same forced-dark victim as the cards). */
+  .search-row input { width: 100%; box-sizing: border-box; font-size: 15px; padding: 12px 16px; border-radius: 999px; border: 2px solid #bcd9e4; background: #fff; outline: none; color: #23414d; }
+  #lego-no-results { text-align: center; color: #4a6b78; margin: 8px 0; }
+  .filter-row { display: flex; gap: 8px; margin: 12px 0 0; }
+  .filter-row label { flex: 1; font-size: 13px; font-weight: 700; color: #4a6b78; }
+  .filter-row select { width: 100%; margin-top: 4px; font-size: 14px; padding: 10px 12px; border-radius: 999px; border: 2px solid #bcd9e4; background: #fff; color: #23414d; outline: none; }
+  @media (max-width: 759px) {
+    .filter-row { flex-direction: column; }
+    .filter-row label { flex: none; }
+  }
+  .lego-count { font-size: 13px; color: #4a6b78; margin: 12px 16px 0; }
+  /* Solid colors only, no gradients (v307 lesson: a phone browser's forced-dark recolor turns gradient panels black while the text stays dark). */
+  .lego-grid { display: grid; grid-template-columns: 1fr; gap: 12px; padding: 12px 16px 0; }
+  /* v324: bottom-aligned buttons — the card is a flex column and
+     .lego-info stretches (flex:1), so the Shop button (margin-top:auto)
+     sits at the bottom of every card in the row. .save/.stock-note keep
+     a 12px bottom margin so the gap never collapses on the tallest card. */
+  .lego-card { background: #fff; border: 2px solid #ffe066; border-radius: 18px; box-shadow: 0 2px 8px rgba(35,65,77,.06); overflow: hidden; display: flex; flex-direction: column; }
+  /* v323: uniform square photo box — every card the same size on phone
+     AND desktop. The box is always square (aspect-ratio 1/1) and the
+     image sits inside it with object-fit: contain on white, so the
+     WHOLE product shows, never cropped, never distorted. This replaces
+     the v321 aspect-aware frames (height:auto): tall portrait photos
+     made giant cards and stretched their whole grid row, so a short
+     row-mate's content scrolled off-screen and its card looked blank
+     (LEGO Yoda Key Chain 853449, Nov 15, 2026). Real width/height
+     attrs on each img still prevent layout shift. */
+  .lego-photo { width: 100%; aspect-ratio: 1 / 1; height: auto; object-fit: contain; background: #fff; display: block; border-bottom: 1px solid #dceef5; }
+  .lego-info { padding: 14px 16px 16px; flex: 1 1 auto; display: flex; flex-direction: column; }
+  .lego-name { font-weight: 700; font-size: 16px; margin: 0; line-height: 1.35; color: #23414d; }
+  .lego-name .setno { color: #5a7d8a; font-weight: 600; }
+  .store-chip { display: inline-block; margin-top: 8px; font-size: 12px; font-weight: 800; letter-spacing: .4px; color: #1f5f74; background: #eaf7fb; border: 1px solid #bcd9e4; padding: 3px 10px; border-radius: 999px; }
+  .price-row { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+  .sale { font-size: 24px; font-weight: 800; color: #1e7d32; line-height: 1; }
+  .was { font-size: 15px; color: #7a8b93; text-decoration: line-through; }
+  .pct { font-size: 13px; font-weight: 800; color: #fff; background: #d6336c; padding: 3px 9px; border-radius: 999px; white-space: nowrap; }
+  .save { font-size: 15px; font-weight: 800; color: #c2185b; margin: 6px 0 12px; }
+  .stock-note { font-size: 13px; font-weight: 700; color: #8a6d00; margin: 6px 0 12px; }
+  .shop-btn { display: block; text-align: center; background: #1f5f74; color: #fff; font-weight: 800; font-size: 15px; text-decoration: none; border-radius: 999px; padding: 11px 16px; margin-top: auto; }
+  .shop-btn:active { background: #174a5c; }
+  /* Share to the Shack (v312): the Share button sits under the Shop
+     button on each card. Its look comes from site-nav.js. */
+  .lego-info [data-shack-share] { margin-top: 8px; }
+  /* "See it in use" video link: only on cards with a verified video
+     of that exact product in use (data/deal-videos.json). It sits
+     right above the Shop button (v325), so the bottom block is
+     exactly Shop + Share on every card and the Shop buttons line up. */
+  .video-link { display: block; text-align: center; color: #1f5f74; font-weight: 700; font-size: 14px; text-decoration: none; margin-top: 10px; }
+  .video-link:hover { text-decoration: underline; }
+
+  .history { background: #fff; border: 2px solid #bcd9e4; border-radius: 16px; padding: 16px; margin: 20px 16px 0; }
+  .history h2 { margin: 0 0 4px; font-size: 19px; color: #1f5f74; }
+  .history .hist-note { font-size: 13.5px; color: #4a6b78; line-height: 1.5; margin: 0 0 12px; }
+  .history ul { margin: 0; padding-left: 18px; }
+  .history li { font-size: 14px; color: #23414d; line-height: 1.55; margin-bottom: 10px; }
+  .history li:last-child { margin-bottom: 0; }
+  .history li b { color: #1f5f74; }
+  .footer-duck-v4 { display: block; margin: 0 auto 6px; height: 84px; width: 84px; border-radius: 50%; object-fit: cover; border: 3px solid #ffd94d; background: #ffd94d; filter: drop-shadow(0 3px 5px rgba(35,65,77,.25)); animation: pondfloat 6s ease-in-out infinite; }
+  footer { text-align: center; font-size: 12.5px; color: #4a6b78; padding: 24px 24px 0; line-height: 1.5; }
+  .foot-links { text-align: center; padding: 18px 24px 0; font-size: 13px; }
+  .foot-links a { color: #1f5f74; font-weight: 700; text-decoration: none; margin: 0 8px; }
+  .nest { font-weight: 700; color: #1f5f74; margin: 14px 0 0; }
+  @keyframes pondfloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+  @media (prefers-reduced-motion: reduce) { .footer-duck-v4 { animation: none; } }
+  @media (min-width: 760px) {
+    .app { max-width: 920px; }
+    .lego-grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+  }
+  /* Phone (max-width 699px): compact 2-column cards, so two sets fit per
+     screen instead of one tall card (Lucy, Nov 15, 2026: her iPhone
+     screenshot showed one full-width card with a very tall photo).
+     Photos sit in a uniform square box (v323), so every card is the
+     same size. Desktop (min-width 760px) untouched. */
+  @media (max-width: 699px) {
+    .lego-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; padding: 10px 10px 0; }
+    .lego-info { padding: 10px 10px 12px; }
+    .lego-name { font-size: 14px; }
+    .store-chip { font-size: 11px; margin-top: 6px; padding: 2px 8px; }
+    .price-row { gap: 5px; margin-top: 8px; }
+    .sale { font-size: 19px; }
+    .was { font-size: 13px; }
+    .pct { font-size: 11px; padding: 2px 7px; }
+    .save { font-size: 13px; margin-top: 5px; }
+    .stock-note { font-size: 12px; margin-top: 5px; }
+    .shop-btn { font-size: 13.5px; padding: 9px 10px; margin-top: auto; }
+    /* Refresh button: same button, same place (in .stamp-row), just
+       full-width and bigger on phone so it is easy to spot. */
+    .refresh-btn { width: 100%; font-size: 16px; padding: 12px 18px; }
+  }
+  /* Dark mode: explicit solid colors, no gradients, so every price, pill and button stays readable. */
+  html[data-theme="dark"] .search-row input { background: #172635 !important; color: #eefaff !important; border-color: #2e4a5f !important; }
+  html[data-theme="dark"] .filter-row select { background: #172635 !important; color: #eefaff !important; border-color: #2e4a5f !important; }
+  html[data-theme="dark"] .filter-row label { color: #bcd6e4 !important; }
+  html[data-theme="dark"] .lego-card { background: #172635 !important; border-color: #2e4a5f !important; }
+  html[data-theme="dark"] .lego-photo { background: #fff !important; border-bottom-color: #2e4a5f !important; }
+  html[data-theme="dark"] .lego-name { color: #eefaff !important; }
+  html[data-theme="dark"] .lego-name .setno { color: #8fa8b5 !important; }
+  html[data-theme="dark"] .store-chip { background: #101e2c !important; border-color: #2e4a5f !important; color: #c9f0fc !important; }
+  html[data-theme="dark"] .sale { color: #7ddba0 !important; }
+  html[data-theme="dark"] .was { color: #8fa8b5 !important; }
+  html[data-theme="dark"] .pct { background: #d6336c !important; color: #fff !important; }
+  html[data-theme="dark"] .save { color: #ff9ebb !important; }
+  html[data-theme="dark"] .stock-note { color: #ffd94d !important; }
+  html[data-theme="dark"] .shop-btn { background: #2e7d96 !important; color: #fff !important; }
+  html[data-theme="dark"] .video-link { color: #c9f0fc !important; }
+
+  html[data-theme="dark"] .history { background: #172635 !important; border-color: #2e4a5f !important; }
+  html[data-theme="dark"] .history h2 { color: #c9f0fc !important; }
+  html[data-theme="dark"] .history .hist-note { color: #bcd6e4 !important; }
+  html[data-theme="dark"] .history li { color: #eefaff !important; }
+  html[data-theme="dark"] .history li b { color: #c9f0fc !important; }
+  html[data-theme="dark"] .stamp { color: #c9f0fc !important; }
+  html[data-theme="dark"] .refresh-note { color: #bcd6e4 !important; }
+  html[data-theme="dark"] .lego-count { color: #bcd6e4 !important; }
+  html[data-theme="dark"] #lego-no-results { color: #bcd6e4 !important; }
+</style>
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="apple-touch-icon-v2.png">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="TreatYourself">
+<meta name="robots" content="noindex,nofollow">
+<link rel="stylesheet" href="pond-travel.css">
+<script>window.__TYD_PREVIEW__=true;</script>
+</head>
+<body>
+<div class="app">
+  <a class="back" href="deals.html">&#8249; Back to Deals</a>
+  <header class="top">
+    <img class="duck" src="images/corners/duck-deals.jpg" onerror="this.onerror=null;this.src='icon-512.png';" alt="The Pond duck">
+    <h1>💻 Tech Deals</h1>
+    <p class="sub">Verified tech deals on sale, refreshed every morning. Prices can change at the store.</p>
+  </header>
+  <div class="stamp-row">
+    <span class="stamp">✅ Checked November 18, 2026</span>
+    <button type="button" class="refresh-btn" id="refresh-btn">↻ Refresh deals</button>
+  </div>
+  <p class="refresh-note">This page joins the daily morning deal refresh: every price below was checked on its own product page on November 15, 2026. Refreshing reloads the latest saved check.</p>
+  <div class="controls">
+    <div class="search-row"><input id="lego-search" type="search" placeholder="Search tech deals..." aria-label="Search Tech Deals"></div>
+    <p id="lego-no-results" hidden>No tech deals match your search.</p>
+    <div class="filter-row">
+      <label>Store <select id="lego-store" aria-label="Filter by store"><option value="">All stores</option><option value="bestbuy">Best Buy</option><option value="walmart">Walmart</option><option value="newegg">Newegg</option><option value="bhphoto">B&H</option><option value="dell">Dell</option><option value="lenovo">Lenovo</option></select></label>
+      <label>Sort <select id="lego-sort" aria-label="Sort Tech Deals"><option value="pct">Biggest % off</option><option value="price-asc">Lowest price</option><option value="price-desc">Highest price</option><option value="az">A to Z</option></select></label>
+    </div>
+  </div>
+  <p class="lego-count" id="lego-count">31 tech deals, checked November 18, 2026.</p>
+  <main class="lego-grid" id="lego-grid">
+      <article class="lego-card" id="deal-beats-solo4-drenched-gray" data-store="walmart" data-price="69.00" data-pct="65" data-name="beats solo4 on-ear wireless headphones drenched gray bluetooth">
+      <img class="lego-photo" width="294" height="455" src="/images/deals/deal-beats-solo4-drenched-gray.jpg" alt="Beats Solo4 On-Ear Wireless Headphones, Drenched Gray" loading="eager" fetchpriority="high" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Beats Solo4 On-Ear Wireless Headphones, Drenched Gray</h3>
+        <span class="store-chip">Walmart</span>
+        <p class="price-row"><span class="sale">$69.00</span> <span class="was">was $199.99</span> <span class="pct">65% off</span></p>
+        <p class="save">Save $130.99</p>
+        <a class="shop-btn" href="https://www.walmart.com/ip/Beats-by-Dr-Dre-Solo4-On-Ear-Wireless-Bluetooth-Headphones-Drenched-Gray/17203508556" target="_blank" rel="noopener">Shop Deal at Walmart</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/tech.html#deal-beats-solo4-drenched-gray" data-share-image="/images/deals/deal-beats-solo4-drenched-gray.jpg" data-share-title="Beats Solo4 On-Ear Wireless Headphones, Drenched Gray" data-share-text="$69.00 was $199.99 at Walmart">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-beats-solo4-drenched-gray" data-deal-name="Beats Solo4 On-Ear Wireless Headphones, Drenched Gray" data-deal-price="69.00" data-deal-was="199.99" data-deal-store="Walmart" data-deal-href="https://www.walmart.com/ip/Beats-by-Dr-Dre-Solo4-On-Ear-Wireless-Bluetooth-Headphones-Drenched-Gray/17203508556" data-deal-source="tech" data-deal-page="tech.html" data-deal-img="/images/deals/deal-beats-solo4-drenched-gray.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-jlab-pop-party-speaker-black" data-store="walmart" data-price="9.88" data-pct="60" data-name="jlab pop party portable bluetooth speaker 5w rgb black splashproof">
+      <img class="lego-photo" width="284" height="525" src="/images/deals/deal-jlab-pop-party-speaker-black.jpg" alt="JLab Pop Party Portable Bluetooth Speaker, 5W, RGB, Black" loading="eager" fetchpriority="high" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">JLab Pop Party Portable Bluetooth Speaker, 5W, RGB, Black</h3>
+        <span class="store-chip">Walmart</span>
+        <p class="price-row"><span class="sale">$9.88</span> <span class="was">was $24.99</span> <span class="pct">60% off</span></p>
+        <p class="save">Save $15.11</p>
+        <a class="shop-btn" href="https://www.walmart.com/ip/JLab-Pop-Party-Portable-Bluetooth-Speaker-5W-8-Hour-Playtime-RGB-Lighting-Splashproof-Black/15414251149" target="_blank" rel="noopener">Shop Deal at Walmart</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/tech.html#deal-jlab-pop-party-speaker-black" data-share-image="/images/deals/deal-jlab-pop-party-speaker-black.jpg" data-share-title="JLab Pop Party Portable Bluetooth Speaker, 5W, RGB, Black" data-share-text="$9.88 was $24.99 at Walmart">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-jlab-pop-party-speaker-black" data-deal-name="JLab Pop Party Portable Bluetooth Speaker, 5W, RGB, Black" data-deal-price="9.88" data-deal-was="24.99" data-deal-store="Walmart" data-deal-href="https://www.walmart.com/ip/JLab-Pop-Party-Portable-Bluetooth-Speaker-5W-8-Hour-Playtime-RGB-Lighting-Splashproof-Black/15414251149" data-deal-source="tech" data-deal-page="tech.html" data-deal-img="/images/deals/deal-jlab-pop-party-speaker-black.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-ring-doorbell-2k" data-store="bestbuy" data-price="39.99" data-pct="60" data-name="ring battery doorbell 2k (2026) — speckled grey">
+      <img class="lego-photo" width="800" height="450" src="/images/deals/deal-ring-doorbell-2k.jpg" alt="Ring Battery Doorbell 2K (2026) — Speckled Grey" loading="eager" fetchpriority="high" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Ring Battery Doorbell 2K (2026) — Speckled Grey</h3>
+        <span class="store-chip">Best Buy</span>
+        <p class="price-row"><span class="sale">$39.99</span> <span class="was">was $99.99</span> <span class="pct">60% off</span></p>
+        <p class="save">Save $60.00</p>
+        <a class="shop-btn" href="https://www.bestbuy.com/product/ring-battery-doorbell-2k-2026-retinal-2k-wide-angle-video-6x-enhanced-zoom-two-way-talk-and-built-in-battery-speckled-grey/J39TLSSR6C" target="_blank" rel="noopener">Shop Deal at Best Buy</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/tech.html#deal-ring-doorbell-2k" data-share-image="/images/deals/deal-ring-doorbell-2k.jpg" data-share-title="Ring Battery Doorbell 2K (2026) — Speckled Grey" data-share-text="$39.99 was $99.99 at Best Buy">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-ring-doorbell-2k" data-deal-name="Ring Battery Doorbell 2K (2026) — Speckled Grey" data-deal-price="39.99" data-deal-was="99.99" data-deal-store="Best Buy" data-deal-href="https://www.bestbuy.com/product/ring-battery-doorbell-2k-2026-retinal-2k-wide-angle-video-6x-enhanced-zoom-two-way-talk-and-built-in-battery-speckled-grey/J39TLSSR6C" data-deal-source="tech" data-deal-page="tech.html" data-deal-img="/images/deals/deal-ring-doorbell-2k.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-wolfbox-4000a-jump-starter" data-store="bestbuy" data-price="99.99" data-pct="57" data-name="wolfbox 4000a car battery jump starter portable battery booster fast charger">
+      <img class="lego-photo" width="687" height="724" src="/images/deals/deal-wolfbox-4000a-jump-starter.jpg" alt="WOLFBOX 4000A Car Battery Jump Starter" loading="eager" fetchpriority="high" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">WOLFBOX 4000A Car Battery Jump Starter</h3>
+        <span class="store-chip">Best Buy</span>
+        <p class="price-row"><span class="sale">$99.99</span> <span class="was">was $229.99</span> <span class="pct">57% off</span></p>
+        <p class="save">Save $130.00</p>
+        <a class="shop-btn" href="https://www.bestbuy.com/product/wolfbox-4000a-car-battery-jump-starter-portable-battery-booster-fast-charger-jump-box-for-10l-gasoline-and-diesel-engines/CZTHRZYVP7/sku/11091281" target="_blank" rel="noopener">Shop Deal at Best Buy</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/tech.html#deal-wolfbox-4000a-jump-starter" data-share-image="/images/deals/deal-wolfbox-4000a-jump-starter.jpg" data-share-title="WOLFBOX 4000A Car Battery Jump Starter" data-share-text="$99.99 was $229.99 at Best Buy">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-wolfbox-4000a-jump-starter" data-deal-name="WOLFBOX 4000A Car Battery Jump Starter" data-deal-price="99.99" data-deal-was="229.99" data-deal-store="Best Buy" data-deal-href="https://www.bestbuy.com/product/wolfbox-4000a-car-battery-jump-starter-portable-battery-booster-fast-charger-jump-box-for-10l-gasoline-and-diesel-engines/CZTHRZYVP7/sku/11091281" data-deal-source="tech" data-deal-page="tech.html" data-deal-img="/images/deals/deal-wolfbox-4000a-jump-starter.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-hisense-75-h5r1-roku-tv" data-store="walmart" data-price="328.00" data-pct="51" data-name="hisense 75 h5r1 4k uhd hdr smart roku tv 75h5r1 2026 dolby vision">
+      <img class="lego-photo" width="536" height="454" src="/images/deals/deal-hisense-75-h5r1-roku-tv.jpg" alt="Hisense 75&quot; H5R1 Series 4K UHD HDR Smart Roku TV (75H5R1, 2026)" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Hisense 75" H5R1 Series 4K UHD HDR Smart Roku TV (75H5R1, 2026)</h3>
+        <span class="store-chip">Walmart</span>
+        <p class="price-row"><span class="sale">$328.00</span> <span class="was">was $668.00</span> <span class="pct">51% off</span></p>
+        <p class="save">Save $340.00</p>
+        <a class="shop-btn" href="https://www.walmart.com/ip/Hisense-75-Class-H5R1-Series-4K-UHD-HDR-Smart-Roku-TV-75H5R1-2026-Model-Full-Array-LED-Dolby-Vision-AI-4K-Upscaler-Game-Mode-Plus-DTS-Virtual-X-Noise/20272208349" target="_blank" rel="noopener">Shop Deal at Walmart</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/tech.html#deal-hisense-75-h5r1-roku-tv" data-share-image="/images/deals/deal-hisense-75-h5r1-roku-tv.jpg" data-share-title="Hisense 75&quot; H5R1 Series 4K UHD HDR Smart Roku TV (75H5R1, 2026)" data-share-text="$328.00 was $668.00 at Walmart">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-hisense-75-h5r1-roku-tv" data-deal-name="Hisense 75&quot; H5R1 Series 4K UHD HDR Smart Roku TV (75H5R1, 2026)" data-deal-price="328.00" data-deal-was="668.00" data-deal-store="Walmart" data-deal-href="https://www.walmart.com/ip/Hisense-75-Class-H5R1-Series-4K-UHD-HDR-Smart-Roku-TV-75H5R1-2026-Model-Full-Array-LED-Dolby-Vision-AI-4K-Upscaler-Game-Mode-Plus-DTS-Virtual-X-Noise/20272208349" data-deal-source="tech" data-deal-page="tech.html" data-deal-img="/images/deals/deal-hisense-75-h5r1-roku-tv.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-skullcandy-crusher-anc-2" data-store="bestbuy" data-price="119.99" data-pct="50" data-name="skullcandy crusher anc 2 over-ear noise canceling headphones black tan wireless bluetooth">
+      <img class="lego-photo" width="728" height="792" src="/images/deals/deal-skullcandy-crusher-anc-2.jpg" alt="Skullcandy Crusher ANC 2 Over-Ear Noise Canceling Headphones, Black/Tan" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Skullcandy Crusher ANC 2 Over-Ear Noise Canceling Headphones, Black/Tan</h3>
+        <span class="store-chip">Best Buy</span>
+        <p class="price-row"><span class="sale">$119.99</span> <span class="was">was $239.99</span> <span class="pct">50% off</span></p>
+        <p class="save">Save $120.00</p>
+        <a class="shop-btn" href="https://www.bestbuy.com/product/skullcandy-crusher-anc-2-over-the-ear-noise-canceling-wireless-bluetooth-headphones-black-tan/J3GWL576GL/sku/6580349" target="_blank" rel="noopener">Shop Deal at Best Buy</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/tech.html#deal-skullcandy-crusher-anc-2" data-share-image="/images/deals/deal-skullcandy-crusher-anc-2.jpg" data-share-title="Skullcandy Crusher ANC 2 Over-Ear Noise Canceling Headphones, Black/Tan" data-share-text="$119.99 was $239.99 at Best Buy">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-skullcandy-crusher-anc-2" data-deal-name="Skullcandy Crusher ANC 2 Over-Ear Noise Canceling Headphones, Black/Tan" data-deal-price="119.99" data-deal-was="239.99" data-deal-store="Best Buy" data-deal-href="https://www.bestbuy.com/product/skullcandy-crusher-anc-2-over-the-ear-noise-canceling-wireless-bluetooth-headphones-black-tan/J3GWL576GL/sku/6580349" data-deal-source="tech" data-deal-page="tech.html" data-deal-img="/images/deals/deal-skullcandy-crusher-anc-2.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-lenovo-tab-one" data-store="lenovo" data-price="99.99" data-pct="50" data-name="lenovo tab one (8.7&quot; tablet, luna grey, 4gb/64gb)">
+      <img class="lego-photo" width="800" height="600" src="/images/deals/deal-lenovo-tab-one.jpg" alt="Lenovo Tab One (8.7&quot; tablet, Luna Grey, 4GB/64GB)" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Lenovo Tab One (8.7&quot; tablet, Luna Grey, 4GB/64GB)</h3>
+        <span class="store-chip">Lenovo</span>
+        <p class="price-row"><span class="sale">$99.99</span> <span class="was">was $199.99 (Est. Value)</span> <span class="pct">50% off</span></p>
+        <p class="save">Save $100.00</p>
+        <a class="shop-btn" href="https://www.lenovo.com/us/en/p/tablets/android-tablets/lenovo-tab-series/lenovo-tab-one/zaf00008us" target="_blank" rel="noopener">Shop Deal at Lenovo</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/tech.html#deal-lenovo-tab-one" data-share-image="/images/deals/deal-lenovo-tab-one.jpg" data-share-title="Lenovo Tab One (8.7&quot; tablet, Luna Grey, 4GB/64GB)" data-share-text="$99.99 was $199.99 at Lenovo">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-lenovo-tab-one" data-deal-name="Lenovo Tab One (8.7&quot; tablet, Luna Grey, 4GB/64GB)" data-deal-price="99.99" data-deal-was="" data-deal-store="Lenovo" data-deal-href="https://www.lenovo.com/us/en/p/tablets/android-tablets/lenovo-tab-series/lenovo-tab-one/zaf00008us" data-deal-source="tech" data-deal-page="tech.html" data-deal-img="/images/deals/deal-lenovo-tab-one.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-garmin-vivoactive-5-ivory" data-store="walmart" data-price="169.00" data-pct="44" data-name="garmin vivoactive 5 fitness smartwatch ivory aluminum bezel silicone band">
+      <img class="lego-photo" width="346" height="453" src="/images/deals/deal-garmin-vivoactive-5-ivory.jpg" alt="Garmin vivoactive 5 Fitness Smartwatch, Ivory" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Garmin vivoactive 5 Fitness Smartwatch, Ivory</h3>
+        <span class="store-chip">Walmart</span>
+        <p class="price-row"><span class="sale">$169.00</span> <span class="was">was $299.99</span> <span class="pct">44% off</span></p>
+        <p class="save">Save $130.99</p>
+        <a class="shop-btn" href="https://www.walmart.com/ip/Garmin-v-voactive-5-Fitness-Tracking-Smartwatch-with-Aluminum-Bezel-and-Silicone-Band-Ivory/5020233074" target="_blank" rel="noopener">Shop Deal at Walmart</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/tech.html#deal-garmin-vivoactive-5-ivory" data-share-image="/images/deals/deal-garmin-vivoactive-5-ivory.jpg" data-share-title="Garmin vivoactive 5 Fitness Smartwatch, Ivory" data-share-text="$169.00 was $299.99 at Walmart">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-garmin-vivoactive-5-ivory" data-deal-name="Garmin vivoactive 5 Fitness Smartwatch, Ivory" data-deal-price="169.00" data-deal-was="299.99" data-deal-store="Walmart" data-deal-href="https://www.walmart.com/ip/Garmin-v-voactive-5-Fitness-Tracking-Smartwatch-with-Aluminum-Bezel-and-Silicone-Band-Ivory/5020233074" data-deal-source="tech" data-deal-page="tech.html" data-deal-img="/images/deals/deal-garmin-vivoactive-5-ivory.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-lg-55-b6e-oled-tv" data-store="bestbuy" data-price="799.99" data-pct="43" data-name="lg 55 b6e oled ai 4k smart webos tv 2026">
+      <img class="lego-photo" width="790" height="502" src="/images/deals/deal-lg-55-b6e-oled-tv.jpg" alt="LG 55&quot; B6E OLED AI 4K Smart webOS TV (2026)" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">LG 55" B6E OLED AI 4K Smart webOS TV (2026)</h3>
+        <span class="store-chip">Best Buy</span>
+        <p class="price-row"><span class="sale">$799.99</span> <span class="was">was $1399.99</span> <span class="pct">43% off</span></p>
+        <p class="save">Save $600.00</p>
+        <a class="shop-btn" href="https://www.bestbuy.com/product/lg-55-class-b6e-oled-ai-4k-smart-webos-tv-with-perfect-black-and-vivid-color-2026/JJ8VPZZ7PZ/sku/6680628" target="_blank" rel="noopener">Shop Deal at Best Buy</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/tech.html#deal-lg-55-b6e-oled-tv" data-share-image="/images/deals/deal-lg-55-b6e-oled-tv.jpg" data-share-title="LG 55&quot; B6E OLED AI 4K Smart webOS TV (2026)" data-share-text="$799.99 was $1399.99 at Best Buy">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-lg-55-b6e-oled-tv" data-deal-name="LG 55&quot; B6E OLED AI 4K Smart webOS TV (2026)" data-deal-price="799.99" data-deal-was="1399.99" data-deal-store="Best Buy" data-deal-href="https://www.bestbuy.com/product/lg-55-class-b6e-oled-ai-4k-smart-webos-tv-with-perfect-black-and-vivid-color-2026/JJ8VPZZ7PZ/sku/6680628" data-deal-source="tech" data-deal-page="tech.html" data-deal-img="/images/deals/deal-lg-55-b6e-oled-tv.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-sony-wh1000xm5" data-store="bestbuy" data-price="229.99" data-pct="42" data-name="sony wh-1000xm5 wireless noise cancelling over-ear headphones black">
+      <img class="lego-photo" width="519" height="800" src="/images/deals/deal-sony-wh1000xm5.jpg" alt="Sony WH-1000XM5 Wireless Noise Cancelling Over-Ear Headphones Black" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Sony WH-1000XM5 Wireless Noise Cancelling Over-Ear Headphones Black</h3>
+        <span class="store-chip">Best Buy</span>
+        <p class="price-row"><span class="sale">$229.99</span> <span class="was">was $398.00</span> <span class="pct">42% off</span></p>
+        <p class="save">Save $168.01</p>
+        <a class="shop-btn" href="https://www.bestbuy.com/product/sony-wh-1000xm5-wireless-noise-cancelling-over-the-ear-headphones-black/J7XSRH5CXG" target="_blank" rel="noopener">Shop Deal at Best Buy</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/tech.html#deal-sony-wh1000xm5" data-share-image="/images/deals/deal-sony-wh1000xm5.jpg" data-share-title="Sony WH-1000XM5 Wireless Noise Cancelling Over-Ear Headphones Black" data-share-text="$229.99 was $398.00 at Best Buy">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-sony-wh1000xm5" data-deal-name="Sony WH-1000XM5 Wireless Noise Cancelling Over-Ear Headphones Black" data-deal-price="229.99" data-deal-was="398.00" data-deal-store="Best Buy" data-deal-href="https://www.bestbuy.com/product/sony-wh-1000xm5-wireless-noise-cancelling-over-the-ear-headphones-black/J7XSRH5CXG" data-deal-source="tech" data-deal-page="tech.html" data-deal-img="/images/deals/deal-sony-wh1000xm5.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-lenovo-ideapad-slim-3i" data-store="bestbuy" data-price="429.99" data-pct="41" data-name="lenovo ideapad slim 3i 15.3&quot; 2k touchscreen laptop — intel core 5 processor 320 (2026), 8gb, 256gb, cosmic blue">
+      <img class="lego-photo" width="800" height="685" src="/images/deals/deal-lenovo-ideapad-slim-3i.jpg" alt="Lenovo IdeaPad Slim 3i 15.3&quot; 2K Touchscreen Laptop — Intel Core 5 Processor 320 (2026), 8GB, 256GB, Cosmic Blue" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Lenovo IdeaPad Slim 3i 15.3&quot; 2K Touchscreen Laptop — Intel Core 5 Processor 320 (2026), 8GB, 256GB, Cosmic Blue</h3>
+        <span class="store-chip">Best Buy</span>
+        <p class="price-row"><span class="sale">$429.99</span> <span class="was">was $729.99</span> <span class="pct">41% off</span></p>
+        <p class="save">Save $300.00</p>
+        <a class="shop-btn" href="https://www.bestbuy.com/product/lenovo-ideapad-slim-3i-15-3-2k-touchscreen-laptop-intel-core-5-processor-320-2026-8gb-memory-256gb-storage-cosmic-blue/JJGH3FHYC6" target="_blank" rel="noopener">Shop Deal at Best Buy</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/tech.html#deal-lenovo-ideapad-slim-3i" data-share-image="/images/deals/deal-lenovo-ideapad-slim-3i.jpg" data-share-title="Lenovo IdeaPad Slim 3i 15.3&quot; 2K Touchscreen Laptop — Intel Core 5 Processor 320 (2026), 8GB, 256GB, Cosmic Blue" data-share-text="$429.99 was $729.99 at Best Buy">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-lenovo-ideapad-slim-3i" data-deal-name="Lenovo IdeaPad Slim 3i 15.3&quot; 2K Touchscreen Laptop — Intel Core 5 Processor 320 (2026), 8GB, 256GB, Cosmic Blue" data-deal-price="429.99" data-deal-was="729.99" data-deal-store="Best Buy" data-deal-href="https://www.bestbuy.com/product/lenovo-ideapad-slim-3i-15-3-2k-touchscreen-laptop-intel-core-5-processor-320-2026-8gb-memory-256gb-storage-cosmic-blue/JJGH3FHYC6" data-deal-source="tech" data-deal-page="tech.html" data-deal-img="/images/deals/deal-lenovo-ideapad-slim-3i.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-samsung-990-pro-2tb" data-store="newegg" data-price="389.99" data-pct="39" data-name="samsung 990 pro 2tb ssd pcie gen4 m.2 2280 (mz-v9p2t0b/am, non-heatsink)">
+      <img class="lego-photo" width="640" height="179" src="/images/deals/deal-samsung-990-pro-2tb.jpg" alt="SAMSUNG 990 PRO 2TB SSD PCIe Gen4 M.2 2280 (MZ-V9P2T0B/AM, Non-Heatsink)" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">SAMSUNG 990 PRO 2TB SSD PCIe Gen4 M.2 2280 (MZ-V9P2T0B/AM, Non-Heatsink)</h3>
+        <span class="store-chip">Newegg</span>
+        <p class="price-row"><span class="sale">$389.99</span> <span class="was">was $639.99</span> <span class="pct">39% off</span></p>
+        <p class="save">Save $250.00</p>
+        <a class="shop-btn" href="https://www.newegg.com/samsung-2tb-990-pro-nvme-2-0/p/N82E16820147861" target="_blank" rel="noopener">Shop Deal at Newegg</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/tech.html#deal-samsung-990-pro-2tb" data-share-image="/images/deals/deal-samsung-990-pro-2tb.jpg" data-share-title="SAMSUNG 990 PRO 2TB SSD PCIe Gen4 M.2 2280 (MZ-V9P2T0B/AM, Non-Heatsink)" data-share-text="$389.99 was $639.99 at Newegg">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-samsung-990-pro-2tb" data-deal-name="SAMSUNG 990 PRO 2TB SSD PCIe Gen4 M.2 2280 (MZ-V9P2T0B/AM, Non-Heatsink)" data-deal-price="389.99" data-deal-was="639.99" data-deal-store="Newegg" data-deal-href="https://www.newegg.com/samsung-2tb-990-pro-nvme-2-0/p/N82E16820147861" data-deal-source="tech" data-deal-page="tech.html" data-deal-img="/images/deals/deal-samsung-990-pro-2tb.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-msi-cyborg-15-gaming-laptop" data-store="walmart" data-price="799.00" data-pct="38" data-name="msi cyborg 15.6 144hz gaming laptop i5-13420h rtx 5050 16gb 512gb 2026">
+      <img class="lego-photo" width="461" height="334" src="/images/deals/deal-msi-cyborg-15-gaming-laptop.jpg" alt="MSI Cyborg 15.6&quot; 144Hz Gaming Laptop, i5-13420H, RTX 5050, 16GB, 512GB (2026)" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">MSI Cyborg 15.6" 144Hz Gaming Laptop, i5-13420H, RTX 5050, 16GB, 512GB (2026)</h3>
+        <span class="store-chip">Walmart</span>
+        <p class="price-row"><span class="sale">$799.00</span> <span class="was">was $1299.00</span> <span class="pct">38% off</span></p>
+        <p class="save">Save $500.00</p>
+        <a class="shop-btn" href="https://www.walmart.com/ip/MSI-Cyborg-15-6-144Hz-Gaming-Laptop-Intel-Core-i5-13420H-NVIDIA-GeForce-RTX-5050-16GB-RAM-512GB-SSD-2026/20071300256" target="_blank" rel="noopener">Shop Deal at Walmart</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/tech.html#deal-msi-cyborg-15-gaming-laptop" data-share-image="/images/deals/deal-msi-cyborg-15-gaming-laptop.jpg" data-share-title="MSI Cyborg 15.6&quot; 144Hz Gaming Laptop, i5-13420H, RTX 5050, 16GB, 512GB (2026)" data-share-text="$799.00 was $1299.00 at Walmart">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-msi-cyborg-15-gaming-laptop" data-deal-name="MSI Cyborg 15.6&quot; 144Hz Gaming Laptop, i5-13420H, RTX 5050, 16GB, 512GB (2026)" data-deal-price="799.00" data-deal-was="1299.00" data-deal-store="Walmart" data-deal-href="https://www.walmart.com/ip/MSI-Cyborg-15-6-144Hz-Gaming-Laptop-Intel-Core-i5-13420H-NVIDIA-GeForce-RTX-5050-16GB-RAM-512GB-SSD-2026/20071300256" data-deal-source="tech" data-deal-page="tech.html" data-deal-img="/images/deals/deal-msi-cyborg-15-gaming-laptop.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-asus-tuf-vg27aq5az-monitor" data-store="walmart" data-price="129.00" data-pct="35" data-name="asus tuf gaming vg27aq5az 27 qhd gaming monitor 210hz 2560x1440">
+      <img class="lego-photo" width="496" height="380" src="/images/deals/deal-asus-tuf-vg27aq5az-monitor.jpg" alt="ASUS TUF GAMING VG27AQ5AZ 27&quot; QHD Gaming Monitor 210Hz" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">ASUS TUF GAMING VG27AQ5AZ 27" QHD Gaming Monitor 210Hz</h3>
+        <span class="store-chip">Walmart</span>
+        <p class="price-row"><span class="sale">$129.00</span> <span class="was">was $199.00</span> <span class="pct">35% off</span></p>
+        <p class="save">Save $70.00</p>
+        <a class="shop-btn" href="https://www.walmart.com/ip/TUF-GAMING-VG27AQ5AZ-27-QHD-2560x1440-210Hz-OC-Gaming-AI/19631562071" target="_blank" rel="noopener">Shop Deal at Walmart</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/tech.html#deal-asus-tuf-vg27aq5az-monitor" data-share-image="/images/deals/deal-asus-tuf-vg27aq5az-monitor.jpg" data-share-title="ASUS TUF GAMING VG27AQ5AZ 27&quot; QHD Gaming Monitor 210Hz" data-share-text="$129.00 was $199.00 at Walmart">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-asus-tuf-vg27aq5az-monitor" data-deal-name="ASUS TUF GAMING VG27AQ5AZ 27&quot; QHD Gaming Monitor 210Hz" data-deal-price="129.00" data-deal-was="199.00" data-deal-store="Walmart" data-deal-href="https://www.walmart.com/ip/TUF-GAMING-VG27AQ5AZ-27-QHD-2560x1440-210Hz-OC-Gaming-AI/19631562071" data-deal-source="tech" data-deal-page="tech.html" data-deal-img="/images/deals/deal-asus-tuf-vg27aq5az-monitor.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-bose-soundlink-max-se" data-store="bestbuy" data-price="229.00" data-pct="34" data-name="bose soundlink max se portable bluetooth speaker black">
+      <img class="lego-photo" width="792" height="497" src="/images/deals/deal-bose-soundlink-max-se.jpg" alt="Bose SoundLink Max SE Portable Bluetooth Speaker, Black" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Bose SoundLink Max SE Portable Bluetooth Speaker, Black</h3>
+        <span class="store-chip">Best Buy</span>
+        <p class="price-row"><span class="sale">$229.00</span> <span class="was">was $349.00</span> <span class="pct">34% off</span></p>
+        <p class="save">Save $120.00</p>
+        <a class="shop-btn" href="https://www.bestbuy.com/product/bose-soundlink-max-se-portable-bluetooth-speaker-with-powerful-stereo-sound-deep-bass-black/J7C5V6WH5P/sku/6689816" target="_blank" rel="noopener">Shop Deal at Best Buy</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/tech.html#deal-bose-soundlink-max-se" data-share-image="/images/deals/deal-bose-soundlink-max-se.jpg" data-share-title="Bose SoundLink Max SE Portable Bluetooth Speaker, Black" data-share-text="$229.00 was $349.00 at Best Buy">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-bose-soundlink-max-se" data-deal-name="Bose SoundLink Max SE Portable Bluetooth Speaker, Black" data-deal-price="229.00" data-deal-was="349.00" data-deal-store="Best Buy" data-deal-href="https://www.bestbuy.com/product/bose-soundlink-max-se-portable-bluetooth-speaker-with-powerful-stereo-sound-deep-bass-black/J7C5V6WH5P/sku/6689816" data-deal-source="tech" data-deal-page="tech.html" data-deal-img="/images/deals/deal-bose-soundlink-max-se.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-jbl-flip-7" data-store="bestbuy" data-price="99.95" data-pct="33" data-name="jbl flip 7 portable waterproof speaker (2025) — black">
+      <img class="lego-photo" width="436" height="371" src="/images/deals/deal-jbl-flip-7.jpg" alt="JBL Flip 7 Portable Waterproof Speaker (2025) — Black" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">JBL Flip 7 Portable Waterproof Speaker (2025) — Black</h3>
+        <span class="store-chip">Best Buy</span>
+        <p class="price-row"><span class="sale">$99.95</span> <span class="was">was $149.95</span> <span class="pct">33% off</span></p>
+        <p class="save">Save $50.00</p>
+        <a class="shop-btn" href="https://www.bestbuy.com/product/jbl-flip-7-portable-waterproof-and-drop-proof-speaker-2025-black/J7LXFW3JWT" target="_blank" rel="noopener">Shop Deal at Best Buy</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/tech.html#deal-jbl-flip-7" data-share-image="/images/deals/deal-jbl-flip-7.jpg" data-share-title="JBL Flip 7 Portable Waterproof Speaker (2025) — Black" data-share-text="$99.95 was $149.95 at Best Buy">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-jbl-flip-7" data-deal-name="JBL Flip 7 Portable Waterproof Speaker (2025) — Black" data-deal-price="99.95" data-deal-was="149.95" data-deal-store="Best Buy" data-deal-href="https://www.bestbuy.com/product/jbl-flip-7-portable-waterproof-and-drop-proof-speaker-2025-black/J7LXFW3JWT" data-deal-source="tech" data-deal-page="tech.html" data-deal-img="/images/deals/deal-jbl-flip-7.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-lenovo-chromebook-duet-9" data-store="lenovo" data-price="349.99" data-pct="30" data-name="lenovo chromebook duet gen 9 (11&quot; mtk, pen &amp; keyboard pack)">
+      <img class="lego-photo" width="537" height="384" src="/images/deals/deal-lenovo-chromebook-duet-9.jpg" alt="Lenovo Chromebook Duet Gen 9 (11&quot; MTK, Pen &amp; Keyboard Pack)" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Lenovo Chromebook Duet Gen 9 (11&quot; MTK, Pen &amp; Keyboard Pack)</h3>
+        <span class="store-chip">Lenovo</span>
+        <p class="price-row"><span class="sale">$349.99</span> <span class="was">was $499.99 (Est. Value)</span> <span class="pct">30% off</span></p>
+        <p class="save">Save $150.00</p>
+        <a class="shop-btn" href="https://www.lenovo.com/us/en/p/laptops/lenovo/lenovo-edu-chromebooks/lenovo-chromebook-duet-gen-9-11-inch-mediatek/83hh0000us" target="_blank" rel="noopener">Shop Deal at Lenovo</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/tech.html#deal-lenovo-chromebook-duet-9" data-share-image="/images/deals/deal-lenovo-chromebook-duet-9.jpg" data-share-title="Lenovo Chromebook Duet Gen 9 (11&quot; MTK, Pen &amp; Keyboard Pack)" data-share-text="$349.99 was $499.99 at Lenovo">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-lenovo-chromebook-duet-9" data-deal-name="Lenovo Chromebook Duet Gen 9 (11&quot; MTK, Pen &amp; Keyboard Pack)" data-deal-price="349.99" data-deal-was="" data-deal-store="Lenovo" data-deal-href="https://www.lenovo.com/us/en/p/laptops/lenovo/lenovo-edu-chromebooks/lenovo-chromebook-duet-gen-9-11-inch-mediatek/83hh0000us" data-deal-source="tech" data-deal-page="tech.html" data-deal-img="/images/deals/deal-lenovo-chromebook-duet-9.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-twelve-south-butterfly-se" data-store="bhphoto" data-price="69.99" data-pct="30" data-name="twelve south butterfly se 2-in-1 compact wireless charger — pink">
+      <img class="lego-photo" width="800" height="229" src="/images/deals/deal-twelve-south-butterfly-se.jpg" alt="Twelve South ButterFly SE 2-in-1 Compact Wireless Charger — Pink" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Twelve South ButterFly SE 2-in-1 Compact Wireless Charger — Pink</h3>
+        <span class="store-chip">B&amp;H</span>
+        <p class="price-row"><span class="sale">$69.99</span> <span class="was">was $99.99</span> <span class="pct">30% off</span></p>
+        <p class="save">Save $30.00</p>
+        <a class="shop-btn" href="https://www.bhphotovideo.com/c/product/1857653-REG/twelve_south_ts_2431_butterfly_se_2_in_1_qi2.html" target="_blank" rel="noopener">Shop Deal at B&amp;H</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/tech.html#deal-twelve-south-butterfly-se" data-share-image="/images/deals/deal-twelve-south-butterfly-se.jpg" data-share-title="Twelve South ButterFly SE 2-in-1 Compact Wireless Charger — Pink" data-share-text="$69.99 was $99.99 at B&amp;H">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-twelve-south-butterfly-se" data-deal-name="Twelve South ButterFly SE 2-in-1 Compact Wireless Charger — Pink" data-deal-price="69.99" data-deal-was="99.99" data-deal-store="B&amp;H" data-deal-href="https://www.bhphotovideo.com/c/product/1857653-REG/twelve_south_ts_2431_butterfly_se_2_in_1_qi2.html" data-deal-source="tech" data-deal-page="tech.html" data-deal-img="/images/deals/deal-twelve-south-butterfly-se.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-asus-rog-strix-g16" data-store="walmart" data-price="1399.00" data-pct="30" data-name="asus rog strix g16 gaming laptop 16 wuxga 165hz ryzen 9 9955hx rtx 5060 16gb 1tb">
+      <img class="lego-photo" width="482" height="369" src="/images/deals/deal-asus-rog-strix-g16.jpg" alt="ASUS ROG Strix G16 Gaming Laptop, 16&quot; WUXGA 165Hz, Ryzen 9 9955HX, RTX 5060, 16GB, 1TB" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">ASUS ROG Strix G16 Gaming Laptop, 16" WUXGA 165Hz, Ryzen 9 9955HX, RTX 5060, 16GB, 1TB</h3>
+        <span class="store-chip">Walmart</span>
+        <p class="price-row"><span class="sale">$1399.00</span> <span class="was">was $1999.00</span> <span class="pct">30% off</span></p>
+        <p class="save">Save $600.00</p>
+        <a class="shop-btn" href="https://www.walmart.com/ip/ASUS-ROG-Strix-G16-Gaming-Laptop-16-WUXGA-165Hz-AMD-Ryzen-9-9955HX-NVIDIA-GeForce-RTX-5060-16GB-1TB-SSD-Windows-11-Eclipse-Gray/13567365941" target="_blank" rel="noopener">Shop Deal at Walmart</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/tech.html#deal-asus-rog-strix-g16" data-share-image="/images/deals/deal-asus-rog-strix-g16.jpg" data-share-title="ASUS ROG Strix G16 Gaming Laptop, 16&quot; WUXGA 165Hz, Ryzen 9 9955HX, RTX 5060, 16GB, 1TB" data-share-text="$1399.00 was $1999.00 at Walmart">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-asus-rog-strix-g16" data-deal-name="ASUS ROG Strix G16 Gaming Laptop, 16&quot; WUXGA 165Hz, Ryzen 9 9955HX, RTX 5060, 16GB, 1TB" data-deal-price="1399.00" data-deal-was="1999.00" data-deal-store="Walmart" data-deal-href="https://www.walmart.com/ip/ASUS-ROG-Strix-G16-Gaming-Laptop-16-WUXGA-165Hz-AMD-Ryzen-9-9955HX-NVIDIA-GeForce-RTX-5060-16GB-1TB-SSD-Windows-11-Eclipse-Gray/13567365941" data-deal-source="tech" data-deal-page="tech.html" data-deal-img="/images/deals/deal-asus-rog-strix-g16.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-samsung-u8000h-tv-55" data-store="bestbuy" data-price="249.99" data-pct="29" data-name="samsung 55&quot; class u8000h series crystal uhd 4k smart tizen tv (2026)">
+      <img class="lego-photo" width="563" height="455" src="/images/deals/deal-samsung-u8000h-tv-55.jpg" alt="Samsung 55&quot; Class U8000H Series Crystal UHD 4K Smart Tizen TV (2026)" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Samsung 55&quot; Class U8000H Series Crystal UHD 4K Smart Tizen TV (2026)</h3>
+        <span class="store-chip">Best Buy</span>
+        <p class="price-row"><span class="sale">$249.99</span> <span class="was">was $349.99</span> <span class="pct">29% off</span></p>
+        <p class="save">Save $100.00</p>
+        <a class="shop-btn" href="https://www.bestbuy.com/product/samsung-55-class-u8000h-series-crystal-uhd-4k-smart-tizen-tv-2026/JJGRF3QT25" target="_blank" rel="noopener">Shop Deal at Best Buy</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/tech.html#deal-samsung-u8000h-tv-55" data-share-image="/images/deals/deal-samsung-u8000h-tv-55.jpg" data-share-title="Samsung 55&quot; Class U8000H Series Crystal UHD 4K Smart Tizen TV (2026)" data-share-text="$249.99 was $349.99 at Best Buy">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-samsung-u8000h-tv-55" data-deal-name="Samsung 55&quot; Class U8000H Series Crystal UHD 4K Smart Tizen TV (2026)" data-deal-price="249.99" data-deal-was="349.99" data-deal-store="Best Buy" data-deal-href="https://www.bestbuy.com/product/samsung-55-class-u8000h-series-crystal-uhd-4k-smart-tizen-tv-2026/JJGRF3QT25" data-deal-source="tech" data-deal-page="tech.html" data-deal-img="/images/deals/deal-samsung-u8000h-tv-55.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-airpods-pro-3" data-store="walmart" data-price="179.00" data-pct="28" data-name="apple airpods pro 3 (active noise cancellation)">
+      <img class="lego-photo" width="800" height="800" src="/images/deals/deal-airpods-pro-3.jpg" alt="Apple AirPods Pro 3 (Active Noise Cancellation)" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Apple AirPods Pro 3 (Active Noise Cancellation)</h3>
+        <span class="store-chip">Walmart</span>
+        <p class="price-row"><span class="sale">$179.00</span> <span class="was">was $249.00</span> <span class="pct">28% off</span></p>
+        <p class="save">Save $70.00</p>
+        <a class="shop-btn" href="https://www.walmart.com/ip/AirPods-Pro-3/17835006350" target="_blank" rel="noopener">Shop Deal at Walmart</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/tech.html#deal-airpods-pro-3" data-share-image="/images/deals/deal-airpods-pro-3.jpg" data-share-title="Apple AirPods Pro 3 (Active Noise Cancellation)" data-share-text="$179.00 was $249.00 at Walmart">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-airpods-pro-3" data-deal-name="Apple AirPods Pro 3 (Active Noise Cancellation)" data-deal-price="179.00" data-deal-was="249.00" data-deal-store="Walmart" data-deal-href="https://www.walmart.com/ip/AirPods-Pro-3/17835006350" data-deal-source="tech" data-deal-page="tech.html" data-deal-img="/images/deals/deal-airpods-pro-3.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-asus-rog-strix-oled-monitor" data-store="newegg" data-price="399.99" data-pct="27" data-name="asus rog strix xg27aqdmes 27&quot; qhd 240hz oled gaming monitor">
+      <img class="lego-photo" width="640" height="536" src="/images/deals/deal-asus-rog-strix-oled-monitor.jpg" alt="ASUS ROG Strix XG27AQDMES 27&quot; QHD 240Hz OLED Gaming Monitor" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">ASUS ROG Strix XG27AQDMES 27&quot; QHD 240Hz OLED Gaming Monitor</h3>
+        <span class="store-chip">Newegg</span>
+        <p class="price-row"><span class="sale">$399.99</span> <span class="was">was $549.99</span> <span class="pct">27% off</span></p>
+        <p class="save">Save $150.00</p>
+        <a class="shop-btn" href="https://www.newegg.com/asus-xg27aqdmes-26-5-viewable-qhd-240hz-rog-strix-oled-black/p/N82E16824281399" target="_blank" rel="noopener">Shop Deal at Newegg</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/tech.html#deal-asus-rog-strix-oled-monitor" data-share-image="/images/deals/deal-asus-rog-strix-oled-monitor.jpg" data-share-title="ASUS ROG Strix XG27AQDMES 27&quot; QHD 240Hz OLED Gaming Monitor" data-share-text="$399.99 was $549.99 at Newegg">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-asus-rog-strix-oled-monitor" data-deal-name="ASUS ROG Strix XG27AQDMES 27&quot; QHD 240Hz OLED Gaming Monitor" data-deal-price="399.99" data-deal-was="549.99" data-deal-store="Newegg" data-deal-href="https://www.newegg.com/asus-xg27aqdmes-26-5-viewable-qhd-240hz-rog-strix-oled-black/p/N82E16824281399" data-deal-source="tech" data-deal-page="tech.html" data-deal-img="/images/deals/deal-asus-rog-strix-oled-monitor.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-hp-15-6-laptop-n100" data-store="bestbuy" data-price="279.99" data-pct="26" data-name="hp 15.6 laptop intel n100 4gb 128gb natural silver">
+      <img class="lego-photo" width="792" height="680" src="/images/deals/deal-hp-15-6-laptop-n100.jpg" alt="HP 15.6&quot; Laptop, Intel N100, 4GB, 128GB, Natural Silver" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">HP 15.6" Laptop, Intel N100, 4GB, 128GB, Natural Silver</h3>
+        <span class="store-chip">Best Buy</span>
+        <p class="price-row"><span class="sale">$279.99</span> <span class="was">was $379.99</span> <span class="pct">26% off</span></p>
+        <p class="save">Save $100.00</p>
+        <a class="shop-btn" href="https://www.bestbuy.com/product/hp-15-6-laptop-intel-n100-processor-4gb-memory-128gb-storage-natural-silver/J3PPHF7KP6" target="_blank" rel="noopener">Shop Deal at Best Buy</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/tech.html#deal-hp-15-6-laptop-n100" data-share-image="/images/deals/deal-hp-15-6-laptop-n100.jpg" data-share-title="HP 15.6&quot; Laptop, Intel N100, 4GB, 128GB, Natural Silver" data-share-text="$279.99 was $379.99 at Best Buy">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-hp-15-6-laptop-n100" data-deal-name="HP 15.6&quot; Laptop, Intel N100, 4GB, 128GB, Natural Silver" data-deal-price="279.99" data-deal-was="379.99" data-deal-store="Best Buy" data-deal-href="https://www.bestbuy.com/product/hp-15-6-laptop-intel-n100-processor-4gb-memory-128gb-storage-natural-silver/J3PPHF7KP6" data-deal-source="tech" data-deal-page="tech.html" data-deal-img="/images/deals/deal-hp-15-6-laptop-n100.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-logitech-g29-racing-wheel" data-store="bestbuy" data-price="229.99" data-pct="23" data-name="logitech g29 driving force racing wheel floor pedals ps5 ps4 pc mac">
+      <img class="lego-photo" width="792" height="442" src="/images/deals/deal-logitech-g29-racing-wheel.jpg" alt="Logitech G29 Driving Force Racing Wheel + Floor Pedals (PS5/PS4/PC/Mac)" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Logitech G29 Driving Force Racing Wheel + Floor Pedals (PS5/PS4/PC/Mac)</h3>
+        <span class="store-chip">Best Buy</span>
+        <p class="price-row"><span class="sale">$229.99</span> <span class="was">was $299.99</span> <span class="pct">23% off</span></p>
+        <p class="save">Save $70.00</p>
+        <a class="shop-btn" href="https://www.bestbuy.com/product/logitech-g29-driving-force-racing-wheel-and-floor-pedals-for-ps5-ps4-pc-mac-black/J7H7ZYC3PT" target="_blank" rel="noopener">Shop Deal at Best Buy</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/tech.html#deal-logitech-g29-racing-wheel" data-share-image="/images/deals/deal-logitech-g29-racing-wheel.jpg" data-share-title="Logitech G29 Driving Force Racing Wheel + Floor Pedals (PS5/PS4/PC/Mac)" data-share-text="$229.99 was $299.99 at Best Buy">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-logitech-g29-racing-wheel" data-deal-name="Logitech G29 Driving Force Racing Wheel + Floor Pedals (PS5/PS4/PC/Mac)" data-deal-price="229.99" data-deal-was="299.99" data-deal-store="Best Buy" data-deal-href="https://www.bestbuy.com/product/logitech-g29-driving-force-racing-wheel-and-floor-pedals-for-ps5-ps4-pc-mac-black/J7H7ZYC3PT" data-deal-source="tech" data-deal-page="tech.html" data-deal-img="/images/deals/deal-logitech-g29-racing-wheel.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-razer-blackwidow-v4" data-store="bestbuy" data-price="139.99" data-pct="22" data-name="razer blackwidow v4 full size wired mechanical green clicky switch gaming keyboard with chroma rgb — black">
+      <img class="lego-photo" width="800" height="462" src="/images/deals/deal-razer-blackwidow-v4.jpg" alt="Razer BlackWidow V4 Full Size Wired Mechanical Green Clicky Switch Gaming Keyboard with Chroma RGB — Black" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Razer BlackWidow V4 Full Size Wired Mechanical Green Clicky Switch Gaming Keyboard with Chroma RGB — Black</h3>
+        <span class="store-chip">Best Buy</span>
+        <p class="price-row"><span class="sale">$139.99</span> <span class="was">was $179.99</span> <span class="pct">22% off</span></p>
+        <p class="save">Save $40.00</p>
+        <a class="shop-btn" href="https://www.bestbuy.com/product/razer-blackwidow-v4-full-size-wired-mechanical-green-clicky-switch-gaming-keyboard-with-chroma-rgb-backlighting-black/J39HWFQZY2" target="_blank" rel="noopener">Shop Deal at Best Buy</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/tech.html#deal-razer-blackwidow-v4" data-share-image="/images/deals/deal-razer-blackwidow-v4.jpg" data-share-title="Razer BlackWidow V4 Full Size Wired Mechanical Green Clicky Switch Gaming Keyboard with Chroma RGB — Black" data-share-text="$139.99 was $179.99 at Best Buy">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-razer-blackwidow-v4" data-deal-name="Razer BlackWidow V4 Full Size Wired Mechanical Green Clicky Switch Gaming Keyboard with Chroma RGB — Black" data-deal-price="139.99" data-deal-was="179.99" data-deal-store="Best Buy" data-deal-href="https://www.bestbuy.com/product/razer-blackwidow-v4-full-size-wired-mechanical-green-clicky-switch-gaming-keyboard-with-chroma-rgb-backlighting-black/J39HWFQZY2" data-deal-source="tech" data-deal-page="tech.html" data-deal-img="/images/deals/deal-razer-blackwidow-v4.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-pioneer-50-roku-tv" data-store="bestbuy" data-price="199.99" data-pct="20" data-name="pioneer 50 led 4k uhd smart roku tv">
+      <img class="lego-photo" width="714" height="464" src="/images/deals/deal-pioneer-50-roku-tv.jpg" alt="Pioneer 50&quot; LED 4K UHD Smart Roku TV" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Pioneer 50" LED 4K UHD Smart Roku TV</h3>
+        <span class="store-chip">Best Buy</span>
+        <p class="price-row"><span class="sale">$199.99</span> <span class="was">was $249.99</span> <span class="pct">20% off</span></p>
+        <p class="save">Save $50.00</p>
+        <a class="shop-btn" href="https://www.bestbuy.com/product/pioneer-50-class-led-4k-uhd-smart-roku-tv/J2FPJK95RQ" target="_blank" rel="noopener">Shop Deal at Best Buy</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/tech.html#deal-pioneer-50-roku-tv" data-share-image="/images/deals/deal-pioneer-50-roku-tv.jpg" data-share-title="Pioneer 50&quot; LED 4K UHD Smart Roku TV" data-share-text="$199.99 was $249.99 at Best Buy">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-pioneer-50-roku-tv" data-deal-name="Pioneer 50&quot; LED 4K UHD Smart Roku TV" data-deal-price="199.99" data-deal-was="249.99" data-deal-store="Best Buy" data-deal-href="https://www.bestbuy.com/product/pioneer-50-class-led-4k-uhd-smart-roku-tv/J2FPJK95RQ" data-deal-source="tech" data-deal-page="tech.html" data-deal-img="/images/deals/deal-pioneer-50-roku-tv.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-sony-a7-iv" data-store="bhphoto" data-price="1998.00" data-pct="20" data-name="sony a7 iv mirrorless camera (ilce-7m4/b, body only)">
+      <img class="lego-photo" width="400" height="300" src="/images/deals/deal-sony-a7-iv.jpg" alt="Sony a7 IV Mirrorless Camera (ILCE-7M4/B, body only)" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Sony a7 IV Mirrorless Camera (ILCE-7M4/B, body only)</h3>
+        <span class="store-chip">B&amp;H</span>
+        <p class="price-row"><span class="sale">$1998.00</span> <span class="was">was $2498.00</span> <span class="pct">20% off</span></p>
+        <p class="save">Save $500.00</p>
+        <a class="shop-btn" href="https://www.bhphotovideo.com/c/product/1667800-REG/sony_ilce_7m4_b_alpha_a7_iv_mirrorless.html" target="_blank" rel="noopener">Shop Deal at B&amp;H</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/tech.html#deal-sony-a7-iv" data-share-image="/images/deals/deal-sony-a7-iv.jpg" data-share-title="Sony a7 IV Mirrorless Camera (ILCE-7M4/B, body only)" data-share-text="$1998.00 was $2498.00 at B&amp;H">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-sony-a7-iv" data-deal-name="Sony a7 IV Mirrorless Camera (ILCE-7M4/B, body only)" data-deal-price="1998.00" data-deal-was="2498.00" data-deal-store="B&amp;H" data-deal-href="https://www.bhphotovideo.com/c/product/1667800-REG/sony_ilce_7m4_b_alpha_a7_iv_mirrorless.html" data-deal-source="tech" data-deal-page="tech.html" data-deal-img="/images/deals/deal-sony-a7-iv.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-apple-watch-ultra-3" data-store="bestbuy" data-price="649.00" data-pct="19" data-name="apple watch ultra 3 gps cellular 49mm titanium black ocean band 2025 smartwatch">
+      <img class="lego-photo" width="710" height="790" src="/images/deals/deal-apple-watch-ultra-3.jpg" alt="Apple Watch Ultra 3 (GPS+Cellular) 49mm Titanium, Black Ocean Band (2025)" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Apple Watch Ultra 3 (GPS+Cellular) 49mm Titanium, Black Ocean Band (2025)</h3>
+        <span class="store-chip">Best Buy</span>
+        <p class="price-row"><span class="sale">$649.00</span> <span class="was">was $799.00</span> <span class="pct">19% off</span></p>
+        <p class="save">Save $150.00</p>
+        <a class="shop-btn" href="https://www.bestbuy.com/product/apple-watch-ultra-3-gps-cellular-49mm-titanium-case-with-black-ocean-band-black-2025/JJGCQL3V5S" target="_blank" rel="noopener">Shop Deal at Best Buy</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/tech.html#deal-apple-watch-ultra-3" data-share-image="/images/deals/deal-apple-watch-ultra-3.jpg" data-share-title="Apple Watch Ultra 3 (GPS+Cellular) 49mm Titanium, Black Ocean Band (2025)" data-share-text="$649.00 was $799.00 at Best Buy">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-apple-watch-ultra-3" data-deal-name="Apple Watch Ultra 3 (GPS+Cellular) 49mm Titanium, Black Ocean Band (2025)" data-deal-price="649.00" data-deal-was="799.00" data-deal-store="Best Buy" data-deal-href="https://www.bestbuy.com/product/apple-watch-ultra-3-gps-cellular-49mm-titanium-case-with-black-ocean-band-black-2025/JJGCQL3V5S" data-deal-source="tech" data-deal-page="tech.html" data-deal-img="/images/deals/deal-apple-watch-ultra-3.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-samsung-m70hb-tv-55" data-store="walmart" data-price="298.00" data-pct="15" data-name="samsung 55&quot; class m70hb series mini led 4k uhd samsung vision ai smart tizen tv 2026 (un55m70hbfxza)">
+      <img class="lego-photo" width="563" height="455" src="/images/deals/deal-samsung-m70hb-tv-55.jpg" alt="Samsung 55&quot; Class M70HB Series Mini LED 4K UHD Samsung Vision AI Smart Tizen TV 2026 (UN55M70HBFXZA)" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Samsung 55&quot; Class M70HB Series Mini LED 4K UHD Samsung Vision AI Smart Tizen TV 2026 (UN55M70HBFXZA)</h3>
+        <span class="store-chip">Walmart</span>
+        <p class="price-row"><span class="sale">$298.00</span> <span class="was">was $349.99</span> <span class="pct">15% off</span></p>
+        <p class="save">Save $51.99</p>
+        <a class="shop-btn" href="https://www.walmart.com/ip/Samsung-55-Class-M70HB-Series-Mini-LED-4K-UHD-Samsung-Vision-AI-Companion-Smart-Tizen-TV-2026-UN55M70HBFXZA/18200554428" target="_blank" rel="noopener">Shop Deal at Walmart</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/tech.html#deal-samsung-m70hb-tv-55" data-share-image="/images/deals/deal-samsung-m70hb-tv-55.jpg" data-share-title="Samsung 55&quot; Class M70HB Series Mini LED 4K UHD Samsung Vision AI Smart Tizen TV 2026 (UN55M70HBFXZA)" data-share-text="$298.00 was $349.99 at Walmart">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-samsung-m70hb-tv-55" data-deal-name="Samsung 55&quot; Class M70HB Series Mini LED 4K UHD Samsung Vision AI Smart Tizen TV 2026 (UN55M70HBFXZA)" data-deal-price="298.00" data-deal-was="349.99" data-deal-store="Walmart" data-deal-href="https://www.walmart.com/ip/Samsung-55-Class-M70HB-Series-Mini-LED-4K-UHD-Samsung-Vision-AI-Companion-Smart-Tizen-TV-2026-UN55M70HBFXZA/18200554428" data-deal-source="tech" data-deal-page="tech.html" data-deal-img="/images/deals/deal-samsung-m70hb-tv-55.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-samsung-galaxy-watch8" data-store="bestbuy" data-price="322.99" data-pct="15" data-name="samsung galaxy watch8 aluminum smartwatch 44mm lte — silver (2025)">
+      <img class="lego-photo" width="694" height="800" src="/images/deals/deal-samsung-galaxy-watch8.jpg" alt="Samsung Galaxy Watch8 Aluminum Smartwatch 44mm LTE — Silver (2025)" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Samsung Galaxy Watch8 Aluminum Smartwatch 44mm LTE — Silver (2025)</h3>
+        <span class="store-chip">Best Buy</span>
+        <p class="price-row"><span class="sale">$322.99</span> <span class="was">was $379.99</span> <span class="pct">15% off</span></p>
+        <p class="save">Save $57.00</p>
+        <a class="shop-btn" href="https://www.bestbuy.com/product/samsung-galaxy-watch8-aluminum-smartwatch-44mm-lte-silver-2025/JJGRF3X49Y" target="_blank" rel="noopener">Shop Deal at Best Buy</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/tech.html#deal-samsung-galaxy-watch8" data-share-image="/images/deals/deal-samsung-galaxy-watch8.jpg" data-share-title="Samsung Galaxy Watch8 Aluminum Smartwatch 44mm LTE — Silver (2025)" data-share-text="$322.99 was $379.99 at Best Buy">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-samsung-galaxy-watch8" data-deal-name="Samsung Galaxy Watch8 Aluminum Smartwatch 44mm LTE — Silver (2025)" data-deal-price="322.99" data-deal-was="379.99" data-deal-store="Best Buy" data-deal-href="https://www.bestbuy.com/product/samsung-galaxy-watch8-aluminum-smartwatch-44mm-lte-silver-2025/JJGRF3X49Y" data-deal-source="tech" data-deal-page="tech.html" data-deal-img="/images/deals/deal-samsung-galaxy-watch8.jpg">💾 Save</button>
+      </div>
+    </article>
+      <article class="lego-card" id="deal-alienware-16-aurora" data-store="dell" data-price="1799.99" data-pct="10" data-name="alienware 16 aurora gaming laptop — intel core 7 240h / rtx 5050 / 16gb / 512gb">
+      <img class="lego-photo" width="768" height="576" src="/images/deals/deal-alienware-16-aurora.jpg" alt="Alienware 16 Aurora Gaming Laptop — Intel Core 7 240H / RTX 5050 / 16GB / 512GB" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Alienware 16 Aurora Gaming Laptop — Intel Core 7 240H / RTX 5050 / 16GB / 512GB</h3>
+        <span class="store-chip">Dell</span>
+        <p class="price-row"><span class="sale">$1799.99</span> <span class="was">was $1999.99 (Est. Value)</span> <span class="pct">10% off</span></p>
+        <p class="save">Save $200.00</p>
+        <a class="shop-btn" href="https://www.dell.com/en-us/shop/laptop-computers/spd/alienware16auroraac16250" target="_blank" rel="noopener">Shop Deal at Dell</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/tech.html#deal-alienware-16-aurora" data-share-image="/images/deals/deal-alienware-16-aurora.jpg" data-share-title="Alienware 16 Aurora Gaming Laptop — Intel Core 7 240H / RTX 5050 / 16GB / 512GB" data-share-text="$1799.99 was $1999.99 at Dell">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-alienware-16-aurora" data-deal-name="Alienware 16 Aurora Gaming Laptop — Intel Core 7 240H / RTX 5050 / 16GB / 512GB" data-deal-price="1799.99" data-deal-was="" data-deal-store="Dell" data-deal-href="https://www.dell.com/en-us/shop/laptop-computers/spd/alienware16auroraac16250" data-deal-source="tech" data-deal-page="tech.html" data-deal-img="/images/deals/deal-alienware-16-aurora.jpg">💾 Save</button>
+      </div>
+    </article>
+  </main>
+  <section class="history" id="deal-history">
+    <h2>📜 Deal history</h2>
+    <p class="hist-note">Prices checked Nov 17, 2026; when a live deal ends or its price changes it moves here.</p>
+    <ul>
+      <li><b>Lenovo Yoga 7i 2-in-1 Copilot+ PC 16" 2K Touch, Core Ultra 5, 16GB, 512GB, Luna Grey</b> — $649.99 (was $999.99), Best Buy, Nov 16, 2026. Back to full list price.</li>
+      <li><b>VIZIO 65" Quantum 4K QLED HDR Smart TV VQD65X-10</b> — $248.00 (was $278.00), Walmart, Nov 16, 2026. Back to list price after Walmart's Early Black Friday event ended Nov 15.</li>
+      <li><b>WD BLACK SN850P 2TB SSD</b> — Was listed at Best Buy but sold out when checked on Nov 15, 2026.</li>
+      <li><b>JLab Go Air Sport Bluetooth Earbuds, Teal</b> — $9.88 (was $31.99) at Walmart — sale ended Nov 16, 2026; Walmart's Early Black Friday event ended Nov 15.</li>
+      <li><b>beyerdynamic AVENTHO Y Wireless Headphones, ANC, Liquid Black</b> — $149.99 at Newegg — $149.99 is the regular launch price; no $249.99 list price found anywhere, so this was never a discount. Removed from live deals Nov 17, 2026.</li>
+      <li><b>Dell S 27 Inch 4K Computer Monitor — S2725QS</b> — $279.99 (was $299.99 Est. Value) at Dell — deal ended; Dell's page shows no price and the monitor is out of stock, checked Nov 17, 2026.</li>
+    </ul>
+  </section>
+  <footer>
+    <p>Some links on this page are affiliate links. If you shop through them, I may earn a small commission at no extra cost to you. Thanks for supporting the Pond!</p>
+    <img class="footer-duck-v4" src="icon-512.png" alt="The Pond duck">
+    <p class="nest">Feather Your Nest</p>
+    <p class="nest" style="margin-top:10px">© 2026 TreatYourselfDiscounts™. All rights reserved.</p>
+    <nav class="foot-links"><a href="rules.html">Pond Rules</a><a href="terms.html">Terms of Use</a><a href="feedback.html">Give Feedback</a><a href="account.html">Pond Account</a><a href="mailto:treatyourselfdiscounts@gmail.com">Contact</a><a href="https://discord.gg/zfcwECetx2" data-goatcounter-click="click-discord">Join the Pond</a><a href="https://ko-fi.com/treatyourselfdiscounts" data-goatcounter-click="click-kofi">Ko-fi Tip Jar</a></nav>
+  </footer>
+</div>
+<script type="module" src="lists.js"></script>
+<script src="site-nav.js?v=372"></script>
+<script src="pull-refresh.js?v=341"></script>
+<script>
+if ("serviceWorker" in navigator) { window.addEventListener("load", function() { navigator.serviceWorker.register("sw.js"); }); }
+(function () {
+  var grid = document.getElementById("lego-grid");
+  var searchInput = document.getElementById("lego-search");
+  var storeSelect = document.getElementById("lego-store");
+  var sortSelect = document.getElementById("lego-sort");
+  var noResults = document.getElementById("lego-no-results");
+  var countEl = document.getElementById("lego-count");
+  var refreshBtn = document.getElementById("refresh-btn");
+  var cards = Array.prototype.slice.call(grid.querySelectorAll(".lego-card"));
+  var defaultOrder = cards.slice();
+  var hasSearched = false;
+  function cardName(card) { return (card.querySelector(".lego-name") || {}).textContent || ""; }
+  function matchesTerm(text, term) {
+    var t = text.toLowerCase();
+    return term.split(/\s+/).every(function (wd) { return t.indexOf(wd) !== -1; });
+  }
+  function applyFilters() {
+    var term = searchInput.value.trim().toLowerCase();
+    var store = storeSelect.value;
+    var sort = sortSelect.value;
+    var sorted = defaultOrder.slice();
+    if (sort === "pct") sorted.sort(function (a, b) { return parseFloat(b.dataset.pct) - parseFloat(a.dataset.pct); });
+    if (sort === "price-asc") sorted.sort(function (a, b) { return parseFloat(a.dataset.price) - parseFloat(b.dataset.price); });
+    if (sort === "price-desc") sorted.sort(function (a, b) { return parseFloat(b.dataset.price) - parseFloat(a.dataset.price); });
+    if (sort === "az") sorted.sort(function (a, b) { return cardName(a).localeCompare(cardName(b)); });
+    var visible = 0;
+    sorted.forEach(function (card) {
+      grid.appendChild(card);
+      var show = (!term || matchesTerm(card.dataset.name + " " + card.textContent, term)) && (!store || card.dataset.store === store);
+      card.style.display = show ? "" : "none";
+      if (show) visible++;
+    });
+    noResults.hidden = !(hasSearched && visible === 0);
+    if (countEl) {
+      countEl.textContent = (term || store)
+        ? ("Showing " + visible + " of " + cards.length + " tech deals.")
+        : (cards.length + " tech deals, checked November 16, 2026.");
+    }
+  }
+  searchInput.addEventListener("input", function () { if (searchInput.value.trim()) hasSearched = true; applyFilters(); });
+  storeSelect.addEventListener("change", function () { hasSearched = true; applyFilters(); });
+  sortSelect.addEventListener("change", applyFilters);
+  /* Refresh reloads the page so the browser re-fetches the latest saved
+     check. It does not scrape live prices and does not claim to. */
+  refreshBtn.addEventListener("click", function () {
+    refreshBtn.disabled = true;
+    refreshBtn.textContent = "Refreshing…";
+    window.location.reload();
+  });
+  applyFilters();
+})();
+</script>
+<script src="pond-staging.js"></script>
+</body>
+</html>

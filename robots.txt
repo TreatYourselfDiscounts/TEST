@@ -1,3 +1,2 @@
 User-agent: *
-Allow: /
-Sitemap: https://treatyourselfdiscounts.github.io/TEST/sitemap.xml
+Disallow: /

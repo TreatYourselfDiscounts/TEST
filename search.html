@@ -2,34 +2,222 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#ffd94d">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="apple-touch-icon-v2.png">
+<meta name="description" content="Search the whole Pond: brands, live deals, coupon codes, all 262 recipes, and every page, in one search.">
 <title>Search the Pond | TreatYourselfDiscounts</title>
-<meta name="description" content="Find any deal, recipe or page in the pond.">
-<link rel="stylesheet" href="style.css">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #d9f0f7; color: #23414d; }
+  .app { max-width: 640px; margin: 0 auto; min-height: 100vh; background: #bfe6f2; box-shadow: 0 0 24px rgba(35,65,77,.12); padding: 16px 16px 40px; }
+  a.back { color: #1f5f74; font-weight: 700; text-decoration: none; font-size: 14px; }
+  h1 { text-align: center; color: #1f5f74; font-size: 27px; margin: 12px 0 4px; }
+  .sub { text-align: center; color: #3f6b7a; font-size: 14.5px; margin: 0 0 14px; line-height: 1.5; }
+  .srow { display: flex; gap: 8px; }
+  #q { flex: 1; border: 2px solid #bcd9e4; border-radius: 999px; padding: 13px 18px; font-size: 16px; font-family: inherit; background: #fff; color: #23414d; }
+  #q:focus { outline: none; border-color: #1f5f74; }
+  .chips { display: flex; gap: 6px; flex-wrap: wrap; margin: 12px 0 4px; }
+  .chip { border: 2px solid #bcd9e4; background: #fff; color: #1f5f74; border-radius: 999px; padding: 6px 13px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit; }
+  .chip.on { background: #1f5f74; color: #fff; border-color: #1f5f74; }
+  .count { color: #3f6b7a; font-size: 13.5px; margin: 10px 2px; }
+  .res { background: #fff; border-radius: 14px; padding: 12px 14px; margin: 0 0 9px; box-shadow: 0 2px 6px rgba(35,65,77,.07); display: flex; gap: 12px; align-items: center; text-decoration: none; color: inherit; }
+  .res img { width: 56px; height: 56px; object-fit: cover; border-radius: 10px; background: #eaf7fb; flex: none; }
+  .res .tt { font-weight: 800; color: #1f5f74; font-size: 15.5px; line-height: 1.3; }
+  .res .ss { color: #3f6b7a; font-size: 13.5px; line-height: 1.4; margin-top: 2px; }
+  .tag { flex: none; font-size: 10.5px; font-weight: 800; letter-spacing: .4px; text-transform: uppercase; border-radius: 999px; padding: 4px 9px; }
+  .tag.Brand { background: #eaf7fb; color: #1f5f74; }
+  .tag.Deal { background: #e9f9ee; color: #1e5c33; }
+  .tag.Recipe { background: #fff3b0; color: #6b5900; }
+  .tag.Page { background: #f3e8fb; color: #5b3a75; }
+  .tag.News { background: #ffe9c9; color: #7a4a00; }
+  .scopebar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; background: #fff8d6; border: 1.5px solid #e8d06a; border-radius: 14px; padding: 10px 14px; margin: 12px 0 0; font-size: 14px; color: #23414d; }
+  .scopebar[hidden] { display: none; }
+  .scopebar b { color: #6b5900; }
+  .scopebar button { border: 2px solid #1f5f74; background: #fff; color: #1f5f74; font-family: inherit; font-weight: 700; font-size: 13px; border-radius: 999px; padding: 6px 12px; cursor: pointer; }
+  .empty { text-align: center; color: #3f6b7a; font-size: 15px; padding: 26px 10px; line-height: 1.6; }
+  footer { text-align: center; font-size: 12px; color: #5b7d89; margin-top: 22px; line-height: 1.5; }
+</style>
+<meta name="robots" content="noindex,nofollow">
+<link rel="stylesheet" href="pond-travel.css">
+<script>window.__TYD_PREVIEW__=true;</script>
 </head>
-<body data-page="search" id="top">
-<header class="site-header"><div class="header-inner"><a class="brand" href="index.html">TreatYourselfDiscounts<small>Welcome to the Pond!</small></a><button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="main-nav-list">Menu</button><nav class="main-nav" aria-label="Main navigation"><ul id="main-nav-list"><li><a href="index.html">Home</a></li><li><a href="deals.html">Today's Deals</a></li><li><a href="recipes.html">Lucy's Recipes</a></li><li><a href="korean.html">Korean Corner</a></li><li><a href="travel.html">Travel</a></li><li><a href="planner.html">Planner</a></li><li><a href="books.html">Book Nook</a></li><li><a href="pantry.html">Pantry</a></li><li><a href="countdowns.html">Countdowns</a></li><li><a href="news.html">Pond Post</a></li><li><a href="about.html">About</a></li><li><a href="search.html" aria-current="page">Search</a></li></ul></nav></div></header>
-<main class="wrap">
-<h1>Search the Pond</h1>
-<p>Find any deal, recipe or page in the pond.</p>
-<form id="search-form" class="search-row" role="search">
-<div class="grow"><label for="search-q">Search deals, recipes, brands</label><input id="search-q" name="q" type="search" placeholder="Search deals, recipes, brands"></div>
-<div><button class="btn" type="submit">Search</button></div>
-</form>
-<div id="search-results" class="card" aria-live="polite"><p>Type a word above — try lego, stanley, chicken, or Korean.</p></div>
-<section class="card"><h2>Popular searches</h2>
-<p><a href="search.html?q=lego" data-search-link="lego">lego</a> · <a href="search.html?q=stanley" data-search-link="stanley">stanley</a> · <a href="search.html?q=air+fryer" data-search-link="air fryer">air fryer</a> · <a href="search.html?q=kitchenaid" data-search-link="kitchenaid">kitchenaid</a> · <a href="search.html?q=dyson" data-search-link="dyson">dyson</a> · <a href="search.html?q=nike" data-search-link="nike">nike</a> · <a href="search.html?q=cerave" data-search-link="cerave">cerave</a> · <a href="search.html?q=ninja+creami" data-search-link="ninja creami">ninja creami</a></p>
-<p class="small muted">Search covers all deals, all 108 listed recipes, the 17 brands, and every page on this site.</p></section>
-
-</main>
-<footer class="site-footer"><div class="footer-inner">
-<p><strong>TreatYourselfDiscounts</strong> — Feather your nest, happy hunting!</p>
-<ul>
-<li><a href="about.html">About the Pond</a></li><li><a href="deals.html">Today's Deals</a></li><li><a href="recipes.html">Lucy's Recipes</a></li><li><a href="korean.html">Korean Corner</a></li><li><a href="travel.html">Travel</a></li><li><a href="planner.html">Planner</a></li><li><a href="books.html">Book Nook</a></li><li><a href="pantry.html">Pantry</a></li><li><a href="countdowns.html">Countdowns</a></li><li><a href="news.html">Pond Post</a></li><li><a href="search.html">Search the Pond</a></li>
-</ul>
-<p>Some links on this page are affiliate links. If you shop through them, I may earn a small commission. It never costs you extra, and it keeps the Pond swimming.</p>
-<p>© 2026 TreatYourselfDiscounts™. All rights reserved.</p>
-</div></footer>
-<script src="app.js"></script>
+<body>
+<div class="app">
+  <h1 id="searchtitle">🔎 Search the whole Pond</h1>
+  <p class="sub" id="searchsub">Brands, live deals, coupon codes, all 262 recipes, and every page. One search, everything.</p>
+  <div class="scopebar" id="scopebar" hidden>Searching in <b id="scopename"></b><button type="button" id="scope-clear">Search the whole Pond</button></div>
+  <div class="srow"><input id="q" type="search" placeholder="Try: projector, TYD10, chicken, coupon..." aria-label="Search the whole Pond"></div>
+  <div class="chips" id="chips">
+    <button class="chip on" data-f="All" type="button">Everything</button>
+    <button class="chip" data-f="Brand" type="button">Brands</button>
+    <button class="chip" data-f="Deal" type="button">Deals</button>
+    <button class="chip" data-f="Recipe" type="button">Recipes</button>
+    <button class="chip" data-f="Page" type="button">Pages</button>
+    <button class="chip" data-f="News" type="button">News</button>
+  </div>
+  <p class="count" id="count">Loading the Pond...</p>
+  <div id="results"></div>
+  <footer>Deals and prices can change at the store. Part of TreatYourselfDiscounts, the Pond. Welcome to the Pond!<p style="text-align:center;font-size:12.5px;color:#4a6b78">© 2026 TreatYourselfDiscounts™. All rights reserved. · <a href="terms.html">Terms of Use</a></p></footer>
+</div>
+<script>
+  var ENTRIES = [], filter = "All";
+  /* Scoped search (Lucy, Nov 15, 2026): Home searches the whole Pond, but
+     each section's Search only searches that section, so no results from
+     other sections show up. The section is passed as ?scope=<section>
+     by the bottom menu. A scope bar names the section and clears it. */
+  var SCOPE_NAMES = { deals: "Deals", food: "Food", news: "The Pond Post", travel: "Travel", korean: "Korean Corner", planner: "Planner", nest: "My Nest", books: "Book Nook", movies: "Movies & Shows", gifts: "Gift Planner", bills: "Nest Egg", stuff: "My Stuff", pets: "Pet Corner", countdowns: "Countdowns", pantry: "Pantry", polls: "Pond Polls", chat: "The Quack Shack", about: "About", calendar: "Calendar" };
+  /* Placeholder examples per section (Lucy, Nov 15, 2026): the search box
+     shows examples from the section being searched, not deals examples. */
+  var SCOPE_PLACEHOLDERS = {
+    deals: "Try: projector, TYD10, coupon, Mellow...",
+    food: "Try: chicken, chocolate, soup...",
+    news: "Try: stocks, politics, Korea, everyday...",
+    travel: "Try: Paris, beach, mountains, road trip...",
+    korean: "Try: hangul, hello, thank you...",
+    planner: "Try: Black Friday, sales, notes...",
+    nest: "Try: books, gifts, bills, pets...",
+    books: "Try: a book title, an author...",
+    movies: "Try: a movie title, a show...",
+    gifts: "Try: birthday, mom, Christmas...",
+    bills: "Try: electric, subscription, rent...",
+    stuff: "Try: a thing you own...",
+    pets: "Try: Nemo, vet, feeding...",
+    countdowns: "Try: Christmas, trip, birthday...",
+    pantry: "Try: milk, eggs, rice...",
+    polls: "Try: a poll topic...",
+    chat: "Try: a topic to talk about...",
+    about: "Try: rules, about, terms...",
+    calendar: "Try: vet, trip, birthday, bills..."
+  };
+  var scope = "";
+  try { scope = (new URLSearchParams(location.search).get("scope") || "").toLowerCase(); } catch (e) {}
+  if (!SCOPE_NAMES[scope]) scope = "";
+  var qEl = document.getElementById("q"), resEl = document.getElementById("results"), countEl = document.getElementById("count");
+  function applyScopeUI() {
+    var bar = document.getElementById("scopebar"), title = document.getElementById("searchtitle"), sub = document.getElementById("searchsub"), chips = document.getElementById("chips");
+    if (scope) {
+      document.getElementById("scopename").textContent = SCOPE_NAMES[scope];
+      bar.hidden = false;
+      title.textContent = "🔎 Search " + SCOPE_NAMES[scope];
+      sub.textContent = "Only " + SCOPE_NAMES[scope] + " results. Nothing from the rest of the Pond.";
+      qEl.setAttribute("aria-label", "Search " + SCOPE_NAMES[scope]);
+      qEl.placeholder = SCOPE_PLACEHOLDERS[scope] || "Try: " + SCOPE_NAMES[scope].toLowerCase() + "...";
+      chips.style.display = "none";
+    } else {
+      bar.hidden = true;
+      title.textContent = "🔎 Search the whole Pond";
+      sub.textContent = "Brands, live deals, coupon codes, all 262 recipes, and every page. One search, everything.";
+      qEl.setAttribute("aria-label", "Search the whole Pond");
+      qEl.placeholder = "Try: projector, TYD10, chicken, coupon...";
+      chips.style.display = "";
+    }
+  }
+  function clearScope() {
+    var q = qEl.value.trim();
+    location.href = "search.html" + (q ? "?q=" + encodeURIComponent(q) : "");
+  }
+  document.getElementById("scope-clear").addEventListener("click", clearScope);
+  applyScopeUI();
+  function esc(s) { return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
+  /* Relevance (Lucy, Nov 15, 2026, review item 2): a match counts as
+     "strong" when a query word hits the title or subtitle, not just the
+     keyword blob (recipe ingredients). Keyword-only matches are the tail
+     that padded "chicken" with beef enchiladas and steamed egg: those
+     recipes only mention chicken inside "cream of chicken soup" or
+     "chicken broth". score() returns null when a token matches nowhere,
+     else { sc, strong }. */
+  function score(e, tokens) {
+    var title = e.title.toLowerCase(), sub = (e.sub || "").toLowerCase(), kw = e.kw || "";
+    var sc = 0, strong = false;
+    for (var i = 0; i < tokens.length; i++) {
+      var t = tokens[i], hit = false;
+      if (title.indexOf(t) > -1) { sc += 10; hit = true; strong = true; }
+      if (sub.indexOf(t) > -1) { sc += 4; hit = true; strong = true; }
+      if (kw.indexOf(t) > -1) { sc += 3; hit = true; }
+      if (!hit) return null;
+    }
+    return { sc: sc, strong: strong };
+  }
+  function render() {
+    var q = qEl.value.trim().toLowerCase();
+    var tokens = q ? q.split(/\s+/) : [];
+    var out = [];
+    ENTRIES.forEach(function (e) {
+      if (scope && e.sec !== scope) return;
+      if (filter !== "All" && e.t !== filter) return;
+      if (!tokens.length) { out.push({ e: e, sc: 0 }); return; }
+      var s = score(e, tokens);
+      if (s) out.push({ e: e, sc: s.sc, strong: s.strong });
+    });
+    out.sort(function (a, b) { return b.sc - a.sc; });
+    /* Deduplicate by title (review item 2): the same title must never show
+       twice in a result set. Keep the best-scoring copy (the sort is
+       stable, so the first copy of a title is its best one); titles are
+       compared case-insensitively with whitespace collapsed. */
+    var seenTitles = {};
+    out = out.filter(function (o) {
+      var k = o.e.title.toLowerCase().replace(/\s+/g, " ").trim();
+      if (seenTitles[k]) return false;
+      seenTitles[k] = true;
+      return true;
+    });
+    /* Relevance tail (review item 2): when the Pond has at least 10
+       title/subtitle matches, keyword-only matches are dropped instead of
+       padding the list toward 60 with off-topic recipes. When fewer than
+       10 strong matches exist, keyword-only matches are kept, so
+       ingredient searches (cumin, turmeric) and code searches still
+       return something. */
+    var strongCount = 0;
+    out.forEach(function (o) { if (o.strong) strongCount++; });
+    if (strongCount >= 10) out = out.filter(function (o) { return o.strong; });
+    var total = out.length;
+    out = out.slice(0, 60);
+    countEl.textContent = !ENTRIES.length ? "Loading the Pond..." :
+      (!q && filter === "All" ? (scope ? "Showing " + SCOPE_NAMES[scope] + ". Start typing to search it." : "Showing a first handful of the Pond. Start typing to search all " + ENTRIES.length + " things.") :
+      total + (total === 1 ? " match" : " matches") + (scope ? " in " + SCOPE_NAMES[scope] : "") + (total > 60 ? ", here are the best 60" : "") + ".");
+    if (!out.length) {
+      resEl.innerHTML = '<div class="empty">No matches for that one' + (scope ? " in " + SCOPE_NAMES[scope] : "") + '. Try a different word' + (scope ? ", or tap “Search the whole Pond” to look everywhere" : ", like a brand name, a code like TYD10, or an ingredient like chicken") + '. 🦆</div>';
+      return;
+    }
+    resEl.innerHTML = out.map(function (o) {
+      var e = o.e;
+      var ext = /^https?:/.test(e.href) && e.href.indexOf("treatyourselfdiscounts.github.io") === -1 && e.href.indexOf("treatyourselfdiscounts.com") === -1;
+      return '<a class="res" href="' + esc(e.href) + '"' + (ext ? ' target="_blank" rel="noopener"' : "") + '>'
+        + (e.img ? '<img src="' + esc(e.img) + '" alt="" loading="lazy" onerror="this.remove()">' : "")
+        + '<span style="flex:1;"><span class="tt">' + esc(e.title) + '</span><div class="ss">' + esc(e.sub) + '</div></span>'
+        + '<span class="tag ' + e.t + '">' + e.t + '</span></a>';
+    }).join("");
+  }
+  document.getElementById("chips").addEventListener("click", function (ev) {
+    var b = ev.target.closest(".chip"); if (!b) return;
+    filter = b.getAttribute("data-f");
+    this.querySelectorAll(".chip").forEach(function (c) { c.classList.toggle("on", c === b); });
+    render();
+  });
+  qEl.addEventListener("input", render);
+  var tydSearchTimer = null;
+  function tydTrackSearch() {
+    if (tydSearchTimer) clearTimeout(tydSearchTimer);
+    tydSearchTimer = setTimeout(function () {
+      if (window.tydSearchEvent) window.tydSearchEvent("pond", qEl.value);
+    }, 900);
+  }
+  qEl.addEventListener("input", tydTrackSearch);
+  var start = new URLSearchParams(location.search).get("q");
+  if (start) qEl.value = start;
+  fetch("search-index.json").then(function (r) { return r.json(); }).then(function (d) {
+    ENTRIES = d.entries || [];
+    render();
+    if (start && window.tydSearchEvent) window.tydSearchEvent("pond", start);
+    qEl.focus();
+  }).catch(function () { countEl.textContent = "The search list could not load. Check your connection and refresh."; });
+</script>
+<script type="module" src="auth-pill.js"></script>
+<script src="site-nav.js?v=372"></script>
+<script src="pull-refresh.js?v=341"></script>
+<script src="pond-staging.js"></script>
 </body>
 </html>
