@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="color-scheme" content="light dark">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="apple-touch-icon-v2.png">
+<meta name="theme-color" content="#ffd94d">
+<meta name="description" content="A Pantry shelf at TreatYourselfDiscounts: what is on this shelf, what you need, and what to buy, saved on your devices and in your Pond Account.">
+<meta property="og:title" content="Pantry Shelf · TreatYourselfDiscounts">
+<meta property="og:description" content="A Pantry shelf at TreatYourselfDiscounts: what is on this shelf, what you need, and what to buy, saved on your devices and in your Pond Account.">
+<meta property="og:image" content="/icon-512.png">
+<meta property="og:url" content="/pantry-shelf">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Pantry Shelf · TreatYourselfDiscounts">
+<meta name="twitter:description" content="A Pantry shelf at TreatYourselfDiscounts: what is on this shelf, what you need, and what to buy, saved on your devices and in your Pond Account.">
+<meta name="twitter:image" content="/icon-512.png">
+<title>Pantry Shelf · TreatYourselfDiscounts</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #d9f0f7; color: #23414d; }
+  .app { max-width: 760px; margin: 0 auto; min-height: 100vh; background: #bfe6f2; box-shadow: 0 0 24px rgba(35,65,77,.12); padding: 16px 16px 40px; }
+  a.back { color: #1f5f74; font-weight: 700; text-decoration: none; font-size: 14px; }
+  header.top { text-align: center; margin: 10px 0 4px; }
+  header.top img.duck { width: 76px; height: 76px; border-radius: 50%; border: 3px solid #ffd94d; background: #ffd94d; }
+  h1 { margin: 6px 0 0; font-size: 30px; color: #1f5f74; }
+  .sub { margin: 6px 0 0; color: #3f6b7a; font-size: 15px; line-height: 1.5; }
+  .card { background: #fff; border-radius: 18px; padding: 16px 18px; margin: 14px 0; box-shadow: 0 2px 8px rgba(35,65,77,.08); }
+  .card h2 { margin: 0 0 8px; font-size: 20px; color: #1f5f74; }
+  .card p { margin: 6px 0; font-size: 14.5px; line-height: 1.5; }
+  label { display: block; font-size: 13px; font-weight: 700; color: #1f5f74; margin: 10px 0 4px; }
+  input, select, textarea { width: 100%; border: 2px solid #bcd9e4; border-radius: 12px; padding: 10px 12px; font-size: 15px; font-family: inherit; color: #23414d; background: #fbfdfe; }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: #1f5f74; }
+  .btn { display: inline-block; border: none; cursor: pointer; font-family: inherit; font-weight: 800; font-size: 14.5px; border-radius: 999px; padding: 10px 18px; margin: 4px 4px 4px 0; }
+  .btn-main { background: #1f5f74; color: #fff; }
+  .btn-alt { background: #ffd94d; color: #6b5900; border: 2px solid #f0c93e; }
+  .btn-ghost { background: #eaf7fb; color: #1f5f74; border: 2px solid #bcd9e4; }
+  .btn-danger { background: #fdecec; color: #8c2b2b; border: 2px solid #f2c1c1; }
+  .prow2 { display: flex; gap: 8px; flex-wrap: wrap; }
+  .prow2 > div { flex: 1 1 0; min-width: 0; }
+  .prow2 input, .prow2 select { min-width: 0; max-width: 100%; }
+  @media (max-width: 560px) { .prow2 { flex-direction: column; } .prow2 > div { flex: none; width: 100%; } }
+  .lochead { font-size: 17px; color: #1f5f74; margin: 18px 0 4px; }
+  .srow { display: flex; gap: 10px; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid #e3eff4; }
+  .srow:last-child { border-bottom: none; }
+  .srow .grow { flex: 1; min-width: 0; }
+  .sname { font-weight: 800; font-size: 15.5px; color: #23414d; }
+  .smeta { font-size: 13px; color: #3f6b7a; line-height: 1.55; margin-top: 2px; }
+  .snote { font-size: 13.5px; color: #3f6b7a; font-style: italic; margin-top: 3px; }
+  .warr { font-weight: 700; }
+  .warr.exp { color: #c0392b; }
+  .iconbtn { border: 2px solid #bcd9e4; background: #eaf7fb; border-radius: 999px; padding: 5px 11px; font-size: 12.5px; font-weight: 700; cursor: pointer; font-family: inherit; color: #1f5f74; flex: none; }
+  .iconbtn.del { background: #fdecec; border-color: #f2c1c1; color: #8c2b2b; }
+  .emptybox { text-align: center; padding: 26px 16px; }
+  .emptybox img { width: 92px; height: 92px; border-radius: 50%; border: 3px solid #ffd94d; background: #ffd94d; }
+  .emptybox p { color: #3f6b7a; font-size: 15px; line-height: 1.55; }
+  .syncnote { font-size: 13px; color: #3f6b7a; text-align: center; margin: 8px 0 0; line-height: 1.5; }
+  .syncnote a { color: #1f5f74; font-weight: 800; }
+  .err { color: #8c2b2b; font-size: 13.5px; font-weight: 700; display: none; }
+  .zonehead { font-size: 17px; color: #1f5f74; margin: 18px 0 4px; }
+  .sharebadge { font-size: 12px; font-weight: 800; color: #1f5f74; white-space: nowrap; }
+  .sharepanel { border-top: 1.5px dashed #d7e6ec; margin-top: 10px; padding-top: 10px; }
+  .shareptitle { font-weight: 800; color: #1f5f74; font-size: 14px; }
+  .sharelvs { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+  .sharelv { border: 2px solid #bcd9e4; background: #eaf7fb; color: #1f5f74; font-family: inherit; font-weight: 800; font-size: 13px; border-radius: 999px; padding: 7px 13px; cursor: pointer; }
+  .sharelv.on { background: #1f5f74; border-color: #1f5f74; color: #fff; }
+  .mchips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 9px; align-items: center; }
+  .mchip { background: #fff3b0; color: #6b5900; border: 1.5px solid #f0c93e; border-radius: 999px; padding: 4px 6px 4px 11px; font-size: 13px; font-weight: 700; display: inline-flex; align-items: center; gap: 5px; }
+  .mchip button { border: none; background: #c0392b; color: #fff; border-radius: 50%; width: 19px; height: 19px; line-height: 1; cursor: pointer; font-size: 12px; padding: 0; font-family: inherit; }
+  .fadd { display: flex; gap: 6px; margin-top: 9px; }
+  .fadd input { flex: 1; min-width: 0; }
+  .sharehint { font-size: 13px; color: #3f6b7a; margin: 8px 0 0; }
+  .sharemsg { font-size: 13.5px; font-weight: 700; color: #1e5c33; margin: 8px 0 0; }
+  .sharecard .sharephoto { width: 100%; max-height: 190px; object-fit: cover; border-radius: 12px; display: block; margin-bottom: 10px; }
+  .nestcmt { margin-top: 10px; border-top: 1.5px dashed #d7e6ec; padding-top: 9px; }
+  .cmtthread { margin-top: 9px; }
+  .cmtrow { padding: 6px 0; border-bottom: 1px solid #eaf3f7; }
+  .cmtrow:last-of-type { border-bottom: none; }
+  .cmtmeta { font-size: 12.5px; color: #3f6b7a; font-weight: 700; }
+  .cmttext { font-size: 14px; color: #23414d; line-height: 1.45; margin-top: 1px; overflow-wrap: break-word; }
+  .cmtnote { font-size: 13px; color: #3f6b7a; margin: 6px 0 0; }
+  .cmtform { display: flex; gap: 6px; margin-top: 9px; }
+  .cmtform input { flex: 1; min-width: 0; }
+  .cmtdel { margin-left: 8px; padding: 2px 9px; font-size: 11.5px; }
+  .sharehead { font-size: 16px; color: #23414d; }
+  .sharefrom { font-size: 13px; color: #3f6b7a; font-weight: 700; }
+  .sharebadgevis { font-size: 11.5px; font-weight: 800; background: #eaf7fb; border: 1.5px solid #bcd9e4; color: #1f5f74; border-radius: 999px; padding: 2px 9px; white-space: nowrap; }
+  .sharebody { font-size: 14px; color: #3f6b7a; line-height: 1.55; margin-top: 6px; }
+  .sharebody ul { margin: 6px 0 0; padding-left: 18px; }
+  .formphoto { width: 84px; height: 84px; object-fit: cover; border-radius: 14px; border: 2px solid #bcd9e4; display: block; }
+  .photofield { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
+  .photohint { font-size: 13.5px; color: #3f6b7a; }
+  html[data-theme="dark"] .zonehead { color: #c9f0fc; }
+  html[data-theme="dark"] .sharepanel { border-color: #2e4a5f; }
+  html[data-theme="dark"] .shareptitle, html[data-theme="dark"] .sharebadge { color: #c9f0fc; }
+  html[data-theme="dark"] .sharelv { background: #101e2c; color: #d7ecf5; border-color: #2e4a5f; }
+  html[data-theme="dark"] .sharelv.on { background: #1f5f74; color: #fff; }
+  html[data-theme="dark"] .sharehead { color: #eefaff; }
+  html[data-theme="dark"] .sharefrom, html[data-theme="dark"] .sharebody, html[data-theme="dark"] .sharehint, html[data-theme="dark"] .photohint { color: #bcd6e4; }
+  html[data-theme="dark"] .sharebadgevis { background: #101e2c; border-color: #2e4a5f; color: #d7ecf5; }
+  html[data-theme="dark"] .sharemsg { color: #9fe0b2; }
+  html[data-theme="dark"] .nestcmt { border-color: #2e4a5f; }
+  html[data-theme="dark"] .cmtrow { border-color: #22384c; }
+  html[data-theme="dark"] .cmtmeta, html[data-theme="dark"] .cmtnote { color: #bcd6e4; }
+  html[data-theme="dark"] .cmttext { color: #eefaff; }
+  .sphoto { width: 52px; height: 52px; border-radius: 12px; object-fit: cover; flex: none; border: 2px solid #bcd9e4; }
+  footer { margin-top: 26px; text-align: center; }
+  .disc { font-size: 12px; color: #5b7d89; line-height: 1.5; max-width: 560px; margin: 10px auto 0; }
+  html[data-theme="dark"] .srow { border-color: #2e4a5f; }
+  html[data-theme="dark"] .sname { color: #eefaff; }
+  html[data-theme="dark"] .smeta, html[data-theme="dark"] .snote { color: #bcd6e4; }
+  html[data-theme="dark"] .lochead { color: #c9f0fc; }
+  html[data-theme="dark"] .warr.exp { color: #ff9d9d; }
+  .pitem { background: #fffdf6; border-radius: 13px; padding: 11px 9px 10px; text-align: center; box-shadow: 0 3px 6px rgba(60,35,5,.25); }
+  .pitem.low { outline: 2.5px solid #f2a0a0; }
+  .pemoji { font-size: 42px; line-height: 1.15; display: block; animation: pbob 3.4s ease-in-out infinite; }
+  .pitem.low .pemoji { animation: pwig 2.8s ease-in-out infinite; }
+  .pemoji.pop { animation: ppop .5s ease; }
+  .pphoto { width: 62px; height: 62px; object-fit: cover; border-radius: 12px; border: 2px solid #e8dcc0; }
+  @keyframes pbob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+  @keyframes pwig { 0%,100% { transform: rotate(-4deg); } 50% { transform: rotate(4deg); } }
+  @keyframes ppop { 0% { transform: scale(.3); } 60% { transform: scale(1.25); } 100% { transform: scale(1); } }
+  .pempty { grid-column: 1 / -1; text-align: center; color: rgba(35,65,77,.55); font-weight: 700; font-size: 14px; border: 2px dashed rgba(35,65,77,.25); border-radius: 12px; padding: 16px 10px; background: rgba(255,255,255,.35); }
+  .unitchip { display: inline-block; background: #eaf7fb; border: 1.5px solid #bcd9e4; color: #1f5f74; font-weight: 800; font-size: 13px; border-radius: 999px; padding: 4px 11px; margin: 3px 4px 3px 0; }
+  html[data-theme="dark"] .unitchip { background: #22384c; border-color: #2e4a5f; color: #c9f0fc; }
+  .stockrow { display: block; }
+  @media (min-width: 780px) { .stockrow { display: grid; grid-template-columns: 1fr 1fr; gap: 0 14px; align-items: start; } }
+  .gitem { display: flex; align-items: center; gap: 8px; padding: 8px 2px; border-bottom: 1.5px dashed #d7e6ec; flex-wrap: wrap; }
+  .gitem .gtext { flex: 1 1 140px; font-weight: 700; color: #23414d; }
+  .gitem.used .gtext { color: #7d99a6; text-decoration: line-through; }
+  .gstat { font-size: 12px; font-weight: 800; color: #2e7d46; }
+  html[data-theme="dark"] .gitem { border-color: #2e4a5f; }
+  html[data-theme="dark"] .gitem .gtext { color: #eefaff; }
+  .ufood { position: relative; }
+  .ufood .pfood { width: 100%; }
+  .ufood .ux { position: absolute; top: 3px; right: 3px; width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid #e3c9c9; background: #fdf3f3; color: #a33; font-size: 12px; font-weight: 900; cursor: pointer; line-height: 1; padding: 0; z-index: 2; }
+  .pbar { height: 7px; background: #e7eef1; border-radius: 99px; overflow: hidden; margin: 7px 2px 8px; }
+  .pbar i { display: block; height: 100%; background: #57a773; border-radius: 99px; }
+  .pitem.low .pbar i { background: #d9707e; }
+  .haveRow { display: flex; align-items: center; justify-content: center; gap: 7px; }
+  .haveNum { font-weight: 800; font-size: 14.5px; color: #23414d; min-width: 56px; }
+  .stp { width: 30px; height: 30px; border-radius: 50%; border: 2px solid #bcd9e4; background: #eaf7fb; color: #1f5f74; font-weight: 900; font-size: 16px; cursor: pointer; font-family: inherit; line-height: 1; padding: 0; flex: none; }
+  .stp.sm { width: 23px; height: 23px; font-size: 13px; }
+  .needRow { margin-top: 7px; font-size: 13px; color: #3f6b7a; display: flex; align-items: center; justify-content: center; gap: 5px; flex-wrap: wrap; }
+  .needchip { background: #fdecec; color: #8c2b2b; border: 1.5px solid #f2c1c1; font-weight: 800; border-radius: 999px; padding: 1px 8px; font-size: 11.5px; }
+  .okchip { background: #e2f4e6; color: #1e5c33; border: 1.5px solid #a9d9b6; font-weight: 800; border-radius: 999px; padding: 1px 8px; font-size: 11.5px; }
+  .pbtns { margin-top: 9px; display: flex; gap: 5px; justify-content: center; flex-wrap: wrap; }
+  .cathead { font-size: 15.5px; color: #1f5f74; margin: 14px 0 6px; }
+  .catgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(88px, 1fr)); gap: 8px; }
+  .pfood { background: #fff8e1; border: 2px solid #f0d48a; border-radius: 14px; padding: 9px 4px 8px; cursor: pointer; font-family: inherit; text-align: center; }
+  .pfood:active { transform: scale(.96); }
+  .pfood .femoji { font-size: 31px; display: block; line-height: 1.2; animation: pbob 3s ease-in-out infinite; }
+  .pfood .fname { font-size: 12px; font-weight: 700; color: #6b5900; display: block; margin-top: 3px; line-height: 1.25; }
+  .pfood .fhave { font-size: 11px; color: #3f6b7a; font-weight: 700; display: block; margin-top: 1px; }
+  .fly { position: absolute; z-index: 12000; font-size: 40px; pointer-events: none; }
+  .tobuy h2 { color: #8c2b2b; }
+  html[data-theme="dark"] .pitem { background: var(--tyd-acc-dark, #172635); }
+  html[data-theme="dark"] .haveNum { color: #eefaff; }
+  html[data-theme="dark"] .needRow { color: #bcd6e4; }
+  html[data-theme="dark"] .pfood { background: #22384c; border-color: #8a6d1f; }
+  html[data-theme="dark"] .pfood .fname { color: #ffd94d; }
+  html[data-theme="dark"] .pfood .fhave { color: #bcd6e4; }
+  html[data-theme="dark"] .cathead { color: #c9f0fc; }
+  html[data-theme="dark"] .tobuy h2 { color: #ff9d9d; }
+  @media (prefers-reduced-motion: reduce) { .pemoji, .pfood .femoji { animation: none !important; } }
+
+  /* ===== Shelf page + item detail sheet ===== */
+  .backlink { display: inline-block; margin: 2px 0 10px; font-weight: 800; color: #1f5f74; text-decoration: none; }
+  html[data-theme="dark"] .backlink { color: #9fd8ec; }
+  .pdback { position: fixed; inset: 0; background: rgba(9,28,38,.55); z-index: 10085; display: flex; align-items: flex-end; justify-content: center; }
+  .pdback[hidden] { display: none; }
+  .pdsheet { background: #fffdf6; width: min(94vw, 430px); max-height: 88vh; overflow-y: auto; border-radius: 22px 22px 0 0; padding: 20px 18px 26px; position: relative; text-align: center; box-shadow: 0 -12px 40px rgba(0,0,0,.35); }
+  @media (min-width: 640px) { .pdback { align-items: center; } .pdsheet { border-radius: 22px; } }
+  html[data-theme="dark"] .pdsheet { background: var(--tyd-acc-dark, #172635); }
+  .pdx { position: absolute; top: 10px; right: 12px; border: none; background: rgba(0,0,0,.07); width: 34px; height: 34px; border-radius: 50%; font-size: 16px; cursor: pointer; color: inherit; }
+  .pdemoji { font-size: 74px; line-height: 1.15; display: block; }
+  .pdphoto { width: 96px; height: 96px; object-fit: cover; border-radius: 16px; }
+  .pdname { font-size: 23px; font-weight: 800; margin: 6px 0 2px; }
+  .pdwhere { color: #5d7d89; font-size: 13.5px; font-weight: 700; }
+  html[data-theme="dark"] .pdwhere { color: #a9c9d6; }
+  .pdremind { width: 100%; margin-top: 14px; }
+
+  .iconbtn.del.armed { background: #d94f5f; border-color: #d94f5f; color: #fff; font-weight: 800; }
+
+  /* ===== v344: playlist detail (Lucy, Nov 17, 2026) =====
+     A flat list, no shelves or cabinets. The cover is the playlist's
+     duck art, shown large at the top. */
+  html, body { overflow-x: clip; }
+  .app { overflow-x: clip; }
+  header.top img.plcover { width: 180px; height: 180px; border-radius: 22px; border: 3px solid #ffd94d; background: #fff8e1; object-fit: cover; box-shadow: 0 6px 18px rgba(35,65,77,.20); }
+  @media (max-width: 560px) { header.top img.plcover { width: 140px; height: 140px; } }
+  .pllist .plcount { font-size: 13.5px; font-weight: 800; color: #3f6b7a; margin: 2px 0 6px; }
+  html[data-theme="dark"] .pllist .plcount { color: #bcd6e4; }
+  .plrow { cursor: pointer; }
+  .plrow .haveRow { justify-content: flex-start; }
+  .pempty { text-align: center; color: rgba(35,65,77,.55); font-weight: 700; font-size: 14px; border: 2px dashed rgba(35,65,77,.25); border-radius: 12px; padding: 16px 10px; background: rgba(255,255,255,.35); }
+  .pdbtns { margin-top: 12px; display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; }
+
+  /* ===== v344: expiry badges ===== */
+  .expbadge { display: inline-block; font-size: 11.5px; font-weight: 800; border-radius: 999px; padding: 1px 8px; margin-left: 6px; white-space: nowrap; }
+  .exp-soon { background: #fff3b0; color: #6b5900; border: 1.5px solid #f0c93e; }
+  .exp-expired { background: #fdecec; color: #8c2b2b; border: 1.5px solid #f2c1c1; }
+  html[data-theme="dark"] .exp-soon { background: #3a2f10; color: #ffd94d; border-color: #8a6d1f; }
+  html[data-theme="dark"] .exp-expired { background: #3a1d1d; color: #ff9d9d; border-color: #5a2b2b; }
+</style>
+<meta name="robots" content="noindex,nofollow">
+<link rel="stylesheet" href="pond-travel.css">
+<script>window.__TYD_PREVIEW__=true;</script>
+</head>
+<body>
+<div class="app">
+  <a class="backlink" href="pantry.html">‹ Back to the Pantry</a>
+  <header class="top">
+    <img class="plcover" id="pl-cover" src="images/avatars/duck-pantry-card.jpg" alt="Playlist cover">
+    <div>
+      <h1 id="sh-title">Pantry</h1>
+      <p class="sub" id="pl-sub">Just this playlist. Tap a food to see more about it, add more, or get a reminder to buy more.</p>
+      <p class="syncnote" id="sync-note"></p>
+    </div>
+  </header>
+
+  <div id="shelfscene"></div>
+
+  <div class="card" id="catalogcard">
+    <h2>🧺 Add to this playlist</h2>
+    <p>Tap a food and it hops into this playlist. Tap it again to add another one.</p>
+    <div id="catalog"></div>
+  </div>
+
+  <div class="card" id="shelfformcard">
+    <h2 id="sf-heading">Add your own food</h2>
+    <label for="sf-name">Food *</label>
+    <input id="sf-name" type="text" placeholder="Like: Rice, Tomato soup, That fancy cheese">
+    <div class="prow2">
+      <div>
+        <label for="sf-shelf">Shelf *</label>
+        <input id="sf-shelf" type="text" list="sf-shelves" placeholder="The shelf you are looking at">
+        <datalist id="sf-shelves"></datalist>
+      </div>
+      <div>
+        <label for="sf-pic">Picture emoji (optional, blank = the duck picks an animated one)</label>
+        <input id="sf-pic" type="text" maxlength="6" placeholder="Like: 🍚 🥫 🧀">
+      </div>
+    </div>
+    <div id="sf-unitrow" style="display:none;">
+      <label for="sf-unit">Which one?</label>
+      <select id="sf-unit"></select>
+    </div>
+    <div class="prow2">
+      <div>
+        <label for="sf-have">How many do you have?</label>
+        <input id="sf-have" type="number" min="0" max="999" step="1" value="1">
+      </div>
+      <div>
+        <label for="sf-need">How many do you want to keep on hand?</label>
+        <input id="sf-need" type="number" min="0" max="999" step="1" value="1">
+      </div>
+    </div>
+    <label for="sf-expires">Use by (optional)</label>
+    <input id="sf-expires" type="date">
+    <label for="sf-got">Date got (optional)</label>
+    <input id="sf-got" type="date">
+    <label for="sf-remind">Remind me</label>
+    <select id="sf-remind"><option value="7">1 week before it expires</option><option value="3">3 days before</option><option value="2" selected>2 days before</option><option value="1">1 day before</option><option value="0">On the day it expires</option></select>
+    <p class="smeta" id="sf-suggest"></p>
+    <button type="button" class="btn btn-ghost" id="sf-usesuggest" hidden>Use this date</button>
+    <label>Photo (optional)</label>
+    <div class="photofield">
+      <img id="sfp-preview" class="formphoto" alt="Photo preview" style="display:none;" data-tydlb>
+      <span id="sfp-none" class="photohint">No photo yet. Add one from your phone.</span>
+      <button type="button" class="iconbtn" id="sfp-pick">📷 Add a photo</button>
+    </div>
+    <p class="err" id="sf-err"></p>
+    <div style="margin-top:10px;">
+      <button type="button" class="btn btn-main" id="sf-save">Save food</button>
+      <button type="button" class="btn btn-ghost" id="sf-cancel" style="display:none;">Cancel edit</button>
+    </div>
+  </div>
+
+  <footer>
+    <p class="disc">Part of TreatYourselfDiscounts, the Pond. Sharing lives on the main Pantry page. Welcome to the Pond!</p>
+    <p style="text-align:center;font-size:12.5px;color:#4a6b78">© 2026 TreatYourselfDiscounts™. All rights reserved. · <a href="terms.html">Terms of Use</a></p>
+  </footer>
+</div>
+
+<div id="pdetail" class="pdback" hidden>
+  <div class="pdsheet" role="dialog" aria-modal="true" aria-label="Food details">
+    <button type="button" class="pdx" id="pd-close" aria-label="Close">✕</button>
+    <div id="pd-body"></div>
+  </div>
+</div>
+
+<script type="module" src="auth-pill.js"></script>
+<script>
+(function () {
+  "use strict";
+  var params = new URLSearchParams(location.search);
+  var AREA = params.get("area") || "pantry";
+  if (["pantry", "fridge", "freezer"].indexOf(AREA) < 0) AREA = "pantry";
+  var UNIT = params.get("unit") || "";
+  /* v344: shelf= is tolerated from old links but ignored: the detail
+     view always shows the whole area playlist, never one shelf. */
+  var SHELF = params.get("shelf") || "";
+  var LIST = params.get("list") || "";
+  var ISLIST = LIST === "usuals" || LIST === "grocery";
+  if (ISLIST) { AREA = "pantry"; LIST = LIST; }
+  var LS_KEY = "tydPantry";
+  var pantry = [];
+  try { var v = JSON.parse(localStorage.getItem(LS_KEY)); if (Array.isArray(v)) pantry = v; } catch (e) {}
+  var STYLES_OK = { pantry: ["oak", "walnut", "pine", "white"], fridge: ["white", "steel", "black"], freezer: ["frost", "deep", "white"] };
+  var styles = { pantry: "oak", fridge: "white", freezer: "frost" };
+  try { var svx = JSON.parse(localStorage.getItem("tydPantryStyles")); if (svx) ["pantry", "fridge", "freezer"].forEach(function (k) { if (STYLES_OK[k].indexOf(svx[k]) > -1) styles[k] = svx[k]; }); } catch (e) {}
+  var theme = "bookcase";
+  try { var thx2 = localStorage.getItem("tydPantryTheme"); if (["bookcase", "cottage", "vintage", "cartoon"].indexOf(thx2) > -1) theme = thx2; } catch (e) {}
+  var units = { fridge: ["Refrigerator"], freezer: ["Freezer"] };
+  try { var unx = JSON.parse(localStorage.getItem("tydPantryUnits")); if (unx) { if (Array.isArray(unx.fridge) && unx.fridge.length) units.fridge = unx.fridge.filter(Boolean); if (Array.isArray(unx.freezer) && unx.freezer.length) units.freezer = unx.freezer.filter(Boolean); } } catch (e) {}
+  var usuals = [];
+  try { var uv = JSON.parse(localStorage.getItem("tydPantryUsuals")); if (Array.isArray(uv)) usuals = uv; } catch (e) {}
+  var photos = {};
+  try { var npv = JSON.parse(localStorage.getItem("tydPantryPhotos")); if (npv && typeof npv === "object" && !Array.isArray(npv)) photos = npv; } catch (e) {}
+  if (AREA !== "pantry" && !UNIT) UNIT = units[AREA][0];
+  /* ===== v344: expiry dates and reminders (Lucy, Nov 17, 2026) =====
+     Every food can carry a got date (when it was got, auto-set when the
+     food is added, editable) and an expires date (typed in, or suggested
+     from typical shelf life and accepted by the member). No expiry is
+     ever guessed: no date typed and no known shelf life means there is
+     simply no reminder for that food. remindDays is how far in advance
+     the member wants the nudge: 7, 3, 2, 1 or 0 days before expiry.
+     Default is 2 days when nothing was picked. */
+  var SHELF_LIFE = [["cream cheese", 14], ["cooked chicken", 4], ["leftover", 4], ["frozen pizza", 90], ["frozen veg", 180], ["frozen berr", 180], ["frozen pea", 180], ["peanut butter", 90], ["ice cream", 60], ["milk", 7], ["egg", 28], ["butter", 30], ["yogurt", 14], ["cheese", 21], ["bread", 5], ["tortilla", 21], ["lettuce", 7], ["carrot", 21], ["apple", 28], ["grape", 14], ["strawberr", 5], ["banana", 7], ["flour", 180], ["sugar", 365], ["rice", 180], ["pasta", 365], ["spaghetti", 365], ["cereal", 90], ["coffee", 90], ["tea", 180], ["jam", 180], ["honey", 365], ["oat", 180], ["cracker", 60], ["chip", 30], ["popcorn", 60], ["chocolate", 180]];
+  function shelfLifeDays(name) { var low = " " + String(name || "").toLowerCase() + " "; for (var i = 0; i < SHELF_LIFE.length; i++) { if (new RegExp("\\b" + SHELF_LIFE[i][0]).test(low)) return SHELF_LIFE[i][1]; } return 0; }
+  function addDaysStr(ds, days) { if (!ds) return ""; var p = String(ds).split("-"); if (p.length !== 3) return ""; var d = new Date(parseInt(p[0], 10), parseInt(p[1], 10) - 1, parseInt(p[2], 10) + days); if (isNaN(d)) return ""; return d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2); }
+  function daysUntilExpiry(it) { if (!it || !it.expires) return null; var p = String(it.expires).split("-"); if (p.length !== 3) return null; var t = new Date(); t.setHours(0, 0, 0, 0); var d = new Date(parseInt(p[0], 10), parseInt(p[1], 10) - 1, parseInt(p[2], 10)); if (isNaN(d)) return null; return Math.round((d - t) / 864e5); }
+  function remindDaysOf(it) { var n = it ? parseInt(it.remindDays, 10) : NaN; if (isNaN(n)) return 2; return Math.max(0, Math.min(7, n)); }
+  function remindLabel(n) { n = remindDaysOf({ remindDays: n }); return n === 7 ? "1 week before it expires" : n === 0 ? "on the day it expires" : n === 1 ? "1 day before it expires" : n + " days before it expires"; }
+  function suggestExpiry(name, got) { var days = shelfLifeDays(name); if (!days || !got) return ""; return addDaysStr(got, days); }
+  function expiryBadgeHtml(it) { var days = daysUntilExpiry(it); if (days === null) return ""; if (days < 0) return '<span class="expbadge exp-expired">Expired</span>'; if (days === 0) return '<span class="expbadge exp-soon">Expires today</span>'; if (days === 1) return '<span class="expbadge exp-soon">Expires tomorrow</span>'; if (days <= remindDaysOf(it)) return '<span class="expbadge exp-soon">Expires in ' + days + ' days</span>'; return ""; }
+  function gotOf(it) { return it && it.got ? it.got : ""; }
+
+  /* v345: playlist covers, the five Pantry card ducks. */
+  var PLAYLIST_COVERS = {
+    pantry: "images/avatars/duck-pantry-card.jpg",
+    fridge: "images/avatars/duck-fridge-card.jpg",
+    freezer: "images/avatars/duck-freezer-card.jpg",
+    usuals: "images/avatars/duck-usuals-card.jpg",
+    grocery: "images/avatars/duck-grocery-card.jpg"
+  };
+  function playlistCover() { return ISLIST ? PLAYLIST_COVERS[LIST] : PLAYLIST_COVERS[AREA]; }
+
+  var editingId = null, detailId = null, formPhoto = null, formPhotoSet = false, dupConfirmed = false;
+  var AREAS = [
+    { key: "pantry", icon: "🥫", label: "Pantry", shelves: ["Baking", "Cans & Jars", "Pasta & Grains", "Snacks", "Spices", "Drinks"] },
+    { key: "fridge", icon: "🧊", label: "Refrigerator", shelves: ["Top Shelf", "Middle Shelf", "Crisper", "Door"] },
+    { key: "freezer", icon: "❄️", label: "Freezer", shelves: ["Top Shelf", "Middle Shelf", "Bottom Shelf", "Door"] }
+  ];
+  function esc(s) { return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
+  function todayStr() { var d = new Date(); return d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2); }
+  function fmtDate(ds) { if (!ds) return ""; var d = new Date(ds + "T12:00:00"); return d.toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" }); }
+  function save() { try { localStorage.setItem(LS_KEY, JSON.stringify(pantry)); } catch (e) {} if (window.TYDPageChanged) window.TYDPageChanged(); }
+  function byId(id) { return pantry.filter(function (x) { return x.id === id; })[0] || null; }
+  function shelfOf(it) { return (it.shelf || "").trim() || "Pantry Shelf"; }
+  function haveOf(it) { return Math.max(0, parseInt(it.have, 10) || 0); }
+  function needOf(it) { return Math.max(0, parseInt(it.need, 10) || 0); }
+  function shelfNames(areaKey, unit) {
+    var present = {};
+    pantry.forEach(function (it) { if (areaOf(it) !== areaKey) return; if (unit !== undefined && unitOf(it) !== unit) return; present[shelfOf(it)] = 1; });
+    var defs = areaMeta(areaKey).shelves;
+    var out = defs.filter(function (x) { return present[x]; });
+    Object.keys(present).sort(function (a, b) { return a.toLowerCase() < b.toLowerCase() ? -1 : 1; }).forEach(function (x) { if (defs.indexOf(x) === -1) out.push(x); });
+    return out;
+  }
+  function fmtDate(ds) { if (!ds) return ""; var d = new Date(ds + "T12:00:00"); return d.toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" }); }
+  function save() { try { localStorage.setItem(LS_KEY, JSON.stringify(pantry)); } catch (e) {} if (window.TYDPageChanged) window.TYDPageChanged(); }
+  function byId(id) { return pantry.filter(function (x) { return x.id === id; })[0] || null; }
+  function shelfOf(it) { return (it.shelf || "").trim() || "Pantry Shelf"; }
+  function haveOf(it) { return Math.max(0, parseInt(it.have, 10) || 0); }
+  function needOf(it) { return Math.max(0, parseInt(it.need, 10) || 0); }
+  function shelfNames(areaKey, unit) {
+    var present = {};
+    pantry.forEach(function (it) { if (areaOf(it) !== areaKey) return; if (unit !== undefined && unitOf(it) !== unit) return; present[shelfOf(it)] = 1; });
+    var defs = areaMeta(areaKey).shelves;
+    var out = defs.filter(function (x) { return present[x]; });
+    Object.keys(present).sort(function (a, b) { return a.toLowerCase() < b.toLowerCase() ? -1 : 1; }).forEach(function (x) { if (defs.indexOf(x) === -1) out.push(x); });
+    return out;
+  }
+  function todayStr() { var d = new Date(); return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); }
+  function areaMeta(key) { for (var i = 0; i < AREAS.length; i++) if (AREAS[i].key === key) return AREAS[i]; return AREAS[0]; }
+  function areaOf(it) { return it.area || "pantry"; }
+  function shelfOf(it) { return it.shelf || areaMeta(areaOf(it)).shelves[0]; }
+  function unitsFor(key) { return (key === "fridge" || key === "freezer") ? units[key] : [""]; }
+  function unitOf(it) { var a = areaOf(it); if (a === "pantry") return ""; return it.unit || unitsFor(a)[0] || ""; }
+  function haveOf(it) { return Math.max(0, parseInt(it.have, 10) || 0); }
+  function needOf(it) { return Math.max(0, parseInt(it.need, 10) || 0); }
+  function byId(id) { for (var i = 0; i < pantry.length; i++) if (pantry[i].id === id) return pantry[i]; return null; }
+  function shelfNames(key, unit) {
+    var seen = {}, out = [];
+    pantry.forEach(function (it) {
+      if (areaOf(it) !== key) return;
+      if (key !== "pantry" && unit !== undefined && unitOf(it) !== unit) return;
+      var sh = shelfOf(it); if (!seen[sh]) { seen[sh] = 1; out.push(sh); }
+    });
+    return out;
+  }
+  function isUsual(it) { return usuals.some(function (u) { return u.id === it.id; }); }
+  function photoFor(id) { var e = photos[id]; return e && e.s ? e.s : ""; }
+  function save() { try { localStorage.setItem(LS_KEY, JSON.stringify(pantry)); } catch (e) {} if (window.TYDPageChanged) window.TYDPageChanged(); }
+  function saveUsuals() { try { localStorage.setItem("tydPantryUsuals", JSON.stringify(usuals)); } catch (e) {} if (window.TYDPageChanged) window.TYDPageChanged(); }
+  function savePhotos() { try { localStorage.setItem("tydPantryPhotos", JSON.stringify(photos)); } catch (e) {} if (window.TYDPageChanged) window.TYDPageChanged(); }
+  var CATALOG = [
+    ["pantry", "Baking", [["Flour", "🌾"], ["Sugar", "🍬"], ["Cocoa Powder", "🟤"], ["Baking Soda", "🫙"], ["Vanilla Extract", "🧴"], ["Chocolate Chips", "🍫"]]],
+    ["pantry", "Cans & Jars", [["Tomato Soup", "🥫"], ["Baked Beans", "🫘"], ["Peanut Butter", "🥜"], ["Jam", "🍓"], ["Tuna", "🐟"], ["Olives", "🫒"]]],
+    ["pantry", "Pasta & Grains", [["Spaghetti", "🍝"], ["Rice", "🍚"], ["Oats", "🥣"], ["Instant Noodles", "🍜"], ["Bread Crumbs", "🍞"], ["Tortillas", "🫓"]]],
+    ["pantry", "Snacks", [["Popcorn", "🍿"], ["Pretzels", "🥨"], ["Trail Mix", "🌰"], ["Crackers", "🍘"], ["Fruit Snacks", "🍇"], ["Chips", "🥔"]]],
+    ["pantry", "Spices", [["Salt", "🧂"], ["Cinnamon", "🍂"], ["Garlic Powder", "🧄"], ["Paprika", "🫑"], ["Italian Herbs", "🌿"], ["Black Pepper", "🌶️"]]],
+    ["pantry", "Drinks", [["Coffee", "☕"], ["Tea Bags", "🍵"], ["Lemonade Mix", "🍋"], ["Juice Boxes", "🧃"], ["Soda", "🥤"], ["Powdered Milk", "🥛"]]],
+    ["fridge", "Top Shelf", [["Milk", "🥛"], ["Eggs", "🥚"], ["Butter", "🧈"], ["Cheese", "🧀"], ["Yogurt", "🍮"], ["Orange Juice", "🧃"]]],
+    ["fridge", "Middle Shelf", [["Leftovers", "🍱"], ["Cooked Chicken", "🍗"], ["Salad Bowl", "🥗"], ["Fresh Fruit", "🍓"], ["Pickles", "🥒"], ["Deli Slices", "🥓"]]],
+    ["fridge", "Crisper", [["Lettuce", "🥬"], ["Carrots", "🥕"], ["Apples", "🍎"], ["Grapes", "🍇"], ["Bell Peppers", "🫑"], ["Cucumbers", "🥒"]]],
+    ["freezer", "Top Shelf", [["Ice Cream", "🍦"], ["Frozen Berries", "🫐"], ["Frozen Peas", "🫛"], ["Waffles", "🧇"], ["Ice Cubes", "🧊"], ["Popsicles", "🍧"]]],
+    ["freezer", "Middle Shelf", [["Frozen Pizza", "🍕"], ["Chicken Nuggets", "🍗"], ["Frozen Veggies", "🥦"], ["French Fries", "🍟"], ["Fish Sticks", "🐟"], ["Burritos", "🌯"]]],
+    ["freezer", "Bottom Shelf", [["Ground Beef", "🥩"], ["Chicken Breasts", "🍗"], ["Soup Stock", "🍲"], ["Frozen Dough", "🫓"], ["Garlic Bread", "🥖"], ["Ice Packs", "🧊"]]]
+  ];
+  var PICWORDS = [["ice cream", "🍦"], ["orange juice", "🧃"], ["peanut butter", "🥜"], ["ground beef", "🥩"], ["chicken breast", "🍗"], ["french fries", "🍟"], ["cream cheese", "🧀"], ["sour cream", "🍶"], ["soy sauce", "🍶"], ["hot sauce", "🌶️"], ["maple syrup", "🍁"], ["olive oil", "🫒"], ["eggplant", "🍆"], ["peanut", "🥜"], ["milk", "🥛"], ["egg", "🥚"], ["cheese", "🧀"], ["butter", "🧈"], ["yogurt", "🍮"], ["bread", "🍞"], ["rice", "🍚"], ["pasta", "🍝"], ["spaghetti", "🍝"], ["noodle", "🍜"], ["flour", "🌾"], ["sugar", "🍬"], ["honey", "🍯"], ["jam", "🍓"], ["cereal", "🥣"], ["oat", "🥣"], ["coffee", "☕"], ["tea", "🍵"], ["juice", "🧃"], ["soda", "🥤"], ["water", "💧"], ["apple", "🍎"], ["banana", "🍌"], ["orange", "🍊"], ["grape", "🍇"], ["strawberr", "🍓"], ["peach", "🍑"], ["pear", "🍐"], ["lemon", "🍋"], ["lime", "🍋"], ["melon", "🍉"], ["mango", "🥭"], ["pineapple", "🍍"], ["berr", "🫐"], ["carrot", "🥕"], ["potato", "🥔"], ["corn", "🌽"], ["broccoli", "🥦"], ["lettuce", "🥬"], ["salad", "🥗"], ["cucumber", "🥒"], ["tomato", "🍅"], ["onion", "🧅"], ["garlic", "🧄"], ["mushroom", "🍄"], ["avocado", "🥑"], ["chicken", "🍗"], ["beef", "🥩"], ["pork", "🍖"], ["bacon", "🥓"], ["sausage", "🌭"], ["ham", "🍖"], ["turkey", "🍗"], ["fish", "🐟"], ["shrimp", "🍤"], ["tuna", "🐟"], ["salmon", "🐟"], ["pizza", "🍕"], ["burger", "🍔"], ["fries", "🍟"], ["soup", "🍲"], ["cake", "🍰"], ["cookie", "🍪"], ["chocolate", "🍫"], ["candy", "🍬"], ["pie", "🥧"], ["donut", "🍩"], ["popcorn", "🍿"], ["chip", "🥔"], ["cracker", "🍘"], ["pretzel", "🥨"], ["bean", "🫘"], ["pea", "🫛"], ["nut", "🌰"], ["waffle", "🧇"], ["pancake", "🥞"], ["sandwich", "🥪"], ["taco", "🌮"], ["burrito", "🌯"], ["sushi", "🍣"], ["dumpling", "🥟"], ["pickle", "🥒"], ["ketchup", "🍅"], ["mustard", "🌭"], ["mayo", "🫙"], ["dressing", "🫗"], ["salt", "🧂"], ["spice", "🌿"], ["herb", "🌿"], ["oil", "🫗"], ["frozen", "🧊"], ["ice", "🧊"], ["dog", "🐶"], ["cat food", "🐱"], ["treat", "🦴"], ["leftover", "🍱"], ["dough", "🫓"], ["tortilla", "🫓"], ["bagel", "🥯"], ["muffin", "🧁"], ["sauce", "🍝"], ["salsa", "🫙"], ["snack", "🍿"], ["fruit", "🍎"], ["veg", "🥦"], ["meat", "🥩"], ["dairy", "🥛"], ["drink", "🥤"], ["paper towel", "🧻"], ["can", "🥫"], ["jar", "🫙"]];
+  function smartPic(name) {
+    var low = " " + String(name || "").toLowerCase() + " ";
+    for (var i = 0; i < PICWORDS.length; i++) if (low.indexOf(PICWORDS[i][0]) > -1) return PICWORDS[i][1];
+    return "🥫";
+  }
+  function slugId(name) { return "p-" + String(name || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, ""); }
+  function esc(s) { return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
+  function todayStr() { var d = new Date(); return d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2); }
+  function fmtDate(ds) { if (!ds) return ""; var d = new Date(ds + "T12:00:00"); return d.toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" }); }
+  function save() { try { localStorage.setItem(LS_KEY, JSON.stringify(pantry)); } catch (e) {} if (window.TYDPageChanged) window.TYDPageChanged(); }
+  function byId(id) { return pantry.filter(function (x) { return x.id === id; })[0] || null; }
+  function shelfOf(it) { return (it.shelf || "").trim() || "Pantry Shelf"; }
+  function haveOf(it) { return Math.max(0, parseInt(it.have, 10) || 0); }
+  function needOf(it) { return Math.max(0, parseInt(it.need, 10) || 0); }
+  function shelfNames(areaKey, unit) {
+    var present = {};
+    pantry.forEach(function (it) { if (areaOf(it) !== areaKey) return; if (unit !== undefined && unitOf(it) !== unit) return; present[shelfOf(it)] = 1; });
+    var defs = areaMeta(areaKey).shelves;
+    var out = defs.filter(function (x) { return present[x]; });
+    Object.keys(present).sort(function (a, b) { return a.toLowerCase() < b.toLowerCase() ? -1 : 1; }).forEach(function (x) { if (defs.indexOf(x) === -1) out.push(x); });
+    return out;
+  }
+  function catEntry(name) {
+    for (var i = 0; i < CATALOG.length; i++) for (var j = 0; j < CATALOG[i][2].length; j++) if (CATALOG[i][2][j][0] === name) return { area: CATALOG[i][0], shelf: CATALOG[i][1], pic: CATALOG[i][2][j][1] };
+    return null;
+  }
+  function groceryLoad() {
+    var g = [];
+    try { g = JSON.parse(localStorage.getItem("tydGrocery")) || []; } catch (e) { g = []; }
+    if (!Array.isArray(g)) g = [];
+    g.forEach(function (it) { if (it.used === undefined) it.used = !!it.done; if (it.got === undefined) it.got = false; it.done = it.used; });
+    return g;
+  }
+  function grocerySave(g) { try { localStorage.setItem("tydGrocery", JSON.stringify(g)); } catch (e) {} if (window.TYDPageChanged) window.TYDPageChanged(); }
+  function currentShelf() { if (SHELF) return SHELF; var el = document.getElementById("sf-shelf"); var v = el ? el.value.trim() : ""; return v || areaMeta(AREA).shelves[0]; }
+  function posOf(it) { return typeof it.pos === "number" ? it.pos : 1000000; }
+  function cmpPos(a, b) { var d = posOf(a) - posOf(b); if (d) return d; return (a.name || "").toLowerCase() < (b.name || "").toLowerCase() ? -1 : 1; }
+  var seedDone = false;
+  function seedCheck() {
+    if (seedDone) return;
+    seedDone = true;
+    if (pantry.length) return;
+    try { if (localStorage.getItem("tydPantrySeededV1")) return; localStorage.setItem("tydPantrySeededV1", "1"); } catch (e) {}
+    var special = { "Milk": [1, 2], "Eggs": [6, 12], "Flour": [4, 4], "Tomato Soup": [4, 4], "Instant Noodles": [4, 4], "Juice Boxes": [6, 6], "Soda": [6, 6], "Popsicles": [6, 6], "Burritos": [4, 4], "Carrots": [4, 4], "Apples": [5, 5], "Yogurt": [4, 4], "Tuna": [3, 3], "Spaghetti": [3, 3], "Fresh Fruit": [3, 3], "Bell Peppers": [3, 3] };
+    var ones = { "Cocoa Powder": 1, "Baking Soda": 1, "Vanilla Extract": 1, "Peanut Butter": 1, "Jam": 1, "Olives": 1, "Oats": 1, "Bread Crumbs": 1, "Tortillas": 1, "Trail Mix": 1, "Pretzels": 1, "Fruit Snacks": 1, "Salt": 1, "Cinnamon": 1, "Garlic Powder": 1, "Paprika": 1, "Italian Herbs": 1, "Black Pepper": 1, "Coffee": 1, "Tea Bags": 1, "Lemonade Mix": 1, "Powdered Milk": 1, "Orange Juice": 1, "Cooked Chicken": 1, "Salad Bowl": 1, "Pickles": 1, "Deli Slices": 1, "Lettuce": 1, "Grapes": 1, "Frozen Peas": 1, "Waffles": 1, "Ice Cubes": 1, "Chicken Nuggets": 1, "French Fries": 1, "Fish Sticks": 1, "Frozen Dough": 1, "Garlic Bread": 1 };
+    CATALOG.forEach(function (grp) {
+      grp[2].forEach(function (f, ix) {
+        var hn = special[f[0]] || (ones[f[0]] ? [1, 1] : [2, 2]);
+        pantry.push({ id: slugId(f[0]), name: f[0], pic: f[1], area: grp[0], unit: grp[0] === "fridge" ? "Refrigerator" : (grp[0] === "freezer" ? "Freezer" : ""), shelf: grp[1], have: hn[0], need: hn[1], expires: "", got: todayStr(), remindDays: 2, pos: (ix + 1) * 10, updatedAt: Date.now() });
+      });
+    });
+    [["fridge", "Door", [["Ketchup", "\u{1F345}", 1], ["Mayo", "\u{1FAD9}", 1], ["Salad Dressing", "\u{1F9F4}", 1], ["Hot Sauce", "\u{1F336}\uFE0F", 1], ["Soy Sauce", "\u{1F376}", 1]]], ["freezer", "Door", [["Ice Tray", "\u{1F9CA}", 1], ["Frozen Juice", "\u{1F9C3}", 2], ["Ice Cream Bars", "\u{1F366}", 2], ["Whipped Topping", "\u{1F368}", 1]]]].forEach(function (grp2) {
+      grp2[2].forEach(function (f, ix) {
+        pantry.push({ id: slugId(f[0]), name: f[0], pic: f[1], area: grp2[0], unit: grp2[0] === "fridge" ? "Refrigerator" : "Freezer", shelf: grp2[1], have: f[2], need: f[2], expires: "", got: todayStr(), remindDays: 2, pos: (ix + 1) * 10, updatedAt: Date.now() });
+      });
+    });
+    if (typeof doorsOpen !== "undefined" && typeof saveDoors === "function") { doorsOpen.pantry = true; doorsOpen.fridge = true; doorsOpen.freezer = true; saveDoors(); }
+    save();
+  }
+  function shelfItems() {
+    return pantry.filter(function (it) { return areaOf(it) === AREA && (AREA === "pantry" || unitOf(it) === UNIT); })
+      .sort(cmpPos);
+  }
+  function shelfUrl(area, unit, shelf) { return "pantry-shelf.html?area=" + area + (area === "pantry" ? "" : "&unit=" + encodeURIComponent(unit || "")) + "&shelf=" + encodeURIComponent(shelf || ""); }
+  function rowHtml(it) {
+    var have = haveOf(it), need = needOf(it), low = have < need;
+    var photo = photoFor(it.id);
+    var ar = areaMeta(areaOf(it));
+    var where = areaOf(it) === "pantry" ? esc(ar.label) : (unitOf(it) === ar.label ? esc(unitOf(it)) : esc(ar.label) + " · " + esc(unitOf(it)));
+    return '<div class="srow plrow" data-detail="' + it.id + '"><span style="font-size:26px;flex:none;">' + (photo ? '<img class="sphoto" src="' + photo + '" alt="" data-tydlb>' : esc(it.pic || "🥫")) + '</span><div class="grow"><div class="sname">' + esc(it.name) + expiryBadgeHtml(it) + '</div>' +
+      '<div class="smeta">' + where + (it.expires ? ' · Use by ' + fmtDate(it.expires) : "") + (it.got ? ' · Got ' + fmtDate(it.got) : "") + '</div>' +
+      '<div class="haveRow" style="justify-content:flex-start;margin-top:6px;"><button type="button" class="stp sm" data-pact="dec" data-id="' + it.id + '" aria-label="One less">−</button><span class="haveNum">Have ' + have + ' · Need ' + need + '</span><button type="button" class="stp sm" data-pact="inc" data-id="' + it.id + '" aria-label="One more">+</button>' +
+      '<button type="button" class="stp sm" data-pact="ndec" data-id="' + it.id + '" aria-label="Need one less">−</button><button type="button" class="stp sm" data-pact="ninc" data-id="' + it.id + '" aria-label="Need one more">+</button>' +
+      (low ? ' <span class="needchip">' + (need - have) + ' to buy</span>' : ' <span class="okchip">stocked ✓</span>') + '</div></div></div>';
+  }
+  function render() {
+    seedCheck();
+    var ar = areaMeta(AREA);
+    var covEl = document.getElementById("pl-cover");
+    if (covEl) covEl.src = playlistCover();
+    var host = document.getElementById("shelfscene");
+    host.className = "";
+    var titleEl = document.getElementById("sh-title");
+    var subEl = document.getElementById("pl-sub");
+    var catCard = document.getElementById("catalogcard");
+    var formCard = document.getElementById("shelfformcard");
+    if (ISLIST) {
+      if (catCard) catCard.style.display = "none";
+      if (formCard) formCard.style.display = "none";
+      if (LIST === "usuals") {
+        titleEl.textContent = "⭐ Usuals";
+        if (subEl) subEl.textContent = "Your usuals. Tap one and it lands on your grocery list.";
+        if (!usuals.length) { host.innerHTML = '<div class="card emptybox"><p>No usuals yet. Star a food in a playlist and it will wait here. 🦆</p></div>'; return; }
+        host.innerHTML = '<div class="card pllist"><div class="plcount">' + usuals.length + (usuals.length === 1 ? " staple" : " staples") + '</div>' + usuals.map(function (u) {
+          var ex = byId(u.id);
+          var have = ex ? haveOf(ex) : 0, need = ex ? needOf(ex) : 1;
+          return '<div class="srow plrow" data-getusual="' + u.id + '"><span style="font-size:26px;flex:none;">' + esc(u.pic || "🥫") + '</span><div class="grow"><div class="sname">' + esc(u.name) + (ex ? expiryBadgeHtml(ex) : "") + '</div><div class="smeta">Tap to get · Have ' + have + ' · Need ' + need + '</div></div><button type="button" class="iconbtn" data-unusual="' + u.id + '" aria-label="Remove usual">✕</button></div>';
+        }).join("") + "</div>";
+        host.querySelectorAll("[data-getusual]").forEach(function (el) {
+          el.addEventListener("click", function (e) {
+            if (e.target.closest && e.target.closest("[data-unusual]")) return;
+            getUsualFromList(el.getAttribute("data-getusual"));
+          });
+        });
+        host.querySelectorAll("[data-unusual]").forEach(function (b) { b.addEventListener("click", function () { usuals = usuals.filter(function (u) { return u.id !== b.getAttribute("data-unusual"); }); saveUsuals(); render(); }); });
+        return;
+      }
+      titleEl.textContent = "🛒 Grocery list";
+      if (subEl) subEl.textContent = "Everything to get. Mark Got it and the playlist restocks itself.";
+      renderGroceryList(host);
+      return;
+    }
+    if (catCard) catCard.style.display = "";
+    if (formCard) formCard.style.display = "";
+    titleEl.textContent = ar.icon + " " + ar.label;
+    if (subEl) subEl.textContent = "Just this playlist. Tap a food to see more about it, add more, or get a reminder to buy more.";
+    var items = shelfItems();
+    var lows = items.filter(function (it) { return haveOf(it) < needOf(it); }).length;
+    host.innerHTML = '<div class="card pllist"><div class="plcount">' + items.length + (items.length === 1 ? " food" : " foods") + (lows ? ' · ' + lows + (lows === 1 ? " to buy" : " to buy") : "") + '</div>' +
+      (items.length ? items.map(rowHtml).join("") : '<p class="smeta">Nothing here yet. Add a food below. 🦆</p>') + "</div>";
+    host.querySelectorAll("[data-detail]").forEach(function (el) {
+      el.addEventListener("click", function (e) { if (e.target.closest && e.target.closest("[data-pact]")) return; openDetail(el.getAttribute("data-detail")); });
+    });
+    host.querySelectorAll("[data-pact]").forEach(function (b) {
+      b.addEventListener("click", function (e) {
+        e.stopPropagation();
+        var it = byId(b.getAttribute("data-id")); if (!it) return;
+        var act = b.getAttribute("data-pact");
+        if (act === "inc") it.have = haveOf(it) + 1;
+        else if (act === "dec") it.have = Math.max(0, haveOf(it) - 1);
+        else if (act === "ninc") it.need = needOf(it) + 1;
+        else if (act === "ndec") it.need = Math.max(0, needOf(it) - 1);
+        it.updatedAt = Date.now(); save(); render();
+      });
+    });
+    renderCatalog();
+  }
+  function getUsualFromList(id) {
+    var u = usuals.filter(function (x) { return x.id === id; })[0]; if (!u) return;
+    var ex = byId(id);
+    if (ex) { ex.need = needOf(ex) + 1; ex.updatedAt = Date.now(); }
+    else {
+      var ak = u.area || "pantry";
+      ex = { id: id, name: u.name, pic: u.pic || smartPic(u.name), area: ak, shelf: u.shelf || areaMeta(ak).shelves[0], unit: ak === "pantry" ? "" : unitsFor(ak)[0], have: 0, need: 1, expires: "", got: todayStr(), remindDays: 2, updatedAt: Date.now() };
+      pantry.push(ex);
+    }
+    var g = groceryLoad(), gid = "pantry|" + id, qty = 1, found = false;
+    g.forEach(function (row) { if (row && row.id === gid) { row.qty = (row.qty || 0) + qty; row.text = (ex.pic || "🥫") + " " + ex.name + " × " + row.qty; row.done = false; row.used = false; row.got = false; found = true; } });
+    if (!found) g.push({ id: gid, text: (ex.pic || "🥫") + " " + ex.name + " × " + qty, recipe: "🥫 From the Pantry", done: false, used: false, got: false, pantryId: id, qty: qty });
+    grocerySave(g);
+    save(); render();
+  }
+  function renderGroceryList(host) {
+    var g = groceryLoad();
+    if (!g.length) { host.innerHTML = '<div class="card emptybox"><p>Nothing here yet. Add an item on the Pantry page, or send your To buy list over. 🦆</p></div>'; return; }
+    var groups = {};
+    g.forEach(function (it) { var k = it.recipe || "My grocery list"; (groups[k] = groups[k] || []).push(it); });
+    host.innerHTML = '<div class="card pllist"><div class="plcount">' + g.length + (g.length === 1 ? " item" : " items") + '</div>' + Object.keys(groups).map(function (name) {
+      return '<h3 class="cathead">' + esc(name) + "</h3>" + groups[name].map(function (it) {
+        return '<div class="gitem' + (it.used ? " used" : "") + '"><span class="gtext">' + esc(it.text) + "</span>" +
+          (it.used ? '<span class="gstat">Used ✓</span>' : it.got ? '<span class="gstat">Got it ✓</span>' : "") +
+          '<button type="button" class="iconbtn" data-ggot="' + esc(it.id) + '">🛒 Got it</button>' +
+          '<button type="button" class="iconbtn" data-gused="' + esc(it.id) + '">✓ Used</button>' +
+          '<button type="button" class="iconbtn" data-gx="' + esc(it.id) + '">✕</button></div>';
+      }).join("");
+    }).join("") + "</div>";
+    host.querySelectorAll("[data-ggot]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var g2 = groceryLoad(), restocked = false;
+        g2.forEach(function (it) {
+          if (it.id !== b.getAttribute("data-ggot")) return;
+          it.got = !it.got; if (!it.got) it.used = false; it.done = it.used;
+          if (it.pantryId && it.qty) { var pit = byId(it.pantryId); if (pit) { pit.have = Math.max(0, Math.min(99, haveOf(pit) + (it.got ? it.qty : -it.qty))); pit.updatedAt = Date.now(); restocked = true; } }
+        });
+        if (restocked) save();
+        grocerySave(g2); render();
+      });
+    });
+    host.querySelectorAll("[data-gused]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var g2 = groceryLoad();
+        g2.forEach(function (it) { if (it.id === b.getAttribute("data-gused")) { it.used = !it.used; if (it.used) it.got = true; it.done = it.used; } });
+        grocerySave(g2); render();
+      });
+    });
+    host.querySelectorAll("[data-gx]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        grocerySave(groceryLoad().filter(function (it) { return it.id !== b.getAttribute("data-gx"); }));
+        render();
+      });
+    });
+  }
+  function renderCatalog() {
+    var host = document.getElementById("catalog");
+    if (!host) return;
+    host.innerHTML = AREAS.map(function (ar) {
+      var groups = CATALOG.filter(function (g) { return g[0] === ar.key; });
+      if (!groups.length) return "";
+      return '<h3 class="cathead">' + ar.icon + " " + esc(ar.label) + '</h3>' + groups.map(function (grp) {
+        return '<h4 class="cathead" style="font-size:15px;margin:12px 0 2px;">' + esc(grp[1]) + '</h4><div class="catgrid">' + grp[2].map(function (f, ix) {
+          var ex = byId(slugId(f[0]));
+          return '<button type="button" class="pfood" data-food="' + esc(f[0]) + '"><span class="femoji" style="animation-delay:' + ((ix % 5) * 0.3) + 's">' + f[1] + '</span><span class="fname">' + esc(f[0]) + '</span><span class="fhave">' + (ex ? "Have " + haveOf(ex) : "Tap to add") + '</span></button>';
+        }).join("") + "</div>";
+      }).join("");
+    }).join("");
+    host.querySelectorAll("[data-food]").forEach(function (b) { b.addEventListener("click", function () { addFromCatalog(b.getAttribute("data-food")); }); });
+  }
+  function addFromCatalog(name) {
+    var sh = currentShelf();
+    var err = document.getElementById("sf-err");
+    if (!sh) { err.textContent = "Give your new shelf a name first, in the form below."; document.getElementById("shelfformcard").scrollIntoView({ behavior: "smooth", block: "center" }); return; }
+    err.textContent = "";
+    var ce = catEntry(name); if (!ce) return;
+    var ex = byId(slugId(name));
+    if (ex) { ex.area = AREA; ex.unit = AREA === "pantry" ? "" : UNIT; ex.shelf = sh; ex.have = haveOf(ex) + 1; ex.updatedAt = Date.now(); }
+    else pantry.push({ id: slugId(name), name: name, pic: ce.pic, area: AREA, unit: AREA === "pantry" ? "" : UNIT, shelf: sh, have: 1, need: 1, expires: "", got: todayStr(), remindDays: 2, updatedAt: Date.now() });
+    save();
+    render();
+  }
+  /* ---------- item detail sheet ---------- */
+  function openDetail(id) { detailId = id; renderDetail(); document.getElementById("pdetail").hidden = false; }
+  function closeDetail() { detailId = null; document.getElementById("pdetail").hidden = true; }
+  function renderDetail() {
+    var it = byId(detailId);
+    if (!it) { closeDetail(); return; }
+    var have = haveOf(it), need = needOf(it), low = have < need;
+    var pct = need > 0 ? Math.min(100, Math.round(have / need * 100)) : 100;
+    var photo = photoFor(it.id);
+    var ar = areaMeta(areaOf(it));
+    var exp = "";
+    if (it.expires) {
+      var past = it.expires < todayStr();
+      exp = '<div class="smeta" style="margin-top:6px;">Use by ' + fmtDate(it.expires) + (past ? ' · <span class="warr exp">past its date</span>' : "") + "</div>";
+    }
+    var onList = groceryLoad().some(function (g) { return g && g.pantryId === it.id && !g.done && !g.used; });
+    document.getElementById("pd-body").innerHTML =
+      (photo ? '<img class="pdphoto" src="' + photo + '" alt="" data-tydlb>' : '<span class="pdemoji">' + esc(it.pic || "🥫") + '</span>') +
+      '<div class="pdname">' + esc(it.name) + '</div>' +
+      '<div class="pdwhere">' + ar.icon + " " + esc(ar.label) + (areaOf(it) === "pantry" ? "" : " · " + esc(unitOf(it))) + '</div>' +
+      (it.got ? '<div class="smeta" style="margin-top:6px;">Got ' + fmtDate(it.got) + '</div>' : "") +
+      (it.expires ? '<div style="margin-top:6px;">' + expiryBadgeHtml(it) + '<span class="smeta">Reminder: ' + remindLabel(remindDaysOf(it)) + '</span></div>' : "") +
+      exp +
+      '<div class="pbar" style="margin-top:10px;"><i style="width:' + pct + '%"></i></div>' +
+      '<div class="haveRow"><button type="button" class="stp" data-dact="dec" aria-label="One less">−</button><span class="haveNum">Have ' + have + '</span><button type="button" class="stp" data-dact="inc" aria-label="One more">+</button></div>' +
+      '<div class="needRow">Keep on hand <button type="button" class="stp sm" data-dact="ndec" aria-label="Need one less">−</button><b>' + need + '</b><button type="button" class="stp sm" data-dact="ninc" aria-label="Need one more">+</button>' + (low ? ' <span class="needchip">' + (need - have) + " to buy</span>" : ' <span class="okchip">stocked ✓</span>') + '</div>' +
+      '<button type="button" class="btn btn-main pdremind" data-dremind="1">' + (onList ? "✓ On your get list · remind me again" : "🛒 Remind me to get more") + '</button>' +
+      '<div class="pdbtns"><button type="button" class="iconbtn" data-dusual="1">' + (isUsual(it) ? "⭐ Usual" : "☆ Usual") + '</button>' +
+      '<button type="button" class="iconbtn" data-dedit="1">Edit</button>' +
+      '<button type="button" class="iconbtn" data-dmove="-1">\u25C0 Move</button><button type="button" class="iconbtn" data-dmove="1">Move \u25B6</button>' +
+      '<button type="button" class="iconbtn del" data-ddel="1">Take off the shelf</button></div>' +
+      '<p class="smeta" style="margin-top:12px;">Want to share this food? <a href="pantry.html">Sharing lives on the main Pantry page</a>.</p>';
+    var body = document.getElementById("pd-body");
+    body.querySelectorAll("[data-dact]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var act = b.getAttribute("data-dact");
+        if (act === "inc") it.have = haveOf(it) + 1;
+        else if (act === "dec") it.have = Math.max(0, haveOf(it) - 1);
+        else if (act === "ninc") it.need = needOf(it) + 1;
+        else if (act === "ndec") it.need = Math.max(0, needOf(it) - 1);
+        it.updatedAt = Date.now(); save(); render(); renderDetail();
+      });
+    });
+    body.querySelector("[data-dremind]").addEventListener("click", function () {
+      it.need = Math.max(needOf(it), haveOf(it) + 1);
+      it.updatedAt = Date.now();
+      var qty = needOf(it) - haveOf(it);
+      var g = groceryLoad(), gid = "pantry|" + it.id, found = false;
+      g.forEach(function (row) { if (row && row.id === gid) { row.text = (it.pic || "🥫") + " " + it.name + " × " + qty; row.qty = qty; row.done = false; row.used = false; row.got = false; found = true; } });
+      if (!found) g.push({ id: gid, text: (it.pic || "🥫") + " " + it.name + " × " + qty, recipe: "🥫 From the Pantry", done: false, used: false, got: false, pantryId: it.id, qty: qty });
+      grocerySave(g); save(); render(); renderDetail();
+    });
+    body.querySelector("[data-dusual]").addEventListener("click", function () {
+      if (isUsual(it)) usuals = usuals.filter(function (u) { return u.id !== it.id; });
+      else usuals.push({ id: it.id, name: it.name, pic: it.pic || "🥫", area: areaOf(it), shelf: shelfOf(it) });
+      saveUsuals(); renderDetail();
+    });
+    body.querySelector("[data-dedit]").addEventListener("click", function () { closeDetail(); startEdit(it.id); });
+    body.querySelectorAll("[data-dmove]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var dir = parseInt(b.getAttribute("data-dmove"), 10);
+        var list = shelfItems();
+        var ix = -1;
+        list.forEach(function (x, i) { if (x.id === it.id) ix = i; });
+        var jx = ix + dir;
+        if (ix < 0 || jx < 0 || jx >= list.length) return;
+        list.forEach(function (x, i) { if (typeof x.pos !== "number") x.pos = (i + 1) * 10; });
+        var tmp = list[ix].pos; list[ix].pos = list[jx].pos; list[jx].pos = tmp;
+        it.updatedAt = Date.now(); list[jx].updatedAt = Date.now();
+        save(); render();
+      });
+    });
+    var delBtn = body.querySelector("[data-ddel]");
+    delBtn.addEventListener("click", function () {
+      if (delBtn.getAttribute("data-armed") !== "1") {
+        delBtn.setAttribute("data-armed", "1");
+        delBtn.textContent = "Tap again to remove “" + it.name + "”";
+        delBtn.classList.add("armed");
+        return;
+      }
+      pantry = pantry.filter(function (x) { return x.id !== it.id; });
+      if (editingId === it.id) cancelEdit();
+      save(); closeDetail(); render();
+    });
+  }
+  document.getElementById("pd-close").addEventListener("click", closeDetail);
+  document.getElementById("pdetail").addEventListener("click", function (e) { if (e.target === this) closeDetail(); });
+  /* ---------- form ---------- */
+  function fillFormShelves() {
+    var dl = document.getElementById("sf-shelves");
+    var names = areaMeta(AREA).shelves.slice();
+    shelfNames(AREA, AREA === "pantry" ? undefined : UNIT).forEach(function (x) { if (names.indexOf(x) === -1) names.push(x); });
+    dl.innerHTML = names.map(function (x) { return '<option value="' + esc(x) + '">'; }).join("");
+    var row = document.getElementById("sf-unitrow"), sel = document.getElementById("sf-unit");
+    if (AREA === "pantry") { row.style.display = "none"; }
+    else {
+      row.style.display = "block";
+      sel.innerHTML = unitsFor(AREA).map(function (u) { return '<option value="' + esc(u) + '"' + (u === UNIT ? " selected" : "") + ">" + esc(u) + "</option>"; }).join("");
+    }
+    document.getElementById("sf-shelf").value = currentShelf();
+  }
+  function formPhotoRender() {
+    var im = document.getElementById("sfp-preview"), nn = document.getElementById("sfp-none"), pk = document.getElementById("sfp-pick");
+    if (formPhoto) { im.src = formPhoto; im.style.display = "block"; nn.style.display = "none"; pk.textContent = "📷 Change photo"; }
+    else { im.removeAttribute("src"); im.style.display = "none"; nn.style.display = ""; pk.textContent = "📷 Add a photo"; }
+  }
+  document.getElementById("sfp-pick").addEventListener("click", function () {
+    var inp = document.createElement("input");
+    inp.type = "file"; inp.accept = "image/*";
+    inp.addEventListener("change", function () {
+      var f = inp.files && inp.files[0]; if (!f) return;
+      var rd = new FileReader();
+      rd.onload = function () {
+        var img = new Image();
+        img.onload = function () {
+          var max = 900, w = img.width, h = img.height, sc = Math.min(1, max / Math.max(w, h));
+          var cv = document.createElement("canvas");
+          cv.width = Math.round(w * sc); cv.height = Math.round(h * sc);
+          cv.getContext("2d").drawImage(img, 0, 0, cv.width, cv.height);
+          formPhoto = cv.toDataURL("image/jpeg", 0.82); formPhotoSet = true; formPhotoRender();
+        };
+        img.src = rd.result;
+      };
+      rd.readAsDataURL(f);
+    });
+    inp.click();
+  });
+  function startEdit(id) {
+    var it = byId(id); if (!it) return;
+    editingId = id;
+    document.getElementById("sf-heading").textContent = "Edit “" + it.name + "”";
+    document.getElementById("sf-name").value = it.name || "";
+    document.getElementById("sf-shelf").value = shelfOf(it);
+    if (AREA !== "pantry") document.getElementById("sf-unit").value = unitOf(it);
+    document.getElementById("sf-pic").value = it.pic || "";
+    document.getElementById("sf-have").value = haveOf(it);
+    document.getElementById("sf-need").value = needOf(it);
+    document.getElementById("sf-expires").value = it.expires || "";
+    document.getElementById("sf-got").value = it.got || "";
+    document.getElementById("sf-remind").value = String(remindDaysOf(it));
+    updateSuggestion();
+    formPhoto = photoFor(id) || null; formPhotoSet = false; formPhotoRender();
+    document.getElementById("sf-cancel").style.display = "inline-block";
+    document.getElementById("shelfformcard").scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+  function cancelEdit() {
+    editingId = null; dupConfirmed = false;
+    document.getElementById("sf-heading").textContent = "Add your own food";
+    ["sf-name", "sf-pic", "sf-expires"].forEach(function (id) { document.getElementById(id).value = ""; });
+    document.getElementById("sf-have").value = 1; document.getElementById("sf-need").value = 1;
+    document.getElementById("sf-got").value = "";
+    document.getElementById("sf-remind").value = "2";
+    document.getElementById("sf-shelf").value = currentShelf();
+    updateSuggestion();
+    formPhoto = null; formPhotoSet = false; formPhotoRender();
+    document.getElementById("sf-cancel").style.display = "none";
+    document.getElementById("sf-err").textContent = "";
+  }
+  document.getElementById("sf-cancel").addEventListener("click", cancelEdit);
+  /* v368 duplicate check (Lucy, Nov 18, 2026): adding a food that is
+     already in this area shows the shared confirm sheet naming it,
+     instead of saving silently. Cancel is the safe default; Add it
+     anyway saves a second copy. Never fires when editing an existing
+     food, and the same food in another area (Pantry / Fridge / Freezer)
+     does not warn. Tapping a catalog food never warns either: it
+     restocks the food already on the shelf instead of adding a copy. */
+  function findDuplicateFood(name) {
+    if (!window.TYDDup) return null;
+    var n = window.TYDDup.norm(name);
+    if (!n) return null;
+    for (var i = 0; i < pantry.length; i++) {
+      var it = pantry[i];
+      if (areaOf(it) === AREA && window.TYDDup.norm(it.name) === n) return it;
+    }
+    return null;
+  }
+  function saveShelfForm() {
+    var err = document.getElementById("sf-err");
+    var name = document.getElementById("sf-name").value.trim();
+    var shelf = document.getElementById("sf-shelf").value.trim();
+    if (!name) { err.textContent = "The food needs a name, duckling."; return; }
+    if (!shelf) { err.textContent = "The food needs a shelf. You are looking at one right above."; return; }
+    if (!editingId && !dupConfirmed) {
+      var dup = findDuplicateFood(name);
+      if (dup && window.TYDDup) {
+        window.TYDDup.show("This food is already in the Pond: " + dup.name + ". Add it again, or cancel and keep the one you have.", function () { dupConfirmed = true; saveShelfForm(); });
+        return;
+      }
+    }
+    var unit = AREA === "pantry" ? "" : document.getElementById("sf-unit").value;
+    var pic = document.getElementById("sf-pic").value.trim() || smartPic(name);
+    var have = Math.max(0, parseInt(document.getElementById("sf-have").value, 10) || 0);
+    var need = Math.max(0, parseInt(document.getElementById("sf-need").value, 10) || 0);
+    var exp = document.getElementById("sf-expires").value || "";
+    var got = document.getElementById("sf-got").value || todayStr();
+    var remindDays = parseInt(document.getElementById("sf-remind").value, 10);
+    if (isNaN(remindDays)) remindDays = 2;
+    err.textContent = "";
+    var targetShelf = shelf, targetUnit = unit;
+    if (editingId) {
+      var it = byId(editingId); if (!it) { cancelEdit(); return; }
+      it.name = name; it.pic = pic; it.area = AREA; it.unit = unit; it.shelf = shelf; it.have = have; it.need = need; it.expires = exp; it.got = got; it.remindDays = remindDays; it.updatedAt = Date.now();
+      if (formPhotoSet) { if (formPhoto) photos[it.id] = { p: "L" + Date.now().toString(36), s: formPhoto }; savePhotos(); }
+      var doneId = editingId; cancelEdit(); save();
+      render();
+    } else {
+      var nid = "u" + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+      pantry.push({ id: nid, name: name, pic: pic, area: AREA, unit: unit, shelf: shelf, have: have, need: need, expires: exp, got: got, remindDays: remindDays, updatedAt: Date.now() });
+      if (formPhotoSet && formPhoto) { photos[nid] = { p: "L" + Date.now().toString(36), s: formPhoto }; savePhotos(); }
+      save(); cancelEdit();
+      render();
+    }
+  }
+  document.getElementById("sf-save").addEventListener("click", saveShelfForm);
+  document.getElementById("sf-name").addEventListener("input", function () { dupConfirmed = false; });
+  window.TYDPage = {
+    fields: ["pantry", "pantryStyles", "pantryUnits", "pantryUsuals", "groceryList", "pantryTheme"],
+    snapshot: function () { return { pantry: JSON.parse(JSON.stringify(pantry)), pantryStyles: JSON.parse(JSON.stringify(styles)), pantryUnits: JSON.parse(JSON.stringify(units)), pantryUsuals: JSON.parse(JSON.stringify(usuals)), groceryList: groceryLoad(), pantryTheme: theme }; },
+    mergeRemote: function (remote) {
+      var r = (remote && Array.isArray(remote.pantry)) ? remote.pantry : [];
+      var byId = {};
+      pantry.forEach(function (s) { byId[s.id] = s; });
+      r.forEach(function (rs) {
+        if (!rs || !rs.id) return;
+        if (!byId[rs.id] || (rs.updatedAt || 0) > (byId[rs.id].updatedAt || 0)) byId[rs.id] = rs;
+      });
+      pantry = Object.keys(byId).map(function (k) { return byId[k]; });
+      if (remote.pantryStyles) { ["pantry", "fridge", "freezer"].forEach(function (k) { if (STYLES_OK[k].indexOf(remote.pantryStyles[k]) > -1) styles[k] = remote.pantryStyles[k]; }); saveStyles(false); }
+      if (remote.pantryUnits) { if (Array.isArray(remote.pantryUnits.fridge) && remote.pantryUnits.fridge.length) units.fridge = remote.pantryUnits.fridge.filter(Boolean); if (Array.isArray(remote.pantryUnits.freezer) && remote.pantryUnits.freezer.length) units.freezer = remote.pantryUnits.freezer.filter(Boolean); saveUnits(false); }
+      if (Array.isArray(remote.pantryUsuals)) { usuals = remote.pantryUsuals; try { localStorage.setItem("tydPantryUsuals", JSON.stringify(usuals)); } catch (e) {} }
+      if (Array.isArray(remote.groceryList)) {
+        var gg = remote.groceryList.slice(), gids = {};
+        gg.forEach(function (i) { if (i && i.id) gids[i.id] = 1; });
+        groceryLoad().forEach(function (i) { if (i && i.id && !gids[i.id]) gg.push(i); });
+        try { localStorage.setItem("tydGrocery", JSON.stringify(gg)); } catch (e) {}
+      }
+      save(); render();
+    },
+    onAuth: function () {}
+  };
+  /* v344: shelf-life suggestion. Shown, never applied on its own:
+     the member taps Use this date to accept it, or types another date. */
+  function updateSuggestion() {
+    var msg = document.getElementById("sf-suggest"), btn = document.getElementById("sf-usesuggest");
+    if (!msg || !btn) return;
+    var name = document.getElementById("sf-name").value.trim();
+    var got = document.getElementById("sf-got").value || todayStr();
+    var exp = document.getElementById("sf-expires").value;
+    var sug = (!exp && name) ? suggestExpiry(name, got) : "";
+    if (sug) {
+      var days = shelfLifeDays(name);
+      msg.textContent = "Typical shelf life for " + name + " is about " + days + " days, so use by " + fmtDate(sug) + ". ";
+      btn.hidden = false; btn.setAttribute("data-sug", sug);
+    } else { msg.textContent = ""; btn.hidden = true; }
+  }
+  document.getElementById("sf-name").addEventListener("input", updateSuggestion);
+  document.getElementById("sf-got").addEventListener("input", updateSuggestion);
+  document.getElementById("sf-expires").addEventListener("input", updateSuggestion);
+  document.getElementById("sf-usesuggest").addEventListener("click", function () {
+    var sug = this.getAttribute("data-sug");
+    if (sug) { document.getElementById("sf-expires").value = sug; updateSuggestion(); }
+  });
+  window.TYDExpiry = { shelfLifeDays: shelfLifeDays, suggestExpiry: suggestExpiry, daysUntilExpiry: daysUntilExpiry, remindDaysOf: remindDaysOf, remindLabel: remindLabel, expiryBadgeHtml: expiryBadgeHtml };
+  fillFormShelves();
+  formPhotoRender();
+  render();
+})();
+</script>
+
+<script type="module">
+(function () {
+  var cfg = { apiKey: "preview-disabled", authDomain: "pond-preview-disabled.firebaseapp.com", projectId: "pond-preview-disabled", storageBucket: "pond-preview-disabled.firebasestorage.app", messagingSenderId: "000000000000", appId: "1:000000000000:web:previewdisabled" };
+  Promise.all([
+    import("./pond-firebase-stub.js"),
+    import("./pond-firebase-stub.js"),
+    import("./pond-firebase-stub.js")
+  ]).then(function (mods) {
+    var app;
+    try { app = mods[0].getApp(); } catch (e) { app = mods[0].initializeApp(cfg); }
+    var auth = mods[1].getAuth(app);
+    var db = mods[2].getFirestore(app);
+    var F = mods[2];
+    var uid = null, ready = false, pushT = null;
+    window.TYDPageChanged = function () {
+      if (!uid || !ready || !window.TYDPage) return;
+      clearTimeout(pushT);
+      pushT = setTimeout(function () {
+        if (!uid || !window.TYDPage) return;
+        F.setDoc(F.doc(db, "users", uid), window.TYDPage.snapshot(), { merge: true }).catch(function () {});
+      }, 500);
+    };
+    mods[1].onAuthStateChanged(auth, function (user) {
+      var note = document.getElementById("sync-note");
+      if (!user) {
+        uid = null; ready = false;
+        if (window.TYDPage && window.TYDPage.onAuth) window.TYDPage.onAuth(null);
+        if (note) note.innerHTML = 'Saved on this device. <a href="account.html">Sign in to sync</a> it to your Pond Account.';
+        return;
+      }
+      uid = user.uid;
+      F.getDoc(F.doc(db, "users", uid)).then(function (snap) {
+        if (window.TYDPage) window.TYDPage.mergeRemote(snap.exists() ? snap.data() : {});
+        ready = true;
+        if (window.TYDPageChanged) window.TYDPageChanged();
+        if (window.TYDPage && window.TYDPage.onAuth) window.TYDPage.onAuth({ email: user.email || "" });
+        if (note) note.textContent = "Synced to your Pond Account, so your pantry follows you across your devices. 🦆";
+      }).catch(function () { ready = true; });
+    });
+  }).catch(function () {});
+})();
+</script>
+<script src="badwords.js"></script>
+<script src="site-nav.js?v=372"></script>
+<script src="pull-refresh.js?v=341"></script>
+<script src="pond-staging.js"></script>
+</body>
+</html>

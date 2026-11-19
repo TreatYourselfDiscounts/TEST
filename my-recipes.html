@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>My Stuff &mdash; Your saved recipes</title>
+<meta name="description" content="My Recipes at TreatYourselfDiscounts: your saved recipes, kept on your devices and in your Pond Account.">
+<meta property="og:title" content="My Stuff — Your saved recipes">
+<meta property="og:description" content="My Recipes at TreatYourselfDiscounts: your saved recipes, kept on your devices and in your Pond Account.">
+<meta property="og:image" content="/images/banners/baked-goods.jpg">
+<meta property="og:url" content="/my-recipes">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="My Stuff — Your saved recipes">
+<meta name="twitter:description" content="My Recipes at TreatYourselfDiscounts: your saved recipes, kept on your devices and in your Pond Account.">
+<meta name="twitter:image" content="/images/banners/baked-goods.jpg">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#ffd94d">
+<style>
+
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #d9f0f7; color: #23414d; }
+  .app { max-width: 760px; margin: 0 auto; min-height: 100vh; background: #bfe6f2; box-shadow: 0 0 24px rgba(35,65,77,.12); padding: 16px 16px 40px; }
+  a.back { color: #1f5f74; font-weight: 700; text-decoration: none; font-size: 14px; }
+  header.top { text-align: center; margin: 10px 0 4px; }
+  h1 { margin: 0; font-size: 30px; color: #1f5f74; }
+  .sub { margin: 6px 0 0; color: #3f6b7a; font-size: 15px; }
+  .card { background: #fff; border-radius: 18px; padding: 16px 18px; margin: 14px 0; box-shadow: 0 2px 8px rgba(35,65,77,.08); }
+  .card h2 { margin: 0 0 8px; font-size: 20px; color: #1f5f74; }
+  .card h3 { margin: 14px 0 6px; font-size: 15px; color: #1f5f74; }
+  .card p { margin: 6px 0; font-size: 14.5px; line-height: 1.5; }
+  .card ul, .card ol { margin: 6px 0 6px 18px; padding: 0; font-size: 14.5px; line-height: 1.55; }
+  .tag { display: inline-block; background: #fff3b0; color: #6b5900; font-weight: 700; font-size: 12px; border-radius: 999px; padding: 3px 10px; margin-bottom: 8px; }
+  footer { margin-top: 26px; text-align: center; }
+  .disc { font-size: 12px; color: #5b7d89; line-height: 1.5; max-width: 560px; margin: 10px auto 0; }
+  .photo { width: 100%; height: auto; border-radius: 12px; display: block; margin: 4px 0 12px; }
+  .meta { font-weight: 700; color: #1f5f74; font-size: 13.5px; }
+  .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+  .actbtn { border: 2px solid #1f5f74; background: #fff; color: #1f5f74; font-family: inherit; font-weight: 700; font-size: 13.5px; border-radius: 999px; padding: 8px 14px; cursor: pointer; transition: transform .2s ease, background .2s ease, color .2s ease; }
+  .actbtn:hover { transform: translateY(-2px); }
+  .actbtn.saved { background: #1f5f74; color: #fff; }
+  .savedbar { display: none; background: #fff8d6; border: 1.5px solid #e8d06a; border-radius: 14px; padding: 10px 14px; margin: 14px 0 0; font-size: 14px; }
+  .savedbar.show { display: block; }
+  .savedbar b { color: #6b5900; }
+  .savedbar a { color: #1f5f74; font-weight: 700; margin-right: 10px; }
+  .note { font-size: 13px; color: #3f6b7a; max-width: 560px; margin: 10px auto 0; line-height: 1.5; }
+  .toolbar { background: #fff; border-radius: 18px; padding: 14px; margin: 14px 0 4px; box-shadow: 0 2px 8px rgba(35,65,77,.08); }
+  .toolbar input { width: 100%; border: 2px solid #bcd9e4; border-radius: 12px; padding: 11px 12px; font-size: 15.5px; font-family: inherit; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .chipbtn { border: 2px solid #bcd9e4; background: #eaf7fb; color: #1f5f74; font-family: inherit; font-weight: 700; font-size: 12.5px; border-radius: 999px; padding: 6px 11px; cursor: pointer; }
+  .chipbtn.active { background: #1f5f74; color: #fff; border-color: #1f5f74; }
+  .rcount { font-size: 13px; color: #3f6b7a; margin: 8px 2px 0; font-weight: 700; }
+  .recipe-card.hide { display: none; }
+  .nomatch { display: none; background: #fff; border-radius: 18px; padding: 18px; margin: 14px 0; text-align: center; color: #3f6b7a; font-size: 15px; }
+  .nomatch.show { display: block; }
+  @media print {
+    body { background: #fff; }
+    .app { box-shadow: none; background: #fff; }
+    a.back, .savedbar, .actions, .note, .toolbar, .rcount { display: none !important; }
+    .card { display: none; box-shadow: none; border: 1px solid #ccc; }
+    .card.printing { display: block; }
+  }
+
+  #syncnote { display: none; }
+  .mystuff-empty { font-size: 15px; }
+  /* Saved-recipes carousel, same look as the cookbook shelves. */
+  .ctrack{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px 2px 10px;align-items:flex-start;}
+  .tile{flex:0 0 118px;scroll-snap-align:center;background:#fff;border:2px solid #bcd9e4;border-radius:12px;padding:0;overflow:hidden;cursor:pointer;font-family:inherit;text-align:left;position:relative;}
+  .tile .timg{display:block;height:80px;background-color:#eaf7fb;background-position:center;background-size:cover;background-repeat:no-repeat;}
+  .tile .timg.temoji{display:flex;align-items:center;justify-content:center;font-size:30px;}
+  .tile .tname{display:block;padding:6px 8px 8px;font-size:12.5px;font-weight:800;color:#1f5f74;line-height:1.3;}
+  .tile.picked{outline:4px solid #ffd94d;outline-offset:2px;}
+  .tile .tx{position:absolute;top:4px;right:4px;width:24px;height:24px;border-radius:50%;border:2px solid #bcd9e4;background:#fff;color:#8c2b2b;font-weight:900;font-size:13px;line-height:20px;text-align:center;cursor:pointer;font-family:inherit;}
+  .tile .draghandle{position:absolute;top:4px;left:4px;width:34px;height:34px;border-radius:50%;border:2px solid #bcd9e4;background:rgba(255,255,255,.92);color:#1f5f74;font-size:15px;cursor:grab;line-height:30px;text-align:center;touch-action:none;z-index:5;font-family:inherit;}
+  .tile .draghandle:active{cursor:grabbing;}
+  .tile.dragging{opacity:.55;box-shadow:0 12px 28px rgba(35,65,77,.28);pointer-events:none;}
+  .plctrls{display:flex;gap:6px;flex:none;margin:10px 0 4px;}
+  .plbtn{width:36px;height:36px;border-radius:50%;border:2px solid #bcd9e4;background:#eaf7fb;color:#1f5f74;font-size:19px;font-weight:900;cursor:pointer;font-family:inherit;line-height:1;}
+  .plspin{height:36px;border-radius:999px;border:2px solid #e3c93f;background:#ffd94d;color:#6b5900;font-size:13.5px;font-weight:900;cursor:pointer;font-family:inherit;padding:0 13px;}
+  .plspin:disabled{opacity:.55;cursor:default;}
+  .plpick{background:#fff3b0;border:2px solid #ffd94d;color:#6b5900;border-radius:10px;padding:8px 12px;font-size:14.5px;margin:6px 0 2px;cursor:pointer;}
+  .mscount{font-size:13px;color:#3f6b7a;margin:8px 2px 0;font-weight:700;}
+</style>
+<meta name="robots" content="noindex,nofollow">
+<link rel="stylesheet" href="pond-travel.css">
+<script>window.__TYD_PREVIEW__=true;</script>
+</head>
+<body>
+<div class="app">
+  <a class="back" href="recipes.html">&larr; Back to the cookbook</a>
+  <header class="top">
+    <h1>&#12953; My Stuff</h1>
+    <p class="sub">Your saved recipes, small and easy to flip through. Tap one to open it, or hit Spin and let it choose.</p>
+  </header>
+  <p id="syncnote" class="note"></p>
+  <div class="plctrls">
+    <button type="button" class="plbtn" id="ms-prev" aria-label="Previous recipe">&lsaquo;</button>
+    <button type="button" class="plbtn" id="ms-next" aria-label="Next recipe">&rsaquo;</button>
+    <button type="button" class="plspin" id="ms-spin">&#127880; Spin</button>
+  </div>
+  <div class="plpick" id="ms-pick" style="display:none;"></div>
+  <div id="ms-resetwrap" style="display:none; text-align:right; margin:6px 0 0;"><button type="button" class="actbtn" id="ms-reset">&#8635; Reset to default order</button></div>
+  <div class="ctrack" id="mystuff-list"></div>
+  <p class="mscount" id="ms-count"></p>
+  <footer>
+    <p class="disc">Part of TreatYourselfDiscounts, the Pond. Welcome to the Pond!<br><a id="footacct" href="account.html" style="color:#1f5f74; font-weight:700;">Your Pond Account: sign up or log in</a></p>
+  <p style="text-align:center;font-size:12.5px;color:#4a6b78">&copy; 2026 TreatYourselfDiscounts&trade;. All rights reserved. &middot; <a href="terms.html">Terms of Use</a></p></footer>
+</div>
+<script>
+/* My Stuff: your saved recipes as a small carousel with Spin, just like
+   the cookbook shelves. The cookbook itself lives in recipes.html, so this
+   page fetches it once, then builds a tile for each saved recipe. */
+(function () {
+  var KEY = "tydSavedRecipes";
+  function getSaved() {
+    try { return JSON.parse(localStorage.getItem(KEY) || "[]"); } catch (e) { return []; }
+  }
+  function setSaved(list) {
+    try { localStorage.setItem(KEY, JSON.stringify(list)); } catch (e) {}
+    if (window.TYDSync) window.TYDSync.push(list);
+  }
+  window.TYDGetSaved = getSaved;
+  window.TYDSetSaved = function (list) { setSaved(list); render(); };
+
+  var cachedDoc = null;
+  var tiles = [];
+  var ordById = {};
+  var cookbookOrder = {};
+  var msDrag = null, msDragEnd = 0;
+  function updateResetBtn() {
+    var wrap = document.getElementById("ms-resetwrap");
+    if (wrap) wrap.style.display = tiles.length > 1 ? "block" : "none";
+  }
+  function loadCookbook(cb) {
+    if (cachedDoc) return cb(cachedDoc);
+    fetch("recipes.html").then(function (r) { return r.text(); }).then(function (html) {
+      cachedDoc = new DOMParser().parseFromString(html, "text/html");
+      cachedDoc.querySelectorAll(".recipe-card").forEach(function (el, i) { if (el.id) cookbookOrder[el.id] = i; });
+      cb(cachedDoc);
+    }).catch(function () {
+      document.getElementById("mystuff-list").innerHTML = '<p class="note">Could not load the cookbook right now. Tap Refresh and try again.</p>';
+    });
+  }
+  function tileFor(doc, id) {
+    var orig = doc.getElementById(id);
+    if (!orig) return null;
+    var name = orig.querySelector("h2") ? orig.querySelector("h2").textContent : id;
+    var img = orig.querySelector("img.photo");
+    var src = img ? img.getAttribute("src") : "";
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "tile"; b.setAttribute("data-id", id);
+    var imgHtml = src
+      ? '<span class="timg" style="background-image:url(\'' + src.replace(/'/g, "%27") + '\')"></span>'
+      : '<span class="timg temoji">&#127860;</span>';
+    b.innerHTML = imgHtml + '<span class="draghandle" data-drag="' + id + '" title="Drag to move" aria-label="Drag to move this recipe">⋮⋮</span><span class="tname"></span><span class="tx" data-unsave="' + id + '" title="Remove from My Stuff">&times;</span>';
+    b.querySelector(".tname").textContent = name;
+    return b;
+  }
+  function render() {
+    var saved = getSaved();
+    var list = document.getElementById("mystuff-list");
+    var pick = document.getElementById("ms-pick");
+    var count = document.getElementById("ms-count");
+    pick.style.display = "none";
+    tiles = [];
+    if (!saved.length) {
+      list.innerHTML = '<p class="note mystuff-empty">Nothing saved yet. Tap \u201c🔖 Save recipe\u201d on any recipe in the cookbook and it will show up here.</p>';
+      count.textContent = "";
+      updateResetBtn();
+      return;
+    }
+    list.innerHTML = '<p class="note">Loading your saved recipes\u2026</p>';
+    count.textContent = saved.length + (saved.length === 1 ? " saved recipe" : " saved recipes");
+    loadCookbook(function (doc) {
+      list.innerHTML = "";
+      tiles = [];
+      saved.forEach(function (id, i) { if (ordById[id] == null) ordById[id] = (i + 1) * 10; });
+      var ordered = saved.slice().sort(function (a, b) { return (ordById[a] || 0) - (ordById[b] || 0); });
+      ordered.forEach(function (id) {
+        var t = tileFor(doc, id);
+        if (!t) return;
+        list.appendChild(t);
+        tiles.push(t);
+      });
+      if (!tiles.length) {
+        list.innerHTML = '<p class="note">Those saved recipes are no longer in the cookbook.</p>';
+      }
+      updateResetBtn();
+    });
+  }
+  /* Reset to the default order, which is cookbook order, the order the
+     recipes appear in recipes.html. That order is stable on every device,
+     so Reset always lands in the same place. Saved ids that are no longer
+     in the cookbook keep their relative order at the end. */
+  function resetMsOrder() {
+    var saved = getSaved();
+    var ordered = saved.slice().sort(function (a, b) {
+      var ai = cookbookOrder[a], bi = cookbookOrder[b];
+      if (ai == null) ai = 100000;
+      if (bi == null) bi = 100000;
+      return ai - bi;
+    });
+    ordById = {};
+    ordered.forEach(function (id, i) { ordById[id] = (i + 1) * 10; });
+    setSaved(ordered);
+    render();
+  }
+  function step(dir) {
+    if (!tiles.length) return;
+    var track = document.getElementById("mystuff-list");
+    track.scrollBy({ left: dir * 260, behavior: "smooth" });
+  }
+  function spin() {
+    if (!tiles.length) return;
+    var btn = document.getElementById("ms-spin");
+    var pick = document.getElementById("ms-pick");
+    btn.disabled = true; btn.textContent = "Spinning\u2026";
+    var n = 0, target = Math.floor(Math.random() * tiles.length);
+    var iv = setInterval(function () {
+      tiles.forEach(function (t) { t.classList.remove("picked"); });
+      var cur = tiles[n % tiles.length];
+      cur.classList.add("picked");
+      cur.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+      n++;
+      if (n > 10 + target) {
+        clearInterval(iv);
+        tiles.forEach(function (t) { t.classList.remove("picked"); });
+        var win = tiles[target];
+        win.classList.add("picked");
+        win.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+        var name = win.querySelector(".tname").textContent;
+        pick.style.display = "block";
+        pick.textContent = "You got: " + name + " \u2014 tap to open it.";
+        pick.onclick = function () { location.href = "recipes.html#" + win.getAttribute("data-id"); };
+        btn.disabled = false; btn.textContent = "🎰 Spin";
+      }
+    }, 90);
+  }
+  document.getElementById("ms-prev").addEventListener("click", function () { step(-1); });
+  document.getElementById("ms-next").addEventListener("click", function () { step(1); });
+  document.getElementById("ms-spin").addEventListener("click", spin);
+  document.getElementById("mystuff-list").addEventListener("click", function (ev) {
+    if (Date.now() - msDragEnd < 400) return;
+    var g = ev.target.closest ? ev.target.closest(".draghandle") : null;
+    if (g) return;
+    var x = ev.target.closest ? ev.target.closest("[data-unsave]") : null;
+    if (x) {
+      ev.stopPropagation();
+      var id = x.getAttribute("data-unsave");
+      var cur = getSaved();
+      var k = cur.indexOf(id);
+      if (k !== -1) cur.splice(k, 1);
+      delete ordById[id];
+      setSaved(cur);
+      render();
+      return;
+    }
+    var tile = ev.target.closest ? ev.target.closest(".tile") : null;
+    if (tile) location.href = "recipes.html#" + tile.getAttribute("data-id");
+  });
+  document.getElementById("ms-reset").addEventListener("click", function () {
+    if (Date.now() - msDragEnd < 400) return;
+    resetMsOrder();
+  });
+
+  /* ---------- drag to reorder saved recipes ---------- */
+  /* Press the ⋮⋮ grip on a tile and drag it to a new spot.
+     Pointer events, so it works with touch on the phone as well as a mouse.
+     A plain tap on the grip does nothing; a tap anywhere else still works.
+     The carousel runs left to right, so the drop side is the left or right
+     half of the tile under the pointer, the horizontal version of the
+     top half and bottom half rule used for the trip cards in travel.html. */
+  function msTileAt(x, y) {
+    var el = document.elementFromPoint(x, y);
+    var tile = el && el.closest ? el.closest(".tile") : null;
+    if (!tile || (msDrag && tile === msDrag.tile)) return null;
+    return tile;
+  }
+  document.addEventListener("pointerdown", function (e) {
+    var h = e.target && e.target.closest ? e.target.closest(".draghandle") : null;
+    if (!h) return;
+    if (e.button != null && e.button > 0) return;
+    var tile = h.closest(".tile");
+    if (!tile) return;
+    msDrag = { id: h.getAttribute("data-drag"), tile: tile, sx: e.clientX, sy: e.clientY, active: false };
+  });
+  document.addEventListener("pointermove", function (e) {
+    if (!msDrag) return;
+    if (!msDrag.active) {
+      if (Math.hypot(e.clientX - msDrag.sx, e.clientY - msDrag.sy) < 9) return;
+      msDrag.active = true;
+      msDrag.tile.classList.add("dragging");
+    }
+    e.preventDefault();
+    var over = msTileAt(e.clientX, e.clientY);
+    if (over) {
+      var r = over.getBoundingClientRect();
+      var before = (e.clientX - r.left) < r.width / 2;
+      var parent = over.parentNode;
+      if (before) parent.insertBefore(msDrag.tile, over);
+      else parent.insertBefore(msDrag.tile, over.nextSibling);
+    }
+  }, { passive: false });
+  document.addEventListener("pointerup", function (e) {
+    if (!msDrag) return;
+    var d = msDrag; msDrag = null;
+    if (!d.active) return;
+    d.tile.classList.remove("dragging");
+    msDragEnd = Date.now();
+    var list = d.tile.parentNode;
+    if (!list) return;
+    var ids = [];
+    list.querySelectorAll(".tile").forEach(function (t) { var tid = t.getAttribute("data-id"); if (tid) ids.push(tid); });
+    ordById = {};
+    ids.forEach(function (tid, i) { ordById[tid] = (i + 1) * 10; });
+    setSaved(ids);
+    tiles = Array.prototype.slice.call(list.querySelectorAll(".tile"));
+    updateResetBtn();
+  });
+  document.addEventListener("pointercancel", function (e) {
+    if (!msDrag) return;
+    var d = msDrag; msDrag = null;
+    if (!d.active) return;
+    d.tile.classList.remove("dragging");
+  });
+  render();
+})();
+</script>
+<script type="module">
+import { initializeApp } from "./pond-firebase-stub.js";
+import { getAuth, onAuthStateChanged } from "./pond-firebase-stub.js";
+import { getFirestore, doc, getDoc, setDoc } from "./pond-firebase-stub.js";
+var firebaseConfig = {
+    apiKey: "preview-disabled",
+    authDomain: "pond-preview-disabled.firebaseapp.com",
+    projectId: "pond-preview-disabled",
+    storageBucket: "pond-preview-disabled.firebasestorage.app",
+    messagingSenderId: "000000000000",
+    appId: "1:000000000000:web:previewdisabled"
+  };
+var app = initializeApp(firebaseConfig);
+var auth = getAuth(app);
+var db = getFirestore(app);
+var currentUser = null;
+window.TYDSync = {
+  push: function (list) {
+    if (!currentUser) return;
+    setDoc(doc(db, "users", currentUser.uid), { savedRecipes: list }, { merge: true }).catch(function () {});
+  }
+};
+onAuthStateChanged(auth, function (user) {
+  currentUser = user;
+  var note = document.getElementById("syncnote");
+  if (!user) { if (note) note.style.display = "none"; return; }
+  if (note) {
+    note.style.display = "block";
+    note.textContent = "You are logged in as " + user.email + ", so your saved recipes sync to your Pond account on any device.";
+  }
+  getDoc(doc(db, "users", user.uid)).then(function (snap) {
+    var remote = (snap.exists() && snap.data().savedRecipes) || [];
+    var local = window.TYDGetSaved ? window.TYDGetSaved() : [];
+    var merged = remote.slice();
+    local.forEach(function (id) { if (merged.indexOf(id) === -1) merged.push(id); });
+    if (window.TYDSetSaved) window.TYDSetSaved(merged);
+  }).catch(function () {});
+});
+</script>
+<script src="site-nav.js?v=372"></script>
+<script src="pull-refresh.js?v=341"></script>
+<script type="module" src="auth-pill.js"></script>
+<script src="pond-staging.js"></script>
+</body>
+</html>

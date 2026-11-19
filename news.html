@@ -1,30 +1,1516 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The Pond Post — Today&#x27;s news | TreatYourselfDiscounts</title>
-<meta name="description" content="Today&#x27;s news, Pond-style. Sunday, November 15, 2026.">
-<link rel="stylesheet" href="style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>The Pond Post — Today's news</title>
+<meta name="description" content="The Pond Post at TreatYourselfDiscounts: today's verified deals and news from the Pond, refreshed every morning.">
+<meta property="og:title" content="The Pond Post — Today's news">
+<meta property="og:description" content="The Pond Post at TreatYourselfDiscounts: today's verified deals and news from the Pond, refreshed every morning.">
+<meta property="og:image" content="/icon-512.png">
+<meta property="og:url" content="/news">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Pond Post — Today's news">
+<meta name="twitter:description" content="The Pond Post at TreatYourselfDiscounts: today's verified deals and news from the Pond, refreshed every morning.">
+<meta name="twitter:image" content="/icon-512.png">
+<style>
+  body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: transparent; color: #23414d; }
+  .wrap { max-width: 430px; margin: 0 auto; min-height: 100vh; background: #bfe6f2; box-shadow: 0 0 24px rgba(35,65,77,.12); padding: 16px 16px 40px; }
+  .back { margin: 4px 0 10px; font-size: 14px; }
+  .back a { color: #1f5f74; text-decoration: none; font-weight: 700; }
+  .head { text-align: center; margin: 6px 0 4px; }
+  .head .duck { width: 76px; height: 76px; border-radius: 50%; border: 3px solid #ffd94d; background: #ffd94d; object-fit: cover; }
+  .head h1 { font-size: 26px; margin: 6px 0 2px; color: #23414d; }
+  .head p { margin: 0; color: #4a6b78; font-size: 14px; }
+  .dateline { text-align: center; font-size: 13px; color: #4a6b78; margin: 10px 0 16px; }
+  .testnote { background: #fff8d6; border: 2px solid #ffe066; border-radius: 12px; padding: 10px 12px; font-size: 13.5px; margin: 0 0 16px; }
+  h2 { font-size: 19px; margin: 20px 0 8px; color: #23414d; }
+  .card { background: #fff; border-radius: 14px; padding: 12px 14px; margin: 0 0 10px; border: 1px solid #d7e9f0; }
+  .card h3 { margin: 0 0 4px; font-size: 15.5px; color: #23414d; }
+  .card p { margin: 0; font-size: 14px; line-height: 1.45; color: #33565f; }
+  .card .src { margin-top: 6px; font-size: 12.5px; }
+  .card .src a { color: #1f5f74; font-weight: 700; }
+  .card.featured { border: 2px solid #ffd94d; }
+  .feat { display: inline-block; background: #ffd94d; color: #23414d; font-size: 11.5px; font-weight: 700; border-radius: 20px; padding: 2px 8px; margin-bottom: 6px; }
+  .card .actions { margin-top: 8px; display: flex; gap: 8px; flex-wrap: wrap; }
+  .card .actions button, .card .actions a { font-size: 12.5px; font-weight: 700; border: 1px solid #9fc6d4; background: #eaf6fa; color: #1f5f74; border-radius: 20px; padding: 5px 10px; cursor: pointer; text-decoration: none; }
+  .card .actions button.clipped { background: #ffd94d; border-color: #e6b800; }
+  .tabs { display: flex; gap: 6px; flex-wrap: wrap; margin: 0 0 14px; }
+  .tabs button { font-size: 13px; font-weight: 700; border: 1px solid #9fc6d4; background: #fff; color: #1f5f74; border-radius: 20px; padding: 6px 11px; cursor: pointer; }
+  .tabs button.on { background: #1f5f74; color: #fff; border-color: #1f5f74; }
+  .view { display: none; }
+  .view.on { display: block; }
+  .sources { margin-top: 6px; }
+  .sources ul { margin: 0; padding-left: 18px; font-size: 13.5px; line-height: 1.6; }
+  .sources a { color: #1f5f74; }
+  .pastlist { list-style: none; margin: 0; padding: 0; }
+  .pastlist li { background: #fff; border: 1px solid #d7e9f0; border-radius: 12px; padding: 10px 12px; margin: 0 0 8px; font-size: 14px; }
+  .pastlist a { color: #1f5f74; font-weight: 700; }
+  .sumline { background: #fff; border: 1px solid #d7e9f0; border-radius: 12px; padding: 10px 12px; margin: 0 0 8px; font-size: 14px; line-height: 1.45; }
+  .sumline b { color: #1f5f74; }
+  /* History calendar (Past Posts) + summary range buttons (Lucy, Nov 15, 2026). */
+  .sumrange { display: flex; gap: 6px; flex-wrap: wrap; margin: 0 0 12px; }
+  .sumrange button { font-size: 13px; font-weight: 700; border: 1px solid #9fc6d4; background: #fff; color: #1f5f74; border-radius: 20px; padding: 6px 12px; cursor: pointer; }
+  .sumrange button.on { background: #1f5f74; color: #fff; border-color: #1f5f74; }
+  .sumday { font-size: 14px; font-weight: 700; color: #1f5f74; margin: 14px 0 6px; }
+  .sumday:first-of-type { margin-top: 0; }
+  .pastcal { background: #fff; border: 1px solid #d7e9f0; border-radius: 12px; padding: 10px 12px; margin: 0 0 14px; }
+  .pastcal .calhead { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+  .pastcal .calhead b { font-size: 15px; color: #1f5f74; }
+  .pastcal .calhead button { font-size: 13px; font-weight: 700; border: 1px solid #9fc6d4; background: #eaf6fa; color: #1f5f74; border-radius: 16px; padding: 4px 10px; cursor: pointer; }
+  .pastcal table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+  .pastcal th { font-size: 11.5px; color: #4a6b78; padding: 3px 0; font-weight: 700; }
+  .pastcal td { text-align: center; padding: 2px; font-size: 14px; }
+  .pastcal td a { display: block; background: #ffd94d; color: #23414d; font-weight: 700; border-radius: 8px; padding: 5px 0; text-decoration: none; }
+  .pastcal td span { display: block; color: #9db8c2; padding: 5px 0; }
+  .pastcal td.today a, .pastcal td.today span { outline: 2px solid #1f5f74; outline-offset: -2px; border-radius: 8px; }
+  .pastcal .calnote { font-size: 12.5px; color: #4a6b78; margin: 8px 0 0; }
+  .empty { background: #fff; border: 1px dashed #9fc6d4; border-radius: 12px; padding: 14px; font-size: 14px; color: #4a6b78; }
+  .clipitem { background: #fff; border: 1px solid #d7e9f0; border-radius: 12px; padding: 10px 12px; margin: 0 0 8px; }
+  .clipitem h3 { margin: 0 0 4px; font-size: 15px; }
+  .clipitem p { margin: 0; font-size: 13.5px; line-height: 1.45; color: #33565f; }
+  .clipitem .meta { font-size: 12px; color: #4a6b78; margin-top: 6px; }
+  .clipitem .meta a { color: #1f5f74; font-weight: 700; }
+  .clipitem button { margin-top: 8px; font-size: 12.5px; font-weight: 700; border: 1px solid #9fc6d4; background: #eaf6fa; color: #1f5f74; border-radius: 20px; padding: 5px 10px; cursor: pointer; }
+  .cmt { margin-top: 14px; border-top: 2px solid #9fc6d4; padding-top: 8px; }
+  .cmt h3 { font-size: 15px; margin: 0 0 8px; }
+  /* Front page only: hide the comment sections. The hub is a newspaper
+     front page (top stories only); comments live on each category page.
+     (Lucy, Nov 15, 2026) */
+  html.tyd-news-hub .newssec .cmt { display: none !important; }
+  html.tyd-news-hub .newssec .cmtform { display: none !important; }
+  html.tyd-news-hub [data-tab="comments"] { display: none !important; }
+  /* Hub: no live box. The live Stocks feed lives on the Stocks page;
+     the front page is the daily edition's top stories. (Lucy, Nov 15, 2026) */
+  html.tyd-news-hub #livebox { display: none !important; }
+  .cmtlist { margin: 0 0 8px; }
+  .cmtone { background: #fff; border: 1px solid #d7e9f0; border-radius: 10px; padding: 8px 10px; margin: 0 0 6px; font-size: 13.5px; line-height: 1.45; }
+  .cmtone .who { font-size: 12px; color: #1f5f74; font-weight: 700; }
+  .cmtone .when { font-size: 11.5px; color: #4a6b78; font-weight: 400; }
+  .cmtone button { float: right; border: none; background: none; color: #b00; font-size: 12px; cursor: pointer; }
+  .cmtform textarea { width: 100%; box-sizing: border-box; border: 1px solid #9fc6d4; border-radius: 10px; padding: 8px 10px; font-size: 14px; font-family: inherit; resize: vertical; min-height: 54px; }
+  .cmtform button { margin-top: 6px; font-size: 13px; font-weight: 700; border: none; background: #1f5f74; color: #fff; border-radius: 20px; padding: 7px 14px; cursor: pointer; }
+  .cmtform .signin { font-size: 13px; color: #4a6b78; }
+  .cmtform .signin a { color: #1f5f74; font-weight: 700; }
+  .syncnote { font-size: 12.5px; color: #4a6b78; margin: 10px 0 0; }
+  /* The "Want to know when a new post is up?" hint must always show in
+     full: force normal wrapping so no shared rule can ever clamp or
+     ellipsis it (Lucy, Nov 15, 2026, v295). */
+  .notifyhint { white-space: normal !important; overflow: visible !important; text-overflow: clip !important; max-height: none !important; -webkit-line-clamp: none !important; }
+  .reacts { margin-top: 6px; display: flex; gap: 5px; flex-wrap: wrap; }
+  .reacts button { font-size: 13px; border: 1px solid #cfe3ea; background: #f2fafd; color: #23414d; border-radius: 16px; padding: 2px 8px; cursor: pointer; }
+  .reacts button.mine { background: #ffd94d; border-color: #e6b800; font-weight: 700; }
+  .reacts button .rc { font-size: 11.5px; color: #4a6b78; }
+  .arrrow { display: flex; align-items: center; gap: 8px; padding: 6px 0; border-top: 1px solid #d7e9f0; }
+  .arrrow:first-child { border-top: none; }
+  .arrrow .nm { flex: 1; font-weight: 700; }
+  .arrrow button { font-size: 13px; border: 1px solid #9fc6d4; background: #eaf6fa; color: #1f5f74; border-radius: 16px; padding: 4px 9px; cursor: pointer; }
+  .arrrow button.off { background: #fff; color: #4a6b78; }
+  .foot { text-align: center; font-size: 12.5px; color: #4a6b78; margin-top: 22px; }
+  html[data-theme="dark"] .wrap { background: var(--tyd-acc-dark, #172635); }
+  html[data-theme="dark"] body { background: #0b141f; color: #f8fdff; }
+  html[data-theme="dark"] .head h1, html[data-theme="dark"] h2, html[data-theme="dark"] .card h3, html[data-theme="dark"] .cmt h3, html[data-theme="dark"] .clipitem h3 { color: #f8fdff; }
+  html[data-theme="dark"] .head p, html[data-theme="dark"] .dateline, html[data-theme="dark"] .foot, html[data-theme="dark"] .syncnote { color: #b9d2de; }
+  html[data-theme="dark"] #sharecopy, html[data-theme="dark"] #sharepond, html[data-theme="dark"] #shareoutside, html[data-theme="dark"] #arrangereset, html[data-theme="dark"] #live-refresh, html[data-theme="dark"] #live-refresh:disabled { color: #1f5f74 !important; background: #eaf6fa !important; }
+  html[data-theme="dark"] #sharepanel, html[data-theme="dark"] #arrangepanel { background: var(--tyd-acc-dark, #172635) !important; border-color: #2e4a5f !important; }
+  html[data-theme="dark"] .card, html[data-theme="dark"] .pastlist li, html[data-theme="dark"] .sumline, html[data-theme="dark"] .clipitem, html[data-theme="dark"] .cmtone { background: #1e3245; border-color: #2e4a5f; }
+  html[data-theme="dark"] .card p, html[data-theme="dark"] .clipitem p { color: #dceef6; }
+  html[data-theme="dark"] .testnote { background: #3a3220; border-color: #8a7a2e; color: #f8fdff; }
+  html[data-theme="dark"] .tabs button { background: #1e3245; border-color: #2e4a5f; color: #dceef6; }
+  html[data-theme="dark"] .tabs button.on { background: #ffd94d; color: #23414d; border-color: #ffd94d; }
+  html[data-theme="dark"] .sumrange button { background: #1e3245; border-color: #2e4a5f; color: #dceef6; }
+  html[data-theme="dark"] .sumrange button.on { background: #ffd94d; color: #23414d; border-color: #ffd94d; }
+  html[data-theme="dark"] .sumday { color: #c9f0fc; }
+  html[data-theme="dark"] .pastcal { background: #1e3245; border-color: #2e4a5f; }
+  html[data-theme="dark"] .pastcal .calhead b { color: #c9f0fc; }
+  html[data-theme="dark"] .pastcal .calhead button { background: #2e4a5f; border-color: #2e4a5f; color: #dceef6; }
+  html[data-theme="dark"] .pastcal th { color: #b9d2de; }
+  html[data-theme="dark"] .pastcal td a { background: #ffd94d; color: #23414d; }
+  html[data-theme="dark"] .pastcal td span { color: #5f7d8c; }
+  html[data-theme="dark"] .pastcal .calnote { color: #b9d2de; }
+  html[data-theme="dark"] .cmt { border-color: #2e4a5f; }
+  html[data-theme="dark"] .cmtform textarea { background: #1e3245; border-color: #2e4a5f; color: #f8fdff; }
+  html[data-theme="dark"] .empty { background: #1e3245; border-color: #2e4a5f; color: #b9d2de; }
+</style>
+<meta name="robots" content="noindex,nofollow">
+<link rel="stylesheet" href="pond-travel.css">
+<script>window.__TYD_PREVIEW__=true;</script>
 </head>
-<body data-page="news" id="top">
-<header class="site-header"><div class="header-inner"><a class="brand" href="index.html">TreatYourselfDiscounts<small>Welcome to the Pond!</small></a><button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="main-nav-list">Menu</button><nav class="main-nav" aria-label="Main navigation"><ul id="main-nav-list"><li><a href="index.html">Home</a></li><li><a href="deals.html">Today's Deals</a></li><li><a href="recipes.html">Lucy's Recipes</a></li><li><a href="korean.html">Korean Corner</a></li><li><a href="travel.html">Travel</a></li><li><a href="planner.html">Planner</a></li><li><a href="books.html">Book Nook</a></li><li><a href="pantry.html">Pantry</a></li><li><a href="countdowns.html">Countdowns</a></li><li><a href="news.html" aria-current="page">Pond Post</a></li><li><a href="about.html">About</a></li><li><a href="search.html">Search</a></li></ul></nav></div></header>
-<main class="wrap">
-<h1>The Pond Post</h1>
-<p>Today's news, Pond-style. Sunday, November 15, 2026.</p>
-<section id="news-article" class="card" aria-live="polite"><h2>Today's headlines</h2><p>Choose a story below to read the full article here.</p></section>
-<ul class="plain-list" id="news-list"></ul>
-<p class="muted">Did you know? The Pond Post is written by a duck. A very smart duck.</p>
+<body>
+<div class="wrap">
+  <div class="head">
+    <img class="duck" src="images/corners/duck-news.jpg" onerror="this.onerror=null;this.src='icon-512.png';" alt="The Pond Post news duck">
+    <h1>The Pond Post</h1>
+    <p>Today&rsquo;s news, straight up. No nonsense, just what happened.</p>
+    <p style="margin:6px 0 0;font-size:13px;color:#4a6b78;">No bias, just what happened. If a story has two sides, both go in.</p>
+  </div>
+  <p class="dateline">Sunday, November 15, 2026</p>
+  <div class="testnote"><strong>Preview edition.</strong> A small morning scan while we try out the daily Pond Post. The full daily scan starts Tuesday, November 17.</div>
 
-</main>
-<footer class="site-footer"><div class="footer-inner">
-<p><strong>TreatYourselfDiscounts</strong> — Feather your nest, happy hunting!</p>
-<ul>
-<li><a href="about.html">About the Pond</a></li><li><a href="deals.html">Today's Deals</a></li><li><a href="recipes.html">Lucy's Recipes</a></li><li><a href="korean.html">Korean Corner</a></li><li><a href="travel.html">Travel</a></li><li><a href="planner.html">Planner</a></li><li><a href="books.html">Book Nook</a></li><li><a href="pantry.html">Pantry</a></li><li><a href="countdowns.html">Countdowns</a></li><li><a href="news.html">Pond Post</a></li><li><a href="search.html">Search the Pond</a></li>
-</ul>
-<p>Some links on this page are affiliate links. If you shop through them, I may earn a small commission. It never costs you extra, and it keeps the Pond swimming.</p>
-<p>© 2026 TreatYourselfDiscounts™. All rights reserved.</p>
-</div></footer>
-<script src="app.js"></script>
+  <div class="tabs" id="newstabs">
+    <button type="button" data-tab="today" class="on">Today</button>
+    <button type="button" data-tab="past">Past Posts</button>
+    <button type="button" data-tab="summaries">Summaries</button>
+    <button type="button" data-tab="links">Links</button>
+    <button type="button" data-tab="clipped">📌 Clipped <span id="clipcount"></span></button>
+    <button type="button" data-tab="comments">Comments <span id="cmtcount"></span></button>
+  </div>
+
+  <div class="view on" id="view-today">
+  <p><button type="button" id="arrangebtn" style="font-size:13px;font-weight:700;border:1px solid #9fc6d4;background:#fff;color:#1f5f74;border-radius:20px;padding:6px 12px;cursor:pointer;">✏️ Arrange the news</button> <button type="button" id="sharebtn" style="font-size:13px;font-weight:700;border:1px solid #9fc6d4;background:#fff;color:#1f5f74;border-radius:20px;padding:6px 12px;cursor:pointer;">🔗 Share this post</button></p>
+  <p class="notifyhint" style="font-size:13px;color:#4a6b78;margin:0 0 12px;">🔔 Want to know when a new post is up? Tap <b>Arrange the news</b> above, then tap <b>Notify</b> on the sections you want. The bell at the top will tell you when a new Pond Post is up for them.</p>
+  <div id="sharepanel" style="display:none;background:#fff;border:1px solid #9fc6d4;border-radius:12px;padding:10px 12px;margin:0 0 12px;font-size:14px;">
+    <b>Share today's Pond Post</b>
+    <p style="margin:6px 0 8px;color:#4a6b78;font-size:13px;">Send it to the Pond, or to anyone outside it. The post is a public page, so the link works for everybody.</p>
+    <p style="margin:0;display:flex;gap:8px;flex-wrap:wrap;">
+      <button type="button" id="sharecopy" style="font-size:13px;font-weight:700;border:1px solid #9fc6d4;background:#eaf6fa;color:#1f5f74;border-radius:20px;padding:6px 12px;cursor:pointer;">📋 Copy link</button>
+      <button type="button" id="sharepond" style="font-size:13px;font-weight:700;border:1px solid #9fc6d4;background:#eaf6fa;color:#1f5f74;border-radius:20px;padding:6px 12px;cursor:pointer;">🦆 Post it in the Quack Shack</button>
+      <button type="button" id="shareoutside" style="font-size:13px;font-weight:700;border:1px solid #9fc6d4;background:#eaf6fa;color:#1f5f74;border-radius:20px;padding:6px 12px;cursor:pointer;">↗️ Share outside the Pond</button>
+    </p>
+    <p id="sharenote" style="margin:8px 0 0;font-size:13px;color:#1f5f74;"></p>
+  </div>
+  <div id="arrangepanel" style="display:none;background:#fff;border:1px solid #9fc6d4;border-radius:12px;padding:10px 12px;margin:0 0 12px;font-size:14px;">
+    <b>Pick what shows, and in what order.</b>
+    <p style="margin:6px 0 8px;color:#4a6b78;font-size:13px;">Everyone starts with the same order. Your picks are saved to your Pond Account when you're signed in, so they follow you. Tap Notify on a section and the bell will tell you when a new Pond Post is up for it.</p>
+    <div id="arrangelist"></div>
+    <p style="margin:8px 0 0;"><button type="button" id="arrangereset" style="font-size:12.5px;font-weight:700;border:1px solid #9fc6d4;background:#eaf6fa;color:#1f5f74;border-radius:20px;padding:5px 10px;cursor:pointer;">Reset to the usual order</button></p>
+  </div>
+  <div id="livebox" style="background:#fff;border:1px solid #9fc6d4;border-radius:12px;padding:10px 12px;margin:0 0 12px;">
+    <p style="margin:0 0 6px;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;"><b style="font-size:15px;">📰 Updated news</b><span><button type="button" id="live-refresh" style="font-size:13px;font-weight:700;border:1px solid #9fc6d4;background:#eaf6fa;color:#1f5f74;border-radius:20px;padding:6px 12px;cursor:pointer;">🔄 Refresh news</button> <span id="live-stamp" style="font-size:12px;color:#4a6b78;"></span></span></p>
+    <div id="live-news"><p style="font-size:14px;color:#4a6b78;margin:0;">Loading the latest news…</p></div>
+  </div>
+  <div class="newssec" data-newssec="everyday">
+  <h2>🏠 Everyday Stuff</h2>
+  <div class="card featured" data-story="faa-second-day" id="story-faa-second-day">
+    <span class="feat">⭐ Featured</span>
+    <h3>Flight chaos stretches into a second day</h3>
+    <p>More than 3,000 flights were canceled by Saturday after a nationwide FAA ground stop, the longest domestic halt since 9/11, and disruption has stretched into a second day. Officials say a contractor&#x27;s routine router upgrade overloaded old air traffic control communications, and airlines expect full schedules by Sunday night.</p>
+    <p class="src">Source: <a href="https://tehworldnews.com/2026/11/15/">Pond Post wire</a></p>
+    <div class="actions"><button type="button" data-clip="faa-second-day">📌 Clip this</button><button type="button" data-shack-share data-share-kind="news" data-share-url="/news.html#story-faa-second-day" data-share-title="Flight chaos stretches into a second day" data-share-text="More than 3,000 flights were canceled by Saturday after a nationwide FAA ground stop, the longest domestic halt since 9/11, and disruption h">🦆 Share to Shack</button><button type="button" data-share="faa-second-day">🔗 Share</button><a href="https://news.google.com/search?q=FAA%20ground%20stop%20flights%20canceled%20second%20day%20November%202026" target="_blank" rel="noopener">🔎 More on this</a></div>
+  </div>
+  <div class="card" data-story="microsoft-resolved" id="story-microsoft-resolved">
+    <h3>Microsoft 365 outage now resolved</h3>
+    <p>Microsoft says the global outage that hit Outlook, Teams, Copilot and OneDrive on Thursday afternoon is now fully resolved. The outage had left many users unable to work for hours.</p>
+    <p class="src">Source: <a href="https://plain.news/">Pond Post wire</a></p>
+    <div class="actions"><button type="button" data-clip="microsoft-resolved">📌 Clip this</button><button type="button" data-shack-share data-share-kind="news" data-share-url="/news.html#story-microsoft-resolved" data-share-title="Microsoft 365 outage now resolved" data-share-text="Microsoft says the global outage that hit Outlook, Teams, Copilot and OneDrive on Thursday afternoon is now fully resolved. The outage had l">🦆 Share to Shack</button><button type="button" data-share="microsoft-resolved">🔗 Share</button><a href="https://news.google.com/search?q=Microsoft%20365%20outage%20resolved%20November%202026" target="_blank" rel="noopener">🔎 More on this</a></div>
+  </div>
+  <p class="secmore" style="margin:8px 0 0;"><a href="news.html?cat=everyday" style="color:#1f5f74;font-weight:700;">Read more in Everyday Stuff &rarr;</a></p>
+  <div class="cmt" data-section="Everyday Stuff">
+    <h3>💬 Talk about Everyday Stuff</h3>
+    <div class="cmtfilter"></div>
+    <div class="cmtlist"></div>
+    <div class="cmtform"></div>
+  </div>
+  </div>
+
+  <div class="newssec" data-newssec="stocks">
+  <h2>📈 Stocks</h2>
+  <div class="card featured" data-story="week-recap" id="story-week-recap">
+    <span class="feat">⭐ Featured</span>
+    <h3>Wall Street ends a wild week higher despite Friday slide</h3>
+    <p>The Dow rose 0.1% to 52,347.55 on Friday while the S&amp;P 500 fell 0.4% to 7,561.67 and the Nasdaq fell 0.9% to 25,136.27. For the week, all three indexes still gained more than 2%, with the Nasdaq posting its best week since August.</p>
+    <p class="src">Source: <a href="https://mlq.ai/news/wall-street-closes-mixed-as-nvidia-and-amd-sink-nasdaq-still-posts-its-best-week-since-august/">Pond Post wire</a></p>
+    <div class="actions"><button type="button" data-clip="week-recap">📌 Clip this</button><button type="button" data-shack-share data-share-kind="news" data-share-url="/news.html#story-week-recap" data-share-title="Wall Street ends a wild week higher despite Friday slide" data-share-text="The Dow rose 0.1% to 52,347.55 on Friday while the S&amp;P 500 fell 0.4% to 7,561.67 and the Nasdaq fell 0.9% to 25,136.27. For the week, all th">🦆 Share to Shack</button><button type="button" data-share="week-recap">🔗 Share</button><a href="https://news.google.com/search?q=stock%20market%20week%20November%2013%202026%20Nasdaq%20best%20week%20August" target="_blank" rel="noopener">🔎 More on this</a></div>
+  </div>
+  <div class="card" data-story="chip-slide" id="story-chip-slide">
+    <h3>Chip stocks drag Nasdaq lower</h3>
+    <p>AMD fell about 8.8% and Broadcom about 4.8% on Friday as semiconductor shares slid again, with Nvidia down about 2%. Wholesale inflation rose 0.3% in October, below the 0.4% expected, while the 10-year Treasury yield crept to about 5.15%.</p>
+    <p class="src">Source: <a href="https://summamoney.com/investing/the-daily/dow-rises-nasdaq-falls-why-you-can039t-generalize-us-stocks-this-weekend/">Pond Post wire</a></p>
+    <div class="actions"><button type="button" data-clip="chip-slide">📌 Clip this</button><button type="button" data-shack-share data-share-kind="news" data-share-url="/news.html#story-chip-slide" data-share-title="Chip stocks drag Nasdaq lower" data-share-text="AMD fell about 8.8% and Broadcom about 4.8% on Friday as semiconductor shares slid again, with Nvidia down about 2%. Wholesale inflation ros">🦆 Share to Shack</button><button type="button" data-share="chip-slide">🔗 Share</button><a href="https://news.google.com/search?q=AMD%20Broadcom%20Nvidia%20fall%20November%2013%202026" target="_blank" rel="noopener">🔎 More on this</a></div>
+  </div>
+  <p class="secmore" style="margin:8px 0 0;"><a href="news.html?cat=stocks" style="color:#1f5f74;font-weight:700;">Read more in Stocks &rarr;</a></p>
+  <div class="cmt" data-section="Stocks">
+    <h3>💬 Talk about Stocks</h3>
+    <div class="cmtfilter"></div>
+    <div class="cmtlist"></div>
+    <div class="cmtform"></div>
+  </div>
+  </div>
+
+  <div class="newssec" data-newssec="politics">
+  <h2>🏛️ Politics</h2>
+  <div class="card featured" data-story="shenzhen-summit" id="story-shenzhen-summit">
+    <span class="feat">⭐ Featured</span>
+    <h3>Trump, Xi and Putin scheduled for three-way summit</h3>
+    <p>Donald Trump, Xi Jinping and Vladimir Putin are scheduled to hold a three-way summit in Shenzhen on November 19, alongside the APEC meeting, to discuss nuclear arms cuts and Iran. Australia welcomed the talks, while European leaders urged caution and Ukraine&#x27;s president warned the meeting must not repeat the 1945 Yalta carve-up.</p>
+    <p class="src">Source: <a href="https://worldrightnowlive.com/story/anthony-albanese-welcomes-trump-xi-putin-summit-even-as-european-leade">Pond Post wire</a></p>
+    <div class="actions"><button type="button" data-clip="shenzhen-summit">📌 Clip this</button><button type="button" data-shack-share data-share-kind="news" data-share-url="/news.html#story-shenzhen-summit" data-share-title="Trump, Xi and Putin scheduled for three-way summit" data-share-text="Donald Trump, Xi Jinping and Vladimir Putin are scheduled to hold a three-way summit in Shenzhen on November 19, alongside the APEC meeting,">🦆 Share to Shack</button><button type="button" data-share="shenzhen-summit">🔗 Share</button><a href="https://news.google.com/search?q=Trump%20Xi%20Putin%20summit%20Shenzhen%20November%2019%202026" target="_blank" rel="noopener">🔎 More on this</a></div>
+  </div>
+  <div class="card" data-story="abu-dhabi-talks" id="story-abu-dhabi-talks">
+    <h3>First day of Ukraine talks called constructive</h3>
+    <p>The first day of trilateral talks between Ukraine, Russia and the US in Abu Dhabi ended with no deal announced, but President Volodymyr Zelensky called the session constructive and quite substantive. US Secretary of State Marco Rubio also called the meeting very productive.</p>
+    <p class="src">Source: <a href="https://innovativebusinessnews.com/2026/11/15/first-day-of-ukraine-peace-talks-constructive-zelensky-says/">Pond Post wire</a></p>
+    <div class="actions"><button type="button" data-clip="abu-dhabi-talks">📌 Clip this</button><button type="button" data-shack-share data-share-kind="news" data-share-url="/news.html#story-abu-dhabi-talks" data-share-title="First day of Ukraine talks called constructive" data-share-text="The first day of trilateral talks between Ukraine, Russia and the US in Abu Dhabi ended with no deal announced, but President Volodymyr Zele">🦆 Share to Shack</button><button type="button" data-share="abu-dhabi-talks">🔗 Share</button><a href="https://news.google.com/search?q=Ukraine%20Russia%20US%20talks%20Abu%20Dhabi%20November%202026" target="_blank" rel="noopener">🔎 More on this</a></div>
+  </div>
+  <p class="secmore" style="margin:8px 0 0;"><a href="news.html?cat=politics" style="color:#1f5f74;font-weight:700;">Read more in Politics &rarr;</a></p>
+  <div class="cmt" data-section="Politics">
+    <h3>💬 Talk about Politics</h3>
+    <div class="cmtfilter"></div>
+    <div class="cmtlist"></div>
+    <div class="cmtform"></div>
+  </div>
+  </div>
+
+  <div class="newssec" data-newssec="korea">
+  <h2>🇰🇷 South Korea</h2>
+  <p><button type="button" data-lang-toggle style="font-size:13px;font-weight:700;border:1px solid #9fc6d4;background:#fff;color:#1f5f74;border-radius:20px;padding:6px 12px;cursor:pointer;">🌐 한국어</button> <span style="font-size:12.5px;color:#4a6b78;">Read the Korea news in Korean or English.</span></p>
+  <div class="card featured" data-story="lee-reform" id="story-lee-reform">
+    <span class="feat">⭐ Featured</span>
+    <h3>President Lee warns against blocking reform</h3>
+    <p>President Lee Jae-myung said on Sunday that he understands people who lose out from reforms pushing back, but it is hard to tolerate public officials who speak of reform yet obstruct it. The message, his second in two days, signals a push for structural reform across government in his second year in office.</p>
+    <p class="src">Source: <a href="https://en.sedaily.com/politics/2026/11/15/lee-warns-against-obstructing-reform-in-second-message-to">Seoul Economic Daily</a></p>
+    <div class="actions"><button type="button" data-clip="lee-reform">📌 Clip this</button><button type="button" data-shack-share data-share-kind="news" data-share-url="/news.html#story-lee-reform" data-share-title="President Lee warns against blocking reform" data-share-text="President Lee Jae-myung said on Sunday that he understands people who lose out from reforms pushing back, but it is hard to tolerate public ">🦆 Share to Shack</button><button type="button" data-share="lee-reform">🔗 Share</button><a href="https://news.google.com/search?q=Lee%20Jae-myung%20reform%20obstructing%20November%2015%202026" target="_blank" rel="noopener">🔎 More on this</a></div>
+  </div>
+  <div class="card" data-story="exam-cheating" id="story-exam-cheating">
+    <h3>Top exam scorer admits cheating with AI</h3>
+    <p>South Korea&#x27;s top scorer in the national tax accountant exam admitted he used a hidden microcamera, a smartphone and generative AI to get answers. The government says it is preparing measures to prevent similar cheating at Thursday&#x27;s national college entrance exam.</p>
+    <p class="src">Source: <a href="https://the420.in/south-korea-ai-exam-cheating-scandal/">Pond Post wire</a></p>
+    <div class="actions"><button type="button" data-clip="exam-cheating">📌 Clip this</button><button type="button" data-shack-share data-share-kind="news" data-share-url="/news.html#story-exam-cheating" data-share-title="Top exam scorer admits cheating with AI" data-share-text="South Korea&#x27;s top scorer in the national tax accountant exam admitted he used a hidden microcamera, a smartphone and generative AI to get an">🦆 Share to Shack</button><button type="button" data-share="exam-cheating">🔗 Share</button><a href="https://news.google.com/search?q=South%20Korea%20tax%20exam%20AI%20cheating%20November%202026" target="_blank" rel="noopener">🔎 More on this</a></div>
+  </div>
+  <p class="secmore" style="margin:8px 0 0;"><a href="news.html?cat=korea" style="color:#1f5f74;font-weight:700;">Read more in South Korea &rarr;</a></p>
+  <div class="cmt" data-section="South Korea">
+    <h3>💬 Talk about South Korea</h3>
+    <div class="cmtfilter"></div>
+    <div class="cmtlist"></div>
+    <div class="cmtform"></div>
+  </div>
+  </div>
+  <p class="syncnote" id="syncnote">Clips you save are kept on this device. Sign in to your Pond Account to keep them across devices.</p>
+  </div>
+
+  <div class="view" id="view-past">
+    <h2>Past Posts</h2>
+    <p style="font-size:14px;color:#4a6b78;">Every day&rsquo;s edition gets saved here, so you can look back at what happened on any day.</p>
+    <div class="pastcal" id="pastcal"><p class="calnote">Loading the calendar&hellip;</p></div>
+    <ul class="pastlist">
+      <li><a href="news.html">Friday, November 13, 2026</a> &mdash; Preview edition: Brooklyn toll rises, Microsoft 365 outage, Thursday&rsquo;s market slide, Ukraine talks, Google Maps Korea, Korea exports near $1 trillion.</li>
+      <li><a href="news.html">Thursday, November 12, 2026</a> &mdash; Test edition: Brooklyn collapse, Spain&rsquo;s strike, Nvidia&rsquo;s board, Ukraine talks in Moscow.</li>
+    </ul>
+  </div>
+
+  <div class="view" id="view-summaries">
+    <h2>Summaries</h2>
+    <p style="font-size:14px;color:#4a6b78;">One line each, so you can catch up fast.</p>
+    <div class="sumrange" id="sumrange">
+      <button type="button" data-sumrange="day" class="on">Day</button>
+      <button type="button" data-sumrange="week">Week</button>
+      <button type="button" data-sumrange="month">Month</button>
+      <button type="button" data-sumrange="year">Year</button>
+    </div>
+    <div class="sumline"><b>Everyday Stuff:</b> Flight disruption from the FAA ground stop stretched into a second day, with full schedules expected by Sunday night; Microsoft says its global 365 outage is now fully resolved.</div>
+    <div class="sumline"><b>Stocks:</b> Friday closed mixed, but all three indexes still gained more than 2% for the week; chip stocks slid again, with AMD down about 8.8%.</div>
+    <div class="sumline"><b>Politics:</b> Trump, Xi and Putin are scheduled to hold a three-way summit in Shenzhen on November 19, drawing a warm welcome from Australia and caution from Europe; the first day of Ukraine talks in Abu Dhabi was called constructive.</div>
+    <div class="sumline"><b>South Korea:</b> President Lee warned officials against obstructing reform in his second message in two days; a top exam scorer admitted cheating with AI, and the government is preparing safeguards for Thursday&#x27;s college entrance exam.</div>
+  </div>
+
+  <div class="view" id="view-links">
+    <h2>Links</h2>
+    <p style="font-size:14px;color:#4a6b78;">Where today&rsquo;s news came from, kept for reference.</p>
+    <div class="sources">
+      <ul>
+        <li><a href="https://tehworldnews.com/2026/11/15/">Pond Post wire, Flight chaos stretches into a second day, Sunday, November 15, 2026</a></li>
+        <li><a href="https://plain.news/">Pond Post wire, Microsoft 365 outage now resolved, Sunday, November 15, 2026</a></li>
+        <li><a href="https://mlq.ai/news/wall-street-closes-mixed-as-nvidia-and-amd-sink-nasdaq-still-posts-its-best-week-since-august/">Pond Post wire, Wall Street ends a wild week higher despite Friday slide, Sunday, November 15, 2026</a></li>
+        <li><a href="https://summamoney.com/investing/the-daily/dow-rises-nasdaq-falls-why-you-can039t-generalize-us-stocks-this-weekend/">Pond Post wire, Chip stocks drag Nasdaq lower, Sunday, November 15, 2026</a></li>
+        <li><a href="https://worldrightnowlive.com/story/anthony-albanese-welcomes-trump-xi-putin-summit-even-as-european-leade">Pond Post wire, Trump, Xi and Putin scheduled for three-way summit, Sunday, November 15, 2026</a></li>
+        <li><a href="https://innovativebusinessnews.com/2026/11/15/first-day-of-ukraine-peace-talks-constructive-zelensky-says/">Pond Post wire, First day of Ukraine talks called constructive, Sunday, November 15, 2026</a></li>
+        <li><a href="https://en.sedaily.com/politics/2026/11/15/lee-warns-against-obstructing-reform-in-second-message-to">Seoul Economic Daily, President Lee warns against blocking reform, Sunday, November 15, 2026</a></li>
+        <li><a href="https://the420.in/south-korea-ai-exam-cheating-scandal/">Pond Post wire, Top exam scorer admits cheating with AI, Sunday, November 15, 2026</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="view" id="view-clipped">
+    <h2>📌 Clipped</h2>
+    <p style="font-size:14px;color:#4a6b78;">Stories you clipped, so you can find them again later.</p>
+    <div id="cliplist"></div>
+  </div>
+
+  <div class="view" id="view-comments">
+    <h2>💬 What people are saying</h2>
+    <p style="font-size:14px;color:#4a6b78;">Every comment from every section of today&rsquo;s post, newest first.</p>
+    <div class="cmtfilter"></div>
+    <div id="allcmtlist"></div>
+  </div>
+
+  <p class="foot">The Pond Post &middot; TreatYourselfDiscounts &middot; Preview edition, November 15, 2026</p>
+</div>
+<script src="site-nav.js?v=372"></script>
+<script src="pull-refresh.js?v=341"></script>
+<script type="module" src="auth-pill.js"></script>
+<script src="news-live.js"></script>
+<script>
+(function () {
+  var EDITION = "2026-11-15";
+  var currentDateline = "November 15, 2026";
+  /* History calendar + summaries by range (Lucy, Nov 15, 2026). */
+  var currentEditionObj = null; // full current edition, for the Day summary
+  var sumRange = "day"; // Day | Week | Month | Year
+  var calShown = null; // { y, m } month currently shown in the history calendar
+  var STORIES = {
+    "faa-second-day": { featured: true, section: "Everyday Stuff", title: "Flight chaos stretches into a second day", text: "More than 3,000 flights were canceled by Saturday after a nationwide FAA ground stop, the longest domestic halt since 9/11, and disruption has stretched into a second day. Officials say a contractor's routine router upgrade overloaded old air traffic control communications, and airlines expect full schedules by Sunday night.", source: "Pond Post wire", url: "https://tehworldnews.com/2026/11/15/" },
+    "microsoft-resolved": { section: "Everyday Stuff", title: "Microsoft 365 outage now resolved", text: "Microsoft says the global outage that hit Outlook, Teams, Copilot and OneDrive on Thursday afternoon is now fully resolved. The outage had left many users unable to work for hours.", source: "Pond Post wire", url: "https://plain.news/" },
+    "week-recap": { featured: true, section: "Stocks", title: "Wall Street ends a wild week higher despite Friday slide", text: "The Dow rose 0.1% to 52,347.55 on Friday while the S&P 500 fell 0.4% to 7,561.67 and the Nasdaq fell 0.9% to 25,136.27. For the week, all three indexes still gained more than 2%, with the Nasdaq posting its best week since August.", source: "Pond Post wire", url: "https://mlq.ai/news/wall-street-closes-mixed-as-nvidia-and-amd-sink-nasdaq-still-posts-its-best-week-since-august/" },
+    "chip-slide": { section: "Stocks", title: "Chip stocks drag Nasdaq lower", text: "AMD fell about 8.8% and Broadcom about 4.8% on Friday as semiconductor shares slid again, with Nvidia down about 2%. Wholesale inflation rose 0.3% in October, below the 0.4% expected, while the 10-year Treasury yield crept to about 5.15%.", source: "Pond Post wire", url: "https://summamoney.com/investing/the-daily/dow-rises-nasdaq-falls-why-you-can039t-generalize-us-stocks-this-weekend/" },
+    "shenzhen-summit": { featured: true, section: "Politics", title: "Trump, Xi and Putin scheduled for three-way summit", text: "Donald Trump, Xi Jinping and Vladimir Putin are scheduled to hold a three-way summit in Shenzhen on November 19, alongside the APEC meeting, to discuss nuclear arms cuts and Iran. Australia welcomed the talks, while European leaders urged caution and Ukraine's president warned the meeting must not repeat the 1945 Yalta carve-up.", source: "Pond Post wire", url: "https://worldrightnowlive.com/story/anthony-albanese-welcomes-trump-xi-putin-summit-even-as-european-leade" },
+    "abu-dhabi-talks": { section: "Politics", title: "First day of Ukraine talks called constructive", text: "The first day of trilateral talks between Ukraine, Russia and the US in Abu Dhabi ended with no deal announced, but President Volodymyr Zelensky called the session constructive and quite substantive. US Secretary of State Marco Rubio also called the meeting very productive.", source: "Pond Post wire", url: "https://innovativebusinessnews.com/2026/11/15/first-day-of-ukraine-peace-talks-constructive-zelensky-says/" },
+    "lee-reform": { featured: true, section: "South Korea", title: "President Lee warns against blocking reform", text: "President Lee Jae-myung said on Sunday that he understands people who lose out from reforms pushing back, but it is hard to tolerate public officials who speak of reform yet obstruct it. The message, his second in two days, signals a push for structural reform across government in his second year in office.", source: "Seoul Economic Daily", url: "https://en.sedaily.com/politics/2026/11/15/lee-warns-against-obstructing-reform-in-second-message-to" },
+    "exam-cheating": { section: "South Korea", title: "Top exam scorer admits cheating with AI", text: "South Korea's top scorer in the national tax accountant exam admitted he used a hidden microcamera, a smartphone and generative AI to get answers. The government says it is preparing measures to prevent similar cheating at Thursday's national college entrance exam.", source: "Pond Post wire", url: "https://the420.in/south-korea-ai-exam-cheating-scandal/" }
+  };
+  window.TYDNewsStories = STORIES;
+  /* Single-category page: news.html?cat=stocks shows only Stocks, with
+     its own news, chat, live feed and past posts. The bottom menu links
+     each category here (Lucy, Nov 15, 2026: the Pond Post reads like a
+     newspaper, and each section gets its own page). */
+  var CATPARAM = null;
+  try {
+    var _cq = new URLSearchParams(location.search);
+    var _cc = (_cq.get("cat") || "").toLowerCase();
+    if (_cc === "everyday" || _cc === "stocks" || _cc === "politics" || _cc === "korea") CATPARAM = _cc;
+  } catch (e) {}
+  var CATLABELS = { everyday: "Everyday Stuff", stocks: "Stocks", politics: "Politics", korea: "South Korea" };
+  var CATICONS = { everyday: "\u{1F3E0}", stocks: "\u{1F4C8}", politics: "\u{1F3DB}\uFE0F", korea: "\u{1F1F0}\u{1F1F7}" };
+  function catLabel(k) { return CATLABELS[k] || k; }
+  function catIcon(k) { return CATICONS[k] || ""; }
+  if (CATPARAM) {
+    document.querySelectorAll("#view-today .newssec").forEach(function (el) {
+      if (el.getAttribute("data-newssec") !== CATPARAM) el.style.display = "none";
+    });
+    var _h1 = document.querySelector(".head h1");
+    if (_h1) _h1.textContent = catIcon(CATPARAM) + " " + catLabel(CATPARAM);
+    var _sub = document.querySelector(".head p");
+    if (_sub) _sub.textContent = "Today’s " + catLabel(CATPARAM).toLowerCase() + " news, the live feed, and the chat, all in one place.";
+    var _dl = document.querySelector(".dateline");
+    if (_dl) { var _bk = document.createElement("p"); _bk.style.margin = "0 0 8px";
+      _bk.innerHTML = '<a href="news.html" style="color:#1f5f74;font-weight:700;">&larr; Back to The Pond Post</a>';
+      _dl.parentNode.insertBefore(_bk, _dl); }
+    document.querySelectorAll(".secmore").forEach(function (el) { el.style.display = "none"; });
+  } else {
+    /* Front page (the hub): a clean newspaper front page, top stories only,
+       no comment sections. Comments live on each category page.
+       (Lucy, Nov 15, 2026) */
+    document.documentElement.classList.add("tyd-news-hub");
+  }
+
+  function esc(s) { return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
+  /* Tabs */
+  var tabs = document.querySelectorAll("#newstabs button");
+  function showTab(name) {
+    tabs.forEach(function (b) { b.classList.toggle("on", b.getAttribute("data-tab") === name); });
+    document.querySelectorAll(".view").forEach(function (v) { v.classList.toggle("on", v.id === "view-" + name); });
+    if (name === "past") renderPastCalendar();
+  }
+  tabs.forEach(function (b) { b.addEventListener("click", function () { showTab(b.getAttribute("data-tab")); }); });
+  /* Deep-link a tab from the address (#clipped, #past, #summaries, #links, #today, #comments) */
+  var TABNAMES = ["today", "past", "summaries", "links", "clipped", "comments"];
+  function tabFromHash() {
+    var h = (location.hash || "").replace("#", "");
+    if (h.indexOf("story-") === 0) return;
+    if (TABNAMES.indexOf(h) > -1) showTab(h);
+  }
+  var _showTab = showTab;
+  showTab = function (name) { _showTab(name); try { history.replaceState(null, "", "#" + name); } catch (e) {} };
+  tabFromHash();
+  window.addEventListener("hashchange", tabFromHash);
+  /* Arrange the news: which sections show, and in what order. Factory
+     default is Everyday, Stocks, Politics, South Korea, all visible. Saved on this
+     device and, when signed in, to the Pond Account (users doc:
+     newsOrder / newsHidden / newsPrefsSet), like the section switcher. */
+  var NEWSSECS = [
+    { key: "everyday", label: "Everyday Stuff" },
+    { key: "stocks", label: "Stocks" },
+    { key: "politics", label: "Politics" },
+    { key: "korea", label: "South Korea" }
+  ];
+  var newsOrder = null, newsHidden = [];
+  var newsNotify = { everyday: false, stocks: false, politics: false, korea: false };
+  try {
+    var noSaved = JSON.parse(localStorage.getItem("tydNewsOrder") || "null");
+    if (noSaved && noSaved.length) newsOrder = noSaved;
+    var nhSaved = JSON.parse(localStorage.getItem("tydNewsHidden") || "[]");
+    if (nhSaved && nhSaved.length) newsHidden = nhSaved;
+    var nnSaved = JSON.parse(localStorage.getItem("tydNewsNotify") || "null");
+    if (nnSaved && typeof nnSaved === "object") {
+      newsNotify.everyday = !!nnSaved.everyday;
+      newsNotify.stocks = !!nnSaved.stocks;
+      newsNotify.politics = !!nnSaved.politics;
+      newsNotify.korea = !!nnSaved.korea;
+    }
+  } catch (e) {}
+  function newsIsHidden(k) { return newsHidden.indexOf(k) > -1; }
+  function newsOrdered() {
+    var byKey = {}, out = [], i, k;
+    for (i = 0; i < NEWSSECS.length; i++) byKey[NEWSSECS[i].key] = NEWSSECS[i];
+    if (newsOrder) for (i = 0; i < newsOrder.length; i++) { k = newsOrder[i]; if (byKey[k]) { out.push(byKey[k]); delete byKey[k]; } }
+    for (i = 0; i < NEWSSECS.length; i++) if (byKey[NEWSSECS[i].key]) { out.push(NEWSSECS[i]); delete byKey[NEWSSECS[i].key]; }
+    return out;
+  }
+  function newsSaveLocal() {
+    try {
+      localStorage.setItem("tydNewsOrder", JSON.stringify(newsOrdered().map(function (x) { return x.key; })));
+      localStorage.setItem("tydNewsHidden", JSON.stringify(newsHidden));
+    } catch (e) {}
+    if (window.TYDNewsChanged) window.TYDNewsChanged(newsOrdered().map(function (x) { return x.key; }), newsHidden.slice());
+  }
+  function newsSaveNotify() {
+    try { localStorage.setItem("tydNewsNotify", JSON.stringify(newsNotify)); } catch (e) {}
+    if (window.TYDNewsNotifyChanged) window.TYDNewsNotifyChanged({ everyday: !!newsNotify.everyday, stocks: !!newsNotify.stocks, politics: !!newsNotify.politics, korea: !!newsNotify.korea });
+  }
+  window.TYDGetNewsPrefs = function () { return { order: newsOrdered().map(function (x) { return x.key; }), hidden: newsHidden.slice(), notify: { everyday: !!newsNotify.everyday, stocks: !!newsNotify.stocks, politics: !!newsNotify.politics, korea: !!newsNotify.korea } }; };
+  window.TYDSetNewsPrefs = function (order, hidden) {
+    newsOrder = order && order.length ? order.slice() : null;
+    newsHidden = hidden ? hidden.slice() : [];
+    newsSaveLocal(); applyNewsPrefs(); renderArrange();
+  };
+  window.TYDSetNewsNotify = function (obj) {
+    if (!obj || typeof obj !== "object") return;
+    newsNotify = { everyday: !!obj.everyday, stocks: !!obj.stocks, politics: !!obj.politics, korea: !!obj.korea };
+    try { localStorage.setItem("tydNewsNotify", JSON.stringify(newsNotify)); } catch (e) {}
+    renderArrange();
+  };
+  function applyNewsPrefs() {
+    var view = document.getElementById("view-today");
+    var order = newsOrdered();
+    if (CATPARAM) order = order.filter(function (s) { return s.key === CATPARAM; });
+    order.forEach(function (sec) {
+      var el = view.querySelector('[data-newssec="' + sec.key + '"]');
+      if (!el) return;
+      el.style.display = newsIsHidden(sec.key) ? "none" : "";
+      view.appendChild(el);
+    });
+    var note = document.getElementById("syncnote");
+    if (note) view.appendChild(note);
+  }
+  function renderArrange() {
+    var box = document.getElementById("arrangelist");
+    if (!box) return;
+    var order = newsOrdered();
+    box.innerHTML = order.map(function (sec, i) {
+      var hid = newsIsHidden(sec.key);
+      var noti = !!newsNotify[sec.key];
+      return '<div class="arrrow"><span class="nm">' + esc(sec.label) + (hid ? ' <span style="color:#4a6b78;font-weight:400;">(hidden)</span>' : '') + '</span>'
+        + '<button type="button" data-eye="' + sec.key + '" class="' + (hid ? "off" : "") + '">' + (hid ? "👁️ Show" : "👁 Hide") + '</button>'
+        + '<button type="button" data-notify="' + sec.key + '" class="' + (noti ? "" : "off") + '">' + (noti ? "🔔 Notify" : "🔕 Off") + '</button>'
+        + '<button type="button" data-up="' + sec.key + '"' + (i === 0 ? ' disabled style="opacity:.4;"' : '') + '>↑</button>'
+        + '<button type="button" data-down="' + sec.key + '"' + (i === order.length - 1 ? ' disabled style="opacity:.4;"' : '') + '>↓</button></div>';
+    }).join("");
+    box.querySelectorAll("[data-eye]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var k = b.getAttribute("data-eye"), i = newsHidden.indexOf(k);
+        if (i === -1) newsHidden.push(k); else newsHidden.splice(i, 1);
+        newsSaveLocal(); applyNewsPrefs(); renderArrange();
+      });
+    });
+    box.querySelectorAll("[data-notify]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var k = b.getAttribute("data-notify");
+        newsNotify[k] = !newsNotify[k];
+        newsSaveNotify(); renderArrange();
+      });
+    });
+    box.querySelectorAll("[data-up]").forEach(function (b) {
+      b.addEventListener("click", function () { moveNews(b.getAttribute("data-up"), -1); });
+    });
+    box.querySelectorAll("[data-down]").forEach(function (b) {
+      b.addEventListener("click", function () { moveNews(b.getAttribute("data-down"), 1); });
+    });
+  }
+  function moveNews(key, dir) {
+    var order = newsOrdered().map(function (x) { return x.key; });
+    var i = order.indexOf(key), j = i + dir;
+    if (i < 0 || j < 0 || j >= order.length) return;
+    order.splice(j, 0, order.splice(i, 1)[0]);
+    newsOrder = order;
+    newsSaveLocal(); applyNewsPrefs(); renderArrange();
+  }
+  document.getElementById("arrangebtn").addEventListener("click", function () {
+    var p = document.getElementById("arrangepanel");
+    var open = p.style.display === "none";
+    p.style.display = open ? "block" : "none";
+    if (open) renderArrange();
+  });
+  document.getElementById("arrangereset").addEventListener("click", function () {
+    newsOrder = null; newsHidden = [];
+    newsSaveLocal(); applyNewsPrefs(); renderArrange();
+  });
+  applyNewsPrefs();
+  /* Clips: localStorage + account sync (same pattern as saved recipes) */
+  var KEY = "tydClippedNews";
+  function getClips() { try { return JSON.parse(localStorage.getItem(KEY)) || []; } catch (e) { return []; } }
+  function setClips(list) { try { localStorage.setItem(KEY, JSON.stringify(list)); } catch (e) {} if (window.TYDClipsChanged) window.TYDClipsChanged(list); renderClips(); }
+  window.TYDGetClips = getClips;
+  window.TYDSetClips = function (list) { setClips(list); };
+  function renderClips() {
+    var clips = getClips();
+    var cc = document.getElementById("clipcount");
+    cc.textContent = clips.length ? "(" + clips.length + ")" : "";
+    var box = document.getElementById("cliplist");
+    if (!clips.length) { box.innerHTML = '<div class="empty">Nothing clipped yet. Tap \u201c\ud83d\udccc Clip this\u201d on any story to save it here, so you can find it again later.</div>'; }
+    else {
+      box.innerHTML = clips.map(function (c) {
+        return '<div class="clipitem"><h3>' + esc(c.title) + '</h3><p>' + esc(c.text) + '</p><div class="meta">' + esc(c.section) + ' &middot; ' + esc(c.date) + ' &middot; Source: <a href="' + esc(c.url) + '" target="_blank" rel="noopener">' + esc(c.source) + '</a></div><button type="button" data-unclip="' + esc(c.id) + '">Remove clip</button></div>';
+      }).join("");
+    }
+    document.querySelectorAll("[data-clip]").forEach(function (b) {
+      var on = clips.some(function (c) { return c.id === b.getAttribute("data-clip"); });
+      b.classList.toggle("clipped", on);
+      b.textContent = on ? "\u2713 Clipped" : "\ud83d\udccc Clip this";
+    });
+    box.querySelectorAll("[data-unclip]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        setClips(getClips().filter(function (c) { return c.id !== b.getAttribute("data-unclip"); }));
+      });
+    });
+  }
+  function bindClips() {
+    document.querySelectorAll("[data-clip]").forEach(function (b) {
+      if (b.getAttribute("data-clipbound")) return;
+      b.setAttribute("data-clipbound", "1");
+      b.addEventListener("click", function () {
+        var id = b.getAttribute("data-clip");
+        var clips = getClips();
+        var k = -1;
+        for (var i = 0; i < clips.length; i++) if (clips[i].id === id) { k = i; break; }
+        if (k === -1) {
+          var s = STORIES[id];
+          if (!s) return;
+          clips.push({ id: id, date: currentDateline, section: s.section, title: s.title, text: s.text, source: s.source, url: s.url });
+        } else clips.splice(k, 1);
+        setClips(clips);
+      });
+    });
+  }
+  bindClips();
+  renderClips();
+  /* Comments (rendered by the Firebase module below) */
+  window.TYDNewsComments = {
+    edition: EDITION,
+    _last: null,
+    render: function (list, me) {
+      // Blocked members (Lucy, Nov 12, 2026): their comments never render.
+      var visible = (list || []).filter(function (c) { return !(window.TYDBlock && window.TYDBlock.isBlocked(c.uid)); });
+      // Friends-only filter (Lucy, Nov 12, 2026): hide comments from anyone who is not a Pond friend (your own always show).
+      if (window.TYDFriends) visible = visible.filter(function (c) { return window.TYDFriends.passes(c.uid, me && me.uid); });
+      window.TYDNewsComments._last = { list: list, me: me };
+      // Paint the Friends-only toggle (signed in only) next to every comment list.
+      document.querySelectorAll(".cmtfilter").forEach(function (el) {
+        el.innerHTML = (me && window.TYDFriends) ? window.TYDFriends.toggleHtml() : "";
+      });
+      var cc = document.getElementById("cmtcount");
+      cc.textContent = visible.length ? "(" + visible.length + ")" : "";
+      document.querySelectorAll(".cmt").forEach(function (box) {
+        var sec = box.getAttribute("data-section");
+        var mine = visible.filter(function (c) { return c.section === sec; });
+        var el = box.querySelector(".cmtlist");
+        el.innerHTML = mine.length ? mine.map(function (c) { return cmtHtml(c, me); }).join("") : '<div class="empty">No comments yet. Be the first to say something.</div>';
+      });
+      var all = document.getElementById("allcmtlist");
+      all.innerHTML = visible.length ? visible.map(function (c) { return cmtHtml(c, me, true); }).join("") : '<div class="empty">No comments on today\u2019s post yet.</div>';
+      bindDeletes();
+    }
+  };
+  // A block or unblock hides (or brings back) comments right away.
+  window.addEventListener("tyd-block-changed", function () {
+    var L = window.TYDNewsComments && window.TYDNewsComments._last;
+    if (L) window.TYDNewsComments.render(L.list, L.me);
+  });
+  // Friends-only filter (Lucy, Nov 12, 2026): re-render comments when the filter or the friends list changes.
+  window.addEventListener("tyd-comment-filter-changed", function () {
+    var L = window.TYDNewsComments && window.TYDNewsComments._last;
+    if (L) window.TYDNewsComments.render(L.list, L.me);
+  });
+  window.addEventListener("tyd-friends-changed", function () {
+    var L = window.TYDNewsComments && window.TYDNewsComments._last;
+    if (L) window.TYDNewsComments.render(L.list, L.me);
+  });
+  function cmtHtml(c, me, showSec) {
+    var canDel = me && (me.uid === c.uid || me.uid === "1hbpZnS7gfPd0ptzygwiaDBfjo63");
+    var when = c.createdAt ? new Date(c.createdAt).toLocaleString([], { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }) : "";
+    var reacts = [["❤️","heart"],["👍","thumbsup"],["🦆","duck"],["😂","laugh"],["😮","wow"]].map(function (pr) {
+      return '<button type="button" data-react="' + esc(c.id) + '" data-emoji="' + pr[0] + '" data-key="' + pr[1] + '">' + pr[0] + ' <span class="rc"></span></button>';
+    }).join("");
+    return '<div class="cmtone">' + (canDel ? '<button type="button" data-delcmt="' + esc(c.id) + '">Delete</button>' : '') + '<span class="who tydprof" data-profile-uid="' + esc(c.uid || "") + '">' + esc(c.name || "Pond member") + '</span>' + (showSec ? ' <span class="when">&middot; ' + esc(c.section) + '</span>' : '') + ' <span class="when">' + esc(when) + '</span><br>' + esc(c.text) + '<div class="reacts" data-reacts="' + esc(c.id) + '">' + reacts + '</div>' + (me && me.uid !== c.uid ? '<button type="button" class="cmt-rep" data-repcmt="' + esc(c.id) + '" data-repuid="' + esc(c.uid || "") + '" data-repname="' + esc(c.name || "") + '">Report</button>' : '') + '</div>';
+  }
+  function bindDeletes() {
+    document.querySelectorAll("[data-delcmt]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        if (window.TYDDeleteComment) window.TYDDeleteComment(b.getAttribute("data-delcmt"));
+      });
+    });
+    document.querySelectorAll("[data-repcmt]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        if (window.TYDReport) window.TYDReport.open(b.getAttribute("data-repuid"), b.getAttribute("data-repname"), "news comment", b.getAttribute("data-repcmt"), b);
+      });
+    });
+  }
+  /* Share one story: deep link to that story card, title + link via the
+     device share sheet when it has one, otherwise copy the link. */
+  document.addEventListener("click", function (ev) {
+    var b = ev.target.closest ? ev.target.closest("[data-share]") : null;
+    if (!b) return;
+    var key = b.getAttribute("data-share");
+    var st = STORIES[key];
+    if (!st) return;
+    var url = location.href.split("#")[0] + "#story-" + key;
+    var data = { title: "The Pond Post: " + st.title, text: st.text, url: url };
+    function done(ok) {
+      var old = b.textContent;
+      b.textContent = ok ? "\u2713 Shared" : "\u2713 Link copied";
+      setTimeout(function () { b.textContent = "\U0001f517 Share"; }, 2000);
+    }
+    if (navigator.share) navigator.share(data).then(function () { done(true); }, function () {});
+    else if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(function () { done(false); }, function () { done(false); });
+    else done(false);
+  });
+  /* Deep link to one story: open the Today tab and jump to that card. */
+  function storyFromHash() {
+    var h = (location.hash || "").replace("#", "");
+    if (h.indexOf("story-") === 0) {
+      showTab("today");
+      var el = document.getElementById(h);
+      if (el) {
+        setTimeout(function () {
+          el.scrollIntoView({ behavior: "smooth", block: "start" });
+          el.style.outline = "3px solid #ffd94d";
+          el.style.outlineOffset = "4px";
+          setTimeout(function () { el.style.outline = ""; el.style.outlineOffset = ""; }, 3000);
+        }, 100);
+      }
+    }
+  }
+  storyFromHash();
+  window.addEventListener("hashchange", storyFromHash);
+  /* Share this post */
+  document.getElementById("sharebtn").addEventListener("click", function () {
+    var p = document.getElementById("sharepanel");
+    p.style.display = p.style.display === "none" ? "block" : "none";
+  });
+  function shareNote(msg) { var n = document.getElementById("sharenote"); if (n) n.textContent = msg; }
+  document.getElementById("sharecopy").addEventListener("click", function () {
+    var url = location.href.split("#")[0];
+    function done() { shareNote("Link copied. Send it anywhere."); }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(done, function () { shareNote("Could not copy. The link is: " + url); });
+    else shareNote("Copy this link: " + url);
+  });
+  document.getElementById("sharepond").addEventListener("click", function () {
+    if (window.TYDShareToPond) window.TYDShareToPond();
+    else shareNote("Sign in to your Pond Account to post it in the Quack Shack.");
+  });
+  document.getElementById("shareoutside").addEventListener("click", function () {
+    var url = location.href.split("#")[0];
+    var data = { title: "The Pond Post", text: "Today's news, straight up. No nonsense, just what happened.", url: url };
+    if (navigator.share) navigator.share(data).then(function () { shareNote("Shared. Thanks for spreading the Post."); }, function () {});
+    else if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(function () { shareNote("Your device cannot share straight from here, so the link is copied instead. Paste it anywhere."); });
+    else shareNote("Share this link: " + url);
+  });
+  /* Comment reactions: tap an emoji under a comment (signed in members) */
+  document.addEventListener("click", function (ev) {
+    var b = ev.target.closest ? ev.target.closest("[data-react]") : null;
+    if (!b) return;
+    if (window.TYDReactNews) window.TYDReactNews(b.getAttribute("data-react"), b.getAttribute("data-emoji"), b.getAttribute("data-key"));
+  });
+  /* Live edition (Nov 13, 2026): the Pond Post reads its edition from
+     Firestore (pondPost/current) so a new edition goes live with a
+     document write and no deploy. The baked-in Nov 13 edition above
+     stays as the fallback. pondpost-live.js fetches the live edition
+     and calls window.TYDNewsApplyEdition with it. */
+  var NEWSICONS = { everyday: "\u{1F3E0}", stocks: "\u{1F4C8}", politics: "\u{1F3DB}\uFE0F", korea: "\u{1F1F0}\u{1F1F7}" };
+  function storyCardHtml(st) {
+    var more = st.moreUrl || ("https://news.google.com/search?q=" + encodeURIComponent(st.title));
+    var h = '<div class="card' + (st.featured ? " featured" : "") + '" data-story="' + esc(st.id) + '" id="story-' + esc(st.id) + '">';
+    if (st.featured) h += '<span class="feat">⭐ Featured</span>';
+    h += "<h3>" + esc(st.title) + "</h3><p>" + esc(st.text) + "</p>"
+      + '<p class="src">Source: <a href="' + esc(st.url) + '">' + esc(st.source) + "</a></p>"
+      + '<div class="actions"><button type="button" data-clip="' + esc(st.id) + '">📌 Clip this</button>'
+      + '<button type="button" data-share="' + esc(st.id) + '">🔗 Share</button>'
+      + '<button type="button" data-shack-share data-share-kind="news" data-share-url="/news.html#story-' + esc(st.id) + '" data-share-title="' + esc(st.title) + '" data-share-text="' + esc(String(st.text || "").slice(0, 140)) + '">🦆 Share to Shack</button>'
+      + '<a href="' + esc(more) + '" target="_blank" rel="noopener">🔎 More on this</a></div></div>';
+    return h;
+  }
+  window.TYDNewsApplyEdition = function (ed) {
+    if (!ed || !Array.isArray(ed.stories) || !ed.stories.length) return false;
+    if (!ed.editionDate || !ed.sectionsOrder || !ed.sectionsOrder.length) return false;
+    if (ed.sectionLabels) {
+      ed.sectionsOrder.forEach(function (k) {
+        var found = null;
+        for (var i = 0; i < NEWSSECS.length; i++) if (NEWSSECS[i].key === k) found = NEWSSECS[i];
+        if (found) found.label = ed.sectionLabels[k] || found.label;
+        else NEWSSECS.push({ key: k, label: ed.sectionLabels[k] || k });
+      });
+    }
+    if (ed.sectionIcons) {
+      Object.keys(ed.sectionIcons).forEach(function (k) { NEWSICONS[k] = ed.sectionIcons[k]; });
+    }
+    var next = {};
+    ed.stories.forEach(function (s) {
+      next[s.id] = { featured: !!s.featured, section: (ed.sectionLabels && ed.sectionLabels[s.section]) || s.section, title: s.title, text: s.text, source: s.source, url: s.url };
+    });
+    STORIES = next;
+    window.TYDNewsStories = STORIES;
+    EDITION = ed.editionDate;
+    currentDateline = ed.dateline || ed.editionDate;
+    window.TYDNewsComments.edition = EDITION;
+    var view = document.getElementById("view-today");
+    var order = newsOrdered();
+    /* Category page (?cat=): only rebuild that one section. Without this,
+       a live edition swap rebuilds ALL sections and drops the filter.
+       (Lucy, Nov 15, 2026) */
+    if (CATPARAM) order = order.filter(function (s) { return s.key === CATPARAM; });
+    view.querySelectorAll(".newssec").forEach(function (el) { el.remove(); });
+    order.forEach(function (sec) {
+      var stories = ed.stories.filter(function (s) { return s.section === sec.key; });
+      if (!stories.length) return;
+      var label = (ed.sectionLabels && ed.sectionLabels[sec.key]) || sec.label;
+      var icon = NEWSICONS[sec.key] || "";
+      var div = document.createElement("div");
+      div.className = "newssec";
+      div.setAttribute("data-newssec", sec.key);
+      var langBtn = sec.key === "korea" ? '<p><button type="button" data-lang-toggle style="font-size:13px;font-weight:700;border:1px solid #9fc6d4;background:#fff;color:#1f5f74;border-radius:20px;padding:6px 12px;cursor:pointer;">🌐 한국어</button> <span style="font-size:12.5px;color:#4a6b78;">Read the Korea news in Korean or English.</span></p>' : "";
+      var moreLink = CATPARAM ? "" : '<p class="secmore" style="margin:8px 0 0;"><a href="news.html?cat=' + esc(sec.key) + '" style="color:#1f5f74;font-weight:700;">Read more in ' + esc(label) + ' &rarr;</a></p>';
+      div.innerHTML = "<h2>" + esc(icon) + " " + esc(label) + "</h2>" + langBtn
+        + stories.map(storyCardHtml).join("") + moreLink
+        + '<div class="cmt" data-section="' + esc(label) + '"><h3>💬 Talk about ' + esc(label) + '</h3><div class="cmtfilter"></div><div class="cmtlist"></div><div class="cmtform"></div></div>';
+      view.appendChild(div);
+    });
+    var note = document.getElementById("syncnote");
+    if (note) view.appendChild(note);
+    var dl = document.querySelector(".dateline");
+    if (dl && currentDateline) dl.textContent = currentDateline;
+    var tn = document.querySelector(".testnote");
+    if (tn) {
+      if (ed.note) {
+        var m = ed.note.match(/^Preview edition\.?\s*/);
+        tn.innerHTML = m ? "<strong>Preview edition.</strong> " + esc(ed.note.slice(m[0].length)) : esc(ed.note);
+        tn.style.display = "";
+      } else tn.style.display = "none";
+    }
+    var ft = document.querySelector(".foot");
+    if (ft && ed.foot) ft.textContent = "The Pond Post · TreatYourselfDiscounts · " + ed.foot;
+    currentEditionObj = ed;
+    /* v351: fold any Korean title/text the edition ships (koTitle/koText
+       per Korea story) into the live KO dict, then re-apply the current
+       language to the freshly rendered cards so a Korean reader stays
+       in Korean across the edition swap. applyKoreaLang is guarded
+       (v282/v283: it only writes when the text actually differs), so
+       calling it here cannot loop the MutationObserver. */
+    if (window.TYDLiveNews && window.TYDLiveNews.mergeEditionKo) window.TYDLiveNews.mergeEditionKo(ed);
+    if (window.TYDLiveNews && window.TYDLiveNews.applyKoreaLang) window.TYDLiveNews.applyKoreaLang();
+    renderSummaries();
+    var linkBox = document.querySelector("#view-links .sources ul");
+    if (linkBox) {
+      linkBox.innerHTML = ed.stories.map(function (s) {
+        return '<li><a href="' + esc(s.url) + '">' + esc(s.source) + ", " + esc(s.title) + ", " + esc(currentDateline) + "</a></li>";
+      }).join("");
+    }
+    var pastBox = document.querySelector("#view-past .pastlist");
+    if (pastBox) {
+      var hasIt = false;
+      pastBox.querySelectorAll("li a").forEach(function (a) {
+        if ((a.getAttribute("href") || "").indexOf(ed.editionDate) !== -1) hasIt = true;
+      });
+      pastBox.querySelectorAll("li").forEach(function (li) {
+        if (li.textContent.indexOf(currentDateline) !== -1) hasIt = true;
+      });
+      if (!hasIt) {
+        var blurb = ed.blurb || ed.stories.map(function (s) { return s.title; }).slice(0, 4).join(", ");
+        var li = document.createElement("li");
+        li.innerHTML = '<a href="news.html?' + (CATPARAM ? "cat=" + CATPARAM + "&" : "") + 'edition=' + esc(ed.editionDate) + '">' + esc(currentDateline) + "</a> &mdash; " + esc(blurb);
+        var first = pastBox.querySelector("li");
+        if (first) pastBox.insertBefore(li, first); else pastBox.appendChild(li);
+      }
+    }
+    bindClips();
+    renderClips();
+    applyNewsPrefs();
+    renderArrange();
+    try { window.dispatchEvent(new CustomEvent("tyd-news-edition", { detail: { edition: EDITION } })); } catch (e) {}
+    return true;
+  };
+  /* Summaries by range: Day (today), Week (last 7 days), Month (last 30 days),
+     Year (this year). Day uses the current edition; the other ranges read the
+     archived editions (window.TYDPondPostArchive, set by pondpost-live.js).
+     On a category page only that section's summaries show. */
+  function dateStr(d) {
+    var m = d.getMonth() + 1, day = d.getDate();
+    return d.getFullYear() + "-" + (m < 10 ? "0" + m : m) + "-" + (day < 10 ? "0" + day : day);
+  }
+  function addDaysStr(iso, n) {
+    var p = iso.split("-");
+    var d = new Date(+p[0], +p[1] - 1, +p[2]);
+    d.setDate(d.getDate() + n);
+    return dateStr(d);
+  }
+  function sumlineHtml(label, text) {
+    return '<div class="sumline"><b>' + esc(label) + ':</b> ' + esc(text) + '</div>';
+  }
+  function renderSummaries() {
+    var sumBox = document.querySelector("#view-summaries");
+    if (!sumBox) return;
+    var keys = CATPARAM ? [CATPARAM] : null;
+    if (sumRange === "day") {
+      var ed = currentEditionObj;
+      if (!ed) return; // baked-in lines stay until an edition is applied
+      sumBox.querySelectorAll(".sumline, .sumday").forEach(function (el) { el.remove(); });
+      (ed.sectionsOrder || []).forEach(function (k) {
+        if (keys && keys.indexOf(k) === -1) return;
+        var label = (ed.sectionLabels && ed.sectionLabels[k]) || k;
+        var text = (ed.summaries && ed.summaries[k]) || "";
+        if (!text) return;
+        sumBox.insertAdjacentHTML("beforeend", sumlineHtml(label, text));
+      });
+      return;
+    }
+    var arch = window.TYDPondPostArchive;
+    if (!arch) {
+      sumBox.querySelectorAll(".sumline, .sumday").forEach(function (el) { el.remove(); });
+      sumBox.insertAdjacentHTML("beforeend", '<div class="empty">Loading past editions&hellip;</div>');
+      return;
+    }
+    var now = new Date();
+    var todayStr = dateStr(now);
+    var startStr;
+    if (sumRange === "week") startStr = addDaysStr(todayStr, -6);
+    else if (sumRange === "month") startStr = addDaysStr(todayStr, -29);
+    else startStr = now.getFullYear() + "-01-01";
+    sumBox.querySelectorAll(".sumline, .sumday").forEach(function (el) { el.remove(); });
+    var shown = 0;
+    arch.forEach(function (a) {
+      if (!a.editionDate || a.editionDate < startStr || a.editionDate > todayStr) return;
+      var order = (a.sectionsOrder && a.sectionsOrder.length) ? a.sectionsOrder : Object.keys(a.summaries || {});
+      var lines = [];
+      order.forEach(function (k) {
+        if (keys && keys.indexOf(k) === -1) return;
+        var label = (a.sectionLabels && a.sectionLabels[k]) || k;
+        var text = (a.summaries && a.summaries[k]) || "";
+        if (text) lines.push(sumlineHtml(label, text));
+      });
+      if (!lines.length) return;
+      shown++;
+      sumBox.insertAdjacentHTML("beforeend", '<p class="sumday">' + esc(a.dateline || a.editionDate) + '</p>' + lines.join(""));
+    });
+    if (!shown) {
+      sumBox.insertAdjacentHTML("beforeend", '<div class="empty">No summaries in this range yet. The Pond Post started November 13, 2026, so the archive is still growing.</div>');
+    }
+  }
+  /* History calendar: a month grid in Past Posts. Dates with an edition are
+     yellow links; tap one to open that day's edition (for this section on a
+     category page, the whole post on the hub). */
+  function renderPastCalendar() {
+    var box = document.getElementById("pastcal");
+    if (!box) return;
+    var dates = window.TYDPondPostDates || [];
+    var dateSet = {};
+    dates.forEach(function (d) { dateSet[d] = true; });
+    var now = new Date();
+    if (!calShown) {
+      var newest = dates[0];
+      if (newest) {
+        var p = newest.split("-");
+        calShown = { y: +p[0], m: +p[1] - 1 };
+      } else {
+        calShown = { y: now.getFullYear(), m: now.getMonth() };
+      }
+    }
+    var y = calShown.y, m = calShown.m;
+    var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    var first = new Date(y, m, 1);
+    var startDow = first.getDay();
+    var daysInMonth = new Date(y, m + 1, 0).getDate();
+    var todayStr = dateStr(now);
+    var html = '<div class="calhead"><button type="button" data-calnav="-1">&larr; Prev</button><b>' + monthNames[m] + ' ' + y + '</b><button type="button" data-calnav="1">Next &rarr;</button></div>';
+    html += '<table><thead><tr><th>Su</th><th>Mo</th><th>Tu</th><th>We</th><th>Th</th><th>Fr</th><th>Sa</th></tr></thead><tbody>';
+    var day = 1;
+    for (var r = 0; r < 6 && day <= daysInMonth; r++) {
+      html += '<tr>';
+      for (var c = 0; c < 7; c++) {
+        if (r === 0 && c < startDow) { html += '<td></td>'; continue; }
+        if (day > daysInMonth) { html += '<td></td>'; continue; }
+        var iso = y + "-" + (m + 1 < 10 ? "0" + (m + 1) : (m + 1)) + "-" + (day < 10 ? "0" + day : day);
+        var cls = iso === todayStr ? ' class="today"' : '';
+        if (dateSet[iso]) {
+          var href = 'news.html?' + (CATPARAM ? 'cat=' + CATPARAM + '&' : '') + 'edition=' + iso;
+          html += '<td' + cls + '><a href="' + href + '">' + day + '</a></td>';
+        } else {
+          html += '<td' + cls + '><span>' + day + '</span></td>';
+        }
+        day++;
+      }
+      html += '</tr>';
+    }
+    html += '</tbody></table>';
+    html += '<p class="calnote">Yellow days have a Pond Post. Tap one to read that day' + (CATPARAM ? ' for ' + esc(catLabel(CATPARAM)) : '') + '.</p>';
+    box.innerHTML = html;
+    box.querySelectorAll("[data-calnav]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var d = +b.getAttribute("data-calnav");
+        var nm = new Date(y, m + d, 1);
+        calShown = { y: nm.getFullYear(), m: nm.getMonth() };
+        renderPastCalendar();
+      });
+    });
+  }
+  /* Wire the summary range buttons + history calendar. */
+  (function () {
+    /* Baked-in edition (Nov 14) as a data object, so the Day summary and the
+       category filter work before the live edition arrives (and when the live
+       edition is the same as the baked-in one, so TYDNewsApplyEdition is not
+       called). Summaries are read from the baked-in .sumline divs. */
+    (function initBakedEdition() {
+      var sums = {};
+      document.querySelectorAll("#view-summaries .sumline").forEach(function (el) {
+        var b = el.querySelector("b");
+        if (!b) return;
+        var label = b.textContent.replace(/:$/, "");
+        var key = null;
+        NEWSSECS.forEach(function (s) { if (s.label === label) key = s.key; });
+        if (!key) return;
+        var text = el.textContent.replace(b.textContent, "").trim();
+        if (text) sums[key] = text;
+      });
+      if (!Object.keys(sums).length) return;
+      var labels = {};
+      NEWSSECS.forEach(function (s) { labels[s.key] = s.label; });
+      currentEditionObj = {
+        editionDate: EDITION,
+        dateline: currentDateline,
+        sectionsOrder: NEWSSECS.map(function (s) { return s.key; }),
+        sectionLabels: labels,
+        summaries: sums
+      };
+      renderSummaries();
+    })();
+    var rb = document.getElementById("sumrange");
+    if (rb) {
+      rb.querySelectorAll("[data-sumrange]").forEach(function (b) {
+        b.addEventListener("click", function () {
+          sumRange = b.getAttribute("data-sumrange");
+          rb.querySelectorAll("[data-sumrange]").forEach(function (x) { x.classList.toggle("on", x === b); });
+          renderSummaries();
+        });
+      });
+    }
+    renderPastCalendar();
+    window.addEventListener("tyd-news-archive", function () {
+      renderPastCalendar();
+      renderSummaries();
+    });
+  })();
+  /* Past Posts list from the Firestore archive (pondPostEditions). */
+  window.TYDNewsApplyPastList = function (items) {
+    var pastBox = document.querySelector("#view-past .pastlist");
+    if (!pastBox || !Array.isArray(items) || !items.length) return;
+    var html = items.map(function (it) {
+      return '<li><a href="news.html?' + (CATPARAM ? "cat=" + CATPARAM + "&" : "") + 'edition=' + esc(it.editionDate) + '">' + esc(it.dateline || it.editionDate) + "</a> &mdash; " + esc(it.blurb || "") + "</li>";
+    }).join("");
+    pastBox.innerHTML = html;
+  };
+})();
+</script>
+<script src="pondpost-live.js"></script>
+<script type="module">
+(function () {
+  var cfg = { apiKey: "preview-disabled", authDomain: "pond-preview-disabled.firebaseapp.com", projectId: "pond-preview-disabled", storageBucket: "pond-preview-disabled.firebasestorage.app", messagingSenderId: "000000000000", appId: "1:000000000000:web:previewdisabled" };
+  Promise.all([
+    import("./pond-firebase-stub.js"),
+    import("./pond-firebase-stub.js"),
+    import("./pond-firebase-stub.js")
+  ]).then(function (mods) {
+    var app;
+    try { app = mods[0].getApp(); } catch (e) { app = mods[0].initializeApp(cfg); }
+    var auth = mods[1].getAuth(app);
+    var db = mods[2].getFirestore(app);
+    var F = mods[2];
+    var uid = null, myName = "", myAvatar = "";
+    var C = { user: null, list: [], ready: false };
+    function emitChats() { try { window.dispatchEvent(new Event("tydchats")); } catch (e) {} }
+    window.TYDChats = {
+      get user() { return C.user; },
+      get list() { return C.list; },
+      get ready() { return C.ready; },
+      save: function (entry) {
+        if (!C.user) return Promise.reject(new Error("signed out"));
+        var list = [entry].concat(C.list).slice(0, 20);
+        return F.setDoc(F.doc(db, "users", C.user.uid), { helperChats: list }, { merge: true }).then(function () { C.list = list; emitChats(); });
+      },
+      remove: function (id) {
+        if (!C.user) return Promise.reject(new Error("signed out"));
+        var list = C.list.filter(function (x) { return x.id !== id; });
+        return F.setDoc(F.doc(db, "users", C.user.uid), { helperChats: list }, { merge: true }).then(function () { C.list = list; emitChats(); });
+      }
+    };
+    /* Live edition: the edition can change after load when pondpost-live.js
+       applies a newer Firestore edition, so always read it fresh. */
+    function editionNow() { return (window.TYDNewsComments && window.TYDNewsComments.edition) || "2026-11-13"; }
+    /* Clips sync: push local clips to the account, merge remote on sign-in */
+    window.TYDClipsChanged = function (list) {
+      if (!uid) return;
+      F.setDoc(F.doc(db, "users", uid), { clippedNews: list }, { merge: true }).catch(function () {});
+    };
+    window.TYDNewsChanged = function (order, hidden) {
+      if (!uid) return;
+      F.setDoc(F.doc(db, "users", uid), { newsOrder: order, newsHidden: hidden, newsPrefsSet: true }, { merge: true }).catch(function () {});
+    };
+    window.TYDNewsNotifyChanged = function (obj) {
+      if (!uid) return;
+      F.setDoc(F.doc(db, "users", uid), { newsNotify: obj }, { merge: true }).catch(function () {});
+    };
+    /* v339: the Korea language toggle rides the account as newsLang. */
+    window.TYDNewsLangChanged = function (lang) {
+      if (!uid) return;
+      F.setDoc(F.doc(db, "users", uid), { newsLang: lang }, { merge: true }).catch(function () {});
+    };
+    function paintForms() {
+      document.querySelectorAll(".cmtform").forEach(function (form) {
+        if (uid) {
+          form.innerHTML = '<textarea maxlength="500" placeholder="Say something about this section..."></textarea><br><button type="button">Post comment</button>';
+          form.querySelector("button").addEventListener("click", function () {
+            var ta = form.querySelector("textarea");
+            var text = (ta.value || "").trim();
+            if (!text) return;
+            var sec = form.closest(".cmt").getAttribute("data-section");
+            F.addDoc(F.collection(db, "newsComments"), { edition: editionNow(), section: sec, uid: uid, name: myName || "Pond member", avatar: myAvatar || "", text: text.slice(0, 500), createdAt: Date.now() }).then(function () { ta.value = ""; }).catch(function () {});
+          });
+        } else {
+          form.innerHTML = '<p class="signin"><a href="account.html">Sign in to your Pond Account</a> to join the conversation.</p>';
+        }
+      });
+    }
+    window.TYDDeleteComment = function (id) {
+      if (!uid) return;
+      F.deleteDoc(F.doc(db, "newsComments", id)).catch(function () {});
+    };
+    var REACT_EMOJIS = [["\u2764\ufe0f","heart"],["\uD83D\uDC4D","thumbsup"],["\uD83E\uDD86","duck"],["\uD83D\uDE02","laugh"],["\uD83D\uDE2E","wow"]];
+    window.TYDShareToPond = function () {
+      var note = document.getElementById("sharenote");
+      function say(m) { if (note) note.textContent = m; }
+      if (!uid) { say("Sign in to your Pond Account to post it in the Quack Shack."); return; }
+      var url = location.href.split("#")[0];
+      var S = window.TYDNewsStories || {};
+      var feat = Object.keys(S).filter(function (k) { return S[k].featured; }).slice(0, 3).map(function (k) { return S[k].title; });
+      var sum = feat.length ? feat.join(", ") + ", and more." : "today's top stories.";
+      F.addDoc(F.collection(db, "pondChat"), { uid: uid, name: myName || "Pond member", avatar: myAvatar || "", text: "\uD83D\uDCF0 Today's Pond Post is out: " + url + " \u2014 " + sum, createdAt: Date.now() }).then(function () { say("Posted in the Quack Shack. The Pond will see it."); }).catch(function () { say("That did not post. Try again in a moment."); });
+    };
+    var reactCache = {};
+    function paintReacts() {
+      document.querySelectorAll("[data-reacts]").forEach(function (row) {
+        var cid = row.getAttribute("data-reacts");
+        var got = reactCache[cid] || {};
+        row.querySelectorAll("[data-react]").forEach(function (b) {
+          var em = b.getAttribute("data-emoji");
+          var info = got[em] || { n: 0, mine: false };
+          b.classList.toggle("mine", !!info.mine);
+          var rc = b.querySelector(".rc");
+          if (rc) rc.textContent = info.n ? String(info.n) : "";
+        });
+      });
+    }
+    window.TYDLoadReacts = function (ids) {
+      if (!ids || !ids.length) { paintReacts(); return; }
+      var chunks = [];
+      for (var i = 0; i < ids.length; i += 30) chunks.push(ids.slice(i, i + 30));
+      var done = 0;
+      chunks.forEach(function (part) {
+        var q = F.query(F.collection(db, "newsCommentReactions"), F.where("commentId", "in", part));
+        F.getDocs(q).then(function (snap) {
+          var seen = {};
+          snap.forEach(function (d) {
+            var v = d.data() || {};
+            if (!v.commentId || !v.emoji) return;
+            var k = v.commentId + "|" + v.emoji;
+            if (seen[k]) return;
+            seen[k] = true;
+            reactCache[v.commentId] = reactCache[v.commentId] || {};
+            var cur = reactCache[v.commentId][v.emoji] || { n: 0, mine: false };
+            cur.n += 1;
+            if (uid && v.uid === uid) cur.mine = true;
+            reactCache[v.commentId][v.emoji] = cur;
+          });
+          done += 1;
+          if (done === chunks.length) paintReacts();
+        }).catch(function () { done += 1; if (done === chunks.length) paintReacts(); });
+      });
+    };
+    window.TYDReactNews = function (cid, emoji, key) {
+      if (!uid) { alert("Sign in to your Pond Account to react."); return; }
+      var docId = cid + "_" + uid + "_" + key;
+      var cur = (reactCache[cid] || {})[emoji] || { n: 0, mine: false };
+      if (cur.mine) {
+        F.deleteDoc(F.doc(db, "newsCommentReactions", docId)).then(function () {
+          cur.n = Math.max(0, cur.n - 1); cur.mine = false;
+          reactCache[cid][emoji] = cur; paintReacts();
+        }).catch(function () {});
+      } else {
+        F.setDoc(F.doc(db, "newsCommentReactions", docId), { commentId: cid, uid: uid, emoji: emoji, createdAt: Date.now() }).then(function () {
+          cur.n += 1; cur.mine = true;
+          reactCache[cid] = reactCache[cid] || {}; reactCache[cid][emoji] = cur; paintReacts();
+        }).catch(function () {});
+      }
+    };
+    var unsubComments = null;
+    function watchComments() {
+      var q = F.query(F.collection(db, "newsComments"), F.where("edition", "==", editionNow()), F.orderBy("createdAt", "desc"), F.limit(100));
+      if (unsubComments) { try { unsubComments(); } catch (e) {} unsubComments = null; }
+      unsubComments = F.onSnapshot(q, function (snap) {
+        var list = [];
+        snap.forEach(function (d) { var v = d.data() || {}; v.id = d.id; list.push(v); });
+        if (window.TYDNewsComments) window.TYDNewsComments.render(list, uid ? { uid: uid } : null);
+        if (window.TYDLoadReacts) window.TYDLoadReacts(list.map(function (c) { return c.id; }));
+      }, function () {});
+    }
+    /* Live edition: when pondpost-live.js swaps in a newer Firestore
+       edition, repaint the comment forms and re-watch that edition's
+       comments. */
+    window.addEventListener("tyd-news-edition", function () { paintForms(); watchComments(); });
+    mods[1].onAuthStateChanged(auth, function (user) {
+      if (!user) { uid = null; myName = ""; myAvatar = ""; C.user = null; C.list = []; C.ready = true; emitChats(); paintForms(); watchComments(); return; }
+      uid = user.uid;
+      C.user = { uid: user.uid, email: user.email || "" };
+      C.ready = true;
+      paintForms();
+      F.getDoc(F.doc(db, "profiles", uid)).then(function (snap) {
+        if (snap.exists()) { myName = snap.data().username ? "@" + snap.data().username : (user.email || "Pond member"); myAvatar = snap.data().avatar || ""; }
+        else myName = user.email || "Pond member";
+      }).catch(function () { myName = user.email || "Pond member"; }).finally(function () { paintForms(); });
+      F.getDoc(F.doc(db, "users", uid)).then(function (snap) {
+        var d = snap.exists() ? snap.data() : {};
+        C.list = Array.isArray(d.helperChats) ? d.helperChats : [];
+        emitChats();
+        if (d.newsPrefsSet === true || Array.isArray(d.newsOrder) || Array.isArray(d.newsHidden)) {
+          if (window.TYDSetNewsPrefs) window.TYDSetNewsPrefs(d.newsOrder || null, d.newsHidden || []);
+        } else if (window.TYDGetNewsPrefs) {
+          var lp = window.TYDGetNewsPrefs();
+          var isDefault = lp.order.join(",") === "everyday,stocks,politics,korea" && !lp.hidden.length;
+          if (!isDefault && window.TYDNewsChanged) window.TYDNewsChanged(lp.order, lp.hidden);
+        }
+        if (d.newsNotify && typeof d.newsNotify === "object") {
+          if (window.TYDSetNewsNotify) window.TYDSetNewsNotify(d.newsNotify);
+        } else if (window.TYDGetNewsPrefs && window.TYDNewsNotifyChanged) {
+          var ln = window.TYDGetNewsPrefs().notify || {};
+          if (ln.everyday || ln.stocks || ln.politics || ln.korea) window.TYDNewsNotifyChanged(ln);
+        }
+        /* v351: the Korea language toggle (tydNewsLang) rides the account
+           as newsLang, but a tap Lucy made must win over a stale stored
+           value. The old code applied the stored value whenever it
+           differed from local, so a Korean tap made just before the
+           auth load (or before the tap had uploaded) flipped her back
+           to English. Now the stored value only applies when she has
+           never picked a language on this device; when she has picked
+           one, the local choice stands and uploads so the account
+           catches up instead. */
+        if (window.TYDLiveNews && window.TYDLiveNews.hasUserLangChoice && window.TYDLiveNews.hasUserLangChoice()) {
+          if (window.TYDNewsLangChanged) window.TYDNewsLangChanged(window.TYDLiveNews.getLang());
+        } else if (window.TYDLiveNews && (d.newsLang === "ko" || d.newsLang === "en")) {
+          if (window.TYDLiveNews.getLang() !== d.newsLang) window.TYDLiveNews.setLang(d.newsLang);
+        } else if (window.TYDLiveNews && window.TYDNewsLangChanged && window.TYDLiveNews.getLang() === "ko") {
+          window.TYDNewsLangChanged("ko");
+        }
+        var remote = d.clippedNews || [];
+        var local = window.TYDGetClips ? window.TYDGetClips() : [];
+        var merged = remote.slice();
+        local.forEach(function (c) { if (!merged.some(function (m) { return m.id === c.id; })) merged.push(c); });
+        if (window.TYDSetClips) window.TYDSetClips(merged);
+        var note = document.getElementById("syncnote");
+        if (note) note.textContent = "Signed in as " + (user.email || "") + ", so your clips sync to your Pond Account on any device.";
+      }).catch(function () {});
+      watchComments();
+    });
+    paintForms();
+    watchComments();
+    emitChats();
+  }).catch(function () {});
+})();
+</script>
+<script>
+/* Section helper bot: floating duck chat for this section, with export. */
+window.BOTCFG = {
+  section: "The Pond Post",   duck: "images/corners/duck-news.jpg",
+  title: "🦆 Pond Post Helper",
+  placeholder: "Ask about today's news...",
+  honest: "I answer from today's post and how this page works, not a full AI.",
+  greet: "Quack! I'm the Pond Post duck. 📰 Ask me what's featured today, what's in a section, how clipping works, or how to join the conversation.",
+  fallback: "Quack, that one's beyond this little duck. I can tell you today's featured stories, sum up a section, or explain clipping, comments and the tabs. Try one of the chips!",
+  chips: [
+    ["\u2b50 Featured today", "What's featured today?"],
+    ["📰 Everyday Stuff", "What's in Everyday Stuff?"],
+    ["📈 Stocks", "What's in Stocks?"],
+    ["🏛\ufe0f Politics", "What's in Politics?"],
+    ["🇰🇷 South Korea", "What's in South Korea?"],
+    ["📌 How clipping works", "How does clipping work?"],
+    ["💬 How comments work", "How do comments work?"]
+  ],
+  answer: function (q, U) {
+    var low = q.toLowerCase();
+    var S = window.TYDNewsStories || {};
+    function titles(ids) {
+      var out = [], i;
+      for (i = 0; i < ids.length; i++) if (S[ids[i]]) out.push(S[ids[i]].title);
+      return out;
+    }
+    function inSection(name) {
+      return Object.keys(S).filter(function (k) { return S[k].section === name; });
+    }
+    function bullets(arr) { return arr.map(function (t) { return "\u2022 " + t; }).join("\n"); }
+    if (/featured|top stor|most important/.test(low)) {
+      return "Today's featured stories:\n" + bullets(titles(Object.keys(S).filter(function (k) { return S[k].featured; }))) + "\nTap any story to read it, or clip it to save it for later.";
+    }
+    if (/everyday/.test(low)) {
+      return "Everyday Stuff today:\n" + bullets(titles(inSection("Everyday Stuff")));
+    }
+    if (/stock|market/.test(low)) {
+      return "Stocks today:\n" + bullets(titles(inSection("Stocks")));
+    }
+    if (/politic/.test(low)) {
+      return "Politics today:\n" + bullets(titles(inSection("Politics")));
+    }
+    if (/korea/.test(low)) {
+      return "South Korea today:\n" + bullets(titles(inSection("South Korea")));
+    }
+    if (/clip|save/.test(low)) {
+      return "Tap the \u201c\ud83d\udccc Clip this\u201d button on any story and it saves to your Clipped tab, so you can find it again later. If you're signed in to your Pond Account, your clips follow you across devices.";
+    }
+    if (/comment|talk|saying/.test(low)) {
+      return "Every section has a \u201cTalk about\u201d box at the bottom, and the Comments tab shows everything people are saying across the whole post. Sign in to your Pond Account to join in.";
+    }
+    if (/past/.test(low)) {
+      return "The Past Posts tab keeps every day's edition, so you can look back at what happened on any day. Today's preview edition is the newest one there.";
+    }
+    if (/summar/.test(low)) {
+      return "The Summaries tab gives you one line per section, so you can catch up fast.";
+    }
+    if (/link|source|reference/.test(low)) {
+      return "The Links tab lists every source today's news came from, kept for reference.";
+    }
+    if (/more on this|search|find more/.test(low)) {
+      return "Every story has a \u201c\ud83d\udd0e More on this\u201d link that searches Google News for more on that same topic.";
+    }
+    return null;
+  }
+};
+(function () {
+  "use strict";
+  var CFG = window.BOTCFG || {};
+  var css = [
+    ".phelp-launch{display:inline-flex;align-items:center;gap:8px;position:fixed;right:12px;bottom:calc(84px + env(safe-area-inset-bottom));z-index:10080;background:#1f5f74;border:2px solid #174a5b;color:#fff;font-family:inherit;font-weight:900;font-size:14.5px;border-radius:999px;padding:11px 16px;box-shadow:0 8px 22px rgba(35,65,77,.35);cursor:pointer;}",
+    ".botduck{width:27px;height:27px;border-radius:50%;object-fit:cover;flex:none;border:2px solid rgba(255,255,255,.65);}",
+    ".phelp-head .t .botduck{width:31px;height:31px;}",
+    ".phelp-panel{position:fixed;right:12px;bottom:calc(84px + env(safe-area-inset-bottom));z-index:10090;width:min(94vw,384px);height:min(72vh,580px);background:#fff;border-radius:20px;box-shadow:0 18px 44px rgba(10,25,32,.4);display:none;flex-direction:column;overflow:hidden;border:2px solid #bcd9e4;}",
+    ".phelp-panel.show{display:flex;}",
+    "@media (max-width:520px){.phelp-panel{left:12px;width:auto;}}",
+    ".phelp-head{background:#1f5f74;color:#fff;padding:12px 14px;flex:none;}",
+    ".phelp-head .t{font-weight:900;font-size:16.5px;display:flex;align-items:center;gap:8px;}",
+    ".phelp-head .ctx{font-size:12.5px;opacity:.92;margin-top:3px;line-height:1.4;}",
+    ".phelp-x{margin-left:2px;background:rgba(255,255,255,.16);border:none;color:#fff;width:30px;height:30px;border-radius:50%;font-weight:900;cursor:pointer;font-family:inherit;flex:none;}",
+    ".phelp-expbtn{margin-left:auto;background:#ffd94d;border:2px solid #e3c93f;color:#6b5900;font-family:inherit;font-weight:900;font-size:12.5px;border-radius:999px;padding:6px 11px;cursor:pointer;flex:none;}",
+    ".phelp-drawer{display:none;background:#fff;border-bottom:1px solid #e3eff4;padding:10px 12px;flex:none;max-height:46%;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;touch-action:pan-y;}",
+    ".phelp-drawer.show{display:block;}",
+    ".phelp-drow{display:flex;gap:6px;flex-wrap:wrap;}",
+    ".pdbtn{border:2px solid #bcd9e4;background:#eaf7fb;color:#1f5f74;font-family:inherit;font-weight:800;font-size:12.5px;border-radius:999px;padding:7px 12px;cursor:pointer;}",
+    ".pdbtn.main{background:#ffd94d;border-color:#e3c93f;color:#6b5900;}",
+    ".phelp-note{font-size:12.5px;color:#3f6b7a;margin-top:7px;line-height:1.45;}",
+    ".phelp-dhead{font-weight:900;font-size:13px;color:#1f5f74;margin:11px 0 4px;}",
+    ".psaved{padding:7px 0;border-bottom:1px solid #e3eff4;font-size:13.5px;color:#23414d;}",
+    ".psaved:last-child{border-bottom:none;}",
+    ".psaved .pm{font-size:12px;color:#5b7a87;margin-top:1px;}",
+    ".psaved .pa{margin-top:4px;display:flex;gap:6px;}",
+    ".psaved .pa button{border:2px solid #bcd9e4;background:#fff;color:#1f5f74;font-family:inherit;font-weight:800;font-size:11.5px;border-radius:999px;padding:4px 9px;cursor:pointer;}",
+    ".phelp-msgs{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;touch-action:pan-y;padding:12px;background:#f4fafc;display:flex;flex-direction:column;gap:8px;}",
+    ".pmsg{max-width:88%;padding:9px 12px;border-radius:14px;font-size:14px;line-height:1.5;white-space:pre-wrap;word-wrap:break-word;}",
+    ".pmsg.bot{background:#fff;border:1.5px solid #d7e6ec;color:#23414d;align-self:flex-start;border-bottom-left-radius:4px;}",
+    ".pmsg.me{background:#1f5f74;color:#fff;align-self:flex-end;border-bottom-right-radius:4px;}",
+    ".phelp-chips{display:flex;gap:6px;flex-wrap:wrap;padding:8px 10px;background:#fff;border-top:1px solid #e3eff4;flex:none;}",
+    ".pchip{border:2px solid #bcd9e4;background:#eaf7fb;color:#1f5f74;font-family:inherit;font-weight:800;font-size:12.5px;border-radius:999px;padding:6px 11px;cursor:pointer;}",
+    ".phelp-form{display:flex;gap:6px;padding:10px;background:#fff;border-top:1px solid #e3eff4;flex:none;}",
+    ".phelp-form input{flex:1;border:2px solid #bcd9e4;border-radius:12px;padding:10px;font-size:15px;font-family:inherit;min-width:0;color:#23414d;background:#fff;}",
+    ".phelp-form button{background:#ffd94d;border:2px solid #e3c93f;color:#6b5900;font-family:inherit;font-weight:900;font-size:14px;border-radius:12px;padding:10px 14px;cursor:pointer;}",
+    "html[data-theme=\"dark\"] .phelp-panel{background:var(--tyd-acc-dark, #172635);border-color:#2e4a5f;}",
+    "html[data-theme=\"dark\"] .phelp-msgs{background:#101e2c;}",
+    "html[data-theme=\"dark\"] .pmsg.bot{background:#23414d;border-color:#2e4a5f;color:#eefaff;}",
+    "html[data-theme=\"dark\"] .phelp-chips,html[data-theme=\"dark\"] .phelp-form,html[data-theme=\"dark\"] .phelp-drawer{background:var(--tyd-acc-dark, #172635);border-color:#2e4a5f;}",
+    "html[data-theme=\"dark\"] .pchip{background:#23414d;color:#d7ecf5;border-color:#2e4a5f;}",
+    "html[data-theme=\"dark\"] .pdbtn{background:#23414d;color:#d7ecf5;border-color:#2e4a5f;}",
+    "html[data-theme=\"dark\"] .phelp-form input{background:#101e2c;color:#eefaff;border-color:#2e4a5f;}",
+    "html[data-theme=\"dark\"] .phelp-note{color:#bcd6e4;}",
+    "html[data-theme=\"dark\"] .phelp-dhead{color:#ffd94d;}",
+    "html[data-theme=\"dark\"] .psaved{color:#eefaff;border-color:#2e4a5f;}",
+    "@media print{.phelp-launch,.phelp-panel{display:none !important;}}"
+  ].join("\n");
+  var st = document.createElement("style"); st.textContent = css; document.head.appendChild(st);
+  function esc(t) { return String(t == null ? "" : t).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+
+  /* Utilities handed to each page's answer function. */
+  var U = {
+    ls: function (k, d) { try { var v = JSON.parse(localStorage.getItem(k)); return v == null ? d : v; } catch (e) { return d; } },
+    snap: function () { try { return (window.TYDPage && window.TYDPage.snapshot) ? window.TYDPage.snapshot() : null; } catch (e) { return null; } },
+    todayISO: function () { var d = new Date(); return d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2); },
+    daysUntil: function (ds) { if (!ds) return null; return Math.round((new Date(ds + "T12:00:00") - new Date(U.todayISO() + "T12:00:00")) / 86400000); },
+    fmtDate: function (ds) { if (!ds) return ""; try { return new Date(ds + "T12:00:00").toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" }); } catch (e) { return String(ds); } },
+    money: function (n) { n = Number(n) || 0; var r = Math.round(n * 100) / 100; return "$" + r.toLocaleString(undefined, { minimumFractionDigits: (r % 1 !== 0) ? 2 : 0, maximumFractionDigits: 2 }); },
+    when: function (ds) { var d = U.daysUntil(ds); if (d === null) return ""; if (d < 0) return "overdue by " + (-d) + (d === -1 ? " day" : " days"); if (d === 0) return "today"; if (d === 1) return "tomorrow"; return "in " + d + " days"; },
+    plural: function (n, one, many) { return n + " " + (n === 1 ? one : many); }
+  };
+
+  var log = [];
+  var greeted = false;
+  var openStamp = 0;
+  var drawerOpen = false;
+
+  var launch = document.createElement("button");
+  launch.className = "phelp-launch"; launch.type = "button";
+  launch.innerHTML = '<img class="botduck" src="' + (CFG.duck || "") + '" alt="">' + "Pond Post help";
+  launch.setAttribute("aria-label", "Open the " + (CFG.section || "") + " helper chat");
+  document.body.appendChild(launch);
+
+  var panel = document.createElement("div");
+  panel.className = "phelp-panel";
+  panel.innerHTML = '<div class="phelp-head"><div class="t"><img class="botduck" src="' + (CFG.duck || "") + '" alt="">' + esc((CFG.title || "Helper").replace(/^🦆 /, ""))
+    + '<button type="button" class="phelp-expbtn" data-expbtn>⬇ Export</button>'
+    + '<button type="button" class="phelp-x" data-close aria-label="Close">✕</button></div>'
+    + '<div class="ctx">' + esc(CFG.honest || "") + "</div></div>"
+    + '<div class="phelp-drawer" data-drawer>'
+    + '<div class="phelp-drow"><button type="button" class="pdbtn main" data-expfile>💾 Save as a file</button>'
+    + '<button type="button" class="pdbtn" data-expacct>☁️ Save to my account</button></div>'
+    + '<div class="phelp-note" data-expnote></div>'
+    + '<div class="phelp-dhead">📁 Saved chats</div><div data-savedlist></div>'
+    + "</div>"
+    + '<div class="phelp-msgs" data-msgs></div>'
+    + '<div class="phelp-chips" data-chips></div>'
+    + '<form class="phelp-form"><input type="text" placeholder="' + esc(CFG.placeholder || "Ask the duck...") + '" aria-label="Ask the helper"><button type="submit">Send</button></form>';
+  document.body.appendChild(panel);
+
+  var msgs = panel.querySelector("[data-msgs]");
+  var chipsBox = panel.querySelector("[data-chips]");
+  var drawer = panel.querySelector("[data-drawer]");
+  var expNote = panel.querySelector("[data-expnote]");
+  var savedList = panel.querySelector("[data-savedlist]");
+  var input = panel.querySelector(".phelp-form input");
+
+  function renderMsgs() {
+    msgs.innerHTML = log.map(function (m) {
+      return '<div class="pmsg ' + (m.who === "me" ? "me" : "bot") + '">' + esc(m.text).replace(/\n/g, "<br>") + "</div>";
+    }).join("");
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+  function renderChips() {
+    var chips = [];
+    try { chips = (typeof CFG.chips === "function") ? CFG.chips(U) : (CFG.chips || []); } catch (e) { chips = []; }
+    chipsBox.innerHTML = "";
+    (chips || []).forEach(function (c) {
+      var b = document.createElement("button");
+      b.type = "button"; b.className = "pchip"; b.textContent = c[0];
+      b.addEventListener("click", function () { ask(c[1]); });
+      chipsBox.appendChild(b);
+    });
+  }
+  function say(text) { log.push({ who: "duck", text: String(text == null ? "" : text) }); renderMsgs(); }
+  function ask(q) {
+    q = String(q || "").trim();
+    if (!q) return;
+    log.push({ who: "me", text: q });
+    var a = null;
+    try { a = CFG.answer ? CFG.answer(q, U) : null; } catch (e) { a = null; }
+    if (!a) a = CFG.fallback || "Quack, that one is beyond this little duck. Try one of the topics above!";
+    log.push({ who: "duck", text: a });
+    renderMsgs();
+    renderChips();
+  }
+  function openPanel() {
+    panel.classList.add("show");
+    launch.style.display = "none";
+    if (!greeted) { greeted = true; if (CFG.greet) log.push({ who: "duck", text: CFG.greet }); }
+    openStamp = Date.now();
+    renderMsgs(); renderChips(); renderSaved();
+    setTimeout(function () { if (panel.classList.contains("show")) renderSaved(); }, 1600);
+    setTimeout(function () { if (panel.classList.contains("show")) renderSaved(); }, 4200);
+    setTimeout(function () { try { input.focus(); } catch (e) {} }, 60);
+  }
+  function closePanel() {
+    panel.classList.remove("show");
+    launch.style.display = "";
+  }
+  launch.addEventListener("click", openPanel);
+  panel.querySelector("[data-close]").addEventListener("click", closePanel);
+  panel.querySelector(".phelp-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var v = input.value; input.value = "";
+    ask(v);
+  });
+
+  /* ---------- export ---------- */
+  function transcript() {
+    var lines = [(CFG.section || "Pond") + " Helper chat", "Exported " + new Date().toLocaleString(), ""];
+    log.forEach(function (m) { lines.push((m.who === "me" ? "You: " : "Duck: ") + m.text); });
+    return lines.join("\n");
+  }
+  function download(name, text) {
+    try {
+      var blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement("a");
+      a.href = url; a.download = name;
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(function () { URL.revokeObjectURL(url); }, 400);
+    } catch (e) {}
+  }
+  function fileName(section) {
+    return String(section || "pond").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") + "-chat-" + U.todayISO() + ".txt";
+  }
+  function chats() { return window.TYDChats || null; }
+  function renderSaved() {
+    var C = chats();
+    if (!C || !C.ready) { savedList.innerHTML = '<div class="phelp-note">' + (Date.now() - openStamp > 4000 ? "Sign in with your Pond Account to keep chats here. Saving as a file works any time." : "Checking your Pond Account...") + '</div>'; return; }
+    if (!C.user) { savedList.innerHTML = '<div class="phelp-note">Sign in with your Pond Account to keep chats here. Saving as a file works any time.</div>'; return; }
+    if (!C.list.length) { savedList.innerHTML = '<div class="phelp-note">No saved chats yet. Export this chat to your account and it will live here.</div>'; return; }
+    savedList.innerHTML = C.list.map(function (e) {
+      var when = "";
+      try { when = new Date(e.createdAt).toLocaleString([], { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }); } catch (x) {}
+      return '<div class="psaved"><div>' + esc(e.title || (e.section || "Chat")) + '</div><div class="pm">' + esc(e.section || "") + (when ? " · " + esc(when) : "") + '</div>'
+        + '<div class="pa"><button type="button" data-dl="' + esc(e.id) + '">⬇ Download</button><button type="button" data-del="' + esc(e.id) + '">✕ Delete</button></div></div>';
+    }).join("");
+    savedList.querySelectorAll("[data-dl]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var id = b.getAttribute("data-dl");
+        var e = (chats() ? chats().list : []).filter(function (x) { return x.id === id; })[0];
+        if (e) download(fileName(e.section), String(e.text || ""));
+      });
+    });
+    savedList.querySelectorAll("[data-del]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var C2 = chats(); if (!C2) return;
+        C2.remove(b.getAttribute("data-del")).then(renderSaved).catch(renderSaved);
+      });
+    });
+  }
+  panel.querySelector("[data-expbtn]").addEventListener("click", function () {
+    drawerOpen = !drawerOpen;
+    drawer.classList.toggle("show", drawerOpen);
+    if (drawerOpen) { expNote.textContent = ""; renderSaved(); }
+  });
+  panel.querySelector("[data-expfile]").addEventListener("click", function () {
+    download(fileName(CFG.section), transcript());
+    expNote.textContent = "Saved as a file on this device. 💾";
+  });
+  panel.querySelector("[data-expacct]").addEventListener("click", function () {
+    var C = chats();
+    if (!C || !C.user) { expNote.textContent = "Saving to your account needs you signed in. Sign in with your Pond Account, then tap Export again. The file download above works either way."; return; }
+    var entry = {
+      id: "c" + Date.now().toString(36) + Math.random().toString(36).slice(2, 7),
+      section: CFG.section || "",
+      title: (CFG.section || "Pond") + " chat · " + new Date().toLocaleDateString(undefined, { month: "short", day: "numeric" }),
+      text: transcript().slice(0, 20000),
+      createdAt: Date.now()
+    };
+    C.save(entry).then(function () {
+      expNote.textContent = "Saved to your Pond Account. ☁️ Find it under Saved chats on any of the helper ducks.";
+      renderSaved();
+    }).catch(function () {
+      expNote.textContent = "That save did not go through just now. Try the file download instead, and check back soon.";
+    });
+  });
+  window.addEventListener("tydchats", function () { if (panel.classList.contains("show")) renderSaved(); });
+})();
+</script>
+<script src="pond-staging.js"></script>
 </body>
 </html>

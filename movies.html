@@ -1,0 +1,2024 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="color-scheme" content="light dark">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="apple-touch-icon-v2.png">
+<meta name="theme-color" content="#ffd94d">
+<meta name="description" content="Movies & Shows: your own little cinema shelf at TreatYourselfDiscounts. The movies and shows you have, the ones you want to watch, a spin when you cannot decide, stars, watch counts and notes. Saved in your Pond Account.">
+<meta property="og:title" content="Movies & Shows | TreatYourselfDiscounts">
+<meta property="og:description" content="Movies & Shows: your own little cinema shelf at TreatYourselfDiscounts. The movies and shows you have, the ones you want to watch, a spin when you cannot decide, stars, watch counts and notes.">
+<meta property="og:image" content="/icon-512.png">
+<meta property="og:url" content="/movies">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Movies & Shows | TreatYourselfDiscounts">
+<meta name="twitter:description" content="Movies & Shows: your own little cinema shelf at TreatYourselfDiscounts. The movies and shows you have, the ones you want to watch, a spin when you cannot decide, stars, watch counts and notes.">
+<meta name="twitter:image" content="/icon-512.png">
+<title>Movies &amp; Shows | TreatYourselfDiscounts</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #d9f0f7; color: #23414d; }
+  .app { max-width: 760px; margin: 0 auto; min-height: 100vh; background: #bfe6f2; box-shadow: 0 0 24px rgba(35,65,77,.12); padding: 16px 16px 40px; }
+  a.back { color: #1f5f74; font-weight: 700; text-decoration: none; font-size: 14px; }
+  header.top { text-align: center; margin: 10px 0 4px; }
+  header.top img.duck { width: 76px; height: 76px; border-radius: 50%; border: 3px solid #ffd94d; background: #ffd94d; }
+  h1 { margin: 6px 0 0; font-size: 30px; color: #1f5f74; }
+  .sub { margin: 6px 0 0; color: #3f6b7a; font-size: 15px; line-height: 1.5; }
+  .card { background: #fff; border-radius: 18px; padding: 16px 18px; margin: 14px 0; box-shadow: 0 2px 8px rgba(35,65,77,.08); }
+  .card h2 { margin: 0 0 8px; font-size: 20px; color: #1f5f74; }
+  .card p { margin: 6px 0; font-size: 14.5px; line-height: 1.5; }
+  label { display: block; font-size: 13px; font-weight: 700; color: #1f5f74; margin: 10px 0 4px; }
+  input, select, textarea { width: 100%; border: 2px solid #bcd9e4; border-radius: 12px; padding: 10px 12px; font-size: 15px; font-family: inherit; color: #23414d; background: #fbfdfe; }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: #1f5f74; }
+  .btn { display: inline-block; border: none; cursor: pointer; font-family: inherit; font-weight: 800; font-size: 14.5px; border-radius: 999px; padding: 10px 18px; margin: 4px 4px 4px 0; }
+  .btn-main { background: #1f5f74; color: #fff; }
+  .btn-alt { background: #ffd94d; color: #6b5900; border: 2px solid #f0c93e; }
+  .btn-ghost { background: #eaf7fb; color: #1f5f74; border: 2px solid #bcd9e4; }
+  .btn-danger { background: #fdecec; color: #8c2b2b; border: 2px solid #f2c1c1; }
+  .prow2 { display: flex; gap: 8px; flex-wrap: wrap; }
+  .prow2 > div { flex: 1 1 0; min-width: 0; }
+  .prow2 input, .prow2 select { min-width: 0; max-width: 100%; }
+  @media (max-width: 560px) { .prow2 { flex-direction: column; } .prow2 > div { flex: none; width: 100%; } }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 14px 0 4px; }
+  .chip { border: 2px solid #bcd9e4; background: #fff; color: #1f5f74; font-family: inherit; font-weight: 800; font-size: 13.5px; border-radius: 999px; padding: 8px 14px; cursor: pointer; }
+  .chip.on { background: #1f5f74; border-color: #1f5f74; color: #fff; }
+  .shelfhead { font-size: 17px; color: #1f5f74; margin: 18px 0 4px; }
+  .crow { position: relative; overflow: hidden; border-bottom: 1px solid #e3eff4; cursor: pointer; touch-action: pan-y; }
+  .crow:last-child { border-bottom: none; }
+  .crow .grow { flex: 1; min-width: 0; }
+  .crow .btitle { font-weight: 800; font-size: 15.5px; color: #23414d; }
+  .crow .bmeta { font-size: 13px; color: #3f6b7a; line-height: 1.5; margin-top: 2px; }
+  .crow .mvbadge { display: inline-block; font-size: 11px; font-weight: 800; color: #fff; background: #1f5f74; border-radius: 4px; padding: 1px 6px; margin-left: 6px; vertical-align: 1px; }
+  .crow .bnote { font-size: 13.5px; color: #3f6b7a; font-style: italic; margin-top: 3px; }
+  .draghandle { background: #fff; border: 2px solid #bcd9e4; color: #1f5f74; width: 34px; height: 34px; border-radius: 50%; font-size: 15px; cursor: grab; line-height: 1; touch-action: none; flex: none; font-family: inherit; }
+  .draghandle:active { cursor: grabbing; }
+  .crow.dragging { opacity: .55; pointer-events: none; }
+  .iconbtn { border: 2px solid #bcd9e4; background: #eaf7fb; border-radius: 999px; padding: 5px 11px; font-size: 12.5px; font-weight: 700; cursor: pointer; font-family: inherit; color: #1f5f74; flex: none; }
+  .iconbtn.del { background: #fdecec; border-color: #f2c1c1; color: #8c2b2b; }
+  .stars { display: flex; gap: 2px; margin: 4px 0 2px; }
+  .stars button { background: none; border: none; font-size: 26px; line-height: 1; cursor: pointer; padding: 2px; color: #d9b83c; font-family: inherit; }
+  .stars button.off { color: #c9d8de; }
+  .starshow { color: #d9b83c; font-size: 15px; letter-spacing: 1px; }
+  .starshow .off { color: #c9d8de; }
+  .emptybox { text-align: center; padding: 26px 16px; }
+  .emptybox img { width: 92px; height: 92px; border-radius: 50%; border: 3px solid #ffd94d; background: #ffd94d; }
+  .emptybox p { color: #3f6b7a; font-size: 15px; line-height: 1.55; }
+  .syncnote { font-size: 13px; color: #3f6b7a; text-align: center; margin: 8px 0 0; line-height: 1.5; }
+  .syncnote a { color: #1f5f74; font-weight: 800; }
+  .err { color: #8c2b2b; font-size: 13.5px; font-weight: 700; display: none; }
+  .formphoto { width: 84px; height: 84px; object-fit: cover; border-radius: 14px; border: 2px solid #bcd9e4; display: block; }
+  .photofield { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
+  .photohint { font-size: 13.5px; color: #3f6b7a; }
+  /* v363: Movies & Shows (Lucy, Nov 18, 2026) */
+  .mphoto { width: 46px; height: 68px; border-radius: 8px; object-fit: cover; flex: none; border: 2px solid #bcd9e4; background: #fff8e1; }
+  .crowinner { display: flex; gap: 10px; align-items: flex-start; padding: 10px 0; position: relative; z-index: 1; background: #fff; transition: transform .18s ease; }
+  .mvswipeacts { position: absolute; top: 0; right: 0; bottom: 0; z-index: 0; display: grid; grid-template-columns: 1fr 1fr; }
+  .mvswact { border: none; font-family: inherit; font-weight: 800; font-size: 12px; line-height: 1.25; padding: 6px 10px; cursor: pointer; min-width: 74px; }
+  .mvsw-watch { background: #e3f2e1; color: #2e6b34; }
+  .mvsw-fav { background: #ffd94d; color: #6b5900; }
+  .mvsw-move { background: #eaf7fb; color: #1f5f74; }
+  .mvsw-del { background: #d23b3b; color: #fff; grid-column: 1 / -1; }
+  .rowstars { display: flex; gap: 2px; margin-top: 4px; }
+  .rowstars button { background: none; border: none; cursor: pointer; font-size: 17px; line-height: 1; color: #f0b429; padding: 2px 1px; font-family: inherit; }
+  .rowstars button.off { color: #d7e6ec; }
+  html[data-theme="dark"] .rowstars button.off { color: #33536b; }
+  .flagpill { display: inline-block; font-size: 11.5px; font-weight: 800; border-radius: 999px; padding: 2px 8px; margin: 3px 4px 0 0; }
+  .fp-want { background: #eaf7fb; color: #1f5f74; }
+  .fp-fav { background: #ffd94d; color: #6b5900; }
+  .mvtoolbar { display: flex; align-items: center; gap: 8px; margin: 12px 0 4px; }
+  .sortlab { font-weight: 800; color: #1f5f74; font-size: 14px; }
+  .sortsel { font: inherit; font-weight: 700; color: #1f5f74; background: #fff; border: 2px solid #bcd9e4; border-radius: 999px; padding: 6px 10px; cursor: pointer; max-width: 100%; }
+  html[data-theme="dark"] .sortlab { color: #c9f0fc; }
+  html[data-theme="dark"] .sortsel { background: var(--tyd-acc-dark, #172635); color: #eefaff; border-color: #2e4a5f; }
+  @media (prefers-reduced-motion: reduce) { .crowinner { transition: none !important; } }
+  /* v367: genre cards (Lucy, Nov 18, 2026). Modeled on the Recipes
+     category cards: a wide pond-scene duck banner at the top, the name
+     and count pills, a Spin button and a See movies button, and preview
+     covers underneath. Tap the banner (not a button) to flip it to the
+     back, which shows a one-line description and a See movies button. */
+  /* v369: shared Recipes styling, copied verbatim from recipes.html
+     (catnav / catchip / plspin / plbtn / plsee / plpick / surprise), so
+     the Movies Jump to strip, stats pills, genre Spin and See buttons,
+     pick banner and whole-shelf surprise look exactly like Recipes.
+     One deliberate deviation: the strip label goes pale in dark mode,
+     because Recipes dark teal #1f5f74 on the dark column is not
+     legible. */
+  .catnav{display:flex;gap:8px;overflow-x:auto;padding:12px 2px 4px;scrollbar-width:thin;-webkit-overflow-scrolling:touch;}
+  .catnavlab{flex:none;align-self:center;font-weight:900;color:#1f5f74;font-size:14px;}
+  .catchip{flex:none;font-family:inherit;font-size:14px;font-weight:800;color:#17485a;background:#fff;border:2px solid #1f5f74;border-radius:999px;padding:8px 14px;cursor:pointer;box-shadow:0 2px 6px rgba(23,72,90,.18);}
+  .catchip:active{background:#ffd94d;}
+  .catchip.on{background:#1f5f74;color:#fff;}
+  html[data-theme="dark"] .catnavlab{color:#c9f0fc;}
+  .plspin{height:36px;border-radius:999px;border:2px solid #e3c93f;background:#ffd94d;color:#6b5900;font-size:13.5px;font-weight:900;cursor:pointer;font-family:inherit;padding:0 13px;}
+  .plspin:disabled{opacity:.6;cursor:default;}
+  .plbtn{width:36px;height:36px;border-radius:50%;border:2px solid #bcd9e4;background:#eaf7fb;color:#1f5f74;font-size:19px;font-weight:900;cursor:pointer;font-family:inherit;line-height:1;}
+  .plbtn.on{background:#ffd94d;border-color:#e3c93f;color:#6b5900;}
+  .plsee{position:relative;z-index:1;align-self:flex-start;margin:6px 0 0;border:none;background:#1f5f74;color:#fff;font-weight:800;font-size:13.5px;border-radius:999px;padding:8px 16px;cursor:pointer;font-family:inherit;}
+  .mvheadbtns .plsee{margin:0;align-self:center;}
+  .plpick{background:#fff3b0;border:2px solid #ffd94d;color:#6b5900;border-radius:10px;padding:8px 12px;font-size:14.5px;margin:6px 0 2px;cursor:pointer;}
+  .surprise{display:block;width:100%;margin:12px 0 4px;background:#ffd94d;border:3px solid #17485a;color:#17485a;font-family:inherit;font-weight:900;font-size:17px;border-radius:14px;padding:13px;cursor:pointer;box-shadow:0 4px 12px rgba(23,72,90,.35);}
+  .mvsec { background: #fff; border-radius: 18px; margin: 14px 0; box-shadow: 0 2px 8px rgba(35,65,77,.08); overflow: hidden; }
+  .mvhead { position: relative; height: 200px; overflow: hidden; background: #dff3fa url("images/pond-scene-wide.jpg") center 38%/cover; cursor: pointer; }
+  .mvhead .mvface { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-start; gap: 6px; padding: 10px 12px 12px; }
+  .mvhead .mvface::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 72px; background: linear-gradient(180deg, rgba(255,255,255,0), rgba(255,255,255,.45)); z-index: 0; pointer-events: none; }
+  .mvname { position: relative; z-index: 1; font-weight: 800; font-size: 20px; color: #17485a; line-height: 1.25; background: #fff; border: 2px solid #1f5f74; border-radius: 999px; padding: 7px 15px; box-shadow: 0 2px 7px rgba(23,72,90,.4); }
+  .mvcount { position: relative; z-index: 1; font-size: 12.5px; font-weight: 700; color: #8a7a2e; background: #fff3b0; border-radius: 999px; padding: 3px 9px; white-space: nowrap; }
+  .mvheadbtns { position: relative; z-index: 1; display: flex; gap: 8px; flex-wrap: wrap; }
+  .mvhead .mvback { position: absolute; inset: 0; display: none; background: #fffbe8; flex-direction: column; align-items: flex-start; justify-content: center; gap: 6px; padding: 14px 16px; cursor: pointer; }
+  .mvhead.flipped .mvface { display: none; }
+  .mvhead.flipped .mvback { display: flex; }
+  .mvbackname { font-weight: 800; font-size: 20px; color: #17485a; line-height: 1.25; }
+  .mvbackcount { font-size: 12.5px; font-weight: 700; color: #8a7a2e; background: #fff3b0; border-radius: 999px; padding: 3px 9px; white-space: nowrap; }
+  .mvbackdesc { margin: 0; font-size: 14.5px; line-height: 1.5; color: #23414d; }
+  .mvbackhint { font-size: 12px; color: #5b7d89; font-weight: 700; }
+  .mvpreviews { display: flex; gap: 10px; padding: 10px 12px 14px; overflow-x: auto; background: linear-gradient(180deg, #eaf8fd, #d9eff8); scroll-snap-type: x proximity; scroll-padding: 0 12px; touch-action: pan-x; }
+  .mvpreviews.dragging { scroll-snap-type: none; cursor: grabbing; }
+  .mvtile { flex: 0 0 118px; scroll-snap-align: center; background: #fff; border: 2px solid #bcd9e4; border-radius: 12px; padding: 0; overflow: hidden; cursor: pointer; font-family: inherit; text-align: left; }
+  .mvtile.picked { outline: 4px solid #ffd94d; outline-offset: 2px; }
+  .mvtile .timg { display: block; height: 80px; background-color: #eaf7fb; background-position: center; background-size: cover; background-repeat: no-repeat; }
+  .mvtile .tname { display: block; padding: 6px 8px 8px; font-size: 12.5px; font-weight: 800; color: #1f5f74; line-height: 1.3; }
+  .mvseeall { display: block; width: 100%; background: none; border: none; border-top: 1px solid #e3eff4; padding: 11px 6px; font-family: inherit; font-size: 14.5px; font-weight: 800; color: #1f5f74; cursor: pointer; }
+  .mvkpin { position: relative; z-index: 1; font-size: 12px; font-weight: 800; color: #6b5900; background: #ffd94d; border-radius: 999px; padding: 3px 9px; }
+  html[data-theme="dark"] .mvsec { background: var(--tyd-acc-dark, #172635); }
+  html[data-theme="dark"] .mvhead .mvback { background: #2a2305; }
+  html[data-theme="dark"] .mvbackname { color: #c9f0fc; }
+  html[data-theme="dark"] .mvbackdesc { color: #eefaff; }
+  html[data-theme="dark"] .mvbackhint { color: #8fb0c2; }
+  html[data-theme="dark"] .mvpreviews { background: #101e2c; }
+  html[data-theme="dark"] .mvtile { background: var(--tyd-acc-dark, #172635); border-color: #2e4a5f; }
+  html[data-theme="dark"] .mvtile .tname { color: #c9f0fc; }
+  html[data-theme="dark"] .mvseeall { border-color: #2e4a5f; color: #c9f0fc; }
+  @media (max-width: 560px) { .mvhead { height: 200px; } }
+  /* Spin */
+  .spincard { text-align: center; }
+  .spincard h2 { margin-bottom: 4px; }
+  .spinres { margin-top: 12px; }
+  .spinres .spinpick { display: flex; gap: 12px; align-items: flex-start; text-align: left; background: #eaf7fb; border: 2px solid #bcd9e4; border-radius: 14px; padding: 12px; }
+  .spinres .spinpick img { width: 64px; height: 96px; border-radius: 8px; object-fit: cover; flex: none; border: 2px solid #bcd9e4; }
+  .spinres .spintitle { font-weight: 800; font-size: 17px; color: #1f5f74; line-height: 1.3; }
+  .spinres .spinmeta { font-size: 13.5px; color: #3f6b7a; margin-top: 3px; line-height: 1.5; }
+  html[data-theme="dark"] .spinres .spinpick { background: #101e2c; border-color: #2e4a5f; }
+  html[data-theme="dark"] .spinres .spintitle { color: #c9f0fc; }
+  html[data-theme="dark"] .spinres .spinmeta { color: #bcd6e4; }
+  /* Detail view: iCollect layout in Pond styling */
+  .dtop { display: flex; gap: 14px; align-items: flex-start; }
+  .dtop img.dcover { width: 110px; height: 164px; border-radius: 12px; object-fit: cover; flex: none; border: 2px solid #bcd9e4; background: #fff8e1; }
+  .dtop .dtitle { font-size: 21px; font-weight: 800; color: #1f5f74; line-height: 1.3; }
+  .dtop .dmade { font-size: 14.5px; color: #3f6b7a; margin-top: 4px; }
+  .dtop .dmeta { font-size: 13.5px; color: #3f6b7a; margin-top: 3px; line-height: 1.5; }
+  .dsyn { font-size: 14.5px; line-height: 1.6; color: #23414d; margin: 14px 0 6px; }
+  .drow { display: flex; justify-content: space-between; gap: 14px; padding: 11px 0; border-bottom: 1px solid #e3eff4; }
+  .drow:last-of-type { border-bottom: none; }
+  .drow .dlab { font-size: 15px; font-weight: 700; color: #23414d; flex: none; }
+  .drow .dval { font-size: 15px; color: #3f6b7a; text-align: right; overflow-wrap: break-word; }
+  .drow .dlist { display: block; text-align: left; font-size: 14.5px; color: #3f6b7a; line-height: 1.65; }
+  .drow.dlistrow { display: block; }
+  .drow.dlistrow .dlab { display: block; margin-bottom: 2px; }
+  .dacts { margin: 16px 0 4px; }
+  .dacts button { display: block; width: 100%; background: none; border: none; border-top: 1px solid #e3eff4; padding: 13px 6px; font-family: inherit; font-size: 15.5px; font-weight: 700; color: #1f5f74; cursor: pointer; }
+  .dacts button.del { color: #c0392b; }
+  .dfoot { text-align: center; color: #5b7d89; font-size: 13.5px; line-height: 1.7; margin-top: 14px; }
+  .deditbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .deditbar .cancel { color: #c0392b; background: none; border: none; font-family: inherit; font-size: 15px; font-weight: 800; cursor: pointer; }
+  .deditbar .save { color: #1f5f74; background: none; border: none; font-family: inherit; font-size: 15px; font-weight: 800; cursor: pointer; }
+  .deditgrid label { margin-top: 12px; }
+  .deditgrid .hint { font-size: 12.5px; color: #5b7d89; font-weight: 400; margin-top: 2px; }
+  .watchctl { display: flex; gap: 8px; align-items: center; margin-top: 6px; flex-wrap: wrap; }
+  .watchctl span { font-weight: 800; min-width: 130px; text-align: center; }
+  html[data-theme="dark"] .crowinner { background: var(--tyd-acc-dark, #172635); }
+  html[data-theme="dark"] .dtop .dtitle { color: #c9f0fc; }
+  html[data-theme="dark"] .dtop .dmade, html[data-theme="dark"] .dtop .dmeta { color: #bcd6e4; }
+  html[data-theme="dark"] .dsyn { color: #eefaff; }
+  html[data-theme="dark"] .drow { border-color: #2e4a5f; }
+  html[data-theme="dark"] .drow .dlab { color: #eefaff; }
+  html[data-theme="dark"] .drow .dval, html[data-theme="dark"] .drow .dlist { color: #bcd6e4; }
+  html[data-theme="dark"] .dacts button { border-color: #2e4a5f; color: #c9f0fc; }
+  html[data-theme="dark"] .dacts button.del { color: #ff8a7a; }
+  html[data-theme="dark"] .dfoot { color: #8fb0c2; }
+  /* Samples banner */
+  .samplebar { background: #fff3b0; border: 2px solid #f0c93e; border-radius: 14px; padding: 12px 14px; margin: 12px 0 4px; font-size: 14px; line-height: 1.55; color: #6b5900; }
+  html[data-theme="dark"] .samplebar { background: #2a2305; border-color: #6b5900; color: #ffe98a; }
+  /* Delete confirm sheet (Bins pattern) */
+  .sheet { position: fixed; inset: 0; z-index: 10000; background: rgba(20, 40, 52, .45); display: flex; align-items: flex-end; justify-content: center; }
+  .sheet[hidden] { display: none; }
+  .sheet-card { background: #fff; border-radius: 18px 18px 0 0; width: 100%; max-width: 560px; padding: 18px 18px calc(18px + 92px + env(safe-area-inset-bottom)); box-shadow: 0 -4px 24px rgba(0,0,0,.2); }
+  .sheet-card h3 { margin: 0 0 8px; font-size: 18px; color: #1f5f74; }
+  .sheet-card p { margin: 6px 0 14px; font-size: 14.5px; line-height: 1.5; color: #23414d; }
+  html[data-theme="dark"] .sheet-card { background: var(--tyd-acc-dark, #172635); }
+  html[data-theme="dark"] .sheet-card h3 { color: #c9f0fc; }
+  html[data-theme="dark"] .sheet-card p { color: #eefaff; }
+  footer { margin-top: 26px; text-align: center; }
+  .disc { font-size: 12px; color: #5b7d89; line-height: 1.5; max-width: 560px; margin: 10px auto 0; }
+  html[data-theme="dark"] .crow { border-color: #2e4a5f; }
+  html[data-theme="dark"] .crow .btitle { color: #eefaff; }
+  html[data-theme="dark"] .crow .bmeta, html[data-theme="dark"] .crow .bnote { color: #bcd6e4; }
+  html[data-theme="dark"] .shelfhead { color: #c9f0fc; }
+  html[data-theme="dark"] .chip { background: var(--tyd-acc-dark, #172635); color: #d7ecf5; border-color: #2e4a5f; }
+  html[data-theme="dark"] .chip.on { background: #1f5f74; color: #fff; }
+  html[data-theme="dark"] .stars button.off, html[data-theme="dark"] .starshow .off { color: #33536b; }
+</style>
+<meta name="robots" content="noindex,nofollow">
+<link rel="stylesheet" href="pond-travel.css">
+<script>window.__TYD_PREVIEW__=true;</script>
+</head>
+<body>
+<div class="app">
+<div class="tyd-pagehead">
+  <a class="tyd-ph-home" href="index.html">&larr; The Pond</a>
+  <a class="tyd-ph-search" href="search.html">🔍 Search the Pond</a>
+</div>
+
+  <header class="top">
+    <img class="duck" src="images/avatars/duck-movie.jpg" onerror="this.onerror=null;this.src='icon-512.png';" alt="The Pond duck">
+    <h1>🎬 Movies &amp; Shows</h1>
+    <p class="sub">Your own little cinema shelf in the Pond: the movies and shows you have, the ones you want to watch, a spin when you cannot decide, stars, watch counts and notes.</p>
+    <p class="syncnote" id="sync-note">Saved on this device. <a href="account.html">Sign in to sync</a> your shelf to your Pond Account.</p>
+  </header>
+  <p class="howto-note" style="font-size:13px;color:#4a6b78;margin:0 0 12px;">🎬 Tap a title to see what it is about, when it was made, and all its details. Swipe a title for watch again, favorite, move, and delete. Spin when you cannot pick one. Browse the genre cards to find a mood, and tap a card to flip it over.</p>
+
+  <div class="catnav" id="mvstats" aria-label="Your shelf at a glance"></div>
+
+  <div class="card spincard">
+    <h2>🎲 Spin the Pond</h2>
+    <p>Spin your watchlist when you want something new, or spin what you own for tonight.</p>
+    <div>
+      <button type="button" class="btn btn-main" id="spin-want">🎲 Spin my Watchlist</button>
+      <button type="button" class="btn btn-alt" id="spin-have">🎲 Spin what I own</button>
+    </div>
+    <button type="button" class="surprise" id="spin-surprise">🎲 Can't decide? Spin the whole shelf</button>
+    <div class="spinres" id="spin-result" aria-live="polite"></div>
+  </div>
+
+  <div class="catnav" id="mvjump" aria-label="Jump to a genre"></div>
+
+  <div id="genre-host" aria-label="Browse movies by genre"></div>
+
+  <div class="chips" id="listchips">
+    <button type="button" class="chip on" data-list="all">All titles</button>
+    <button type="button" class="chip" data-list="have">🍿 Have <span data-listcount="have"></span></button>
+    <button type="button" class="chip" data-list="want">💭 Want to watch <span data-listcount="want"></span></button>
+    <button type="button" class="chip" data-list="favorites">⭐ Favorites <span data-listcount="favorites"></span></button>
+  </div>
+  <div class="chips" id="genrechips" aria-label="Filter by genre"></div>
+  <div class="mvtoolbar">
+    <label for="mv-sort" class="sortlab">Sort</label>
+    <select id="mv-sort" class="sortsel" aria-label="Sort movies and shows"></select>
+  </div>
+
+  <div id="listwrap">
+    <div id="samplebar-host"></div>
+    <div id="movielist"></div>
+  </div>
+  <div id="detail-host" style="display:none;"></div>
+
+  <div class="card" id="movieformcard">
+    <h2>Add a movie or show</h2>
+    <p style="margin:4px 0 0;"><button type="button" class="btn btn-alt" id="mf-scanadd">📷 Scan or look it up</button></p>
+    <p id="mf-fillnote" class="photohint" style="display:none; margin-top:6px;"></p>
+    <label for="mf-title">Title *</label>
+    <input id="mf-title" type="text" placeholder="Like: The Princess Bride">
+    <div class="prow2">
+      <div>
+        <label for="mf-year">Year made</label>
+        <input id="mf-year" type="number" min="1880" max="2100" placeholder="Like: 1987">
+      </div>
+      <div>
+        <label for="mf-type">Show type</label>
+        <select id="mf-type">
+          <option value="Movie">Movie</option>
+          <option value="TV">TV show</option>
+          <option value="Children">Children</option>
+          <option value="Special">Special</option>
+        </select>
+      </div>
+    </div>
+    <label for="mf-genre">Genre</label>
+    <input id="mf-genre" type="text" placeholder="Like: Fantasy, Comedy">
+    <label for="mf-barcode">Barcode (optional)</label>
+    <input id="mf-barcode" type="text" inputmode="numeric" placeholder="Scan it, or type the number from the case">
+    <label for="mf-list">List</label>
+    <select id="mf-list">
+      <option value="have">🍿 Have it</option>
+      <option value="want">💭 Want to watch</option>
+    </select>
+    <label>Your rating</label>
+    <div class="stars" id="mf-stars"></div>
+    <label>Times watched</label>
+    <div style="display:flex; gap:8px; align-items:center; margin-top:4px;">
+      <button type="button" class="iconbtn" id="mf-watchminus" aria-label="One fewer time watched">−</button>
+      <span id="mf-watchcount" style="font-weight:800; min-width:130px; text-align:center;">Not watched yet</span>
+      <button type="button" class="iconbtn" id="mf-watchplus" aria-label="One more time watched">+</button>
+    </div>
+    <label for="mf-note">Note (optional)</label>
+    <textarea id="mf-note" rows="2" placeholder="What did you think of it?"></textarea>
+    <label for="mf-coverurl">Cover image URL (optional)</label>
+    <input id="mf-coverurl" type="url" placeholder="Paste a cover image link, or tap Find cover">
+    <div style="margin-top:8px; display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
+      <button type="button" class="iconbtn" id="mf-findcover">🔍 Find cover</button>
+      <span id="mf-covermsg" class="photohint"></span>
+    </div>
+    <img id="mf-coverpreview" class="formphoto" alt="Cover preview" style="display:none; margin-top:8px;" data-tydlb>
+    <p id="mf-covercredit" class="photohint" style="display:none; margin-top:4px;"></p>
+    <p class="err" id="mf-err"></p>
+    <div style="margin-top:10px;">
+      <button type="button" class="btn btn-main" id="mf-save">Save movie or show</button>
+    </div>
+  </div>
+
+  <div class="sheet" id="mv-sheet" hidden>
+    <div class="sheet-card" role="dialog" aria-modal="true" aria-labelledby="mv-sheet-title">
+      <h3 id="mv-sheet-title">Delete this title?</h3>
+      <p id="mv-sheet-text"></p>
+      <div>
+        <button type="button" class="btn btn-danger" id="mv-sheet-yes">Delete it</button>
+        <button type="button" class="btn btn-ghost" id="mv-sheet-no">Keep it</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="sheet" id="mv-dup-sheet" hidden>
+    <div class="sheet-card" role="dialog" aria-modal="true" aria-labelledby="mv-dup-title">
+      <h3 id="mv-dup-title">Already in the Pond?</h3>
+      <p id="mv-dup-msg"></p>
+      <div>
+        <button type="button" class="btn btn-main" id="mv-dup-addanyway">Add it anyway</button>
+        <button type="button" class="btn btn-ghost" id="mv-dup-cancel">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p class="disc">Part of TreatYourselfDiscounts, the Pond. Your Movies &amp; Shows shelf is private: it lives in your Pond Account and on your devices. Welcome to the Pond!</p>
+    <p style="text-align:center;font-size:12.5px;color:#4a6b78">© 2026 TreatYourselfDiscounts™. All rights reserved. · <a href="terms.html">Terms of Use</a></p>
+  </footer>
+</div>
+<script type="module" src="auth-pill.js"></script>
+<script>
+(function () {
+  "use strict";
+  /* v363: Movies & Shows (Lucy, Nov 18, 2026).
+     Have / Want to watch lists, a spin for tonight and for the wishlist,
+     stars, watch counts, notes, swipe actions, sort, and a detail view
+     modeled on the iCollect detail screen (synopsis on top, labeled
+     fields, actions, barcode and added date at the bottom) with an Edit
+     mode for every field. The import seeds ONLY Lucy's account, once. */
+  var LS_KEY = "tydMovies";
+  var IMPORT_FLAG = "tydMoviesImportSeeded";
+  var KDRAMA_FLAG = "tydMoviesKdramaSeeded";
+  var KDRAMA_PIN_FLAG = "tydMoviesKdramaPin";
+  var IMPORT_URL = "data/movies-import-2026-11-18.json";
+  var LUCY_UID = "1hbpZnS7gfPd0ptzygwiaDBfjo63";
+  var movies = [];
+  try { var v = JSON.parse(localStorage.getItem(LS_KEY)); if (Array.isArray(v)) movies = v.filter(function (m) { return m && m.id && m.title; }); } catch (e) {}
+  var listFilter = "all", genreFilter = "all", sortMode = "custom", openDetail = null, detailEditing = false, detailHideSecondary = false;
+  var SORTS = { custom: "My order", title: "Title A-Z", recent: "Recently added", rating: "Highest rated", watched: "Most watched" };
+  try { var sv = localStorage.getItem("tydMoviesSort"); if (SORTS[sv]) sortMode = sv; } catch (e) {}
+  var formStars = 0, formWatch = 0, formAutoCover = null, currentUid = null, pendingFill = null, dupConfirmed = false;
+  function uid() { return "m" + Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
+  function esc(s) { return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
+  function save() { try { localStorage.setItem(LS_KEY, JSON.stringify(movies)); } catch (e) {} if (window.TYDPageChanged) window.TYDPageChanged(); }
+  function saveSortPref() { try { localStorage.setItem("tydMoviesSort", sortMode); } catch (e) {} }
+  function movieById(id) { for (var i = 0; i < movies.length; i++) if (movies[i].id === id) return movies[i]; return null; }
+  function watchLabel(n) { n = Number(n) || 0; if (n <= 0) return ""; if (n === 1) return "Watched once"; return "Watched " + n + " times"; }
+  function fmtMoney(cents) { if (cents == null) return ""; return "~$" + (Math.floor(cents / 100)) + "." + String(cents % 100).padStart(2, "0"); }
+  function fmtAdded(s) {
+    if (!s) return "";
+    var m = String(s).match(/^(\d{4})-(\d{2})-(\d{2})[ T](\d{2}):(\d{2})/);
+    if (!m) return String(s);
+    var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    var hh = parseInt(m[4], 10), ap = hh >= 12 ? "PM" : "AM", h12 = hh % 12; if (h12 === 0) h12 = 12;
+    return months[parseInt(m[2], 10) - 1] + " " + parseInt(m[3], 10) + ", " + m[1] + " at " + h12 + ":" + m[5] + " " + ap;
+  }
+  function runtimeLabel(rt) { if (rt == null || rt === "") return ""; var n = Number(rt); if (!n) return String(rt); return n + " min"; }
+  function sortedMovies(list) {
+    var out = list.slice();
+    if (sortMode === "title") out.sort(function (a, b) { var c = String(a.title || "").toLowerCase().localeCompare(String(b.title || "").toLowerCase()); return c || ((a.ord || 0) - (b.ord || 0)); });
+    else if (sortMode === "recent") out.sort(function (a, b) { return ((b.addedAt || 0) - (a.addedAt || 0)) || ((a.ord || 0) - (b.ord || 0)); });
+    else if (sortMode === "rating") out.sort(function (a, b) { return ((Number(b.stars) || 0) - (Number(a.stars) || 0)) || ((a.ord || 0) - (b.ord || 0)); });
+    else if (sortMode === "watched") out.sort(function (a, b) { return ((Number(b.watchCount) || 0) - (Number(a.watchCount) || 0)) || ((a.ord || 0) - (b.ord || 0)); });
+    else out.sort(function (a, b) { return (a.ord || 0) - (b.ord || 0); });
+    return out;
+  }
+  function assignMissingOrd() {
+    var max = 0;
+    movies.forEach(function (m) { if (m.ord != null && m.ord > max) max = m.ord; });
+    movies.forEach(function (m) { if (m.ord == null) { max += 10; m.ord = max; } });
+  }
+  function setStars(m, r) { m.stars = Math.max(0, Math.min(5, r | 0)); m.updatedAt = Date.now(); save(); render(); }
+  function bumpWatch(m) { m.watchCount = (Number(m.watchCount) || 0) + 1; m.watched = true; m.updatedAt = Date.now(); save(); render(); }
+  function setWatchCount(m, n) { m.watchCount = Math.max(0, n | 0); if (m.watchCount > 0) m.watched = true; m.updatedAt = Date.now(); save(); render(); }
+  /* v367: a Watched check, so Lucy can tick off a K-drama (or any title)
+     she has seen and keep its times-seen count beside it. */
+  function setWatched(m, on) { m.watched = !!on; m.updatedAt = Date.now(); save(); render(); }
+  function toggleWatched(m) { setWatched(m, !m.watched); }
+  function setList(m, list) { m.list = list === "want" ? "want" : "have"; m.updatedAt = Date.now(); save(); render(); }
+  function toggleFavorite(m) { m.favorite = !m.favorite; m.updatedAt = Date.now(); save(); render(); }
+  function duplicateMovie(id) {
+    var m = movieById(id); if (!m) return null;
+    var copy = JSON.parse(JSON.stringify(m));
+    copy.id = uid(); copy.addedAt = Date.now(); copy.updatedAt = Date.now();
+    copy.imported = false; delete copy.icollectId;
+    movies.push(copy); assignMissingOrd(); save(); render(); return copy;
+  }
+  function deleteMovieNow(id) {
+    movies = movies.filter(function (x) { return x.id !== id; });
+    if (openDetail === id) { openDetail = null; detailEditing = false; }
+    save(); render();
+  }
+  /* ---------- samples: display-only, only when the shelf is empty ----------
+     Never written to any account. Once the viewer adds a movie (or, for
+     Lucy, once her import lands) the samples disappear. */
+  var SAMPLES = [
+    { id: "sample-shawshank", title: "The Shawshank Redemption", year: 1994, genre: ["Drama"], showType: "Movie", stars: 5, watchCount: 3, notes: "Example movie so you can see how it works.", list: "have", sample: true },
+    { id: "sample-toystory", title: "Toy Story", year: 1995, genre: ["Animation", "Family"], showType: "Movie", stars: 5, watchCount: 2, notes: "Example movie so you can see how it works.", list: "have", sample: true },
+    { id: "sample-jurassic", title: "Jurassic Park", year: 1993, genre: ["Adventure", "Sci-Fi"], showType: "Movie", stars: 4, watchCount: 1, notes: "Example movie so you can see how it works.", list: "have", sample: true },
+    { id: "sample-princess", title: "The Princess Bride", year: 1987, genre: ["Fantasy", "Comedy"], showType: "Movie", stars: 5, watchCount: 4, notes: "Example movie so you can see how it works.", list: "have", sample: true },
+    { id: "sample-backfuture", title: "Back to the Future", year: 1985, genre: ["Sci-Fi", "Comedy"], showType: "Movie", stars: 5, watchCount: 2, notes: "Example movie so you can see how it works.", list: "have", sample: true },
+    { id: "sample-spirited", title: "Spirited Away", year: 2001, genre: ["Animation", "Fantasy"], showType: "Movie", stars: 5, watchCount: 1, notes: "Example movie so you can see how it works.", list: "have", sample: true },
+    { id: "sample-darkknight", title: "The Dark Knight", year: 2008, genre: ["Action", "Crime"], showType: "Movie", stars: 5, watchCount: 2, notes: "Example movie so you can see how it works.", list: "have", sample: true },
+    { id: "sample-singin", title: "Singin' in the Rain", year: 1952, genre: ["Musical", "Comedy"], showType: "Movie", stars: 4, watchCount: 0, notes: "Example movie so you can see how it works.", list: "want", sample: true }
+  ];
+  function showingSamples() { return movies.length === 0; }
+  /* ---------- import seed: Lucy's account only, once, idempotent ----------
+     The import JSON lives in data/ and is fetched at most once per account.
+     Any record whose id already exists is skipped, so a second seed (or a
+     re-import) can never duplicate a title or overwrite an edit. */
+  function seedFromImport(uidArg, records) {
+    if (uidArg !== LUCY_UID) return false;
+    try { if (localStorage.getItem(IMPORT_FLAG) === "1") return false; } catch (e) {}
+    if (!Array.isArray(records) || !records.length) return false;
+    var have = {};
+    movies.forEach(function (m) { have[m.id] = true; });
+    var added = 0;
+    records.forEach(function (r) {
+      if (!r || !r.id || have[r.id]) return;
+      var rec = JSON.parse(JSON.stringify(r));
+      rec.addedAt = Date.now(); rec.updatedAt = Date.now();
+      movies.push(rec); have[rec.id] = true; added++;
+    });
+    if (!added) return false;
+    assignMissingOrd();
+    try { localStorage.setItem(IMPORT_FLAG, "1"); } catch (e) {}
+    save(); render();
+    return true;
+  }
+  function seedMoviesIfLucy() {
+    if (currentUid !== LUCY_UID) return;
+    try { if (localStorage.getItem(IMPORT_FLAG) === "1") return; } catch (e) {}
+    if (typeof fetch !== "function") return;
+    fetch(IMPORT_URL).then(function (r) { return r.json(); }).then(function (j) {
+      if (j && Array.isArray(j.movies)) seedFromImport(currentUid, j.movies);
+    }).catch(function () {});
+  }
+  /* ---------- K-drama category (Lucy, Nov 18, 2026) ----------
+     None of her 143 imported movies is Korean, so the K-drama shelf is
+     seeded as a new curated list of TV shows, each with its year verified
+     against Wikipedia before seeding (never guessed). Every title also
+     carries the genres it fits, so it shows up in the genre cards too
+     without duplicating the record. Seeds ONLY Lucy's account, once,
+     idempotently: any id already present is skipped, and the seed flag
+     rides the account, so a second device never re-seeds titles she
+     deliberately deleted. She can add more K-dramas herself (add form,
+     showType TV, genre K-Drama) and remove any seed title. */
+  var KDRAMA_SEED = [
+    { id: "kd-boys-over-flowers", title: "Boys Over Flowers", year: 2009, genre: ["K-Drama", "Romance", "Drama"] },
+    { id: "kd-youre-beautiful", title: "You're Beautiful", year: 2009, genre: ["K-Drama", "Romantic Comedy"] },
+    { id: "kd-dream-high", title: "Dream High", year: 2011, genre: ["K-Drama", "Drama", "Musical"] },
+    { id: "kd-secret-garden", title: "Secret Garden", year: 2010, genre: ["K-Drama", "Romance", "Fantasy"] },
+    { id: "kd-descendants-of-the-sun", title: "Descendants of the Sun", year: 2016, genre: ["K-Drama", "Romance", "Drama"] },
+    { id: "kd-goblin", title: "Goblin", year: 2016, genre: ["K-Drama", "Fantasy", "Romance"] },
+    { id: "kd-hotel-del-luna", title: "Hotel Del Luna", year: 2019, genre: ["K-Drama", "Fantasy", "Romance"] },
+    { id: "kd-alchemy-of-souls", title: "Alchemy of Souls", year: 2022, genre: ["K-Drama", "Fantasy", "Romance"] },
+    { id: "kd-crash-landing-on-you", title: "Crash Landing on You", year: 2019, genre: ["K-Drama", "Romantic Comedy", "Drama"] },
+    { id: "kd-its-okay-to-not-be-okay", title: "It's Okay to Not Be Okay", year: 2020, genre: ["K-Drama", "Romance", "Drama"] },
+    { id: "kd-vincenzo", title: "Vincenzo", year: 2021, genre: ["K-Drama", "Crime", "Comedy"] },
+    { id: "kd-hometown-cha-cha-cha", title: "Hometown Cha-Cha-Cha", year: 2021, genre: ["K-Drama", "Romantic Comedy"] },
+    { id: "kd-queen-of-tears", title: "Queen of Tears", year: 2024, genre: ["K-Drama", "Romance", "Drama"] },
+    { id: "kd-king-the-land", title: "King the Land", year: 2023, genre: ["K-Drama", "Romantic Comedy"] },
+    { id: "kd-my-love-from-the-star", title: "My Love from the Star", year: 2013, genre: ["K-Drama", "Fantasy", "Romantic Comedy"] },
+    { id: "kd-moon-lovers", title: "Moon Lovers: Scarlet Heart Ryeo", year: 2016, genre: ["K-Drama", "Romance", "History"] },
+    { id: "kd-kingdom", title: "Kingdom", year: 2019, genre: ["K-Drama", "Horror", "History"] },
+    { id: "kd-squid-game", title: "Squid Game", year: 2021, genre: ["K-Drama", "Thriller", "Drama"] }
+  ];
+  function isKdramaPinned() { try { return localStorage.getItem(KDRAMA_PIN_FLAG) === "1"; } catch (e) { return false; } }
+  /* v369: genre pins for everyone (Lucy, Nov 18, 2026: "Let other do
+     that too"). Any signed-in member can pin a genre to the top of
+     their own Movies page. Pins are per-account (users/{uid} via the
+     TYDPage snapshot, localStorage fallback), kept in pin order, and
+     never change anyone else's order. A signed-out visitor sees the
+     default order with no pin buttons. Lucy's old K-Drama-only flag
+     migrates into this list the first time it is read. */
+  var GENRE_PIN_KEY = "tydMovieGenrePins";
+  function genrePins() {
+    if (!currentUid) return [];
+    var pins = [];
+    try { pins = JSON.parse(localStorage.getItem(GENRE_PIN_KEY)) || []; } catch (e) { pins = []; }
+    if (!Array.isArray(pins)) pins = [];
+    if (isKdramaPinned() && pins.indexOf("K-Drama") < 0) pins.unshift("K-Drama");
+    return pins.filter(function (g) { return typeof g === "string" && g; });
+  }
+  function saveGenrePins(pins) {
+    try { localStorage.setItem(GENRE_PIN_KEY, JSON.stringify(pins)); } catch (e) {}
+    if (window.TYDPageChanged) window.TYDPageChanged();
+  }
+  function isGenrePinned(g) { return genrePins().indexOf(g) > -1; }
+  function toggleGenrePin(g) {
+    if (!currentUid) return false;
+    var pins = genrePins().slice();
+    var i = pins.indexOf(g);
+    if (i > -1) {
+      pins.splice(i, 1);
+      if (g === "K-Drama") { try { localStorage.removeItem(KDRAMA_PIN_FLAG); } catch (e) {} }
+    } else pins.push(g);
+    saveGenrePins(pins);
+    render();
+    return true;
+  }
+  function seedKdramaIfLucy() {
+    if (currentUid !== LUCY_UID) return false;
+    try { if (localStorage.getItem(KDRAMA_FLAG) === "1") return false; } catch (e) {}
+    var have = {};
+    movies.forEach(function (m) { have[m.id] = true; });
+    var added = 0;
+    KDRAMA_SEED.forEach(function (s) {
+      if (have[s.id]) return;
+      movies.push({ id: s.id, title: s.title, year: s.year, genre: s.genre.slice(), showType: "TV", list: "want", stars: 0, watchCount: 0, watched: false, favorite: false, notes: "", synopsis: "", cover: "", coverAuto: false, coverNone: false, imported: false, kdramaSeed: true, addedAt: Date.now(), updatedAt: Date.now() });
+      have[s.id] = true; added++;
+    });
+    try { localStorage.setItem(KDRAMA_FLAG, "1"); localStorage.setItem(KDRAMA_PIN_FLAG, "1"); } catch (e) {}
+    if (!added) return false;
+    assignMissingOrd();
+    save(); render();
+    movies.forEach(function (m) { if (m.kdramaSeed) { if (!m.cover) maybeAutoCover(m); if (!m.synopsis) maybeAutoSynopsis(m); } });
+    return true;
+  }
+  /* ---------- auto cover + synopsis for manually added titles ----------
+     Same free, no-key pattern as Travel. Wikipedia pageimages first, then
+     Openverse. A pasted cover URL always wins. A miss sets coverNone and
+     the row falls back to the movie duck. Nothing is ever guessed. */
+  var COVER_RETRY_MS = 6 * 60 * 60 * 1000;
+  var coverBusy = {}, coverCandCache = {};
+  function wikiLead(title) {
+    if (typeof fetch !== "function" || !title) return Promise.resolve(null);
+    return fetch("https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&prop=pageimages|pageprops&ppprop=disambiguation&redirects=1&pithumbsize=1200&titles=" + encodeURIComponent(title))
+      .then(function (r) { return r.json(); })
+      .then(function (j) {
+        var pages = j && j.query && j.query.pages ? Object.keys(j.query.pages).map(function (k) { return j.query.pages[k]; }) : [];
+        for (var i = 0; i < pages.length; i++) {
+          if (pages[i].pageprops && ("disambiguation" in pages[i].pageprops)) continue;
+          if (pages[i].thumbnail && pages[i].thumbnail.source) return { url: pages[i].thumbnail.source, credit: "Photo: Wikimedia Commons" };
+        }
+        return null;
+      }).catch(function () { return null; });
+  }
+  function openverseList(q) {
+    if (typeof fetch !== "function" || !q) return Promise.resolve([]);
+    return fetch("https://api.openverse.org/v1/images/?q=" + encodeURIComponent(q) + "&page_size=12")
+      .then(function (r) { return r.json(); })
+      .then(function (j) {
+        var out = [];
+        ((j && j.results) || []).forEach(function (x) {
+          if (!x || !x.url) return;
+          out.push({ url: x.url, credit: x.creator ? "Photo by " + x.creator + " via Openverse" : "Photo: Openverse" });
+        });
+        return out;
+      }).catch(function () { return []; });
+  }
+  function movieCoverCandidates(title, year) {
+    var key = (title || "") + "|" + (year || "");
+    if (coverCandCache[key]) return coverCandCache[key];
+    var filmTitle = title + (year ? " (" + year + " film)" : "");
+    var p = wikiLead(filmTitle).then(function (c) {
+      if (c) return [c];
+      return wikiLead(title).then(function (c2) {
+        if (c2) return [c2];
+        return openverseList(title + " movie poster").then(function (ov) {
+          if (ov.length) return ov.slice(0, 1);
+          return openverseList(title + " film").then(function (ov2) { return ov2.slice(0, 1); });
+        });
+      });
+    });
+    coverCandCache[key] = p;
+    return p;
+  }
+  function maybeAutoCover(m, force) {
+    if (!m || m.cover || m.sample || typeof fetch !== "function") return Promise.resolve(false);
+    if (coverBusy[m.id]) return Promise.resolve(false);
+    if (!force && m.coverTried && (Date.now() - m.coverTried) < COVER_RETRY_MS) return Promise.resolve(false);
+    coverBusy[m.id] = 1;
+    m.coverTried = Date.now();
+    save();
+    return movieCoverCandidates(m.title || "", m.year || "").then(function (list) {
+      delete coverBusy[m.id];
+      var cur = movieById(m.id); if (!cur) return false;
+      if (!list.length) { cur.coverNone = true; save(); render(); return false; }
+      if (cur.cover) return false;
+      cur.cover = list[0].url; cur.coverAuto = true; cur.coverCredit = list[0].credit || ""; cur.coverNone = false;
+      save(); render(); return true;
+    }).catch(function () { delete coverBusy[m.id]; return false; });
+  }
+  function backfillCovers() { movies.forEach(function (m) { if (m && !m.cover && !m.sample) maybeAutoCover(m); }); }
+  /* Wikipedia synopsis for a title with no synopsis at all. Tried once
+     per title (synopsisTried), cached on the record. A synopsis Lucy
+     edited is never touched again (synopsisEdited). */
+  function wikiSummaryText(title, year) {
+    if (typeof fetch !== "function" || !title) return Promise.resolve(null);
+    function tryTitle(t) {
+      return fetch("https://en.wikipedia.org/api/rest_v1/page/summary/" + encodeURIComponent(String(t).replace(/ /g, "_")))
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (j) {
+          if (!j || j.type === "disambiguation" || !j.extract) return null;
+          return { text: j.extract, title: j.title || t };
+        }).catch(function () { return null; });
+    }
+    var filmTitle = year ? title + " (" + year + " film)" : title;
+    return tryTitle(filmTitle).then(function (r) { if (r) return r; return tryTitle(title); });
+  }
+  function maybeAutoSynopsis(m) {
+    if (!m || m.synopsis || m.synopsisEdited || m.synopsisTried || m.sample || typeof fetch !== "function") return Promise.resolve(false);
+    m.synopsisTried = true; save();
+    return wikiSummaryText(m.title || "", m.year || "").then(function (r) {
+      var cur = movieById(m.id); if (!cur) return false;
+      if (!r || !r.text) { save(); return false; }
+      if (cur.synopsis || cur.synopsisEdited) return false;
+      cur.synopsis = r.text; cur.synopsisSource = "wikipedia";
+      save(); if (openDetail === cur.id) render(); return true;
+    }).catch(function () { return false; });
+  }
+  /* ---------- rendering ---------- */
+  function coverImgFor(m) {
+    if (m.cover) return m.cover;
+    if (m.coverNone) return "images/avatars/duck-movie.jpg";
+    return "";
+  }
+  function starRowHtml(m) {
+    var h = '<div class="rowstars" role="group" aria-label="Rate this title">';
+    for (var n = 1; n <= 5; n++) h += '<button type="button" data-rate="' + n + '" data-id="' + m.id + '" class="' + (n <= (Number(m.stars) || 0) ? "" : "off") + '" aria-label="Rate ' + n + ' star' + (n > 1 ? "s" : "") + '">★</button>';
+    return h + "</div>";
+  }
+  function firstStudio(m) {
+    if (!m || !m.studio) return "";
+    if (Array.isArray(m.studio)) return m.studio[0] || "";
+    return String(m.studio);
+  }
+  function movieRowHtml(m) {
+    /* Row layout like Lucy's iCollect list: cover, title + rating badge,
+       then a "year, runtime, studio" line, stars, then a "Genre: ..." line. */
+    var sub = [];
+    if (m.year) sub.push(esc(m.year));
+    if (m.runtime) sub.push(esc(m.runtime) + " min.");
+    var st = firstStudio(m);
+    if (st) sub.push(esc(st));
+    var genreLine = (m.genre && m.genre.length) ? "Genre: " + m.genre.join(", ") : "";
+    var flags = [];
+    if (m.list === "want") flags.push('<span class="flagpill fp-want">💭 Want to watch</span>');
+    if (m.favorite) flags.push('<span class="flagpill fp-fav">⭐ Favorite</span>');
+    if (m.watched) flags.push('<span class="flagpill fp-want">✓ Watched</span>');
+    if (Number(m.watchCount) > 0) flags.push('<span class="flagpill fp-want">' + esc(watchLabel(m.watchCount)) + "</span>");
+    var img = coverImgFor(m);
+    var grip = sortMode === "custom" ? '<button type="button" class="draghandle" data-drag="' + m.id + '" aria-label="Drag to move this title">⋮⋮</button>' : "";
+    var other = m.list === "want" ? "have" : "want";
+    return '<div class="crow" id="movie-' + m.id + '" data-id="' + m.id + '"' + (m.sample ? ' data-sample="1"' : "") + '>' +
+      '<div class="mvswipeacts" aria-hidden="true">' +
+      '<button type="button" class="mvswact mvsw-watch" data-swipe-watch="' + m.id + '" data-id="' + m.id + '">🎬 Watched again</button>' +
+      '<button type="button" class="mvswact mvsw-fav" data-swipe-fav="' + m.id + '" data-id="' + m.id + '">' + (m.favorite ? "✓ Favorite" : "⭐ Favorite") + '</button>' +
+      '<button type="button" class="mvswact mvsw-move" data-swipe-move="' + m.id + '" data-id="' + m.id + '" data-to="' + other + '">' + (other === "want" ? "💭 Want it" : "🍿 Have it") + '</button>' +
+      '<button type="button" class="mvswact mvsw-del" data-swipe-del="' + m.id + '" data-id="' + m.id + '">Delete</button>' +
+      '</div>' +
+      '<div class="crowinner">' + grip +
+      (img ? '<img class="mphoto" src="' + img + '" alt="" data-tydlb>' : "") +
+      '<div class="grow"><div class="btitle">' + esc(m.title) + (m.ratingBadge ? ' <span class="mvbadge">' + esc(m.ratingBadge) + '</span>' : "") + '</div>' +
+      (sub.length ? '<div class="bmeta">' + sub.join(", ") + "</div>" : "") + starRowHtml(m) +
+      (genreLine ? '<div class="bmeta">' + esc(genreLine) + "</div>" : "") +
+      (flags.length ? '<div>' + flags.join("") + (m.sample ? "" : ' <button type="button" class="iconbtn" data-watched-toggle="' + m.id + '" style="margin-top:3px;">' + (m.watched ? "✓ Watched" : "○ Mark watched") + "</button>") + "</div>" : (m.sample ? "" : '<div><button type="button" class="iconbtn" data-watched-toggle="' + m.id + '" style="margin-top:3px;">○ Mark watched</button></div>')) +
+      (m.notes ? '<div class="bnote">“' + esc(m.notes) + "”</div>" : "") +
+      '</div></div></div>';
+  }
+  function paintListChips() {
+    document.getElementById("listchips").querySelectorAll(".chip").forEach(function (c) {
+      var f = c.getAttribute("data-list");
+      c.classList.toggle("on", listFilter === f);
+      var sp = c.querySelector("[data-listcount]");
+      if (!sp) return;
+      var n = f === "have" ? movies.filter(function (m) { return m.list === "have"; }).length
+        : f === "want" ? movies.filter(function (m) { return m.list === "want"; }).length
+        : f === "favorites" ? movies.filter(function (m) { return !!m.favorite; }).length : 0;
+      sp.textContent = n ? "(" + n + ")" : "";
+    });
+  }
+  function paintSortPicker() {
+    var sel = document.getElementById("mv-sort");
+    var h = "";
+    Object.keys(SORTS).forEach(function (k) { h += '<option value="' + k + '"' + (k === sortMode ? " selected" : "") + ">" + SORTS[k] + "</option>"; });
+    if (sel.innerHTML !== h) sel.innerHTML = h;
+    sel.value = sortMode;
+  }
+  function filteredMovies() {
+    var list = movies;
+    if (genreFilter !== "all") list = moviesInGenre(genreFilter);
+    if (listFilter === "have") list = list.filter(function (m) { return m.list === "have"; });
+    else if (listFilter === "want") list = list.filter(function (m) { return m.list === "want"; });
+    else if (listFilter === "favorites") list = list.filter(function (m) { return !!m.favorite; });
+    else if (listFilter === "watched") list = list.filter(function (m) { return isWatched(m); });
+    return sortedMovies(list);
+  }
+  function renderList() {
+    var host = document.getElementById("movielist");
+    var barHost = document.getElementById("samplebar-host");
+    if (showingSamples()) {
+      barHost.innerHTML = '<div class="samplebar">These are example movies so you can see how it works. Add your first movie below and they will step aside for your own shelf.</div>';
+      var h = '<h3 class="shelfhead">Example movies</h3><div class="card" style="padding-top:6px; padding-bottom:6px;">' + SAMPLES.map(movieRowHtml).join("") + "</div>";
+      host.innerHTML = h;
+      wireRows(host, true);
+      SAMPLES.forEach(function (s) { if (!s.cover && !s.coverTried) { s.coverTried = true; movieCoverCandidates(s.title, s.year).then(function (list) { if (list.length) { s.cover = list[0].url; render(); } }); } });
+      return;
+    }
+    barHost.innerHTML = "";
+    var shown = filteredMovies();
+    if (!movies.length) {
+      host.innerHTML = '<div class="card emptybox"><img src="images/avatars/duck-movie.jpg" onerror="this.onerror=null;this.src=\'icon-512.png\';" alt="The Pond duck"><p>Your cinema shelf is empty, and the duck is still picking the first film. 🍿<br>Add a movie or show you own, or one you want to watch next.</p></div>';
+      return;
+    }
+    if (!shown.length) {
+      host.innerHTML = '<div class="card emptybox"><p>' + (listFilter === "favorites" ? "No favorites yet. Tap the stars or swipe a title to make it a favorite." : listFilter === "want" ? "Nothing on your want list yet. Add a title you would like to watch." : listFilter === "watched" ? "Nothing watched yet. Tap the Watched check on a title to mark it." : "Nothing here yet. Add a title below.") + "</p></div>";
+      return;
+    }
+    assignMissingOrd();
+    var resetBtn = (sortMode === "custom" && shown.length > 1) ? '<div style="text-align:right; margin-bottom:2px;"><button type="button" class="btn btn-ghost" data-mvreset style="padding:6px 12px; font-size:13px;">↺ Reset to default order</button></div>' : "";
+    host.innerHTML = resetBtn + '<div class="card" style="padding-top:6px; padding-bottom:6px;">' + shown.map(movieRowHtml).join("") + "</div>";
+    wireRows(host, false);
+  }
+  function wireRows(host, isSample) {
+    host.querySelectorAll(".crow").forEach(function (row) {
+      row.addEventListener("click", function (e) {
+        if (!row.isConnected) return;
+        if (Date.now() < mvSwipeBlockUntil) return;
+        if (row.classList.contains("swopen")) { mvSwipeCloseAll(null); return; }
+        if (e.target.closest(".draghandle")) return;
+        if (e.target.closest("[data-swipe-watch],[data-swipe-fav],[data-swipe-move],[data-swipe-del],[data-rate],[data-watched-toggle]")) return;
+        openDetailById(row.getAttribute("data-id"), isSample);
+      });
+    });
+    host.querySelectorAll("[data-rate]").forEach(function (btn) {
+      btn.addEventListener("click", function (e) {
+        e.stopPropagation();
+        var m = movieById(btn.getAttribute("data-id")); if (!m || m.sample) return;
+        var r = parseInt(btn.getAttribute("data-rate"), 10) || 0;
+        setStars(m, r === (Number(m.stars) || 0) ? 0 : r);
+      });
+    });
+    host.querySelectorAll("[data-watched-toggle]").forEach(function (btn) {
+      btn.addEventListener("click", function (e) {
+        e.stopPropagation();
+        var m = movieById(btn.getAttribute("data-watched-toggle")); if (!m || m.sample) return;
+        toggleWatched(m);
+      });
+    });
+    host.querySelectorAll("[data-swipe-watch]").forEach(function (btn) {
+      btn.addEventListener("click", function () { var m = movieById(btn.getAttribute("data-id")); if (m && !m.sample) bumpWatch(m); });
+    });
+    host.querySelectorAll("[data-swipe-fav]").forEach(function (btn) {
+      btn.addEventListener("click", function () { var m = movieById(btn.getAttribute("data-id")); if (m && !m.sample) toggleFavorite(m); });
+    });
+    host.querySelectorAll("[data-swipe-move]").forEach(function (btn) {
+      btn.addEventListener("click", function () { var m = movieById(btn.getAttribute("data-id")); if (m && !m.sample) setList(m, btn.getAttribute("data-to")); });
+    });
+    host.querySelectorAll("[data-swipe-del]").forEach(function (btn) {
+      btn.addEventListener("click", function () { askDelete(btn.getAttribute("data-swipe-del")); });
+    });
+  }
+  /* ---------- detail view ---------- */
+  function fieldRow(label, value, isList, secondary) {
+    if (value == null || value === "" || (Array.isArray(value) && !value.length)) return "";
+    if (detailHideSecondary && secondary) return "";
+    if (isList) return '<div class="drow dlistrow"><span class="dlab">' + esc(label) + '</span><span class="dlist">' + value.map(function (x) { return esc(x); }).join("<br>") + "</span></div>";
+    return '<div class="drow"><span class="dlab">' + esc(label) + '</span><span class="dval">' + esc(value) + "</span></div>";
+  }
+  function detailHtml(m) {
+    var img = coverImgFor(m);
+    var made = m.year ? "Made in " + m.year : "";
+    var topmeta = [];
+    if (m.genre && m.genre.length) topmeta.push(esc(m.genre.join(", ")));
+    if (m.showType) topmeta.push(esc(m.showType));
+    if (m.runtime) topmeta.push(runtimeLabel(m.runtime));
+    var wl = watchLabel(m.watchCount);
+    var est = fmtMoney(m.estValueCents);
+    var h = '<p style="margin:4px 0 8px;"><a class="back" href="#" data-detail-back>‹ All movies &amp; shows</a></p>' +
+      '<div class="card"><div class="dtop">' +
+      (img ? '<img class="dcover" src="' + img + '" alt="" data-tydlb>' : "") +
+      '<div style="flex:1; min-width:0;"><div class="dtitle">' + esc(m.title) + '</div>' +
+      (made ? '<div class="dmade">' + made + '</div>' : "") +
+      (topmeta.length ? '<div class="dmeta">' + topmeta.join(" · ") + "</div>" : "") +
+      starRowHtml(m) +
+      '<div class="dmeta">' + (wl || "Not watched yet") + (m.favorite ? " · ⭐ Favorite" : "") + '</div>' +
+      '</div></div>' +
+      '<div class="watchctl"><button type="button" class="iconbtn" data-detail-watchplus>🎬 Watched it again</button>' +
+      '<button type="button" class="iconbtn" data-detail-watchminus>−</button>' +
+      '<span id="d-watchlabel">' + (wl || "Not watched yet") + '</span>' +
+      '<button type="button" class="iconbtn" data-detail-watched>' + (m.watched ? "✓ Watched" : "○ Mark watched") + "</button>" +
+      '<button type="button" class="iconbtn" data-detail-edit>Edit</button></div>' +
+      (m.synopsis ? '<p class="dsyn">' + esc(m.synopsis) + "</p>" : "") +
+      '<label for="d-note">Your notes</label>' +
+      '<textarea id="d-note" rows="2" placeholder="What did you think of it?">' + esc(m.notes || "") + "</textarea>" +
+      '<div style="margin-top:8px;"><button type="button" class="btn btn-ghost" data-detail-savenote>Save note</button> <span id="d-notemsg" class="photohint"></span></div>' +
+      '<div style="margin-top:14px;">' +
+      fieldRow("Genre", m.genre, true) +
+      fieldRow("Show Type", m.showType) +
+      fieldRow("Series", m.series) +
+      fieldRow("Runtime", runtimeLabel(m.runtime)) +
+      fieldRow("Original Aspect Ratio", m.originalRatio, false, true) +
+      fieldRow("Actors", m.actors, true) +
+      fieldRow("Directors", m.directors, true) +
+      fieldRow("Country of Purchase", m.country, false, true) +
+      fieldRow("Studios", m.studio, true) +
+      fieldRow("Format", m.format, true, true) +
+      fieldRow("Item Aspect Ratio", m.itemRatio, false, true) +
+      fieldRow("Discs", m.discs != null ? String(m.discs) : "", false, true) +
+      fieldRow("Region", m.region, false, true) +
+      fieldRow("Packaging", m.package, false, true) +
+      fieldRow("Estimated Value", est) +
+      fieldRow("Opened", m.opened == null ? "" : (m.opened ? "Yes" : "No")) +
+      "</div>" +
+      '<div style="margin-top:10px;"><button type="button" class="btn btn-ghost" data-detail-hidefields>' + (detailHideSecondary ? "Show fields" : "Hide fields") + "</button></div>" +
+      '<div class="dacts">' +
+      '<button type="button" data-detail-move>' + (m.list === "want" ? "Move To Have" : "Move To Wishlist") + '</button>' +
+      '<button type="button" data-detail-duplicate>Duplicate Item</button>' +
+      '<button type="button" class="del" data-detail-delete>Delete Item</button>' +
+      "</div>" +
+      '<div class="dfoot">' +
+      (m.barcode ? "Barcode: " + esc(m.barcode) + "<br>" : "") +
+      (m.dateAdded ? "Added " + esc(fmtAdded(m.dateAdded)) : "") +
+      "</div></div>";
+    return h;
+  }
+  function editFieldRow(label, id, value, opts) {
+    opts = opts || {};
+    var input;
+    if (opts.textarea) input = '<textarea id="' + id + '" rows="' + (opts.rows || 3) + '">' + esc(value || "") + "</textarea>";
+    else if (opts.select) input = '<select id="' + id + '">' + opts.select.map(function (o) { return '<option value="' + esc(o) + '"' + (String(value) === String(o) ? " selected" : "") + ">" + esc(o) + "</option>"; }).join("") + "</select>";
+    else input = '<input id="' + id + '" type="' + (opts.type || "text") + '" value="' + esc(value == null ? "" : value) + '"' + (opts.placeholder ? ' placeholder="' + esc(opts.placeholder) + '"' : "") + ">";
+    return '<label for="' + id + '">' + esc(label) + (opts.hint ? ' <span class="hint">' + esc(opts.hint) + "</span>" : "") + "</label>" + input;
+  }
+  function detailEditHtml(m) {
+    var listJoin = function (a) { return (a || []).join(", "); };
+    var h = '<div class="card"><div class="deditbar"><button type="button" class="cancel" data-edit-cancel>Cancel</button><span style="font-weight:800; color:#1f5f74;">Edit this title</span><button type="button" class="save" data-edit-save>Save</button></div>' +
+      '<div class="deditgrid">' +
+      editFieldRow("Title", "de-title", m.title) +
+      '<div class="prow2"><div>' + editFieldRow("Year made", "de-year", m.year, { type: "number" }) + '</div><div>' + editFieldRow("Runtime (minutes)", "de-runtime", m.runtime, { type: "number" }) + '</div></div>' +
+      editFieldRow("Genre", "de-genre", listJoin(m.genre), { hint: "separate with commas" }) +
+      editFieldRow("Show Type", "de-showtype", m.showType || "Movie", { select: ["Movie", "TV", "Children", "Special"] }) +
+      editFieldRow("Series", "de-series", m.series) +
+      editFieldRow("Format", "de-format", listJoin(m.format), { hint: "separate with commas, like DVD, Blu-ray" }) +
+      editFieldRow("Country of Purchase", "de-country", m.country) +
+      editFieldRow("Original Aspect Ratio", "de-oratio", m.originalRatio) +
+      editFieldRow("Item Aspect Ratio", "de-iratio", m.itemRatio) +
+      '<div class="prow2"><div>' + editFieldRow("Discs", "de-discs", m.discs, { type: "number" }) + '</div><div>' + editFieldRow("Region", "de-region", m.region) + '</div></div>' +
+      editFieldRow("Packaging", "de-package", m.package) +
+      editFieldRow("Estimated Value", "de-est", m.estValueCents != null ? (m.estValueCents / 100).toFixed(2) : "", { hint: "dollars, like 8.99" }) +
+      editFieldRow("Opened", "de-opened", m.opened == null ? "" : (m.opened ? "Yes" : "No"), { select: ["", "Yes", "No"] }) +
+      editFieldRow("Barcode", "de-barcode", m.barcode) +
+      editFieldRow("Cover image URL", "de-cover", m.cover || "") +
+      editFieldRow("Synopsis", "de-synopsis", m.synopsis, { textarea: true, rows: 5 }) +
+      editFieldRow("Actors", "de-actors", (m.actors || []).join("\n"), { textarea: true, rows: 4, hint: "one per line" }) +
+      editFieldRow("Directors", "de-directors", (m.directors || []).join("\n"), { textarea: true, rows: 2, hint: "one per line" }) +
+      editFieldRow("Studios", "de-studios", (m.studio || []).join("\n"), { textarea: true, rows: 2, hint: "one per line" }) +
+      editFieldRow("List", "de-list", m.list || "have", { select: ["have", "want"] }) +
+      "</div>" +
+      '<label>Your rating</label><div class="stars" id="de-stars"></div>' +
+      '<label>Times watched</label><div style="display:flex; gap:8px; align-items:center; margin-top:4px;">' +
+      '<button type="button" class="iconbtn" id="de-watchminus" aria-label="One fewer time watched">−</button>' +
+      '<span id="de-watchcount" style="font-weight:800; min-width:130px; text-align:center;"></span>' +
+      '<button type="button" class="iconbtn" id="de-watchplus" aria-label="One more time watched">+</button></div>' +
+      '<label for="de-note">Your notes</label><textarea id="de-note" rows="2">' + esc(m.notes || "") + "</textarea>" +
+      '<label style="margin-top:12px;"><input type="checkbox" id="de-fav" style="width:auto;"' + (m.favorite ? " checked" : "") + '> Favorite</label>' +
+      '<label style="margin-top:6px;"><input type="checkbox" id="de-watched" style="width:auto;"' + (m.watched ? " checked" : "") + '> Watched</label>' +
+      '<p class="err" id="de-err"></p>' +
+      '<div style="margin-top:12px;"><button type="button" class="btn btn-main" data-edit-save>Save</button> <button type="button" class="btn btn-ghost" data-edit-cancel>Cancel</button></div>' +
+      "</div>";
+    return h;
+  }
+  function sampleDetailHtml(s) {
+    var img = coverImgFor(s);
+    return '<p style="margin:4px 0 8px;"><a class="back" href="#" data-detail-back>‹ All movies &amp; shows</a></p>' +
+      '<div class="card"><div class="dtop">' +
+      (img ? '<img class="dcover" src="' + img + '" alt="" data-tydlb>' : "") +
+      '<div style="flex:1; min-width:0;"><div class="dtitle">' + esc(s.title) + '</div>' +
+      (s.year ? '<div class="dmade">Made in ' + s.year + '</div>' : "") +
+      '<div class="dmeta">' + esc((s.genre || []).join(", ")) + " · " + esc(s.showType || "Movie") + "</div>" +
+      '<div class="dmeta">' + (watchLabel(s.watchCount) || "Not watched yet") + '</div></div></div>' +
+      '<p class="dsyn">This is an example movie so you can see how the detail view works. Add your first real movie below and the examples step aside for your own shelf.</p>' +
+      '<div style="margin-top:12px;"><button type="button" class="btn btn-main" data-sample-add>Add your first movie</button></div></div>';
+  }
+  function openDetailById(id, isSample) {
+    if (isSample) {
+      var s = null;
+      SAMPLES.forEach(function (x) { if (x.id === id) s = x; });
+      if (!s) return;
+      openDetail = id; detailEditing = false;
+      document.getElementById("listwrap").style.display = "none";
+      document.getElementById("movieformcard").style.display = "none";
+      var host = document.getElementById("detail-host");
+      host.style.display = "block";
+      host.innerHTML = sampleDetailHtml(s);
+      host.querySelector("[data-detail-back]").addEventListener("click", function (e) { e.preventDefault(); closeDetail(); });
+      host.querySelector("[data-sample-add]").addEventListener("click", function () {
+        closeDetail();
+        document.getElementById("movieformcard").scrollIntoView({ behavior: "smooth", block: "center" });
+        document.getElementById("mf-title").focus();
+      });
+      return;
+    }
+    var m = movieById(id); if (!m) return;
+    openDetail = id; detailEditing = false;
+    renderDetail();
+    if (!m.synopsis) maybeAutoSynopsis(m);
+  }
+  function closeDetail() {
+    openDetail = null; detailEditing = false;
+    document.getElementById("detail-host").style.display = "none";
+    document.getElementById("listwrap").style.display = "";
+    document.getElementById("movieformcard").style.display = "";
+    render();
+  }
+  function renderDetail() {
+    var m = movieById(openDetail); if (!m) { closeDetail(); return; }
+    document.getElementById("listwrap").style.display = "none";
+    document.getElementById("movieformcard").style.display = "none";
+    var host = document.getElementById("detail-host");
+    host.style.display = "block";
+    host.innerHTML = detailEditing ? detailEditHtml(m) : detailHtml(m);
+    wireDetail(host, m);
+  }
+  function wireDetail(host, m) {
+    var back = host.querySelector("[data-detail-back]");
+    if (back) back.addEventListener("click", function (e) { e.preventDefault(); closeDetail(); });
+    if (detailEditing) { wireDetailEdit(host, m); return; }
+    host.querySelectorAll("[data-rate]").forEach(function (btn) {
+      btn.addEventListener("click", function (e) {
+        e.stopPropagation();
+        var r = parseInt(btn.getAttribute("data-rate"), 10) || 0;
+        setStars(m, r === (Number(m.stars) || 0) ? 0 : r);
+        renderDetail();
+      });
+    });
+    var wp = host.querySelector("[data-detail-watchplus]");
+    if (wp) wp.addEventListener("click", function () { bumpWatch(m); renderDetail(); });
+    var wm = host.querySelector("[data-detail-watchminus]");
+    if (wm) wm.addEventListener("click", function () { setWatchCount(m, (Number(m.watchCount) || 0) - 1); renderDetail(); });
+    var wt = host.querySelector("[data-detail-watched]");
+    if (wt) wt.addEventListener("click", function () { toggleWatched(m); renderDetail(); });
+    var sn = host.querySelector("[data-detail-savenote]");
+    if (sn) sn.addEventListener("click", function () {
+      m.notes = host.querySelector("#d-note").value.trim();
+      m.updatedAt = Date.now(); save();
+      var msg = host.querySelector("#d-notemsg");
+      if (msg) msg.textContent = "Note saved.";
+    });
+    var ed = host.querySelector("[data-detail-edit]");
+    if (ed) ed.addEventListener("click", function () { detailEditing = true; renderDetail(); });
+    var hf = host.querySelector("[data-detail-hidefields]");
+    if (hf) hf.addEventListener("click", function () { detailHideSecondary = !detailHideSecondary; renderDetail(); });
+    var mv = host.querySelector("[data-detail-move]");
+    if (mv) mv.addEventListener("click", function () { setList(m, m.list === "want" ? "have" : "want"); renderDetail(); });
+    var dp = host.querySelector("[data-detail-duplicate]");
+    if (dp) dp.addEventListener("click", function () { var c = duplicateMovie(m.id); if (c) { openDetail = c.id; renderDetail(); } });
+    var del = host.querySelector("[data-detail-delete]");
+    if (del) del.addEventListener("click", function () { askDelete(m.id); });
+  }
+  function wireDetailEdit(host, m) {
+    var editStars = Number(m.stars) || 0, editWatch = Number(m.watchCount) || 0;
+    function paintStars() {
+      var w = host.querySelector("#de-stars"); var h = "";
+      for (var i = 1; i <= 5; i++) h += '<button type="button" data-star="' + i + '" class="' + (i <= editStars ? "" : "off") + '" aria-label="' + i + ' stars">★</button>';
+      w.innerHTML = h;
+      w.querySelectorAll("button").forEach(function (b) { b.addEventListener("click", function () { var r = parseInt(b.getAttribute("data-star"), 10); editStars = (r === editStars) ? 0 : r; paintStars(); }); });
+    }
+    function paintWatch() { var el = host.querySelector("#de-watchcount"); if (el) el.textContent = watchLabel(editWatch) || "Not watched yet"; }
+    paintStars(); paintWatch();
+    host.querySelector("#de-watchminus").addEventListener("click", function () { editWatch = Math.max(0, editWatch - 1); paintWatch(); });
+    host.querySelector("#de-watchplus").addEventListener("click", function () { editWatch = editWatch + 1; paintWatch(); });
+    function cancel() { detailEditing = false; renderDetail(); }
+    host.querySelectorAll("[data-edit-cancel]").forEach(function (b) { b.addEventListener("click", cancel); });
+    function val(id) { var el = host.querySelector("#" + id); return el ? el.value.trim() : ""; }
+    function lines(id) { return val(id).split(/\n+/).map(function (x) { return x.trim(); }).filter(function (x) { return x; }); }
+    function commas(id) { return val(id).split(",").map(function (x) { return x.trim(); }).filter(function (x) { return x; }); }
+    function num(id) { var n = parseInt(val(id), 10); return isNaN(n) ? null : n; }
+    host.querySelectorAll("[data-edit-save]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var title = val("de-title");
+        if (!title) { var er = host.querySelector("#de-err"); er.textContent = "Give the title a name first."; er.style.display = "block"; return; }
+        var oldSyn = m.synopsis || "";
+        var newSyn = val("de-synopsis");
+        var estTxt = val("de-est");
+        var estCents = null;
+        if (estTxt) { var f = parseFloat(estTxt.replace(/[^0-9.]/g, "")); if (!isNaN(f)) estCents = Math.round(f * 100); }
+        var openedVal = val("de-opened");
+        var coverVal = val("de-cover");
+        var fields = {
+          title: title,
+          year: num("de-year"),
+          runtime: num("de-runtime"),
+          genre: commas("de-genre"),
+          showType: val("de-showtype") || "Movie",
+          series: val("de-series") || null,
+          format: commas("de-format"),
+          country: val("de-country") || null,
+          originalRatio: val("de-oratio") || null,
+          itemRatio: val("de-iratio") || null,
+          discs: num("de-discs"),
+          region: val("de-region") || null,
+          package: val("de-package") || null,
+          estValueCents: estCents,
+          opened: openedVal === "Yes" ? true : (openedVal === "No" ? false : null),
+          barcode: val("de-barcode") || null,
+          cover: coverVal || "",
+          synopsis: newSyn || null,
+          actors: lines("de-actors"),
+          directors: lines("de-directors"),
+          studio: lines("de-studios"),
+          list: val("de-list") === "want" ? "want" : "have",
+          stars: editStars,
+          watchCount: editWatch,
+          notes: val("de-note"),
+          favorite: !!host.querySelector("#de-fav").checked,
+          watched: !!host.querySelector("#de-watched").checked
+        };
+        if (newSyn !== oldSyn) fields.synopsisEdited = true;
+        if (coverVal) { fields.coverAuto = false; fields.coverCredit = ""; fields.coverNone = false; }
+        else if (!coverVal && m.coverAuto) { /* keep the auto cover: leave cover fields alone */ delete fields.cover; }
+        else if (!coverVal && m.cover && !m.coverAuto) { fields.cover = ""; fields.coverAuto = false; fields.coverNone = false; }
+        Object.keys(fields).forEach(function (k) { m[k] = fields[k]; });
+        m.updatedAt = Date.now();
+        save();
+        detailEditing = false;
+        renderDetail();
+      });
+    });
+  }
+  /* ---------- stats row + Jump to strip (v369, Lucy Nov 18, 2026)
+     Live counts from the viewer's own shelf at render time, never
+     hardcoded; sample movies (shown only when the shelf is empty) are
+     never counted. Tapping a stat filters the list to that group.
+     Both strips use the exact Recipes catnav/catchip styling. */
+  function isWatched(m) { return !!m.watched || (Number(m.watchCount) || 0) > 0; }
+  function movieStats() {
+    var st = { total: movies.length, have: 0, want: 0, favorites: 0, watched: 0 };
+    movies.forEach(function (m) {
+      if (m.list === "have") st.have++;
+      else if (m.list === "want") st.want++;
+      if (m.favorite) st.favorites++;
+      if (isWatched(m)) st.watched++;
+    });
+    return st;
+  }
+  function paintStats() {
+    var host = document.getElementById("mvstats");
+    if (!host) return;
+    var st = movieStats();
+    var defs = [
+      ["all", "Total", st.total],
+      ["have", "🍿 Have", st.have],
+      ["want", "💭 Want to watch", st.want],
+      ["favorites", "⭐ Favorites", st.favorites],
+      ["watched", "✓ Watched", st.watched]
+    ];
+    var h = '<span class="catnavlab">🎬 Your shelf:</span>';
+    defs.forEach(function (d) {
+      h += '<button type="button" class="catchip' + (listFilter === d[0] ? " on" : "") + '" data-stat="' + d[0] + '">' + esc(d[1]) + " (" + d[2] + ")</button>";
+    });
+    host.innerHTML = h;
+    host.querySelectorAll("[data-stat]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        listFilter = b.getAttribute("data-stat");
+        genreFilter = "all";
+        render();
+        var el = document.getElementById("listwrap");
+        if (el && el.scrollIntoView) el.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    });
+  }
+  function paintJump() {
+    var host = document.getElementById("mvjump");
+    if (!host) return;
+    if (showingSamples() || !movies.length) { host.innerHTML = ""; return; }
+    var order = genreOrder();
+    var h = '<span class="catnavlab">🦆 Jump to:</span>';
+    order.forEach(function (g) {
+      h += '<button type="button" class="catchip" data-mvjump="' + esc(g) + '">' + esc(genreLabel(g)) + "</button>";
+    });
+    host.innerHTML = h;
+    host.querySelectorAll("[data-mvjump]").forEach(function (b) {
+      b.addEventListener("click", function () { jumpToGenre(b.getAttribute("data-mvjump")); });
+    });
+  }
+  function jumpToGenre(g) {
+    listFilter = "all";
+    genreFilter = g || "all";
+    render();
+    var card = document.querySelector('[data-genre-card="' + g + '"]');
+    if (card && card.scrollIntoView) card.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  /* ---------- genre cards (v367) ----------
+     One card per genre, modeled on the Recipes category cards: a wide
+     pond-scene duck banner, the name and count pills, a Spin button and
+     a See movies button, with preview covers underneath. Counts are
+     computed live from the shelf, so they stay right as titles are
+     added or removed. A genre gets its own card at 5+ movies; smaller
+     genres share one "More genres" card, so every title stays reachable.
+     Each genre's duck is a dressed duck from the Pond's own set, on the
+     pond scene; K-Drama gets the Korean duck. */
+  var GENRE_DUCKS = {
+    "K-Drama": "images/corners/duck-korean.jpg",
+    "Action": "images/avatars/duck-superhero.jpg",
+    "Drama": "images/avatars/duck-artist.jpg",
+    "Comedy": "images/avatars/duck-rockstar.jpg",
+    "Adventure": "images/avatars/duck-pirate.jpg",
+    "Fantasy": "images/avatars/duck-wizard.jpg",
+    "Family": "images/avatars/duck-flower.jpg",
+    "War": "images/avatars/duck-firefighter.jpg",
+    "Romance": "images/avatars/duck-royal.jpg",
+    "Animation": "images/avatars/duck-gamer.jpg",
+    "Classics": "images/avatars/duck-bookworm.jpg",
+    "Thriller": "images/avatars/duck-detective.jpg",
+    "Children": "images/avatars/duck-easter.jpg",
+    "Sci-Fi": "images/avatars/duck-astronaut.jpg",
+    "Christmas": "images/avatars/duck-christmas.jpg",
+    "Crime": "images/avatars/duck-cowboy.jpg",
+    "History": "images/avatars/duck-sailor.jpg",
+    "Romantic Comedy": "images/avatars/duck-beach.jpg",
+    "Mystery": "images/avatars/duck-scientist.jpg",
+    "Anime": "images/avatars/duck-sleepy.jpg",
+    "More genres": "images/avatars/duck-movie.jpg"
+  };
+  var GENRE_DESC = {
+    "K-Drama": "Korean dramas to fall in love with, one episode at a time.",
+    "Action": "Explosions, chases, and heroes who never quit.",
+    "Drama": "Stories that stay with you after the credits.",
+    "Comedy": "Films and shows that make the whole room laugh.",
+    "Adventure": "Quests, journeys, and far-off places.",
+    "Fantasy": "Magic, make-believe, and worlds beyond this one.",
+    "Family": "Something everyone on the couch can enjoy.",
+    "War": "Stories from the front lines and the home front.",
+    "Romance": "Love stories, big feelings, happy tears.",
+    "Animation": "Drawn, painted, and clay worlds that feel alive.",
+    "Classics": "The ones everyone still talks about.",
+    "Thriller": "Edge-of-the-seat stories with a twist.",
+    "Children": "Made for little viewers, loved by big ones too.",
+    "Sci-Fi": "Space, robots, and what-ifs from the future.",
+    "Christmas": "Cozy films for the holiday season.",
+    "Crime": "Heists, capers, and whodunits.",
+    "History": "Stories from long ago, brought to life.",
+    "Romantic Comedy": "Love stories with the laughs built in.",
+    "Mystery": "Clues, secrets, and one big reveal.",
+    "Anime": "Japanese animation, from sweet to spectacular.",
+    "More genres": "The smaller shelves, and titles with no genre yet, all in one place."
+  };
+  function genreCounts() {
+    var c = {};
+    movies.forEach(function (m) {
+      (m.genre || []).forEach(function (g) { if (g) c[g] = (c[g] || 0) + 1; });
+    });
+    return c;
+  }
+  function moviesInGenre(g) {
+    if (g === "__more") {
+      var counts = genreCounts();
+      return movies.filter(function (m) {
+        var gs = m.genre || [];
+        /* Smaller genres, plus the handful of multi-title packs that
+           came in with no genre at all, so every title stays reachable. */
+        return !gs.length || gs.every(function (x) { return (counts[x] || 0) < 5; });
+      });
+    }
+    return movies.filter(function (m) { return (m.genre || []).indexOf(g) >= 0; });
+  }
+  function genreOrder() {
+    var counts = genreCounts();
+    var names = Object.keys(counts).filter(function (g) { return counts[g] >= 5; });
+    names.sort(function (a, b) { return counts[b] - counts[a] || a.localeCompare(b); });
+    /* v369: pinned genres first, in pin order (each member's own
+       pins; Lucy's K-Drama pin rides along via genrePins). */
+    var out = genrePins().filter(function (g) {
+      return g === "__more" ? moviesInGenre("__more").length > 0 : (counts[g] || 0) >= 5;
+    });
+    names.forEach(function (n) { if (out.indexOf(n) < 0) out.push(n); });
+    if (moviesInGenre("__more").length && out.indexOf("__more") < 0) out.push("__more");
+    return out;
+  }
+  function genreLabel(g) { return g === "__more" ? "More genres" : g; }
+  function genreDuck(g) { return GENRE_DUCKS[genreLabel(g)] || "images/avatars/duck-movie.jpg"; }
+  /* v370: themed background scenes, one per genre, generated for
+     Movies (images/movie-scenes/, soft storybook style matching the
+     pond scene). Every scene is movie-themed: NO food anywhere.
+     Replaces the v369 food-banner mapping Lucy flagged on Nov 18
+     (Action showed a BBQ, Comedy showed snack bowls). "More genres"
+     keeps the shared pond scene, which is not food. */
+  var GENRE_SCENES = {
+    "K-Drama": "images/movie-scenes/k-drama.jpg",
+    "Action": "images/movie-scenes/action.jpg",
+    "Drama": "images/movie-scenes/drama.jpg",
+    "Comedy": "images/movie-scenes/comedy.jpg",
+    "Adventure": "images/movie-scenes/adventure.jpg",
+    "Fantasy": "images/movie-scenes/fantasy.jpg",
+    "Family": "images/movie-scenes/family.jpg",
+    "War": "images/movie-scenes/war.jpg",
+    "Romance": "images/movie-scenes/romance.jpg",
+    "Animation": "images/movie-scenes/animation.jpg",
+    "Classics": "images/movie-scenes/classics.jpg",
+    "Thriller": "images/movie-scenes/thriller.jpg",
+    "Children": "images/movie-scenes/children.jpg",
+    "Sci-Fi": "images/movie-scenes/sci-fi.jpg",
+    "Christmas": "images/movie-scenes/christmas.jpg",
+    "Crime": "images/movie-scenes/crime.jpg",
+    "History": "images/movie-scenes/history.jpg",
+    "Romantic Comedy": "images/movie-scenes/romantic-comedy.jpg",
+    "Mystery": "images/movie-scenes/mystery.jpg",
+    "Anime": "images/movie-scenes/anime.jpg",
+    "Holiday": "images/movie-scenes/holiday.jpg",
+    "Horror": "images/movie-scenes/horror.jpg",
+    "Musical": "images/movie-scenes/musical.jpg",
+    "Faith": "images/movie-scenes/faith.jpg",
+    "Music": "images/movie-scenes/music.jpg",
+    "Sports": "images/movie-scenes/sports.jpg",
+    "Biography": "images/movie-scenes/biography.jpg",
+    "Foreign": "images/movie-scenes/foreign.jpg",
+    "Cult": "images/movie-scenes/cult.jpg",
+    "Seasonal": "images/movie-scenes/seasonal.jpg",
+    "Western": "images/movie-scenes/western.jpg",
+    "More genres": "images/movie-scenes/more-genres.jpg"
+  };
+  function genreScene(g) { return GENRE_SCENES[genreLabel(g)] || "images/pond-scene-wide.jpg"; }
+  function genreCardHtml(g) {
+    var label = genreLabel(g);
+    var list = moviesInGenre(g);
+    var n = list.length;
+    var previews = sortedMovies(list);
+    var tiles = previews.map(function (m) {
+      var img = coverImgFor(m);
+      return '<button type="button" class="mvtile" data-genre-tile="' + m.id + '">' +
+        (img ? '<span class="timg" style="background-image:url(\'' + img.replace(/'/g, "%27") + '\')"></span>' : '<span class="timg" style="display:flex;align-items:center;justify-content:center;font-size:30px;">🎬</span>') +
+        '<span class="tname">' + esc(m.title) + "</span></button>";
+    }).join("");
+    var pin = isGenrePinned(g) ? '<span class="mvkpin">📌 Pinned for you</span>' : "";
+    var pinBtn = currentUid ? '<button type="button" class="plbtn' + (isGenrePinned(g) ? " on" : "") + '" data-genre-pin="' + esc(g) + '" aria-label="Pin ' + esc(label) + ' to the top">📌</button>' : "";
+    var countTxt = n + (n === 1 ? " movie" : " movies");
+    return '<div class="mvsec" data-genre-card="' + esc(g) + '">' +
+      '<div class="mvhead" data-genre-head="' + esc(g) + '" style="background-image:url(\'' + genreScene(g) + '\')">' +
+      '<div class="mvface">' +
+      '<span class="mvname">' + esc(label) + "</span>" + pin +
+      '<span class="mvcount">' + esc(countTxt) + "</span>" +
+      '<div class="mvheadbtns">' +
+      '<button type="button" class="plsee" data-genre-see="' + esc(g) + '">See movies ›</button>' +
+      '<button type="button" class="plspin" data-genre-spin="' + esc(g) + '">🎰 Spin</button>' + pinBtn +
+      "</div></div>" +
+      '<div class="mvback"><span class="mvbackname">' + esc(label) + '</span>' +
+      '<span class="mvbackcount">' + esc(countTxt) + "</span>" +
+      '<p class="mvbackdesc">' + esc(GENRE_DESC[label] || "Movies in this category.") + "</p>" +
+      '<button type="button" class="plsee" data-genre-see="' + esc(g) + '">See movies ›</button>' +
+      '<span class="mvbackhint">Tap the card to flip it back</span></div>' +
+      "</div>" +
+      '<div class="mvpreviews ctrack" data-genre-track>' + tiles + "</div>" +
+      '<div class="plpick" data-genre-pick style="display:none;"></div>' +
+      '<button type="button" class="mvseeall" data-genre-see="' + esc(g) + '">See all ' + n + " " + (n === 1 ? "movie" : "movies") + " in " + esc(label) + " ›</button>" +
+      "</div>";
+  }
+  function setGenreFilter(g) {
+    genreFilter = g || "all";
+    render();
+    var el = document.getElementById("listwrap");
+    if (el && el.scrollIntoView) el.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+  function paintGenreChips() {
+    var host = document.getElementById("genrechips");
+    if (!host) return;
+    var counts = genreCounts();
+    var names = Object.keys(counts).sort(function (a, b) { return counts[b] - counts[a] || a.localeCompare(b); });
+    if (!names.length) { host.innerHTML = ""; return; }
+    var h = '<button type="button" class="chip' + (genreFilter === "all" ? " on" : "") + '" data-genre-chip="all">All genres</button>';
+    names.forEach(function (g) {
+      h += '<button type="button" class="chip' + (genreFilter === g ? " on" : "") + '" data-genre-chip="' + esc(g) + '">' + esc(g) + " (" + counts[g] + ")</button>";
+    });
+    if (moviesInGenre("__more").length) {
+      h += '<button type="button" class="chip' + (genreFilter === "__more" ? " on" : "") + '" data-genre-chip="__more">More genres (' + moviesInGenre("__more").length + ")</button>";
+    }
+    host.innerHTML = h;
+    host.querySelectorAll("[data-genre-chip]").forEach(function (c) {
+      c.addEventListener("click", function () { setGenreFilter(c.getAttribute("data-genre-chip")); });
+    });
+  }
+  function renderGenres() {
+    var host = document.getElementById("genre-host");
+    if (!host) return;
+    if (showingSamples() || !movies.length) { host.innerHTML = ""; return; }
+    var order = genreOrder();
+    host.innerHTML = '<h2 class="shelfhead" style="margin-top:18px;">Browse by genre</h2>' + order.map(genreCardHtml).join("");
+    host.querySelectorAll("[data-genre-see]").forEach(function (b) {
+      b.addEventListener("click", function (e) { e.stopPropagation(); setGenreFilter(b.getAttribute("data-genre-see")); });
+    });
+    host.querySelectorAll("[data-genre-spin]").forEach(function (b) {
+      b.addEventListener("click", function (e) { e.stopPropagation(); spinGenre(b.getAttribute("data-genre-spin")); });
+    });
+    host.querySelectorAll("[data-genre-pin]").forEach(function (b) {
+      b.addEventListener("click", function (e) { e.stopPropagation(); toggleGenrePin(b.getAttribute("data-genre-pin")); });
+    });
+    host.querySelectorAll("[data-genre-pick]").forEach(function (p) {
+      p.addEventListener("click", function () { var id = p.getAttribute("data-pick-id"); if (id) openDetailById(id, false); });
+    });
+    host.querySelectorAll("[data-genre-tile]").forEach(function (t) {
+      t.addEventListener("click", function () { openDetailById(t.getAttribute("data-genre-tile"), false); });
+    });
+    host.querySelectorAll("[data-genre-track]").forEach(function (tr) { mvDragScroll(tr); });
+    host.querySelectorAll("[data-genre-head]").forEach(function (head) {
+      head.addEventListener("click", function (e) {
+        if (e.target.closest && e.target.closest("button")) return;
+        head.classList.toggle("flipped");
+      });
+    });
+  }
+  /* ---------- spin ----------
+     v367 audit (Lucy: every spin must be truly random, always): each
+     spin is one independent uniform pick over the pool as it stands
+     right now, Math.floor(Math.random() * pool.length). No sequential
+     order, no exclusion of the last pick, no cached pool. The pickIdx
+     argument is a test seam only: no button or tap on the page ever
+     passes it, so the UI can only ever take the random path. */
+  function pickUniform(pool) {
+    if (!pool || !pool.length) return null;
+    return pool[Math.floor(Math.random() * pool.length)];
+  }
+  function spin(poolList, pickIdx) {
+    var pool = movies.filter(function (m) { return m.list === poolList; });
+    if (!pool.length) return null;
+    if (pickIdx != null) return pool[pickIdx % pool.length];
+    return pickUniform(pool);
+  }
+  var lastSpin = null;
+  function spinAgain() {
+    if (!lastSpin) return;
+    if (lastSpin.type === "genre") spinGenre(lastSpin.genre);
+    else if (lastSpin.type === "want" || lastSpin.type === "have") showSpin(lastSpin.type);
+  }
+  /* ---------- carousel spin (v370, Lucy: "it doesn't spin like
+     carousels, like in recipes") ----------
+     Recipes spin() copied over: the genre card's track is a real
+     horizontally scrollable carousel of every title in the genre
+     (cover tiles, draggable with the mouse, swipeable on touch).
+     The pick is one fresh uniform random title; then the track
+     visibly travels about 2.5 laps plus the distance to the target
+     over 2.8s with the same ease-out (1-(1-p)^5) on
+     requestAnimationFrame, stepping tile by tile, then lands on the
+     picked tile, highlights it, and shows the pick banner. Reduced
+     motion jumps straight to the pick. card._spinPath records every
+     tile index the travel stepped through (test seam only). */
+  function mvTrackTiles(card) { return card ? Array.prototype.slice.call(card.querySelectorAll("[data-genre-tile]")) : []; }
+  function mvTrack(card) { return card ? card.querySelector("[data-genre-track]") : null; }
+  function mvGoTo(card, i, smooth) {
+    var tiles = mvTrackTiles(card), track = mvTrack(card);
+    if (!track || !tiles.length) return;
+    i = ((i % tiles.length) + tiles.length) % tiles.length;
+    var t = tiles[i];
+    var left = t.offsetLeft - track.offsetLeft - (track.clientWidth - t.offsetWidth) / 2;
+    if (track.scrollTo) track.scrollTo({ left: left, behavior: smooth ? "smooth" : "auto" });
+    else track.scrollLeft = left;
+  }
+  function mvCurIdx(card) {
+    var tiles = mvTrackTiles(card), track = mvTrack(card);
+    if (!track || !tiles.length) return 0;
+    var mid = track.scrollLeft + track.clientWidth / 2, best = 0, bd = 1e18;
+    tiles.forEach(function (c, i) {
+      var cc = c.offsetLeft - track.offsetLeft + c.offsetWidth / 2, d = Math.abs(cc - mid);
+      if (d < bd) { bd = d; best = i; }
+    });
+    return best;
+  }
+  function mvClearPick(card) {
+    mvTrackTiles(card).forEach(function (t) { t.classList.remove("picked"); });
+    var pickEl = card ? card.querySelector("[data-genre-pick]") : null;
+    if (pickEl) { pickEl.style.display = "none"; pickEl.removeAttribute("data-pick-id"); }
+  }
+  function mvLand(card, pick) {
+    var tiles = mvTrackTiles(card), pickEl = card ? card.querySelector("[data-genre-pick]") : null;
+    var idx = -1;
+    tiles.forEach(function (t, i) { if (t.getAttribute("data-genre-tile") === pick.id) idx = i; });
+    if (idx >= 0) {
+      tiles.forEach(function (x) { x.classList.remove("picked"); });
+      tiles[idx].classList.add("picked");
+      mvGoTo(card, idx, false);
+    }
+    if (pickEl) {
+      pickEl.innerHTML = "\uD83C\uDF89 Tonight's pick: <b></b> \u00B7 tap to see it";
+      pickEl.querySelector("b").textContent = pick.title;
+      pickEl.setAttribute("data-pick-id", pick.id);
+      pickEl.style.display = "";
+    }
+    renderSpinPick(pick);
+  }
+  function mvDragScroll(track) {
+    var down = false, sx = 0, sl = 0, moved = false;
+    track.addEventListener("pointerdown", function (e) {
+      if (e.pointerType !== "mouse") return;
+      down = true; moved = false; sx = e.clientX; sl = track.scrollLeft;
+    });
+    track.addEventListener("pointermove", function (e) {
+      if (!down) return;
+      var dx = e.clientX - sx;
+      if (Math.abs(dx) > 6 && !moved) { moved = true; track.classList.add("dragging"); }
+      if (moved) track.scrollLeft = sl - dx;
+    });
+    function up() { down = false; setTimeout(function () { track.classList.remove("dragging"); }, 30); }
+    track.addEventListener("pointerup", up);
+    track.addEventListener("pointercancel", up);
+    track.addEventListener("click", function (e) { if (moved) { e.stopPropagation(); e.preventDefault(); moved = false; } }, true);
+  }
+  var genreSpinning = {};
+  function spinGenre(genre, targetId) {
+    var pool = moviesInGenre(genre);
+    if (!pool.length) return null;
+    var sorted = sortedMovies(pool);
+    var pick = null;
+    if (targetId) { pick = movieById(targetId); if (pick && pool.indexOf(pick) < 0) pick = null; }
+    if (!pick) pick = pickUniform(pool);
+    if (!pick) return null;
+    lastSpin = { type: "genre", genre: genre };
+    var card = document.querySelector('[data-genre-card="' + genre + '"]');
+    var btn = card ? card.querySelector("[data-genre-spin]") : null;
+    var pickEl = card ? card.querySelector("[data-genre-pick]") : null;
+    var target = sorted.indexOf(pick);
+    if (target < 0) target = 0;
+    if (genreSpinning[genre]) return pick;
+    mvClearPick(card);
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) { mvGoTo(card, target, false); mvLand(card, pick); return pick; }
+    genreSpinning[genre] = true;
+    if (btn) { btn.disabled = true; btn.textContent = "Spinning\u2026"; }
+    if (pickEl) { pickEl.style.display = ""; pickEl.textContent = "\uD83C\uDFB0 Spinning\u2026"; }
+    var n = sorted.length;
+    var start = mvCurIdx(card);
+    var delta = ((target - start) % n + n) % n;
+    var travel = n * 2.5 + delta;
+    var dur = 2800, t0 = null, lastIdx = start;
+    if (card) card._spinPath = [start];
+    function frame(ts) {
+      if (!t0) t0 = ts;
+      var p = Math.min(1, (ts - t0) / dur);
+      var e = 1 - Math.pow(1 - p, 5);
+      var pos = start + travel * e;
+      var idx = Math.floor(pos) % n;
+      if (idx !== lastIdx) { lastIdx = idx; if (card) card._spinPath.push(idx); mvGoTo(card, idx, false); }
+      if (p < 1) { window.requestAnimationFrame(frame); return; }
+      mvGoTo(card, target, false);
+      if (card) card._spinPath.push(target);
+      genreSpinning[genre] = false;
+      if (btn) { btn.disabled = false; btn.textContent = "\uD83C\uDFB0 Spin"; }
+      mvLand(card, pick);
+    }
+    window.requestAnimationFrame(frame);
+    return pick;
+  }
+  /* v369: whole-shelf surprise, like the Recipes whole-cookbook
+     surprise: one uniform pick from everything on the shelf, scroll
+     to its genre card, then spin that genre to land on that title. */
+  function spinWholeShelf() {
+    if (!movies.length) return null;
+    var pick = pickUniform(movies);
+    if (!pick) return null;
+    var g = (pick.genre && pick.genre.length) ? pick.genre[0] : "__more";
+    var counts = genreCounts();
+    if (g !== "__more" && (counts[g] || 0) < 5) g = "__more";
+    lastSpin = { type: "genre", genre: g };
+    var card = document.querySelector('[data-genre-card="' + g + '"]');
+    if (card && card.scrollIntoView) card.scrollIntoView({ behavior: "smooth", block: "start" });
+    setTimeout(function () { spinGenre(g, pick.id); }, 400);
+    return pick;
+  }
+  function renderSpinPick(pick) {
+    var host = document.getElementById("spin-result");
+    var img = coverImgFor(pick);
+    host.innerHTML = '<div class="spinpick">' +
+      (img ? '<img src="' + img + '" alt="">' : "") +
+      '<div style="flex:1; min-width:0;"><div class="spintitle">' + esc(pick.title) + '</div>' +
+      '<div class="spinmeta">' + (pick.year ? esc(pick.year) + " · " : "") + esc((pick.genre || []).join(", ")) + (pick.stars ? "<br>" + starStr(pick.stars) : "") + "<br>" + (watchLabel(pick.watchCount) || "Not watched yet") + (pick.watched ? " · ✓ Watched" : "") + '</div>' +
+      '<div style="margin-top:8px;"><button type="button" class="btn btn-main" data-spin-again style="padding:7px 14px; font-size:13.5px;">Spin again</button> ' +
+      '<button type="button" class="btn btn-ghost" data-spin-open="' + pick.id + '" style="padding:7px 14px; font-size:13.5px;">See details</button></div>' +
+      "</div></div>";
+    host.querySelector("[data-spin-again]").addEventListener("click", function () { spinAgain(); });
+    host.querySelector("[data-spin-open]").addEventListener("click", function () { openDetailById(pick.id, false); });
+  }
+  function showSpin(poolList) {
+    var host = document.getElementById("spin-result");
+    var pick = spin(poolList);
+    if (pick) lastSpin = { type: poolList };
+    if (!pick) {
+      host.innerHTML = '<p>' + (poolList === "want" ? "Your wishlist is empty, so there is nothing to spin yet. Add a title you would like to watch." : "You have no titles to spin yet. Add a movie or show you own.") + "</p>";
+      return;
+    }
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) { renderSpinPick(pick); return; }
+    var pool = movies.filter(function (m) { return m.list === poolList; });
+    var target = pool.indexOf(pick);
+    if (target < 0) target = 0;
+    var n = pool.length, start = 0;
+    var delta = ((target - start) % n + n) % n;
+    var travel = n * 2.5 + delta;
+    var dur = 2800, t0 = null, lastIdx = -1;
+    function frame(ts) {
+      if (!t0) t0 = ts;
+      var p = Math.min(1, (ts - t0) / dur);
+      var e = 1 - Math.pow(1 - p, 5);
+      var idx = Math.floor(start + travel * e) % n;
+      if (idx !== lastIdx) {
+        lastIdx = idx;
+        var m = pool[idx], img = coverImgFor(m);
+        host.innerHTML = '<div class="spinpick">' +
+          (img ? '<img src="' + img + '" alt="">' : "") +
+          '<div style="flex:1; min-width:0;"><div class="spintitle">\uD83C\uDFB0 ' + esc(m.title) + '</div>' +
+          '<div class="spinmeta">Spinning\u2026</div></div></div>';
+      }
+      if (p < 1) { window.requestAnimationFrame(frame); return; }
+      renderSpinPick(pick);
+    }
+    window.requestAnimationFrame(frame);
+  }
+  function starStr(r) {
+    r = Math.max(0, Math.min(5, r | 0)); var h = "";
+    for (var i = 1; i <= 5; i++) h += i <= r ? "★" : '<span class="off">★</span>';
+    return '<span class="starshow">' + h + "</span>";
+  }
+  /* ---------- swipe left on a row to reveal its options ----------
+     Pointer events, so it works with touch and mouse. A swipe never
+     starts from a button, a link, an input or the drag grip, and the
+     row tap is held off for a beat after a swipe so a swipe never
+     opens the detail by accident. */
+  var mvSwipe = null, mvSwipeBlockUntil = 0;
+  function mvSwipeCloseAll(except) {
+    document.querySelectorAll(".crow.swopen").forEach(function (r) {
+      if (r !== except) { r.classList.remove("swopen"); var inn = r.querySelector(".crowinner"); if (inn) inn.style.transform = ""; }
+    });
+  }
+  document.getElementById("movielist").addEventListener("pointerdown", function (e) {
+    if (e.button != null && e.button > 0) return;
+    var t = e.target;
+    if (!t || !t.closest) return;
+    if (t.closest("button, a, input, select, textarea, .draghandle")) return;
+    var row = t.closest(".crow");
+    if (!row) return;
+    var inner = row.querySelector(".crowinner");
+    if (!inner) return;
+    mvSwipe = { row: row, inner: inner, acts: row.querySelector(".mvswipeacts"), x0: e.clientX, y0: e.clientY, dx: 0, on: false, open: row.classList.contains("swopen") };
+    inner.style.transition = "none";
+  });
+  document.addEventListener("pointermove", function (e) {
+    if (!mvSwipe) return;
+    var dx = e.clientX - mvSwipe.x0, dy = e.clientY - mvSwipe.y0;
+    if (!mvSwipe.on) {
+      if (Math.abs(dx) > 10 && Math.abs(dx) > Math.abs(dy)) { mvSwipe.on = true; mvSwipeCloseAll(mvSwipe.row); }
+      else return;
+    }
+    if (e.cancelable) e.preventDefault();
+    var w = (mvSwipe.acts && mvSwipe.acts.offsetWidth) || 150;
+    var base = mvSwipe.open ? -w : 0;
+    mvSwipe.dx = Math.max(-w, Math.min(0, base + dx));
+    mvSwipe.inner.style.transform = "translateX(" + mvSwipe.dx + "px)";
+  }, { passive: false });
+  function mvSwipeEnd() {
+    if (!mvSwipe) return;
+    var s = mvSwipe; mvSwipe = null;
+    s.inner.style.transition = "";
+    if (!s.on) { s.inner.style.transform = s.open ? "translateX(" + (-((s.acts && s.acts.offsetWidth) || 150)) + "px)" : ""; return; }
+    var w = (s.acts && s.acts.offsetWidth) || 150;
+    mvSwipeBlockUntil = Date.now() + 350;
+    if (s.dx <= -w * 0.4) { s.row.classList.add("swopen"); s.inner.style.transform = "translateX(" + (-w) + "px)"; }
+    else { s.row.classList.remove("swopen"); s.inner.style.transform = ""; }
+  }
+  document.addEventListener("pointerup", mvSwipeEnd);
+  document.addEventListener("pointercancel", function () { if (!mvSwipe) return; var s = mvSwipe; mvSwipe = null; s.inner.style.transition = ""; s.inner.style.transform = s.open ? "translateX(" + (-((s.acts && s.acts.offsetWidth) || 150)) + "px)" : ""; });
+  document.addEventListener("click", function (e) {
+    if (!e.target || !e.target.closest) return;
+    if (!e.target.closest(".crow.swopen")) mvSwipeCloseAll(null);
+  }, true);
+  /* ---------- drag to reorder (custom sort only) ---------- */
+  var mvDrag = null, mvDragEnd = 0;
+  function mvRowAt(x, y) {
+    var el = document.elementFromPoint(x, y);
+    var row = el && el.closest ? el.closest(".crow[data-id]") : null;
+    if (!row) return null;
+    if (mvDrag && row === mvDrag.card) return null;
+    return row;
+  }
+  document.addEventListener("pointerdown", function (e) {
+    var h = e.target && e.target.closest ? e.target.closest(".draghandle") : null;
+    if (!h) return;
+    if (sortMode !== "custom") return;
+    if (e.button != null && e.button > 0) return;
+    var row = h.closest(".crow");
+    if (!row) return;
+    mvDrag = { id: h.getAttribute("data-drag"), card: row, sx: e.clientX, sy: e.clientY, active: false };
+  });
+  document.addEventListener("pointermove", function (e) {
+    if (!mvDrag) return;
+    if (!mvDrag.active) {
+      if (Math.hypot(e.clientX - mvDrag.sx, e.clientY - mvDrag.sy) < 9) return;
+      mvDrag.active = true;
+      mvDrag.card.classList.add("dragging");
+    }
+    e.preventDefault();
+    var over = mvRowAt(e.clientX, e.clientY);
+    if (over) {
+      var r = over.getBoundingClientRect();
+      var before = (e.clientY - r.top) < r.height / 2;
+      var parent = over.parentNode;
+      if (before) parent.insertBefore(mvDrag.card, over);
+      else parent.insertBefore(mvDrag.card, over.nextSibling);
+    }
+  }, { passive: false });
+  document.addEventListener("pointerup", function () {
+    if (!mvDrag) return;
+    var d = mvDrag; mvDrag = null;
+    if (!d.active) return;
+    d.card.classList.remove("dragging");
+    mvDragEnd = Date.now();
+    var list = d.card.parentNode;
+    if (!list) return;
+    var ids = [];
+    Array.prototype.forEach.call(list.children, function (c) {
+      if (c.classList && c.classList.contains("crow")) { var cid = c.getAttribute("data-id"); if (cid) ids.push(cid); }
+    });
+    ids.forEach(function (cid, i) {
+      var m = movieById(cid);
+      if (!m) return;
+      var ord = (i + 1) * 10;
+      if (m.ord !== ord) { m.ord = ord; m.updatedAt = Date.now(); }
+    });
+    save(); render();
+  });
+  document.addEventListener("click", function (e) {
+    if (Date.now() - mvDragEnd < 400) { e.stopPropagation(); e.preventDefault(); }
+  }, true);
+  /* ---------- delete confirm sheet (Bins pattern, no native confirm) ---------- */
+  var sheetTarget = null;
+  function askDelete(id) {
+    var m = movieById(id); if (!m) return;
+    sheetTarget = id;
+    document.getElementById("mv-sheet-title").textContent = "Delete this title?";
+    document.getElementById("mv-sheet-text").textContent = "Take “" + m.title + "” off your shelf? This only removes it from your Movies & Shows.";
+    document.getElementById("mv-sheet").hidden = false;
+  }
+  document.getElementById("mv-sheet-yes").addEventListener("click", function () {
+    document.getElementById("mv-sheet").hidden = true;
+    if (sheetTarget) deleteMovieNow(sheetTarget);
+    sheetTarget = null;
+  });
+  document.getElementById("mv-sheet-no").addEventListener("click", function () {
+    document.getElementById("mv-sheet").hidden = true;
+    sheetTarget = null;
+  });
+  document.getElementById("mv-sheet").addEventListener("click", function (e) {
+    if (e.target === this) { this.hidden = true; sheetTarget = null; }
+  });
+  /* ---------- render ---------- */
+  function render() {
+    paintListChips(); paintGenreChips(); paintSortPicker(); paintStats();
+    if (openDetail) { renderDetail(); return; }
+    document.getElementById("detail-host").style.display = "none";
+    document.getElementById("listwrap").style.display = "";
+    document.getElementById("movieformcard").style.display = "";
+    renderGenres();
+    paintJump();
+    renderList();
+  }
+  function renderFormStars() {
+    var w = document.getElementById("mf-stars"); var h = "";
+    for (var i = 1; i <= 5; i++) h += '<button type="button" data-star="' + i + '" class="' + (i <= formStars ? "" : "off") + '" aria-label="' + i + ' stars">★</button>';
+    w.innerHTML = h;
+    w.querySelectorAll("button").forEach(function (b) { b.addEventListener("click", function () { formStars = parseInt(b.getAttribute("data-star"), 10); renderFormStars(); }); });
+  }
+  function paintFormWatch() {
+    var el = document.getElementById("mf-watchcount");
+    if (el) el.textContent = watchLabel(formWatch) || "Not watched yet";
+  }
+  function paintFormCover() {
+    var prev = document.getElementById("mf-coverpreview"), cr = document.getElementById("mf-covercredit");
+    var url = "", credit = "";
+    if (formAutoCover) { url = formAutoCover.url; credit = formAutoCover.credit; }
+    if (url) {
+      prev.src = url; prev.style.display = "block";
+      if (credit) { cr.textContent = "Cover from " + credit + "."; cr.style.display = "block"; } else cr.style.display = "none";
+    } else { prev.style.display = "none"; cr.style.display = "none"; }
+  }
+  function resetForm() {
+    formStars = 0; formWatch = 0; formAutoCover = null; pendingFill = null; dupConfirmed = false;
+    document.getElementById("mf-title").value = "";
+    document.getElementById("mf-year").value = "";
+    document.getElementById("mf-type").value = "Movie";
+    document.getElementById("mf-genre").value = "";
+    document.getElementById("mf-barcode").value = "";
+    document.getElementById("mf-list").value = "have";
+    document.getElementById("mf-note").value = "";
+    document.getElementById("mf-coverurl").value = "";
+    document.getElementById("mf-covermsg").textContent = "";
+    var fn = document.getElementById("mf-fillnote");
+    if (fn) { fn.textContent = ""; fn.style.display = "none"; }
+    document.getElementById("mf-err").style.display = "none";
+    renderFormStars(); paintFormWatch(); paintFormCover();
+  }
+  /* ---------- Scan Add sheet (scan-add.js, shared with Books later) ---------- */
+  function showFillNote(text) {
+    var fn = document.getElementById("mf-fillnote");
+    if (!fn) return;
+    fn.textContent = text;
+    fn.style.display = text ? "block" : "none";
+  }
+  function fillAddForm(rec) {
+    /* Every looked-up value lands in the form, still editable, and the
+       extra fields (synopsis, runtime, studio, actors and the rest) ride
+       pendingFill into the saved record. Nothing is saved yet. */
+    pendingFill = rec || null;
+    if (rec.title) document.getElementById("mf-title").value = rec.title;
+    if (rec.year) document.getElementById("mf-year").value = rec.year;
+    if (rec.genre && rec.genre.length) document.getElementById("mf-genre").value = rec.genre.join(", ");
+    if (rec.showType && ["Movie", "TV", "Children", "Special"].indexOf(rec.showType) >= 0) document.getElementById("mf-type").value = rec.showType;
+    if (rec.barcode) document.getElementById("mf-barcode").value = rec.barcode;
+    if (rec.cover) { formAutoCover = { url: rec.cover, credit: rec.coverCredit || "" }; paintFormCover(); }
+    showFillNote("Details filled from a lookup. Check them and edit anything before saving.");
+    document.getElementById("movieformcard").scrollIntoView({ behavior: "smooth", block: "center" });
+    document.getElementById("mf-title").focus();
+  }
+  function openManualForm(barcode) {
+    if (barcode) document.getElementById("mf-barcode").value = barcode;
+    showFillNote(barcode ? "No lookup found for that barcode, so fill in the rest by hand." : "");
+    document.getElementById("movieformcard").scrollIntoView({ behavior: "smooth", block: "center" });
+    document.getElementById(barcode ? "mf-title" : "mf-title").focus();
+  }
+  function openAddSheet() {
+    if (window.TYDScanAdd && window.TYDScanAdd.open) {
+      window.TYDScanAdd.open({ kind: "movie", onFilled: fillAddForm, onManual: openManualForm });
+    } else {
+      document.getElementById("movieformcard").scrollIntoView({ behavior: "smooth", block: "center" });
+      document.getElementById("mf-title").focus();
+    }
+  }
+  document.getElementById("mf-scanadd").addEventListener("click", function () { openAddSheet(); });
+  document.getElementById("mf-findcover").addEventListener("click", function () {
+    var title = document.getElementById("mf-title").value.trim();
+    var year = parseInt(document.getElementById("mf-year").value, 10) || "";
+    var msg = document.getElementById("mf-covermsg");
+    if (!title) { msg.textContent = "Give the title a name first, then I can look for its cover."; return; }
+    msg.textContent = "Looking for its cover…";
+    movieCoverCandidates(title, year).then(function (list) {
+      if (!list.length) { msg.textContent = "No cover found for this one yet. Paste your own image link above if you have one."; formAutoCover = null; paintFormCover(); return; }
+      formAutoCover = list[0];
+      msg.textContent = "Found its cover.";
+      paintFormCover();
+    }).catch(function () { msg.textContent = "The cover lookup did not answer just now. Try again in a moment."; });
+  });
+  document.getElementById("mf-watchminus").addEventListener("click", function () { formWatch = Math.max(0, formWatch - 1); paintFormWatch(); });
+  document.getElementById("mf-watchplus").addEventListener("click", function () { formWatch = formWatch + 1; paintFormWatch(); });
+  /* v363 duplicate check (Lucy, Nov 18, 2026): adding a title that is
+     already in the Pond shows a confirm sheet naming it, instead of
+     saving silently. Same pattern as the Book Nook check in v362: a
+     match is the same normalized title plus the same year when both
+     have one; a bare title match counts when either side has no year.
+     Cancel is the safe default; Add it anyway saves a second copy.
+     The add form is new-only, so editing a detail never fires it. */
+  function normMovieText(s) { return String(s || "").toLowerCase().replace(/\s+/g, " ").trim(); }
+  function findDuplicateMovie(title, year) {
+    var t = normMovieText(title); if (!t) return null;
+    var y = parseInt(year, 10); if (isNaN(y)) y = null;
+    for (var i = 0; i < movies.length; i++) {
+      var m = movies[i];
+      if (normMovieText(m.title) !== t) continue;
+      var my = parseInt(m.year, 10); if (isNaN(my)) my = null;
+      if (!my || !y || my === y) return m;
+    }
+    return null;
+  }
+  function showDupSheet(dup) {
+    var msg = document.getElementById("mv-dup-msg");
+    msg.textContent = "This title is already in the Pond: " + (dup.title || "Untitled") + (dup.year ? " (" + dup.year + ")" : "") + ". Add it again, or cancel and keep the one you have.";
+    document.getElementById("mv-dup-sheet").hidden = false;
+    document.getElementById("mv-dup-cancel").focus();
+  }
+  function hideDupSheet() { document.getElementById("mv-dup-sheet").hidden = true; }
+  document.getElementById("mv-dup-addanyway").addEventListener("click", function () { dupConfirmed = true; hideDupSheet(); document.getElementById("mf-save").click(); });
+  document.getElementById("mv-dup-cancel").addEventListener("click", function () { hideDupSheet(); });
+  document.getElementById("mv-dup-sheet").addEventListener("click", function (e) { if (e.target === this) hideDupSheet(); });
+  ["mf-title", "mf-year"].forEach(function (id) { document.getElementById(id).addEventListener("input", function () { dupConfirmed = false; }); });
+  document.getElementById("mf-save").addEventListener("click", function () {
+    var title = document.getElementById("mf-title").value.trim();
+    var err = document.getElementById("mf-err");
+    if (!title) { err.textContent = "Give the title a name first, duckling."; err.style.display = "block"; return; }
+    err.style.display = "none";
+    var year = parseInt(document.getElementById("mf-year").value, 10);
+    if (!dupConfirmed) {
+      var dup = findDuplicateMovie(title, year);
+      if (dup) { showDupSheet(dup); return; }
+    }
+    var manualCover = document.getElementById("mf-coverurl").value.trim();
+    var data = {
+      id: uid(),
+      title: title,
+      year: isNaN(year) ? null : year,
+      genre: document.getElementById("mf-genre").value.split(",").map(function (x) { return x.trim(); }).filter(function (x) { return x; }),
+      showType: document.getElementById("mf-type").value,
+      list: document.getElementById("mf-list").value === "want" ? "want" : "have",
+      stars: formStars,
+      watchCount: formWatch,
+      notes: document.getElementById("mf-note").value.trim(),
+      barcode: document.getElementById("mf-barcode").value.trim() || "",
+      favorite: false,
+      watched: false,
+      addedAt: Date.now(),
+      updatedAt: Date.now(),
+      imported: false
+    };
+    /* Looked-up extras ride along (synopsis, runtime, studio, actors and
+       the rest). They were shown in the form or kept editable before
+       saving, and a saved record is never overwritten by a later lookup. */
+    if (pendingFill) {
+      ["synopsis", "runtime", "studio", "actors", "directors", "format", "country", "originalRatio", "itemRatio", "discs", "region", "package", "opened", "estValueCents", "series", "dateAdded"].forEach(function (k) {
+        if (pendingFill[k] !== undefined && pendingFill[k] !== null && pendingFill[k] !== "") data[k] = pendingFill[k];
+      });
+      if (pendingFill.synopsis) { data.synopsisSource = pendingFill.source || "lookup"; }
+    }
+    if (manualCover) { data.cover = manualCover; data.coverAuto = false; data.coverCredit = ""; data.coverNone = false; data.coverTried = 0; }
+    else if (formAutoCover) { data.cover = formAutoCover.url; data.coverAuto = true; data.coverCredit = formAutoCover.credit || ""; data.coverNone = false; data.coverTried = 0; }
+    else { data.cover = ""; data.coverAuto = false; data.coverNone = false; data.coverTried = 0; }
+    movies.push(data);
+    assignMissingOrd();
+    resetForm(); save(); render();
+    var saved = movieById(data.id);
+    if (saved && !saved.cover) maybeAutoCover(saved, true);
+  });
+  document.getElementById("listchips").querySelectorAll(".chip").forEach(function (c) {
+    c.addEventListener("click", function () { listFilter = c.getAttribute("data-list"); render(); });
+  });
+  document.getElementById("mv-sort").addEventListener("change", function () {
+    var v = this.value;
+    sortMode = SORTS[v] ? v : "custom";
+    saveSortPref(); render();
+  });
+  document.getElementById("spin-have").addEventListener("click", function () { showSpin("have"); });
+  document.getElementById("spin-surprise").addEventListener("click", function () { spinWholeShelf(); });
+  document.getElementById("spin-want").addEventListener("click", function () { showSpin("want"); });
+  document.addEventListener("click", function (e) {
+    if (e.target && e.target.closest && e.target.closest("[data-mvreset]")) {
+      movies.forEach(function (m, i) { m.ord = (i + 1) * 10; m.updatedAt = Date.now(); });
+      save(); render();
+    }
+  });
+  /* ---------- account sync (v339 pattern) ---------- */
+  window.TYDPage = {
+    fields: ["movies", "movieGenrePins"],
+    snapshot: function () {
+      var iSeeded = false, kSeeded = false, kPin = false;
+      try { iSeeded = localStorage.getItem(IMPORT_FLAG) === "1"; kSeeded = localStorage.getItem(KDRAMA_FLAG) === "1"; kPin = localStorage.getItem(KDRAMA_PIN_FLAG) === "1"; } catch (e) {}
+      return { movies: JSON.parse(JSON.stringify(movies)), moviesImportSeeded: iSeeded, moviesKdramaSeeded: kSeeded, moviesKdramaPin: kPin, movieGenrePins: genrePins() };
+    },
+    mergeRemote: function (remote) {
+      var r = (remote && Array.isArray(remote.movies)) ? remote.movies : [];
+      var byId = {};
+      movies.forEach(function (m) { byId[m.id] = m; });
+      r.forEach(function (rm) {
+        if (!rm || !rm.id) return;
+        if (!byId[rm.id] || (rm.updatedAt || 0) > (byId[rm.id].updatedAt || 0)) byId[rm.id] = rm;
+      });
+      movies = Object.keys(byId).map(function (k) { return byId[k]; });
+      /* The seed flag rides the account too, so a second device never
+         re-seeds titles Lucy deliberately deleted. */
+      if (remote && remote.moviesImportSeeded) { try { localStorage.setItem(IMPORT_FLAG, "1"); } catch (e) {} }
+      if (remote && remote.moviesKdramaSeeded) { try { localStorage.setItem(KDRAMA_FLAG, "1"); } catch (e) {} }
+      if (remote && remote.moviesKdramaPin) { try { localStorage.setItem(KDRAMA_PIN_FLAG, "1"); } catch (e) {} }
+      if (remote && Array.isArray(remote.movieGenrePins)) { try { localStorage.setItem(GENRE_PIN_KEY, JSON.stringify(remote.movieGenrePins)); } catch (e) {} }
+      save(); render();
+    },
+    onAuth: function (auth) {
+      if (auth && auth.uid) { currentUid = auth.uid; seedMoviesIfLucy(); seedKdramaIfLucy(); render(); }
+    }
+  };
+  /* v363 test seam */
+  window.TYDMovies = {
+    getMovies: function () { return movies; },
+    setMovies: function (list) { movies = list || []; save(); render(); },
+    movieById: movieById,
+    getSamples: function () { return SAMPLES; },
+    showingSamples: showingSamples,
+    addMovie: function (data) { var m = Object.assign({ id: uid(), list: "have", stars: 0, watchCount: 0, favorite: false, addedAt: Date.now(), updatedAt: Date.now() }, data || {}); movies.push(m); assignMissingOrd(); save(); render(); return m; },
+    setStars: function (id, r) { var m = movieById(id); if (!m) return false; setStars(m, r); return true; },
+    bumpWatch: function (id) { var m = movieById(id); if (!m) return false; bumpWatch(m); return true; },
+    setWatchCount: function (id, n) { var m = movieById(id); if (!m) return false; setWatchCount(m, n); return true; },
+    setList: function (id, list) { var m = movieById(id); if (!m) return false; setList(m, list); return true; },
+    toggleFavorite: function (id) { var m = movieById(id); if (!m) return false; toggleFavorite(m); return true; },
+    duplicateMovie: duplicateMovie,
+    findDuplicateMovie: findDuplicateMovie,
+    deleteMovieNow: deleteMovieNow,
+    askDelete: askDelete,
+    spin: spin,
+    showSpin: showSpin,
+    spinGenre: spinGenre,
+    pickUniform: pickUniform,
+    genreCounts: genreCounts,
+    genreOrder: genreOrder,
+    moviesInGenre: moviesInGenre,
+    getGenreFilter: function () { return genreFilter; },
+    setGenreFilter: setGenreFilter,
+    renderGenres: renderGenres,
+    setWatched: function (id, on) { var m = movieById(id); if (!m) return false; setWatched(m, on); return true; },
+    toggleWatched: function (id) { var m = movieById(id); if (!m) return false; toggleWatched(m); return true; },
+    getKdramaSeed: function () { return KDRAMA_SEED; },
+    isKdramaPinned: isKdramaPinned,
+    genrePins: genrePins,
+    isGenrePinned: isGenrePinned,
+    toggleGenrePin: toggleGenrePin,
+    genreScene: genreScene,
+    movieStats: movieStats,
+    isWatched: isWatched,
+    jumpToGenre: jumpToGenre,
+    spinWholeShelf: spinWholeShelf,
+    paintStats: paintStats,
+    paintJump: paintJump,
+    seedKdramaIfLucy: seedKdramaIfLucy,
+    openAddSheet: openAddSheet,
+    fillAddForm: fillAddForm,
+    openManualForm: openManualForm,
+    getPendingFill: function () { return pendingFill; },
+    openDetailById: openDetailById,
+    closeDetail: closeDetail,
+    getOpenDetail: function () { return openDetail; },
+    isDetailEditing: function () { return detailEditing; },
+    setDetailEditing: function (on) { detailEditing = !!on; if (openDetail) renderDetail(); },
+    detailHtml: detailHtml,
+    detailEditHtml: detailEditHtml,
+    seedFromImport: seedFromImport,
+    seedMoviesIfLucy: seedMoviesIfLucy,
+    setCurrentUid: function (u) { currentUid = u; },
+    movieCoverCandidates: movieCoverCandidates,
+    maybeAutoCover: maybeAutoCover,
+    maybeAutoSynopsis: maybeAutoSynopsis,
+    wikiSummaryText: wikiSummaryText,
+    getSort: function () { return sortMode; },
+    setSort: function (s) { if (SORTS[s]) { sortMode = s; saveSortPref(); render(); } },
+    getListFilter: function () { return listFilter; },
+    setListFilter: function (f) { listFilter = f; render(); },
+    render: render,
+    LUCY_UID: LUCY_UID,
+    IMPORT_URL: IMPORT_URL
+  };
+  backfillCovers();
+  renderFormStars(); paintFormWatch(); render();
+})();
+</script>
+<script type="module">
+(function () {
+  var cfg = { apiKey: "preview-disabled", authDomain: "pond-preview-disabled.firebaseapp.com", projectId: "pond-preview-disabled", storageBucket: "pond-preview-disabled.firebasestorage.app", messagingSenderId: "000000000000", appId: "1:000000000000:web:previewdisabled" };
+  Promise.all([
+    import("./pond-firebase-stub.js"),
+    import("./pond-firebase-stub.js"),
+    import("./pond-firebase-stub.js")
+  ]).then(function (mods) {
+    var app;
+    try { app = mods[0].getApp(); } catch (e) { app = mods[0].initializeApp(cfg); }
+    var auth = mods[1].getAuth(app);
+    var db = mods[2].getFirestore(app);
+    var F = mods[2];
+    var uid = null, ready = false, pushT = null;
+    window.TYDPageChanged = function () {
+      if (!uid || !ready || !window.TYDPage) return;
+      clearTimeout(pushT);
+      pushT = setTimeout(function () {
+        if (!uid || !window.TYDPage) return;
+        F.setDoc(F.doc(db, "users", uid), window.TYDPage.snapshot(), { merge: true }).catch(function () {});
+      }, 500);
+    };
+    mods[1].onAuthStateChanged(auth, function (user) {
+      var note = document.getElementById("sync-note");
+      if (!user) {
+        uid = null; ready = false;
+        if (window.TYDPage && window.TYDPage.onAuth) window.TYDPage.onAuth(null);
+        if (note) note.innerHTML = 'Saved on this device. <a href="account.html">Sign in to sync</a> it to your Pond Account.';
+        return;
+      }
+      uid = user.uid;
+      F.getDoc(F.doc(db, "users", uid)).then(function (snap) {
+        if (window.TYDPage) window.TYDPage.mergeRemote(snap.exists() ? snap.data() : {});
+        ready = true;
+        if (window.TYDPageChanged) window.TYDPageChanged();
+        if (window.TYDPage && window.TYDPage.onAuth) window.TYDPage.onAuth({ uid: user.uid, email: user.email || "" });
+        if (note) note.textContent = "Synced to your Pond Account, so your shelf follows you across your devices. 🦆";
+      }).catch(function () { ready = true; });
+    });
+  }).catch(function () {});
+})();
+</script>
+<script src="badwords.js"></script>
+<script src="site-nav.js?v=372"></script>
+<script src="pull-refresh.js?v=341"></script>
+<script src="html5-qrcode.min.js?v=372" defer></script>
+<script src="scan-add.js?v=372" defer></script>
+<script>
+  if (window.TYDNet) window.TYDNet.hi("movies");
+</script>
+<script src="pond-staging.js"></script>
+</body>
+</html>
