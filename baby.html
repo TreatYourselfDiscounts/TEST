@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#ffd94d">
+<meta name="description" content="Verified baby deals on sale, refreshed every morning. Welcome to the Pond!">
+<meta property="og:title" content="Baby Deals | TreatYourselfDiscounts">
+<meta property="og:description" content="Verified baby deals on sale, refreshed every morning. Welcome to the Pond!">
+<meta property="og:image" content="/images/corners/duck-deals.jpg">
+<meta property="og:url" content="/baby">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Baby Deals | TreatYourselfDiscounts">
+<meta name="twitter:description" content="Verified baby deals on sale, refreshed every morning. Welcome to the Pond!">
+<meta name="twitter:image" content="/images/corners/duck-deals.jpg">
+<title>Baby Deals | TreatYourselfDiscounts</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body { overflow-x: clip; /* clip, not hidden: hidden makes a scroll container and breaks the sticky top bar (Nov 13, 2026) */ }
+  /* No solid body background here: the duck wallpaper lives in site-nav.js and must show through on every page. */
+  body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; color: #23414d; }
+  .app { max-width: 430px; margin: 0 auto; min-height: 100vh; background: #bfe6f2; box-shadow: 0 0 24px rgba(35,65,77,.12); padding-bottom: 32px; }
+  .tyd-pill { display: none !important; }
+  header.top { text-align: center; margin: 10px 16px 4px; }
+  header.top .duck { width: 76px; height: 76px; border-radius: 50%; border: 3px solid #ffd94d; background: #ffd94d; }
+  header.top .sub { margin: 6px 0 0; color: #3f6b7a; font-size: 15px; line-height: 1.5; }
+  .back { color: #1f5f74; font-weight: 700; text-decoration: none; font-size: 14px; display: inline-block; margin: 14px 16px 0; }
+  h1 { margin: 0; font-size: 26px; letter-spacing: .2px; }
+  .tagline { margin: 8px 0 0; font-size: 15px; color: #3f6b7a; line-height: 1.45; }
+  .stamp-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin: 14px 16px 0; }
+  .stamp { font-size: 13.5px; font-weight: 700; color: #1f5f74; }
+  .refresh-btn { background: #ffd94d; border: 2px solid #e8b93c; color: #6b5900; font-weight: 800; font-size: 14px; border-radius: 999px; padding: 9px 16px; cursor: pointer; font-family: inherit; }
+  .refresh-btn:disabled { opacity: .6; cursor: wait; }
+  .refresh-note { font-size: 13px; color: #4a6b78; margin: 8px 16px 0; line-height: 1.5; }
+  .controls { padding: 16px 16px 0; }
+  /* v307: solid white + solid border, not the two-layer gradient (same forced-dark victim as the cards). */
+  .search-row input { width: 100%; box-sizing: border-box; font-size: 15px; padding: 12px 16px; border-radius: 999px; border: 2px solid #bcd9e4; background: #fff; outline: none; color: #23414d; }
+  #lego-no-results { text-align: center; color: #4a6b78; margin: 8px 0; }
+  .filter-row { display: flex; gap: 8px; margin: 12px 0 0; }
+  .filter-row label { flex: 1; font-size: 13px; font-weight: 700; color: #4a6b78; }
+  .filter-row select { width: 100%; margin-top: 4px; font-size: 14px; padding: 10px 12px; border-radius: 999px; border: 2px solid #bcd9e4; background: #fff; color: #23414d; outline: none; }
+  @media (max-width: 759px) {
+    .filter-row { flex-direction: column; }
+    .filter-row label { flex: none; }
+  }
+  .lego-count { font-size: 13px; color: #4a6b78; margin: 12px 16px 0; }
+  /* Solid colors only, no gradients (v307 lesson: a phone browser's forced-dark recolor turns gradient panels black while the text stays dark). */
+  .lego-grid { display: grid; grid-template-columns: 1fr; gap: 12px; padding: 12px 16px 0; }
+  /* v324: bottom-aligned buttons — the card is a flex column and
+     .lego-info stretches (flex:1), so the Shop button (margin-top:auto)
+     sits at the bottom of every card in the row. .save/.stock-note keep
+     a 12px bottom margin so the gap never collapses on the tallest card. */
+  .lego-card { background: #fff; border: 2px solid #ffe066; border-radius: 18px; box-shadow: 0 2px 8px rgba(35,65,77,.06); overflow: hidden; display: flex; flex-direction: column; }
+  /* v323: uniform square photo box — every card the same size on phone
+     AND desktop. The box is always square (aspect-ratio 1/1) and the
+     image sits inside it with object-fit: contain on white, so the
+     WHOLE product shows, never cropped, never distorted. This replaces
+     the v321 aspect-aware frames (height:auto): tall portrait photos
+     made giant cards and stretched their whole grid row, so a short
+     row-mate's content scrolled off-screen and its card looked blank
+     (LEGO Yoda Key Chain 853449, Nov 15, 2026). Real width/height
+     attrs on each img still prevent layout shift. */
+  .lego-photo { width: 100%; aspect-ratio: 1 / 1; height: auto; object-fit: contain; background: #fff; display: block; border-bottom: 1px solid #dceef5; }
+  .lego-info { padding: 14px 16px 16px; flex: 1 1 auto; display: flex; flex-direction: column; }
+  .lego-name { font-weight: 700; font-size: 16px; margin: 0; line-height: 1.35; color: #23414d; }
+  .lego-name .setno { color: #5a7d8a; font-weight: 600; }
+  .store-chip { display: inline-block; margin-top: 8px; font-size: 12px; font-weight: 800; letter-spacing: .4px; color: #1f5f74; background: #eaf7fb; border: 1px solid #bcd9e4; padding: 3px 10px; border-radius: 999px; }
+  .price-row { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+  .sale { font-size: 24px; font-weight: 800; color: #1e7d32; line-height: 1; }
+  .was { font-size: 15px; color: #7a8b93; text-decoration: line-through; }
+  .pct { font-size: 13px; font-weight: 800; color: #fff; background: #d6336c; padding: 3px 9px; border-radius: 999px; white-space: nowrap; }
+  .save { font-size: 15px; font-weight: 800; color: #c2185b; margin: 6px 0 12px; }
+  .stock-note { font-size: 13px; font-weight: 700; color: #8a6d00; margin: 6px 0 12px; }
+  .shop-btn { display: block; text-align: center; background: #1f5f74; color: #fff; font-weight: 800; font-size: 15px; text-decoration: none; border-radius: 999px; padding: 11px 16px; margin-top: auto; }
+  .shop-btn:active { background: #174a5c; }
+  /* Share to the Shack (v312): the Share button sits under the Shop
+     button on each card. Its look comes from site-nav.js. */
+  .lego-info [data-shack-share] { margin-top: 8px; }
+  /* "See it in use" video link: only on cards with a verified video
+     of that exact product in use (data/deal-videos.json). It sits
+     right above the Shop button (v325), so the bottom block is
+     exactly Shop + Share on every card and the Shop buttons line up. */
+  .video-link { display: block; text-align: center; color: #1f5f74; font-weight: 700; font-size: 14px; text-decoration: none; margin-top: 10px; }
+  .video-link:hover { text-decoration: underline; }
+
+  .history { background: #fff; border: 2px solid #bcd9e4; border-radius: 16px; padding: 16px; margin: 20px 16px 0; }
+  .history h2 { margin: 0 0 4px; font-size: 19px; color: #1f5f74; }
+  .history .hist-note { font-size: 13.5px; color: #4a6b78; line-height: 1.5; margin: 0 0 12px; }
+  .history ul { margin: 0; padding-left: 18px; }
+  .history li { font-size: 14px; color: #23414d; line-height: 1.55; margin-bottom: 10px; }
+  .history li:last-child { margin-bottom: 0; }
+  .history li b { color: #1f5f74; }
+  .footer-duck-v4 { display: block; margin: 0 auto 6px; height: 84px; width: 84px; border-radius: 50%; object-fit: cover; border: 3px solid #ffd94d; background: #ffd94d; filter: drop-shadow(0 3px 5px rgba(35,65,77,.25)); animation: pondfloat 6s ease-in-out infinite; }
+  footer { text-align: center; font-size: 12.5px; color: #4a6b78; padding: 24px 24px 0; line-height: 1.5; }
+  .foot-links { text-align: center; padding: 18px 24px 0; font-size: 13px; }
+  .foot-links a { color: #1f5f74; font-weight: 700; text-decoration: none; margin: 0 8px; }
+  .nest { font-weight: 700; color: #1f5f74; margin: 14px 0 0; }
+  @keyframes pondfloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+  @media (prefers-reduced-motion: reduce) { .footer-duck-v4 { animation: none; } }
+  @media (min-width: 760px) {
+    .app { max-width: 920px; }
+    .lego-grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+  }
+  /* Phone (max-width 699px): compact 2-column cards, so two sets fit per
+     screen instead of one tall card (Lucy, Nov 15, 2026: her iPhone
+     screenshot showed one full-width card with a very tall photo).
+     Photos sit in a uniform square box (v323), so every card is the
+     same size. Desktop (min-width 760px) untouched. */
+  @media (max-width: 699px) {
+    .lego-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; padding: 10px 10px 0; }
+    .lego-info { padding: 10px 10px 12px; }
+    .lego-name { font-size: 14px; }
+    .store-chip { font-size: 11px; margin-top: 6px; padding: 2px 8px; }
+    .price-row { gap: 5px; margin-top: 8px; }
+    .sale { font-size: 19px; }
+    .was { font-size: 13px; }
+    .pct { font-size: 11px; padding: 2px 7px; }
+    .save { font-size: 13px; margin-top: 5px; }
+    .stock-note { font-size: 12px; margin-top: 5px; }
+    .shop-btn { font-size: 13.5px; padding: 9px 10px; margin-top: auto; }
+    /* Refresh button: same button, same place (in .stamp-row), just
+       full-width and bigger on phone so it is easy to spot. */
+    .refresh-btn { width: 100%; font-size: 16px; padding: 12px 18px; }
+  }
+  /* Dark mode: explicit solid colors, no gradients, so every price, pill and button stays readable. */
+  html[data-theme="dark"] .search-row input { background: #172635 !important; color: #eefaff !important; border-color: #2e4a5f !important; }
+  html[data-theme="dark"] .filter-row select { background: #172635 !important; color: #eefaff !important; border-color: #2e4a5f !important; }
+  html[data-theme="dark"] .filter-row label { color: #bcd6e4 !important; }
+  html[data-theme="dark"] .lego-card { background: #172635 !important; border-color: #2e4a5f !important; }
+  html[data-theme="dark"] .lego-photo { background: #fff !important; border-bottom-color: #2e4a5f !important; }
+  html[data-theme="dark"] .lego-name { color: #eefaff !important; }
+  html[data-theme="dark"] .lego-name .setno { color: #8fa8b5 !important; }
+  html[data-theme="dark"] .store-chip { background: #101e2c !important; border-color: #2e4a5f !important; color: #c9f0fc !important; }
+  html[data-theme="dark"] .sale { color: #7ddba0 !important; }
+  html[data-theme="dark"] .was { color: #8fa8b5 !important; }
+  html[data-theme="dark"] .pct { background: #d6336c !important; color: #fff !important; }
+  html[data-theme="dark"] .save { color: #ff9ebb !important; }
+  html[data-theme="dark"] .stock-note { color: #ffd94d !important; }
+  html[data-theme="dark"] .shop-btn { background: #2e7d96 !important; color: #fff !important; }
+  html[data-theme="dark"] .video-link { color: #c9f0fc !important; }
+
+  html[data-theme="dark"] .history { background: #172635 !important; border-color: #2e4a5f !important; }
+  html[data-theme="dark"] .history h2 { color: #c9f0fc !important; }
+  html[data-theme="dark"] .history .hist-note { color: #bcd6e4 !important; }
+  html[data-theme="dark"] .history li { color: #eefaff !important; }
+  html[data-theme="dark"] .history li b { color: #c9f0fc !important; }
+  html[data-theme="dark"] .stamp { color: #c9f0fc !important; }
+  html[data-theme="dark"] .refresh-note { color: #bcd6e4 !important; }
+  html[data-theme="dark"] .lego-count { color: #bcd6e4 !important; }
+  html[data-theme="dark"] #lego-no-results { color: #bcd6e4 !important; }
+</style>
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="apple-touch-icon-v2.png">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="TreatYourself">
+<meta name="robots" content="noindex,nofollow">
+<link rel="stylesheet" href="pond-travel.css">
+<script>window.__TYD_PREVIEW__=true;</script>
+</head>
+<body>
+<div class="app">
+  <a class="back" href="deals.html">&#8249; Back to Deals</a>
+  <header class="top">
+    <img class="duck" src="images/corners/duck-deals.jpg" onerror="this.onerror=null;this.src='icon-512.png';" alt="The Pond duck">
+    <h1>👶 Baby Deals</h1>
+    <p class="sub">Verified baby deals on sale, refreshed every morning. Prices can change at the store.</p>
+  </header>
+  <div class="stamp-row">
+    <span class="stamp">✅ Checked November 18, 2026</span>
+    <button type="button" class="refresh-btn" id="refresh-btn">↻ Refresh deals</button>
+  </div>
+  <p class="refresh-note">This page joins the daily morning deal refresh: every price below was checked on its own product page on November 18, 2026. Refreshing reloads the latest saved check.</p>
+  <div class="controls">
+    <div class="search-row"><input id="lego-search" type="search" placeholder="Search baby deals..." aria-label="Search Baby Deals"></div>
+    <p id="lego-no-results" hidden>No baby deals match your search.</p>
+    <div class="filter-row">
+      <label>Store <select id="lego-store" aria-label="Filter by store"><option value="">All stores</option><option value="walmart">Walmart</option><option value="buybuybaby">Buy Buy Baby</option></select></label>
+      <label>Sort <select id="lego-sort" aria-label="Sort Baby Deals"><option value="pct">Biggest % off</option><option value="price-asc">Lowest price</option><option value="price-desc">Highest price</option><option value="az">A to Z</option></select></label>
+    </div>
+  </div>
+  <p class="lego-count" id="lego-count">15 baby deals, checked November 18, 2026.</p>
+  <main class="lego-grid" id="lego-grid">
+    <article class="lego-card" id="deal-dimoarch-4-in-1-baby-toys" data-store="walmart" data-price="34.19" data-pct="51" data-name="dimoarch 4-in-1 baby toys montessori 6-12 months infant toys">
+      <img class="lego-photo" width="563" height="568" src="/images/deals/deal-dimoarch-4-in-1-baby-toys.jpg" alt="Dimoarch 4-in-1 Baby Toys, Montessori, 6-12 Months" loading="eager" fetchpriority="high" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Dimoarch 4-in-1 Baby Toys, Montessori, 6-12 Months</h3>
+        <span class="store-chip">Walmart</span>
+        <p class="price-row"><span class="sale">$34.19</span> <span class="was">was $69.99</span> <span class="pct">51% off</span></p>
+        <p class="save">Save $35.80</p>
+        <a class="shop-btn" href="https://www.walmart.com/ip/Dimoarch-4-in-1-Baby-Toys-6-12-Months-Boys-Girls-Montessori-Babies-Toys-Infant-Toys-Suitable-6-9-12-18-Months-Old-Baby-Boys-Girls-Toys-Gifts-Bundles/16239615754" target="_blank" rel="noopener">Shop Deal at Walmart</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/baby.html#deal-dimoarch-4-in-1-baby-toys" data-share-image="/images/deals/deal-dimoarch-4-in-1-baby-toys.jpg" data-share-title="Dimoarch 4-in-1 Baby Toys, Montessori, 6-12 Months" data-share-text="$34.19 was $69.99 at Walmart">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-dimoarch-4-in-1-baby-toys" data-deal-name="Dimoarch 4-in-1 Baby Toys, Montessori, 6-12 Months" data-deal-price="34.19" data-deal-was="69.99" data-deal-store="Walmart" data-deal-href="https://www.walmart.com/ip/Dimoarch-4-in-1-Baby-Toys-6-12-Months-Boys-Girls-Montessori-Babies-Toys-Infant-Toys-Suitable-6-9-12-18-Months-Old-Baby-Boys-Girls-Toys-Gifts-Bundles/16239615754" data-deal-source="baby" data-deal-page="baby.html" data-deal-img="/images/deals/deal-dimoarch-4-in-1-baby-toys.jpg">💾 Save</button>
+      </div>
+    </article>
+    <article class="lego-card" id="deal-cochildor-turtle-play-gym-mat" data-store="walmart" data-price="34.68" data-pct="50" data-name="cochildor baby play gym mat turtle tummy time activity mat balls">
+      <img class="lego-photo" width="754" height="749" src="/images/deals/deal-cochildor-turtle-play-gym-mat.jpg" alt="Cochildor Baby Play Gym Mat 4-in-1 Turtle Tummy Time, 30 Balls" loading="eager" fetchpriority="high" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Cochildor Baby Play Gym Mat 4-in-1 Turtle Tummy Time, 30 Balls</h3>
+        <span class="store-chip">Walmart</span>
+        <p class="price-row"><span class="sale">$34.68</span> <span class="was">was $69.99</span> <span class="pct">50% off</span></p>
+        <p class="save">Save $35.31</p>
+        <a class="shop-btn" href="https://www.walmart.com/ip/Cochildor-Baby-Play-Gym-Mat-4-1-Turtle-Tummy-Time-Activity-Mat-Babies-30-Balls-4-Detachable-Sound-Toys-Newborn-Gift-Toddler-Infants-Age-0-36-Months/17994855617" target="_blank" rel="noopener">Shop Deal at Walmart</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/baby.html#deal-cochildor-turtle-play-gym-mat" data-share-image="/images/deals/deal-cochildor-turtle-play-gym-mat.jpg" data-share-title="Cochildor Baby Play Gym Mat 4-in-1 Turtle Tummy Time, 30 Balls" data-share-text="$34.68 was $69.99 at Walmart">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-cochildor-turtle-play-gym-mat" data-deal-name="Cochildor Baby Play Gym Mat 4-in-1 Turtle Tummy Time, 30 Balls" data-deal-price="34.68" data-deal-was="69.99" data-deal-store="Walmart" data-deal-href="https://www.walmart.com/ip/Cochildor-Baby-Play-Gym-Mat-4-1-Turtle-Tummy-Time-Activity-Mat-Babies-30-Balls-4-Detachable-Sound-Toys-Newborn-Gift-Toddler-Infants-Age-0-36-Months/17994855617" data-deal-source="baby" data-deal-page="baby.html" data-deal-img="/images/deals/deal-cochildor-turtle-play-gym-mat.jpg">💾 Save</button>
+      </div>
+    </article>
+    <article class="lego-card" id="deal-beavtaens-play-mat-50x50" data-store="walmart" data-price="22.73" data-pct="48" data-name="beavtaens baby play mat foam 50x50 playpen mat ages 0-4">
+      <img class="lego-photo" width="792" height="792" src="/images/deals/deal-beavtaens-play-mat-50x50.jpg" alt="Beavtaens Baby Play Mat 50&quot;x50&quot;x1&quot;, Ages 0-4" loading="eager" fetchpriority="high" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Beavtaens Baby Play Mat 50"x50"x1", Ages 0-4</h3>
+        <span class="store-chip">Walmart</span>
+        <p class="price-row"><span class="sale">$22.73</span> <span class="was">was $43.99</span> <span class="pct">48% off</span></p>
+        <p class="save">Save $21.26</p>
+        <a class="shop-btn" href="https://www.walmart.com/ip/Beavtaens-Baby-Play-Mat-for-Floor-Foam-50-x50-x1-Playpen-Mat-Thickened-Non-Slip-for-Ages-0-4/12639063851" target="_blank" rel="noopener">Shop Deal at Walmart</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/baby.html#deal-beavtaens-play-mat-50x50" data-share-image="/images/deals/deal-beavtaens-play-mat-50x50.jpg" data-share-title="Beavtaens Baby Play Mat 50&quot;x50&quot;x1&quot;, Ages 0-4" data-share-text="$22.73 was $43.99 at Walmart">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-beavtaens-play-mat-50x50" data-deal-name="Beavtaens Baby Play Mat 50&quot;x50&quot;x1&quot;, Ages 0-4" data-deal-price="22.73" data-deal-was="43.99" data-deal-store="Walmart" data-deal-href="https://www.walmart.com/ip/Beavtaens-Baby-Play-Mat-for-Floor-Foam-50-x50-x1-Playpen-Mat-Thickened-Non-Slip-for-Ages-0-4/12639063851" data-deal-source="baby" data-deal-page="baby.html" data-deal-img="/images/deals/deal-beavtaens-play-mat-50x50.jpg">💾 Save</button>
+      </div>
+    </article>
+    <article class="lego-card" id="deal-pamo-babe-4-in-1-playard" data-store="walmart" data-price="89.99" data-pct="47" data-name="pamo babe 4-in-1 baby playard bassinet changing table black nursery center">
+      <img class="lego-photo" width="715" height="678" src="/images/deals/deal-pamo-babe-4-in-1-playard.jpg" alt="Pamo Babe 4-in-1 Baby Playard, Bassinet, Changing Table, Black" loading="eager" fetchpriority="high" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Pamo Babe 4-in-1 Baby Playard, Bassinet, Changing Table, Black</h3>
+        <span class="store-chip">Walmart</span>
+        <p class="price-row"><span class="sale">$89.99</span> <span class="was">was $169.99</span> <span class="pct">47% off</span></p>
+        <p class="save">Save $80.00</p>
+        <a class="shop-btn" href="https://www.walmart.com/ip/Pamo-Babe-Unisex-Nursery-Center-Baby-Playard-with-Bassinet-Changing-Table-0-36-Months/1826090341" target="_blank" rel="noopener">Shop Deal at Walmart</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/baby.html#deal-pamo-babe-4-in-1-playard" data-share-image="/images/deals/deal-pamo-babe-4-in-1-playard.jpg" data-share-title="Pamo Babe 4-in-1 Baby Playard, Bassinet, Changing Table, Black" data-share-text="$89.99 was $169.99 at Walmart">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-pamo-babe-4-in-1-playard" data-deal-name="Pamo Babe 4-in-1 Baby Playard, Bassinet, Changing Table, Black" data-deal-price="89.99" data-deal-was="169.99" data-deal-store="Walmart" data-deal-href="https://www.walmart.com/ip/Pamo-Babe-Unisex-Nursery-Center-Baby-Playard-with-Bassinet-Changing-Table-0-36-Months/1826090341" data-deal-source="baby" data-deal-page="baby.html" data-deal-img="/images/deals/deal-pamo-babe-4-in-1-playard.jpg">💾 Save</button>
+      </div>
+    </article>
+    <article class="lego-card" id="deal-babyeap-3-in-1-bassinet" data-store="walmart" data-price="99.94" data-pct="47" data-name="babyeap 3-in-1 baby bassinet bedside sleeper gray rocking">
+      <img class="lego-photo" width="585" height="549" src="/images/deals/deal-babyeap-3-in-1-bassinet.jpg" alt="babyeap 3-in-1 Baby Bassinet, Bedside Sleeper, Gray" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">babyeap 3-in-1 Baby Bassinet, Bedside Sleeper, Gray</h3>
+        <span class="store-chip">Walmart</span>
+        <p class="price-row"><span class="sale">$99.94</span> <span class="was">was $189.99</span> <span class="pct">47% off</span></p>
+        <p class="save">Save $90.05</p>
+        <a class="shop-btn" href="https://www.walmart.com/ip/Babyeap-3-in-1-Baby-Bassinet-Adjustable-Bedside-Sleeper-with-Gentle-Rocking-Motion-Storage-Basket-and-Wheels-for-Infants-Gray/20201304546" target="_blank" rel="noopener">Shop Deal at Walmart</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/baby.html#deal-babyeap-3-in-1-bassinet" data-share-image="/images/deals/deal-babyeap-3-in-1-bassinet.jpg" data-share-title="babyeap 3-in-1 Baby Bassinet, Bedside Sleeper, Gray" data-share-text="$99.94 was $189.99 at Walmart">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-babyeap-3-in-1-bassinet" data-deal-name="babyeap 3-in-1 Baby Bassinet, Bedside Sleeper, Gray" data-deal-price="99.94" data-deal-was="189.99" data-deal-store="Walmart" data-deal-href="https://www.walmart.com/ip/Babyeap-3-in-1-Baby-Bassinet-Adjustable-Bedside-Sleeper-with-Gentle-Rocking-Motion-Storage-Basket-and-Wheels-for-Infants-Gray/20201304546" data-deal-source="baby" data-deal-page="baby.html" data-deal-img="/images/deals/deal-babyeap-3-in-1-bassinet.jpg">💾 Save</button>
+      </div>
+    </article>
+    <article class="lego-card" id="deal-carters-2-pack-outfit-set" data-store="walmart" data-price="10.00" data-pct="44" data-name="carter's child of mine baby 2-pack outfit set 4-piece 0-3 24 months">
+      <img class="lego-photo" width="441" height="452" src="/images/deals/deal-carters-2-pack-outfit-set.jpg" alt="Carter's Child of Mine Baby 2-Pack Outfit Set 4-Piece, 0/3-24 Months" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Carter's Child of Mine Baby 2-Pack Outfit Set 4-Piece, 0/3-24 Months</h3>
+        <span class="store-chip">Walmart</span>
+        <p class="price-row"><span class="sale">$10.00</span> <span class="was">was $18.00</span> <span class="pct">44% off</span></p>
+        <p class="save">Save $8.00</p>
+        <a class="shop-btn" href="https://www.walmart.com/ip/Carter-s-Child-of-Mine-Baby-2-Pack-Outfit-Set-4-Piece-Sizes-0-3-24-Months/20422759974" target="_blank" rel="noopener">Shop Deal at Walmart</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/baby.html#deal-carters-2-pack-outfit-set" data-share-image="/images/deals/deal-carters-2-pack-outfit-set.jpg" data-share-title="Carter's Child of Mine Baby 2-Pack Outfit Set 4-Piece, 0/3-24 Months" data-share-text="$10.00 was $18.00 at Walmart">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-carters-2-pack-outfit-set" data-deal-name="Carter&#x27;s Child of Mine Baby 2-Pack Outfit Set 4-Piece, 0/3-24 Months" data-deal-price="10.00" data-deal-was="18.00" data-deal-store="Walmart" data-deal-href="https://www.walmart.com/ip/Carter-s-Child-of-Mine-Baby-2-Pack-Outfit-Set-4-Piece-Sizes-0-3-24-Months/20422759974" data-deal-source="baby" data-deal-page="baby.html" data-deal-img="/images/deals/deal-carters-2-pack-outfit-set.jpg">💾 Save</button>
+      </div>
+    </article>
+    <article class="lego-card" id="deal-babyeap-playpen-50x50-pink" data-store="walmart" data-price="29.99" data-pct="44" data-name="babyeap baby playpen 50x50 pink play yard fence indoor outdoor">
+      <img class="lego-photo" width="612" height="612" src="/images/deals/deal-babyeap-playpen-50x50-pink.jpg" alt="babyeap Baby Playpen 50x50&quot;, Pink" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">babyeap Baby Playpen 50x50", Pink</h3>
+        <span class="store-chip">Walmart</span>
+        <p class="price-row"><span class="sale">$29.99</span> <span class="was">was $53.99</span> <span class="pct">44% off</span></p>
+        <p class="save">Save $24.00</p>
+        <a class="shop-btn" href="https://www.walmart.com/ip/babyeap-Baby-Playpen-50x50-Inch-Baby-Playards-for-Babies-and-Toddlers-Fence-Baby-Play-Yards-for-Indoor-Outdoor-with-Breathable-Mesh-Pink/15667065547" target="_blank" rel="noopener">Shop Deal at Walmart</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/baby.html#deal-babyeap-playpen-50x50-pink" data-share-image="/images/deals/deal-babyeap-playpen-50x50-pink.jpg" data-share-title="babyeap Baby Playpen 50x50&quot;, Pink" data-share-text="$29.99 was $53.99 at Walmart">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-babyeap-playpen-50x50-pink" data-deal-name="babyeap Baby Playpen 50x50&quot;, Pink" data-deal-price="29.99" data-deal-was="53.99" data-deal-store="Walmart" data-deal-href="https://www.walmart.com/ip/babyeap-Baby-Playpen-50x50-Inch-Baby-Playards-for-Babies-and-Toddlers-Fence-Baby-Play-Yards-for-Indoor-Outdoor-with-Breathable-Mesh-Pink/15667065547" data-deal-source="baby" data-deal-page="baby.html" data-deal-img="/images/deals/deal-babyeap-playpen-50x50-pink.jpg">💾 Save</button>
+      </div>
+    </article>
+    <article class="lego-card" id="deal-carters-girl-jumpsuit" data-store="walmart" data-price="6.00" data-pct="40" data-name="carter's child of mine baby girl jumpsuit one-piece 0-3 24 months">
+      <img class="lego-photo" width="348" height="585" src="/images/deals/deal-carters-girl-jumpsuit.jpg" alt="Carter's Child of Mine Baby Girl Jumpsuit, 0/3-24 Months" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Carter's Child of Mine Baby Girl Jumpsuit, 0/3-24 Months</h3>
+        <span class="store-chip">Walmart</span>
+        <p class="price-row"><span class="sale">$6.00</span> <span class="was">was $10.00</span> <span class="pct">40% off</span></p>
+        <p class="save">Save $4.00</p>
+        <a class="shop-btn" href="https://www.walmart.com/ip/Carter-s-Child-of-Mine-Baby-Girl-Jumpsuit-One-Piece-Sizes-0-3-24-Months/19927022366" target="_blank" rel="noopener">Shop Deal at Walmart</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/baby.html#deal-carters-girl-jumpsuit" data-share-image="/images/deals/deal-carters-girl-jumpsuit.jpg" data-share-title="Carter's Child of Mine Baby Girl Jumpsuit, 0/3-24 Months" data-share-text="$6.00 was $10.00 at Walmart">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-carters-girl-jumpsuit" data-deal-name="Carter&#x27;s Child of Mine Baby Girl Jumpsuit, 0/3-24 Months" data-deal-price="6.00" data-deal-was="10.00" data-deal-store="Walmart" data-deal-href="https://www.walmart.com/ip/Carter-s-Child-of-Mine-Baby-Girl-Jumpsuit-One-Piece-Sizes-0-3-24-Months/19927022366" data-deal-source="baby" data-deal-page="baby.html" data-deal-img="/images/deals/deal-carters-girl-jumpsuit.jpg">💾 Save</button>
+      </div>
+    </article>
+    <article class="lego-card" id="deal-carters-cardigan-jacket" data-store="walmart" data-price="11.00" data-pct="39" data-name="carter's child of mine baby cardigan jacket newborn 24 months">
+      <img class="lego-photo" width="441" height="485" src="/images/deals/deal-carters-cardigan-jacket.jpg" alt="Carter's Child of Mine Baby Cardigan Jacket, Newborn-24 Months" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Carter's Child of Mine Baby Cardigan Jacket, Newborn-24 Months</h3>
+        <span class="store-chip">Walmart</span>
+        <p class="price-row"><span class="sale">$11.00</span> <span class="was">was $18.00</span> <span class="pct">39% off</span></p>
+        <p class="save">Save $7.00</p>
+        <a class="shop-btn" href="https://www.walmart.com/ip/Carter-s-Child-of-Mine-Baby-Cardigan-Jacket-One-Piece-Sizes-Newborn-24-Months/20025751076" target="_blank" rel="noopener">Shop Deal at Walmart</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/baby.html#deal-carters-cardigan-jacket" data-share-image="/images/deals/deal-carters-cardigan-jacket.jpg" data-share-title="Carter's Child of Mine Baby Cardigan Jacket, Newborn-24 Months" data-share-text="$11.00 was $18.00 at Walmart">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-carters-cardigan-jacket" data-deal-name="Carter&#x27;s Child of Mine Baby Cardigan Jacket, Newborn-24 Months" data-deal-price="11.00" data-deal-was="18.00" data-deal-store="Walmart" data-deal-href="https://www.walmart.com/ip/Carter-s-Child-of-Mine-Baby-Cardigan-Jacket-One-Piece-Sizes-Newborn-24-Months/20025751076" data-deal-source="baby" data-deal-page="baby.html" data-deal-img="/images/deals/deal-carters-cardigan-jacket.jpg">💾 Save</button>
+      </div>
+    </article>
+    <article class="lego-card" id="deal-pamo-babe-magic-fold-playard" data-store="walmart" data-price="139.79" data-pct="39" data-name="pamo babe baby playard magic fold bassinet changing table black">
+      <img class="lego-photo" width="643" height="754" src="/images/deals/deal-pamo-babe-magic-fold-playard.jpg" alt="Pamo Babe Baby Playard Magic Fold, Bassinet + Changing Table, Black" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Pamo Babe Baby Playard Magic Fold, Bassinet + Changing Table, Black</h3>
+        <span class="store-chip">Walmart</span>
+        <p class="price-row"><span class="sale">$139.79</span> <span class="was">was $229.99</span> <span class="pct">39% off</span></p>
+        <p class="save">Save $90.20</p>
+        <a class="shop-btn" href="https://www.walmart.com/ip/Pamo-Babe-Baby-Playard-Magic-Fold-1-Step-Bassinet-Changing-Table-for-Newborn-4-Panels-Black/5675274068" target="_blank" rel="noopener">Shop Deal at Walmart</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/baby.html#deal-pamo-babe-magic-fold-playard" data-share-image="/images/deals/deal-pamo-babe-magic-fold-playard.jpg" data-share-title="Pamo Babe Baby Playard Magic Fold, Bassinet + Changing Table, Black" data-share-text="$139.79 was $229.99 at Walmart">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-pamo-babe-magic-fold-playard" data-deal-name="Pamo Babe Baby Playard Magic Fold, Bassinet + Changing Table, Black" data-deal-price="139.79" data-deal-was="229.99" data-deal-store="Walmart" data-deal-href="https://www.walmart.com/ip/Pamo-Babe-Baby-Playard-Magic-Fold-1-Step-Bassinet-Changing-Table-for-Newborn-4-Panels-Black/5675274068" data-deal-source="baby" data-deal-page="baby.html" data-deal-img="/images/deals/deal-pamo-babe-magic-fold-playard.jpg">💾 Save</button>
+      </div>
+    </article>
+    <article class="lego-card" id="deal-gerber-onesies-8-pack" data-store="walmart" data-price="17.50" data-pct="35" data-name="gerber baby neutral short sleeve onesies 8-pack newborn 12 months bodysuits">
+      <img class="lego-photo" width="568" height="778" src="/images/deals/deal-gerber-onesies-8-pack.jpg" alt="Gerber Baby Neutral Short Sleeve Onesies 8-Pack, 0/3 Newborn-12 Months" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Gerber Baby Neutral Short Sleeve Onesies 8-Pack, 0/3 Newborn-12 Months</h3>
+        <span class="store-chip">Walmart</span>
+        <p class="price-row"><span class="sale">$17.50</span> <span class="was">was $27.00</span> <span class="pct">35% off</span></p>
+        <p class="save">Save $9.50</p>
+        <a class="shop-btn" href="https://www.walmart.com/ip/Gerber-Baby-Neutral-Short-Sleeve-Onesies-8-Pack-Sizes-0-3-Newborn-12-Months/18816965971" target="_blank" rel="noopener">Shop Deal at Walmart</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/baby.html#deal-gerber-onesies-8-pack" data-share-image="/images/deals/deal-gerber-onesies-8-pack.jpg" data-share-title="Gerber Baby Neutral Short Sleeve Onesies 8-Pack, 0/3 Newborn-12 Months" data-share-text="$17.50 was $27.00 at Walmart">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-gerber-onesies-8-pack" data-deal-name="Gerber Baby Neutral Short Sleeve Onesies 8-Pack, 0/3 Newborn-12 Months" data-deal-price="17.50" data-deal-was="27.00" data-deal-store="Walmart" data-deal-href="https://www.walmart.com/ip/Gerber-Baby-Neutral-Short-Sleeve-Onesies-8-Pack-Sizes-0-3-Newborn-12-Months/18816965971" data-deal-source="baby" data-deal-page="baby.html" data-deal-img="/images/deals/deal-gerber-onesies-8-pack.jpg">💾 Save</button>
+      </div>
+    </article>
+    <article class="lego-card" id="deal-carters-sleep-n-play" data-store="walmart" data-price="6.00" data-pct="33" data-name="carter's child of mine baby cozy sleep n play preemie 6-9 months">
+      <img class="lego-photo" width="361" height="585" src="/images/deals/deal-carters-sleep-n-play.jpg" alt="Carter's Child of Mine Baby Cozy Sleep 'N Play, Preemie-6/9 Months" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Carter's Child of Mine Baby Cozy Sleep 'N Play, Preemie-6/9 Months</h3>
+        <span class="store-chip">Walmart</span>
+        <p class="price-row"><span class="sale">$6.00</span> <span class="was">was $9.00</span> <span class="pct">33% off</span></p>
+        <p class="save">Save $3.00</p>
+        <a class="shop-btn" href="https://www.walmart.com/ip/Carter-s-Child-of-Mine-Baby-Sleep-N-Play-One-Piece-Sizes-Preemie-6-9-Months/20479953705" target="_blank" rel="noopener">Shop Deal at Walmart</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/baby.html#deal-carters-sleep-n-play" data-share-image="/images/deals/deal-carters-sleep-n-play.jpg" data-share-title="Carter's Child of Mine Baby Cozy Sleep 'N Play, Preemie-6/9 Months" data-share-text="$6.00 was $9.00 at Walmart">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-carters-sleep-n-play" data-deal-name="Carter&#x27;s Child of Mine Baby Cozy Sleep &#x27;N Play, Preemie-6/9 Months" data-deal-price="6.00" data-deal-was="9.00" data-deal-store="Walmart" data-deal-href="https://www.walmart.com/ip/Carter-s-Child-of-Mine-Baby-Sleep-N-Play-One-Piece-Sizes-Preemie-6-9-Months/20479953705" data-deal-source="baby" data-deal-page="baby.html" data-deal-img="/images/deals/deal-carters-sleep-n-play.jpg">💾 Save</button>
+      </div>
+    </article>
+    <article class="lego-card" id="deal-hudson-rompers-3pk" data-store="buybuybaby" data-price="19.79" data-pct="12" data-name="hudson baby infant boy cotton rompers 3pk milk cookies 0-3 months grey">
+      <img class="lego-photo" width="599" height="599" src="/images/deals/deal-hudson-rompers-3pk.jpg" alt="Hudson Baby Infant Boy Cotton Rompers 3pk, Milk Cookies, 0-3 Months, Grey" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Hudson Baby Infant Boy Cotton Rompers 3pk, Milk Cookies, 0-3 Months, Grey</h3>
+        <span class="store-chip">Buy Buy Baby</span>
+        <p class="price-row"><span class="sale">$19.79</span> <span class="was">was $22.49</span> <span class="pct">12% off</span></p>
+        <p class="save">Save $2.70</p>
+        <a class="shop-btn" href="https://buybuybaby.bedbathandbeyond.com/Baby/Hudson-Baby-Infant-Boy-Cotton-Rompers-3pk-Milk-Cookies/42842046/product.html?option=89639687" target="_blank" rel="noopener">Shop Deal at Buy Buy Baby</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/baby.html#deal-hudson-rompers-3pk" data-share-image="/images/deals/deal-hudson-rompers-3pk.jpg" data-share-title="Hudson Baby Infant Boy Cotton Rompers 3pk, Milk Cookies, 0-3 Months, Grey" data-share-text="$19.79 was $22.49 at Buy Buy Baby">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-hudson-rompers-3pk" data-deal-name="Hudson Baby Infant Boy Cotton Rompers 3pk, Milk Cookies, 0-3 Months, Grey" data-deal-price="19.79" data-deal-was="22.49" data-deal-store="Buy Buy Baby" data-deal-href="https://buybuybaby.bedbathandbeyond.com/Baby/Hudson-Baby-Infant-Boy-Cotton-Rompers-3pk-Milk-Cookies/42842046/product.html?option=89639687" data-deal-source="baby" data-deal-page="baby.html" data-deal-img="/images/deals/deal-hudson-rompers-3pk.jpg">💾 Save</button>
+      </div>
+    </article>
+    <article class="lego-card" id="deal-kleanpal-pro-bottle-washer" data-store="buybuybaby" data-price="260.99" data-pct="10" data-name="kleanpal pro baby bottle washer sterilizer white momcozy">
+      <img class="lego-photo" width="420" height="574" src="/images/deals/deal-kleanpal-pro-bottle-washer.jpg" alt="KleanPal Pro Baby Bottle Washer and Sterilizer, White (Momcozy)" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">KleanPal Pro Baby Bottle Washer and Sterilizer, White (Momcozy)</h3>
+        <span class="store-chip">Buy Buy Baby</span>
+        <p class="price-row"><span class="sale">$260.99</span> <span class="was">was $289.99</span> <span class="pct">10% off</span></p>
+        <p class="save">Save $29.00</p>
+        <p class="stock-note">Momcozy, sold at Buy Buy Baby</p>
+        <a class="shop-btn" href="https://buybuybaby.bedbathandbeyond.com/Baby/KleanPal-Pro-Baby-Bottle-Washer-and-Sterilizer-White-No-Size/43089015/product.html" target="_blank" rel="noopener">Shop Deal at Buy Buy Baby</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/baby.html#deal-kleanpal-pro-bottle-washer" data-share-image="/images/deals/deal-kleanpal-pro-bottle-washer.jpg" data-share-title="KleanPal Pro Baby Bottle Washer and Sterilizer, White (Momcozy)" data-share-text="$260.99 was $289.99 at Buy Buy Baby">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-kleanpal-pro-bottle-washer" data-deal-name="KleanPal Pro Baby Bottle Washer and Sterilizer, White (Momcozy)" data-deal-price="260.99" data-deal-was="289.99" data-deal-store="Buy Buy Baby" data-deal-href="https://buybuybaby.bedbathandbeyond.com/Baby/KleanPal-Pro-Baby-Bottle-Washer-and-Sterilizer-White-No-Size/43089015/product.html" data-deal-source="baby" data-deal-page="baby.html" data-deal-img="/images/deals/deal-kleanpal-pro-bottle-washer.jpg">💾 Save</button>
+      </div>
+    </article>
+    <article class="lego-card" id="deal-hudson-sleep-and-play-3pk" data-store="buybuybaby" data-price="23.59" data-pct="6" data-name="hudson baby infant boy cotton zipper sleep and play 3pk moose 0-3 months">
+      <img class="lego-photo" width="577" height="600" src="/images/deals/deal-hudson-sleep-and-play-3pk.jpg" alt="Hudson Baby Infant Boy Cotton Zipper Sleep and Play 3pk, Moose, 0-3 Months" loading="lazy" onerror="this.remove()">
+      <div class="lego-info">
+        <h3 class="lego-name">Hudson Baby Infant Boy Cotton Zipper Sleep and Play 3pk, Moose, 0-3 Months</h3>
+        <span class="store-chip">Buy Buy Baby</span>
+        <p class="price-row"><span class="sale">$23.59</span> <span class="was">was $24.99</span> <span class="pct">6% off</span></p>
+        <p class="save">Save $1.40</p>
+        <p class="stock-note">0-3 Months, Moose</p>
+        <a class="shop-btn" href="https://buybuybaby.bedbathandbeyond.com/Baby/Hudson-Baby-Infant-Boy-Cotton-Zipper-Sleep-and-Play-3pk-Moose/42854128/product.html?option=89664220" target="_blank" rel="noopener">Shop Deal at Buy Buy Baby</a>
+        <button type="button" data-shack-share data-share-kind="deal" data-share-url="/baby.html#deal-hudson-sleep-and-play-3pk" data-share-image="/images/deals/deal-hudson-sleep-and-play-3pk.jpg" data-share-title="Hudson Baby Infant Boy Cotton Zipper Sleep and Play 3pk, Moose, 0-3 Months" data-share-text="$23.59 was $24.99 at Buy Buy Baby">↗ Share</button> <button type="button" class="tyd-save-deal" data-save-deal data-deal-id="deal-hudson-sleep-and-play-3pk" data-deal-name="Hudson Baby Infant Boy Cotton Zipper Sleep and Play 3pk, Moose, 0-3 Months" data-deal-price="23.59" data-deal-was="24.99" data-deal-store="Buy Buy Baby" data-deal-href="https://buybuybaby.bedbathandbeyond.com/Baby/Hudson-Baby-Infant-Boy-Cotton-Zipper-Sleep-and-Play-3pk-Moose/42854128/product.html?option=89664220" data-deal-source="baby" data-deal-page="baby.html" data-deal-img="/images/deals/deal-hudson-sleep-and-play-3pk.jpg">💾 Save</button>
+      </div>
+    </article>
+  </main>
+  <section class="history" id="deal-history">
+    <h2>📜 Deal history</h2>
+    <p class="hist-note">Prices checked Nov 18, 2026; when a live deal ends or its price changes it moves here.</p>
+    <ul>
+      <li><b>Shyft DualRide Infant Car Seat and Stroller Combo, Beaufort Black (Evenflo)</b> — $399.00 (was $549.99), Walmart, Nov 18, 2026. Removed: Evenflo's own list price is $399.99, so $399.00 is not a real saving — Walmart's $549.99 was-price is inflated.</li>
+      <li><b>Baby Trend Lil' Snooze Deluxe II Nursery Center Playard, Forest Party Grey</b> — $89.00 (was $99.00), Walmart, Nov 17, 2026. Sale ended; back to $99.00 list price (Fashlyst mirror, Nov 17 — single source, needs a live Walmart check to confirm).</li>
+      <li><b>Carter's 15-Pack Layette Set — no verified photo</b> — Carter's Child of Mine Baby Layette Outfit Set 15-pack, Preemie-6/9 Months was $36.00 vs $52.00 (31% off) at Walmart, but no verified photo of the exact 15-pack product could be found after two image searches (only 3-piece sets and a resale bundle photo turned up), so it was left off the page rather than shown with a wrong image.</li>
+    </ul>
+  </section>
+  <footer>
+    <p>Some links on this page are affiliate links. If you shop through them, I may earn a small commission at no extra cost to you. Thanks for supporting the Pond!</p>
+    <img class="footer-duck-v4" src="icon-512.png" alt="The Pond duck">
+    <p class="nest">Feather Your Nest</p>
+    <p class="nest" style="margin-top:10px">© 2026 TreatYourselfDiscounts™. All rights reserved.</p>
+    <nav class="foot-links"><a href="rules.html">Pond Rules</a><a href="terms.html">Terms of Use</a><a href="feedback.html">Give Feedback</a><a href="account.html">Pond Account</a><a href="mailto:treatyourselfdiscounts@gmail.com">Contact</a><a href="https://discord.gg/zfcwECetx2" data-goatcounter-click="click-discord">Join the Pond</a><a href="https://ko-fi.com/treatyourselfdiscounts" data-goatcounter-click="click-kofi">Ko-fi Tip Jar</a></nav>
+  </footer>
+</div>
+<script type="module" src="lists.js"></script>
+<script src="site-nav.js?v=372"></script>
+<script src="pull-refresh.js?v=341"></script>
+<script>
+if ("serviceWorker" in navigator) { window.addEventListener("load", function() { navigator.serviceWorker.register("sw.js"); }); }
+(function () {
+  var grid = document.getElementById("lego-grid");
+  var searchInput = document.getElementById("lego-search");
+  var storeSelect = document.getElementById("lego-store");
+  var sortSelect = document.getElementById("lego-sort");
+  var noResults = document.getElementById("lego-no-results");
+  var countEl = document.getElementById("lego-count");
+  var refreshBtn = document.getElementById("refresh-btn");
+  var cards = Array.prototype.slice.call(grid.querySelectorAll(".lego-card"));
+  var defaultOrder = cards.slice();
+  var hasSearched = false;
+  function cardName(card) { return (card.querySelector(".lego-name") || {}).textContent || ""; }
+  function matchesTerm(text, term) {
+    var t = text.toLowerCase();
+    return term.split(/\s+/).every(function (wd) { return t.indexOf(wd) !== -1; });
+  }
+  function applyFilters() {
+    var term = searchInput.value.trim().toLowerCase();
+    var store = storeSelect.value;
+    var sort = sortSelect.value;
+    var sorted = defaultOrder.slice();
+    if (sort === "pct") sorted.sort(function (a, b) { return parseFloat(b.dataset.pct) - parseFloat(a.dataset.pct); });
+    if (sort === "price-asc") sorted.sort(function (a, b) { return parseFloat(a.dataset.price) - parseFloat(b.dataset.price); });
+    if (sort === "price-desc") sorted.sort(function (a, b) { return parseFloat(b.dataset.price) - parseFloat(a.dataset.price); });
+    if (sort === "az") sorted.sort(function (a, b) { return cardName(a).localeCompare(cardName(b)); });
+    var visible = 0;
+    sorted.forEach(function (card) {
+      grid.appendChild(card);
+      var show = (!term || matchesTerm(card.dataset.name + " " + card.textContent, term)) && (!store || card.dataset.store === store);
+      card.style.display = show ? "" : "none";
+      if (show) visible++;
+    });
+    noResults.hidden = !(hasSearched && visible === 0);
+    if (countEl) {
+      countEl.textContent = (term || store)
+        ? ("Showing " + visible + " of " + cards.length + " baby deals.")
+        : (cards.length + " baby deals, checked November 15, 2026.");
+    }
+  }
+  searchInput.addEventListener("input", function () { if (searchInput.value.trim()) hasSearched = true; applyFilters(); });
+  storeSelect.addEventListener("change", function () { hasSearched = true; applyFilters(); });
+  sortSelect.addEventListener("change", applyFilters);
+  /* Refresh reloads the page so the browser re-fetches the latest saved
+     check. It does not scrape live prices and does not claim to. */
+  refreshBtn.addEventListener("click", function () {
+    refreshBtn.disabled = true;
+    refreshBtn.textContent = "Refreshing…";
+    window.location.reload();
+  });
+  applyFilters();
+})();
+</script>
+<script src="pond-staging.js"></script>
+</body>
+</html>

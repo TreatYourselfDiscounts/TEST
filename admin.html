@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#ffd94d">
+<title>Admin | TreatYourselfDiscounts</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: transparent; color: #23414d; }
+  html:not([data-theme="dark"]) { background-color: #bfe6f2; }
+  html:not([data-theme="dark"]) body::before { content: ""; position: fixed; inset: 0; z-index: 0; background-image: url("/images/pond-wallpaper.png"); background-repeat: repeat; background-size: 840px 840px; pointer-events: none; }
+  html:not([data-theme="dark"]) body { background-color: transparent; }
+  @media (max-width: 699px) { html:not([data-theme="dark"]) .app { max-width: 90vw; margin-left: auto; margin-right: auto; } }
+  .app { position: relative; z-index: 1; max-width: 880px; margin: 18px auto; min-height: calc(100vh - 36px); background: #fdf6ec; box-shadow: 0 0 24px rgba(35,65,77,.12); padding: 16px 16px 40px; }
+  a.back { color: #1f5f74; font-weight: 700; text-decoration: none; font-size: 14px; }
+  /* ---------- gate ---------- */
+  #gate { max-width: 380px; margin: 9vh auto 0; background: #fff; border: 2px solid #e8d5b5; border-radius: 20px; padding: 28px 22px; text-align: center; box-shadow: 0 10px 28px rgba(35,65,77,.15); }
+  #gate .duck { font-size: 44px; }
+  #gate h1 { font-size: 22px; margin: 8px 0 4px; color: #5b3a1e; }
+  #gate p { color: #7a5c3e; font-size: 14px; margin: 0 0 16px; }
+  #gate input { width: 100%; font-size: 16px; padding: 12px 14px; border-radius: 999px; border: 2px solid #e8d5b5; text-align: center; font-family: inherit; }
+  #gate button { width: 100%; margin-top: 10px; border: none; cursor: pointer; font-family: inherit; font-weight: 800; font-size: 15px; border-radius: 999px; padding: 12px; background: #b3543f; color: #fff; }
+  #gate .err { color: #b3261e; font-size: 13.5px; font-weight: 700; min-height: 18px; margin-top: 10px; }
+  @keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-7px); } 75% { transform: translateX(7px); } }
+  #gate.shake { animation: shake .3s ease 2; }
+  /* ---------- admin content ---------- */
+  #admin { display: none; }
+  header.top { text-align: center; margin: 8px 0 4px; }
+  header.top h1 { margin: 0; font-size: 28px; color: #5b3a1e; }
+  .sub { margin: 6px 0 0; color: #7a5c3e; font-size: 14.5px; }
+  .layout { display: flex; gap: 20px; margin-top: 22px; align-items: flex-start; }
+  .tray { flex: 1.15; min-width: 0; }
+  .stage { flex: 1; min-width: 0; text-align: center; }
+  .panel { width: 240px; flex-shrink: 0; background: #fff; border: 2px solid #e8d5b5; border-radius: 16px; padding: 14px; }
+  @media (max-width: 760px) { .layout { flex-direction: column; } .panel { width: 100%; } }
+  h2 { font-size: 16px; margin: 0 0 10px; color: #5b3a1e; }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .book { border: none; cursor: pointer; border-radius: 8px 12px 12px 8px; padding: 10px 6px 8px; min-height: 112px; color: #fff8ea; text-align: center; box-shadow: inset 4px 0 0 rgba(0,0,0,.18), 0 2px 6px rgba(35,65,77,.18); display: flex; flex-direction: column; align-items: center; justify-content: space-between; transition: transform .2s ease, opacity .2s ease; font-family: inherit; }
+  .book:hover { transform: translateY(-3px); }
+  .book .motif { font-size: 23px; line-height: 1; }
+  .book .t { font-size: 12.5px; font-weight: 800; line-height: 1.25; }
+  .book .a { font-size: 10.5px; opacity: .85; }
+  .book.used { opacity: .35; pointer-events: none; }
+  .sizes, .inserts { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip { border: 2px solid #c9a86a; background: #fffdf6; color: #5b3a1e; font-weight: 700; font-size: 13px; border-radius: 999px; padding: 8px 12px; cursor: pointer; font-family: inherit; }
+  .chip.on { background: #5b3a1e; color: #ffe9c4; border-color: #5b3a1e; }
+  .chip.used { opacity: .35; pointer-events: none; }
+  .notebook-wrap { position: relative; margin: 0 auto; width: fit-content; }
+  .back-peek { position: absolute; right: -16px; top: 10px; width: 60px; height: 78%; border-radius: 8px 12px 12px 8px; box-shadow: inset 3px 0 0 rgba(0,0,0,.18), 0 6px 14px rgba(35,65,77,.2); display: none; align-items: flex-start; justify-content: center; padding-top: 10px; font-size: 20px; }
+  .notebook { margin: 0 auto; border-radius: 10px 16px 16px 10px; background: #8a8d91; box-shadow: inset 6px 0 0 rgba(0,0,0,.2), 0 10px 24px rgba(35,65,77,.25); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 18px; color: #fff8ea; transition: all .3s ease; position: relative; z-index: 1; }
+  .notebook .motif { font-size: 44px; }
+  .notebook .t { font-size: 19px; font-weight: 800; text-align: center; line-height: 1.3; }
+  .notebook .a { font-size: 12.5px; opacity: .85; }
+  .notebook .covey { position: absolute; top: 12px; font-size: 11px; letter-spacing: 2.5px; font-weight: 700; opacity: .8; }
+  .summary { font-size: 14px; text-align: left; }
+  .summary div { padding: 5px 0; border-bottom: 1px dashed #e8d5b5; }
+  .summary b { color: #5b3a1e; }
+  .btn { display: block; width: 100%; border: none; cursor: pointer; font-family: inherit; font-weight: 800; font-size: 14.5px; border-radius: 999px; padding: 11px; margin-top: 10px; background: #f3e9d4; color: #5b3a1e; }
+  .members { margin-top: 26px; background: #fff; border: 2px solid #bcd9e4; border-radius: 16px; padding: 18px; }
+  .members h2 { margin: 0 0 6px; color: #1f5f74; font-size: 19px; }
+  .members p { font-size: 14px; line-height: 1.5; margin: 6px 0; }
+  .members input { width: 100%; border: 2px solid #bcd9e4; border-radius: 12px; padding: 10px 12px; font-size: 14.5px; font-family: inherit; margin-top: 8px; box-sizing: border-box; }
+  .mbtn { border: none; cursor: pointer; font-family: inherit; font-weight: 800; font-size: 14px; border-radius: 999px; padding: 10px 18px; margin-top: 10px; background: #1f5f74; color: #fff; }
+  .mbtn.alt { background: #fff3b0; color: #6b5900; }
+  .mrow { border-top: 1.5px dashed #d7e6ec; padding: 10px 0; font-size: 14px; }
+  .mrow b { color: #1f5f74; }
+  .mrow .saves { color: #3f6b7a; font-size: 13px; line-height: 1.5; }
+  .merr { color: #8c2b2b; font-size: 13.5px; margin-top: 8px; display: none; }
+  .status { margin-top: 26px; background: #fff; border: 2px solid #e8d5b5; border-radius: 16px; padding: 18px; }
+  .status h2 { margin-bottom: 6px; }
+  .status li { margin-bottom: 7px; font-size: 14.5px; line-height: 1.45; }
+  .status ul { margin: 6px 0 0; padding-left: 20px; }
+  .how { display: flex; gap: 10px; margin-top: 22px; flex-wrap: wrap; }
+  .how div { flex: 1; min-width: 150px; background: #fff; border: 1px solid #e8d5b5; border-radius: 14px; padding: 12px; font-size: 14px; text-align: center; }
+  .how b { display: block; color: #5b3a1e; margin-bottom: 4px; }
+  footer { text-align: center; font-size: 12.5px; color: #7a5c3e; padding: 26px 12px 0; }
+  @keyframes pop { 0% { transform: scale(.96); } 60% { transform: scale(1.02); } 100% { transform: scale(1); } }
+  .pop { animation: pop .3s ease; }
+  /* ---------- open book / inside preview ---------- */
+  .stage-btn { border: none; cursor: pointer; font-family: inherit; font-weight: 800; font-size: 14.5px; border-radius: 999px; padding: 11px 18px; background: #b3543f; color: #fff; box-shadow: 0 4px 12px rgba(35,65,77,.18); transition: transform .2s ease, box-shadow .2s ease; margin-bottom: 14px; }
+  .stage-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 18px rgba(35,65,77,.22); }
+  .notebook-wrap { animation: floaty 6s ease-in-out infinite; }
+  @keyframes floaty { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+  .nb-band { position: absolute; right: 14px; top: 0; bottom: 0; width: 9px; border-radius: 99px; background: #f2b705; box-shadow: inset 0 0 3px rgba(0,0,0,.25); }
+  .sparkle { position: absolute; color: #f0c93e; font-size: 15px; pointer-events: none; animation: twinkle 2.4s ease-in-out infinite; z-index: 2; }
+  @keyframes twinkle { 0%,100% { opacity: .25; transform: scale(.8) rotate(0deg); } 50% { opacity: 1; transform: scale(1.15) rotate(20deg); } }
+  .spread-wrap { position: relative; width: 100%; max-width: 540px; margin: 0 auto; padding-right: 16px; }
+  .spread { display: flex; position: relative; width: 100%; background: #fff8ea; border-radius: 14px; box-shadow: 0 12px 26px rgba(35,65,77,.22); }
+  .spread.enter { animation: spreadIn .5s ease; }
+  @keyframes spreadIn { 0% { opacity: 0; transform: scale(.94) rotate(-1deg); } 100% { opacity: 1; transform: scale(1) rotate(0deg); } }
+  .page-left, .page-right { flex: 1 1 0; min-width: 0; padding: 12px; position: relative; }
+  .page-left { border: 2px solid #e8d5b5; border-right: none; border-radius: 14px 4px 4px 14px; overflow: hidden; }
+  .page-right { border: 2px solid #e8d5b5; border-left: none; border-radius: 4px 14px 14px 4px; background: #fffdf6; }
+  .spine { width: 10px; flex-shrink: 0; background: linear-gradient(90deg, #d9c39a, #f6ead0, #d9c39a); }
+  .ptitle { font-weight: 800; color: #5b3a1e; font-size: 13.5px; margin: 0 0 8px; text-align: left; }
+  .pocket { position: relative; height: 64px; border: 2px dashed rgba(91,58,30,.45); border-radius: 10px; background: rgba(255,255,255,.35); display: flex; align-items: flex-end; justify-content: center; padding-bottom: 6px; font-size: 11px; font-weight: 700; color: rgba(91,58,30,.75); transform: rotate(-1.5deg); }
+  .eloops { position: absolute; right: 8px; top: 12px; bottom: 12px; display: flex; flex-direction: column; justify-content: space-evenly; }
+  .eloop { width: 7px; height: 34px; border-radius: 99px; background: #f2b705; box-shadow: inset 0 0 3px rgba(0,0,0,.25); }
+  .stack { margin-top: 10px; display: flex; flex-direction: column; gap: 5px; text-align: left; }
+  .stackrow { border: 1px solid rgba(91,58,30,.25); background: rgba(255,255,255,.65); color: #5b3a1e; border-radius: 8px; padding: 5px 7px; font-size: 11.5px; font-weight: 700; cursor: pointer; font-family: inherit; text-align: left; transition: transform .15s ease, background .15s ease; }
+  .stackrow:hover { transform: translateX(2px); }
+  .stackrow.on { background: #5b3a1e; color: #ffe9c4; }
+  .stack-empty { font-size: 12px; color: rgba(91,58,30,.8); text-align: left; }
+  #page-content { height: 100%; display: flex; flex-direction: column; text-align: left; }
+  .paper { flex: 1; min-height: 140px; border-radius: 8px; border: 1px solid #e3d3ae; padding: 8px; position: relative; overflow: hidden; background-color: #fffdf6; }
+  .paper.lined { background-image: repeating-linear-gradient(#fffdf6 0 21px, #c3d5dd 21px 22px); }
+  .paper.lined::before { content: ""; position: absolute; top: 0; bottom: 0; left: 22px; width: 2px; background: rgba(217,83,79,.35); }
+  .paper.dotgrid { background-image: radial-gradient(#b9cdd6 1.6px, transparent 1.8px); background-size: 16px 16px; }
+  .paper.blank::after { content: ""; position: absolute; inset: 7px; border: 2px dashed #e8d5b5; border-radius: 6px; pointer-events: none; }
+  .plan-h { font-weight: 800; color: #5b3a1e; font-size: 12.5px; margin-bottom: 6px; }
+  .plan-r { display: flex; align-items: center; gap: 7px; margin-bottom: 9px; }
+  .plan-r .box { width: 12px; height: 12px; border: 2px solid #c9a86a; border-radius: 3px; flex-shrink: 0; background: #fff; }
+  .plan-r .line { flex: 1; height: 2px; background: #d8e4e9; border-radius: 2px; }
+  .pfoot { font-size: 11px; color: #7a5c3e; margin-top: 6px; }
+  .pockets { display: flex; flex-direction: column; gap: 8px; flex: 1; }
+  .pocket-clear { border: 2px solid rgba(127,179,200,.55); background: linear-gradient(135deg, rgba(191,230,242,.5), rgba(255,255,255,.25)); border-radius: 10px; padding: 8px; display: flex; gap: 6px; flex-wrap: wrap; align-items: center; min-height: 52px; }
+  .coupon { border: 2px dashed #b3543f; color: #b3543f; background: #fff8ea; font-size: 11px; font-weight: 800; border-radius: 6px; padding: 5px 8px; transform: rotate(-2deg); }
+  .coupon.alt { transform: rotate(1.5deg); border-color: #1f8a8a; color: #1f8a8a; }
+  .card-chip { background: linear-gradient(120deg, #5b84ae, #7fb3c8); color: #fff; font-size: 11px; font-weight: 700; border-radius: 6px; padding: 7px 9px; box-shadow: inset 0 -8px 0 rgba(0,0,0,.12); }
+  .zip { position: relative; border: 2px solid #c9a86a; background: #fdf1d7; border-radius: 10px; padding: 12px 8px 8px; font-size: 11.5px; font-weight: 800; color: #5b3a1e; text-align: center; }
+  .zip::before { content: ""; position: absolute; top: 4px; left: 8px; right: 8px; height: 5px; border-radius: 3px; background: repeating-linear-gradient(90deg, #8a8d91 0 5px, #d8d8d8 5px 10px); }
+  .zip-pull { display: inline-block; width: 11px; height: 11px; border-radius: 50%; margin-right: 5px; vertical-align: -1px; box-shadow: inset 0 0 3px rgba(0,0,0,.3); }
+  .tabs { position: absolute; right: 0; top: 16px; display: flex; flex-direction: column; gap: 6px; z-index: 3; }
+  .tab { border: 2px solid #c9a86a; background: #fffdf6; color: #5b3a1e; border-radius: 0 10px 10px 0; font-size: 11px; font-weight: 800; padding: 6px 6px; cursor: pointer; font-family: inherit; max-width: 62px; text-align: left; transition: transform .15s ease, background .15s ease; }
+  .tab:hover { transform: translateX(2px); }
+  .tab.on { background: #5b3a1e; color: #ffe9c4; border-color: #5b3a1e; }
+  .flip { position: absolute; inset: 0; border-radius: 4px 14px 14px 4px; background: #fffdf6; transform-origin: left center; opacity: 0; pointer-events: none; z-index: 2; overflow: hidden; padding: 12px; }
+  .flip.go { animation: flipPage .48s ease; }
+  @keyframes flipPage { 0% { opacity: 1; transform: rotateY(0deg); } 45% { opacity: 1; transform: rotateY(-72deg); } 100% { opacity: 0; transform: rotateY(-150deg); } }
+  .flipnav { display: flex; gap: 8px; justify-content: center; align-items: center; margin-top: 12px; }
+  .mini { border: none; background: #f3e9d4; border-radius: 8px; padding: 5px 9px; font-weight: 800; cursor: pointer; color: #5b3a1e; font-family: inherit; font-size: 12.5px; transition: transform .15s ease; }
+  .mini:hover { transform: translateY(-1px); }
+  .mini:disabled { opacity: .4; cursor: default; transform: none; }
+  .mini.nav { padding: 8px 14px; border-radius: 999px; font-size: 13.5px; }
+  .swatches { display: flex; flex-wrap: wrap; gap: 9px; align-items: center; }
+  .sw { width: 27px; height: 27px; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 0 0 2px #c9a86a; cursor: pointer; padding: 0; transition: transform .15s ease, box-shadow .15s ease; }
+  .sw:hover { transform: scale(1.1); }
+  .sw.on { box-shadow: 0 0 0 3px #5b3a1e; transform: scale(1.1); }
+  .order-row { display: flex; align-items: center; gap: 6px; background: #fff; border: 1px solid #e8d5b5; border-radius: 10px; padding: 6px 8px; margin-bottom: 6px; font-size: 13px; }
+  .order-row .nm { flex: 1; min-width: 0; font-weight: 700; color: #5b3a1e; }
+  @media (prefers-reduced-motion: reduce) { .book, .notebook, .tab, .sw, .chip, .stackrow, .stage-btn, .mini { transition: none; } .pop, #gate.shake, .notebook-wrap, .sparkle, .spread.enter, .flip.go { animation: none; } }
+</style>
+<meta name="robots" content="noindex,nofollow">
+<link rel="stylesheet" href="pond-travel.css">
+<script>window.__TYD_PREVIEW__=true;</script>
+</head>
+<body>
+<div class="app">
+  <a class="back" href="index.html">&#8249; Back to the Pond</a>
+
+  <div id="gate">
+    <div class="duck">🦆</div>
+    <h1>Pond Admin</h1>
+    <p>This page is just for you. Enter your passcode to see your Covey.</p>
+    <input type="password" id="pw" placeholder="Passcode" autocomplete="current-password">
+    <button id="unlock">Unlock</button>
+    <div class="err" id="err"></div>
+  </div>
+
+  <div id="admin">
+    <header class="top">
+      <h1>Covey Admin Preview</h1>
+      <p class="sub">Your private look at what your Covey would look like. Dress it up any way you like, nothing here is public and nothing is for sale.</p>
+    </header>
+
+    <div class="layout">
+      <section class="tray">
+        <h2>Covers: first tap is the front, second is the back</h2>
+        <div class="grid" id="covers"></div>
+        <h2 style="margin-top:20px;">Size</h2>
+        <div class="sizes" id="sizes"></div>
+        <h2 style="margin-top:20px;">Inserts (tap to add or remove)</h2>
+        <div class="inserts" id="inserts"></div>
+        <h2 style="margin-top:20px;">Inside page style</h2>
+        <div class="sizes" id="styles"></div>
+        <h2 style="margin-top:20px;">Elastic color</h2>
+        <div class="swatches" id="elastics"></div>
+        <h2 style="margin-top:20px;">Your insert order</h2>
+        <div id="order-list"><p class="sub" style="margin:0;">No inserts yet. Tap inserts above and they will line up here.</p></div>
+      </section>
+
+      <section class="stage">
+        <button class="stage-btn" id="toggle-open">Open my Covey 📖</button>
+        <div class="notebook-wrap" id="closed-view">
+          <span class="sparkle" style="left:-8px; top:6px;" aria-hidden="true">✦</span>
+          <span class="sparkle" style="right:-4px; top:44px; animation-delay:1.2s;" aria-hidden="true">✦</span>
+          <div class="back-peek" id="back-peek"></div>
+          <div class="notebook" id="notebook" style="width:230px; height:300px;">
+            <span class="covey">C O V E Y</span>
+            <span class="motif" id="nb-motif">📖</span>
+            <span class="t" id="nb-title">Made of stories.</span>
+            <span class="a" id="nb-author">Tap a cover to begin</span>
+            <span class="nb-band" id="nb-band"></span>
+          </div>
+        </div>
+        <div class="spread-wrap" id="open-view" style="display:none;">
+          <div class="spread" id="spread">
+            <div class="page-left" id="page-left">
+              <p class="ptitle">Inside front cover</p>
+              <div class="pocket"><span>Front pocket</span></div>
+              <div class="eloops"><span class="eloop"></span><span class="eloop"></span><span class="eloop"></span></div>
+              <div class="stack" id="stack"></div>
+            </div>
+            <div class="spine"></div>
+            <div class="page-right" id="page-right">
+              <div id="page-content"></div>
+              <div class="flip" id="flip"></div>
+            </div>
+            <div class="tabs" id="tabs"></div>
+          </div>
+          <div class="flipnav">
+            <button class="mini nav" id="prev">‹ Prev</button>
+            <span id="flip-count" style="font-size:13px; color:#7a5c3e; font-weight:700;">No inserts yet</span>
+            <button class="mini nav" id="next">Next ›</button>
+          </div>
+        </div>
+        <p class="sub" id="size-label">Size: A5</p>
+      </section>
+
+      <aside class="panel">
+        <h2>Your Covey</h2>
+        <div class="summary">
+          <div><b>Front:</b> <span id="sum-front">not picked</span></div>
+          <div><b>Back:</b> <span id="sum-back">not picked</span></div>
+          <div><b>Size:</b> <span id="sum-size">A5</span></div>
+          <div><b>Inserts:</b> <span id="sum-inserts">none</span></div>
+          <div><b>Page style:</b> <span id="sum-style">Lined</span></div>
+          <div><b>Elastic:</b> <span id="sum-elastic">Duck Yellow</span></div>
+        </div>
+        <button class="btn" id="reset">Start over</button>
+        <button class="btn" id="lock">Lock this page</button>
+      </aside>
+    </div>
+
+    <div class="how">
+      <div><b>1. Pick your covers</b>Hard covers click off and on the hinged spine.</div>
+      <div><b>2. Fill it your way</b>Refill booklets slide in on elastics, plus a zip insert.</div>
+      <div><b>3. Swap anytime</b>Every part is replaceable and customizable.</div>
+    </div>
+
+    <div class="members" id="members">
+      <h2>Everyone in the Pond</h2>
+      <p>Your member list in one place: everyone with a Pond account, when they joined, and the recipes they have saved. Sign in here with your own Pond account. Only the owner account can open this list, anyone else gets turned away by the database itself.</p>
+      <div id="owner-login">
+        <input type="email" id="owner-email" placeholder="Your Pond account email" autocomplete="email">
+        <input type="password" id="owner-pw" placeholder="Your Pond account password" autocomplete="current-password">
+        <button class="mbtn" id="owner-signin">Sign in to see everyone</button>
+        <div class="merr" id="owner-err"></div>
+        <p style="font-size:13px; color:#5b7d89;">No Pond account of your own yet? Make one first on the Pond Account page, then tell Goose, who flips the owner switch for your account.</p>
+      </div>
+      <div id="owner-view" style="display:none;">
+        <p id="owner-count" style="font-weight:800; color:#1f5f74;"></p>
+        <div id="owner-list"></div>
+        <button class="mbtn alt" id="owner-refresh">Refresh list</button>
+        <button class="mbtn alt" id="owner-signout">Sign out</button>
+        <div id="reports" style="margin-top:20px; border-top:2px solid #bcd9e4; padding-top:14px;">
+          <h3 style="color:#1f5f74; font-size:17px; margin:0 0 6px;">Member reports 🚩</h3>
+          <p style="font-size:14px; color:#5b7d89; margin:0 0 8px;">Reports from members about spam, harassment, or inappropriate content. Newest first. Only you can see these, and only you can dismiss them.</p>
+          <div id="report-list"><p style="color:#5b7d89;">Loading reports…</p></div>
+          <button class="mbtn alt" id="report-refresh">Refresh reports</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="members" id="notify">
+      <h2>Send a deal alert 🔔</h2>
+      <p>Write a deal once, send it two ways. <b>Post alert</b> puts it in every member's Pond Account under Deal Alerts, so they see it next time they visit your site. <b>Email it too</b> opens your own mail app with every member hidden in BCC and the alert written out, you just tap send.</p>
+      <input type="text" id="ntitle" placeholder="Deal headline, like: Aurzen projector, half off today">
+      <input type="text" id="nmsg" placeholder="Short message: the price, the code, when it ends">
+      <input type="url" id="nlink" placeholder="Deal link (full https:// link)">
+      <select id="ntag" style="width:100%; padding:11px 12px; border:2px solid #bcd9e4; border-radius:12px; font-size:15px; margin-top:10px; font-family:inherit; background:#fbfdfe; color:#23414d;"><option value="general">Category: General (everyone sees it)</option><optgroup label="Shopping"><option value="amazon-baby">Amazon &amp; Baby</option><option value="amazon">Amazon Deals</option><option value="clothes">Clothes &amp; Shoes</option><option value="essentials">Everyday Essentials</option><option value="home">Home</option><option value="kitchen">Kitchen</option><option value="tech">Tech</option><option value="beauty">Beauty &amp; Self-Care</option><option value="health">Health &amp; Wellness</option><option value="pets">Pets</option><option value="kids">Kids, Toys &amp; Games</option></optgroup><optgroup label="Ways to save"><option value="price-drops">Big price drops</option><option value="coupons">Coupon Codes</option><option value="freebies">Freebies &amp; Samples</option><option value="back-in-stock">Back in Stock</option><option value="seasonal">Seasonal Sales</option></optgroup><optgroup label="Around the Pond"><option value="food">Food &amp; Recipes</option><option value="new-brands">New Brands &amp; Drops</option><option value="giveaways">Giveaways</option><option value="travel">Travel Deals</option></optgroup></select>
+      <button class="mbtn" id="npost">Post alert to members</button>
+      <button class="mbtn alt" id="nemail">Email it too</button>
+      <div id="nstat" style="font-size:13.5px; margin-top:8px; line-height:1.45;"></div>
+      <p style="font-size:13px; color:#5b7d89;">Posting needs you signed in above with your owner account. Real phone push notifications (the kind that buzz a phone with the site closed) are a separate add-on, ask Goose about OneSignal if you want those. Text messages need a paid texting service and members' phone numbers, which the site does not collect yet.</p>
+    </div>
+
+    <div class="status">
+      <h2>Admin status, Nov 6, 2026</h2>
+      <ul>
+        <li><b>Prototype:</b> parked by you on Nov 5, 2026. The library 3D print route is drafted on paper only, nothing has been sent.</li>
+        <li><b>Kickstarter:</b> draft Basics saved, placeholder goal $5,000, nothing submitted or launched.</li>
+        <li><b>Wix site:</b> built but unpublished. Waitlist collects first name and email only.</li>
+        <li><b>Novel Bookstore:</b> pitch sent Nov 3, 2026, awaiting a reply. Instagram DM still held.</li>
+        <li><b>Public pieces:</b> Covey Covers Showcase and the Covey Cover Picker on this website. Route when revived: prototype, then Etsy founding batch of 25 to 50, then Kickstarter.</li>
+        <li><b>Reminder:</b> Covey is a working name. Trademark and domain checks are still owed before anything prints or launches publicly.</li>
+      </ul>
+    </div>
+
+    <footer>Covey by Feather Your Nest. A covey is a small flock of birds. This is a small flock of books.</footer>
+  </div>
+</div>
+
+<script>
+  var HASH = "609f4490502a585b2ce3299841af2eb172f279fcd48f4d058c7f664555c8a28e";
+  var gate = document.getElementById('gate');
+  var admin = document.getElementById('admin');
+  function openAdmin() { gate.style.display = 'none'; admin.style.display = 'block'; }
+  if (sessionStorage.getItem('tydAdmin') === '1') openAdmin();
+  function tryUnlock() {
+    var v = document.getElementById('pw').value.trim().toLowerCase();
+    if (!v) return;
+    crypto.subtle.digest('SHA-256', new TextEncoder().encode(v)).then(function (buf) {
+      var hex = Array.from(new Uint8Array(buf)).map(function (b) { return b.toString(16).padStart(2, '0'); }).join('');
+      if (hex === HASH) { sessionStorage.setItem('tydAdmin', '1'); openAdmin(); }
+      else {
+        document.getElementById('err').textContent = 'That passcode is not it. Try again.';
+        gate.classList.remove('shake'); void gate.offsetWidth; gate.classList.add('shake');
+      }
+    });
+  }
+  document.getElementById('unlock').addEventListener('click', tryUnlock);
+  document.getElementById('pw').addEventListener('keydown', function (e) { if (e.key === 'Enter') tryUnlock(); });
+  document.getElementById('lock').addEventListener('click', function () {
+    sessionStorage.removeItem('tydAdmin');
+    admin.style.display = 'none'; gate.style.display = 'block';
+    document.getElementById('pw').value = '';
+  });
+
+  var COVERS = [
+    { t: "Robin Hood", a: "Howard Pyle", c: "#43603a", m: "🏹" },
+    { t: "Snow White", a: "Brothers Grimm", c: "#9e2b25", m: "🍎" },
+    { t: "Alice's Adventures in Wonderland", a: "Lewis Carroll", c: "#5b84ae", m: "🗝️" },
+    { t: "Peter Pan", a: "J. M. Barrie", c: "#2e4057", m: "⛵" },
+    { t: "Treasure Island", a: "Robert Louis Stevenson", c: "#b07d2b", m: "🧭" },
+    { t: "Beauty and the Beast", a: "Jeanne-Marie Leprince de Beaumont", c: "#8e3b46", m: "🌹" },
+    { t: "The Secret Garden", a: "Frances Hodgson Burnett", c: "#718355", m: "🔑" },
+    { t: "Anne of Green Gables", a: "L. M. Montgomery", c: "#b5654a", m: "🏠" },
+    { t: "Little Women", a: "Louisa May Alcott", c: "#6d597a", m: "✒️" },
+    { t: "Pride and Prejudice", a: "Jane Austen", c: "#1f6f6b", m: "🦚" },
+    { t: "The Wonderful Wizard of Oz", a: "L. Frank Baum", c: "#2f7d4f", m: "🎈" },
+    { t: "The Jungle Book", a: "Rudyard Kipling", c: "#8f451d", m: "🐾" }
+  ];
+  var SIZES = [ { n: "A5", w: 230, h: 300 }, { n: "Regular", w: 205, h: 315 }, { n: "Personal", w: 180, h: 285 }, { n: "Passport", w: 160, h: 235 } ];
+  var INSERTS = [
+    { n: "A5 Refill Booklet", icon: "📓", kind: "paper" },
+    { n: "Regular Refill Booklet", icon: "📔", kind: "paper" },
+    { n: "Passport Refill Booklet", icon: "🧳", kind: "paper" },
+    { n: "Personal Refill Booklet", icon: "🗓️", kind: "paper" },
+    { n: "Coupon Keeper", icon: "🎟️", kind: "coupon" }
+  ];
+  var STYLES = ["Lined", "Dot grid", "Blank", "Planner"];
+  var ELASTICS = [
+    { n: "Duck Yellow", c: "#f2b705" },
+    { n: "Pond Teal", c: "#1f8a8a" },
+    { n: "Blush Pink", c: "#f2a7bb" },
+    { n: "Lavender", c: "#9b8ad4" },
+    { n: "Cocoa", c: "#8a5a3b" }
+  ];
+  var pickedCovers = [], pickedInserts = [], size = "A5";
+  var pageStyle = "Lined", elasticName = "Duck Yellow", elasticColor = "#f2b705";
+  var isOpen = false, currentPos = 0, flipping = false;
+
+  var coversEl = document.getElementById('covers');
+  COVERS.forEach(function (cv, i) {
+    var b = document.createElement('button');
+    b.className = 'book'; b.id = 'cover-' + i; b.style.background = cv.c;
+    b.innerHTML = '<span class="motif">' + cv.m + '</span><span class="t">' + cv.t + '</span><span class="a">' + cv.a + '</span>';
+    b.addEventListener('click', function () {
+      if (pickedCovers.indexOf(i) !== -1) return;
+      if (pickedCovers.length >= 2) return;
+      pickedCovers.push(i); b.classList.add('used'); render();
+    });
+    coversEl.appendChild(b);
+  });
+  var sizesEl = document.getElementById('sizes');
+  SIZES.forEach(function (sz) {
+    var b = document.createElement('button');
+    b.className = 'chip' + (sz.n === size ? ' on' : ''); b.textContent = sz.n; b.id = 'size-' + sz.n;
+    b.addEventListener('click', function () {
+      size = sz.n;
+      SIZES.forEach(function (s2) { document.getElementById('size-' + s2.n).classList.toggle('on', s2.n === size); });
+      var nb = document.getElementById('notebook');
+      nb.style.width = sz.w + 'px'; nb.style.height = sz.h + 'px';
+      render();
+    });
+    sizesEl.appendChild(b);
+  });
+  var insertsEl = document.getElementById('inserts');
+  INSERTS.forEach(function (ins, i) {
+    var b = document.createElement('button');
+    b.className = 'chip'; b.id = 'insert-' + i; b.textContent = ins.icon + ' ' + ins.n;
+    b.addEventListener('click', function () {
+      var k = pickedInserts.indexOf(i);
+      if (k === -1) { pickedInserts.push(i); b.classList.add('on'); currentPos = pickedInserts.length - 1; }
+      else { pickedInserts.splice(k, 1); b.classList.remove('on'); if (currentPos > k) currentPos--; if (currentPos >= pickedInserts.length) currentPos = Math.max(0, pickedInserts.length - 1); }
+      render();
+    });
+    insertsEl.appendChild(b);
+  });
+  var stylesEl = document.getElementById('styles');
+  STYLES.forEach(function (st) {
+    var b = document.createElement('button');
+    b.className = 'chip' + (st === pageStyle ? ' on' : ''); b.textContent = st; b.id = 'style-' + st.replace(' ', '-');
+    b.addEventListener('click', function () {
+      pageStyle = st;
+      STYLES.forEach(function (s2) { document.getElementById('style-' + s2.replace(' ', '-')).classList.toggle('on', s2 === pageStyle); });
+      render();
+    });
+    stylesEl.appendChild(b);
+  });
+  var elasticsEl = document.getElementById('elastics');
+  ELASTICS.forEach(function (el) {
+    var b = document.createElement('button');
+    b.className = 'sw' + (el.n === elasticName ? ' on' : ''); b.style.background = el.c; b.title = el.n; b.id = 'elastic-' + el.n.replace(' ', '-');
+    b.setAttribute('aria-label', 'Elastic color: ' + el.n);
+    b.addEventListener('click', function () {
+      elasticName = el.n; elasticColor = el.c;
+      ELASTICS.forEach(function (e2) { document.getElementById('elastic-' + e2.n.replace(' ', '-')).classList.toggle('on', e2.n === elasticName); });
+      render();
+    });
+    elasticsEl.appendChild(b);
+  });
+  function sizeObj() { for (var k = 0; k < SIZES.length; k++) if (SIZES[k].n === size) return SIZES[k]; return SIZES[0]; }
+  function visual(i) {
+    var ins = INSERTS[i];
+    if (ins.kind === 'coupon') {
+      return '<p class="ptitle">🎟️ Coupon Keeper</p>' +
+        '<div class="pockets">' +
+        '<div class="pocket-clear"><span class="coupon">Coupon</span><span class="coupon alt">Coupon</span></div>' +
+        '<div class="pocket-clear"><span class="card-chip">Gift card</span><span class="card-chip">Loyalty card</span></div>' +
+        '<div class="zip"><span class="zip-pull" style="background:' + elasticColor + '"></span>Zip pouch</div>' +
+        '</div>' +
+        '<p class="pfoot">Clear pockets for coupons and cards, plus a zip pouch to keep the little things safe.</p>';
+    }
+    var cls = pageStyle.toLowerCase().replace(' ', '');
+    var body = '';
+    if (pageStyle === 'Planner') {
+      body = '<div class="plan-h">This week</div>';
+      for (var r = 0; r < 5; r++) body += '<div class="plan-r"><span class="box"></span><span class="line"></span></div>';
+    }
+    return '<p class="ptitle">' + ins.icon + ' ' + ins.n + '</p>' +
+      '<div class="paper ' + cls + '">' + body + '</div>' +
+      '<p class="pfoot">' + pageStyle + ' pages · slides in on an elastic</p>';
+  }
+  function renderOpen() {
+    var sz = sizeObj();
+    var spread = document.getElementById('spread');
+    spread.style.aspectRatio = (sz.w * 2) + ' / ' + sz.h;
+    var front = pickedCovers[0];
+    document.getElementById('page-left').style.background = 'linear-gradient(rgba(255,248,234,0.88), rgba(255,248,234,0.88)), ' + (front !== undefined ? COVERS[front].c : '#a7adb3');
+    var loops = document.querySelectorAll('.eloop');
+    for (var li = 0; li < loops.length; li++) loops[li].style.background = elasticColor;
+    var stack = document.getElementById('stack');
+    stack.innerHTML = '';
+    if (!pickedInserts.length) {
+      stack.innerHTML = '<span class="stack-empty">No inserts tucked in yet.</span>';
+    } else {
+      pickedInserts.forEach(function (idx, pos) {
+        var sb = document.createElement('button');
+        sb.className = 'stackrow' + (pos === currentPos ? ' on' : '');
+        sb.textContent = INSERTS[idx].icon + ' ' + INSERTS[idx].n;
+        sb.addEventListener('click', function () { flipTo(pos); });
+        stack.appendChild(sb);
+      });
+    }
+    var content = document.getElementById('page-content');
+    if (!pickedInserts.length) {
+      content.innerHTML = '<p class="ptitle">📖 Nothing inside yet</p><div class="paper blank"></div><p class="pfoot">No inserts yet. Tap the inserts on the left to tuck some in, then flip through them here.</p>';
+    } else {
+      content.innerHTML = visual(pickedInserts[currentPos]);
+    }
+    var tabs = document.getElementById('tabs');
+    tabs.innerHTML = '';
+    pickedInserts.forEach(function (idx, pos) {
+      var tb = document.createElement('button');
+      tb.className = 'tab' + (pos === currentPos ? ' on' : '');
+      tb.textContent = INSERTS[idx].icon + ' ' + INSERTS[idx].n.split(' ')[0];
+      tb.addEventListener('click', function () { flipTo(pos); });
+      tabs.appendChild(tb);
+    });
+    document.getElementById('flip-count').textContent = pickedInserts.length ? 'Insert ' + (currentPos + 1) + ' of ' + pickedInserts.length : 'No inserts yet';
+    document.getElementById('prev').disabled = !pickedInserts.length || currentPos <= 0;
+    document.getElementById('next').disabled = !pickedInserts.length || currentPos >= pickedInserts.length - 1;
+  }
+  function flipTo(pos) {
+    if (!isOpen || flipping || pos === currentPos || pos < 0 || pos >= pickedInserts.length) { if (!isOpen) { currentPos = pos; renderOpen(); } return; }
+    flipping = true;
+    var flip = document.getElementById('flip');
+    flip.innerHTML = document.getElementById('page-content').innerHTML;
+    flip.classList.remove('go'); void flip.offsetWidth; flip.classList.add('go');
+    setTimeout(function () { currentPos = pos; renderOpen(); }, 230);
+    setTimeout(function () { flip.classList.remove('go'); flip.innerHTML = ''; flipping = false; }, 500);
+  }
+  function renderOrder() {
+    var el = document.getElementById('order-list');
+    el.innerHTML = '';
+    if (!pickedInserts.length) {
+      el.innerHTML = '<p class="sub" style="margin:0;">No inserts yet. Tap inserts above and they will line up here.</p>';
+      return;
+    }
+    pickedInserts.forEach(function (idx, pos) {
+      var row = document.createElement('div');
+      row.className = 'order-row';
+      var nm = document.createElement('span');
+      nm.className = 'nm'; nm.textContent = INSERTS[idx].icon + ' ' + INSERTS[idx].n;
+      row.appendChild(nm);
+      [['↑', 'Move up', function () { if (pos > 0) { var t = pickedInserts[pos - 1]; pickedInserts[pos - 1] = pickedInserts[pos]; pickedInserts[pos] = t; currentPos = pos - 1; render(); } }],
+       ['↓', 'Move down', function () { if (pos < pickedInserts.length - 1) { var t = pickedInserts[pos + 1]; pickedInserts[pos + 1] = pickedInserts[pos]; pickedInserts[pos] = t; currentPos = pos + 1; render(); } }],
+       ['✕', 'Remove', function () { pickedInserts.splice(pos, 1); document.getElementById('insert-' + idx).classList.remove('on'); if (currentPos >= pickedInserts.length) currentPos = Math.max(0, pickedInserts.length - 1); render(); }]]
+      .forEach(function (spec) {
+        var btn = document.createElement('button');
+        btn.className = 'mini'; btn.textContent = spec[0]; btn.title = spec[1];
+        btn.setAttribute('aria-label', spec[1] + ': ' + INSERTS[idx].n);
+        btn.addEventListener('click', spec[2]);
+        row.appendChild(btn);
+      });
+      el.appendChild(row);
+    });
+  }
+  function render() {
+    var nb = document.getElementById('notebook');
+    var front = pickedCovers[0], back = pickedCovers[1];
+    if (front !== undefined) {
+      var cv = COVERS[front];
+      nb.style.background = cv.c;
+      document.getElementById('nb-motif').textContent = cv.m;
+      document.getElementById('nb-title').textContent = cv.t;
+      document.getElementById('nb-author').textContent = cv.a;
+    } else {
+      nb.style.background = '#8a8d91';
+      document.getElementById('nb-motif').textContent = '📖';
+      document.getElementById('nb-title').textContent = 'Made of stories.';
+      document.getElementById('nb-author').textContent = 'Tap a cover to begin';
+    }
+    var peek = document.getElementById('back-peek');
+    if (back !== undefined) {
+      peek.style.display = 'flex'; peek.style.background = COVERS[back].c; peek.textContent = COVERS[back].m;
+    } else peek.style.display = 'none';
+    document.getElementById('nb-band').style.background = elasticColor;
+    nb.classList.remove('pop'); void nb.offsetWidth; nb.classList.add('pop');
+    document.getElementById('sum-front').textContent = front !== undefined ? COVERS[front].t : 'not picked';
+    document.getElementById('sum-back').textContent = back !== undefined ? COVERS[back].t : 'not picked';
+    document.getElementById('sum-size').textContent = size;
+    document.getElementById('size-label').textContent = 'Size: ' + size;
+    document.getElementById('sum-inserts').textContent = pickedInserts.length ? pickedInserts.map(function (i) { return INSERTS[i].n; }).join(', ') : 'none';
+    document.getElementById('sum-style').textContent = pageStyle;
+    document.getElementById('sum-elastic').textContent = elasticName;
+    renderOpen();
+    renderOrder();
+  }
+  document.getElementById('reset').addEventListener('click', function () {
+    pickedCovers = []; pickedInserts = []; currentPos = 0;
+    COVERS.forEach(function (_, i) { document.getElementById('cover-' + i).classList.remove('used'); });
+    INSERTS.forEach(function (_, i) { document.getElementById('insert-' + i).classList.remove('on'); });
+    render();
+  });
+  document.getElementById('toggle-open').addEventListener('click', function () {
+    isOpen = !isOpen;
+    document.getElementById('closed-view').style.display = isOpen ? 'none' : 'block';
+    document.getElementById('open-view').style.display = isOpen ? 'block' : 'none';
+    this.textContent = isOpen ? 'Close book' : 'Open my Covey 📖';
+    if (isOpen) {
+      var spread = document.getElementById('spread');
+      spread.classList.remove('enter'); void spread.offsetWidth; spread.classList.add('enter');
+      renderOpen();
+    }
+  });
+  document.getElementById('prev').addEventListener('click', function () { flipTo(currentPos - 1); });
+  document.getElementById('next').addEventListener('click', function () { flipTo(currentPos + 1); });
+  render();
+</script>
+<script type="module">
+  import { initializeApp } from "./pond-firebase-stub.js";
+  import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "./pond-firebase-stub.js";
+  import { getFirestore, collection, getDocs, addDoc, serverTimestamp, query, orderBy, limit, deleteDoc, doc } from "./pond-firebase-stub.js";
+  var firebaseConfig = {
+    apiKey: "preview-disabled",
+    authDomain: "pond-preview-disabled.firebaseapp.com",
+    projectId: "pond-preview-disabled",
+    storageBucket: "pond-preview-disabled.firebasestorage.app",
+    messagingSenderId: "000000000000",
+    appId: "1:000000000000:web:previewdisabled"
+  };
+  var NAMES = { "recipe-ice-cream": "Churned Vanilla Ice Cream", "recipe-root-beer": "Fermented Root Beer", "recipe-chicken-wraps": "Chicken Wraps" };
+  var auth = getAuth(initializeApp(firebaseConfig));
+  var db = getFirestore();
+  function $(id) { return document.getElementById(id); }
+  function showErr(msg) { var e = $("owner-err"); e.textContent = msg; e.style.display = "block"; }
+  var memberEmails = [];
+  function loadMembers() {
+    getDocs(collection(db, "users")).then(function (snap) {
+      var rows = [];
+      snap.forEach(function (d) { var v = d.data() || {}; rows.push({ email: v.email || "", joined: v.joinedAt, saves: v.savedRecipes || [] }); });
+      memberEmails = rows.map(function (r) { return r.email; }).filter(function (e) { return !!e; });
+      rows.sort(function (a, b) { return (a.email || "zzz").localeCompare(b.email || "zzz"); });
+      $("owner-count").textContent = rows.length + (rows.length === 1 ? " member" : " members") + " in the Pond";
+      if (!rows.length) { $("owner-list").innerHTML = '<p style="color:#5b7d89;">Nobody has signed up yet. When the first member joins, they will appear here.</p>'; return; }
+      $("owner-list").innerHTML = rows.map(function (r) {
+        var when = "";
+        try { if (r.joined && r.joined.toDate) when = " · joined " + r.joined.toDate().toLocaleDateString(); } catch (e) {}
+        var saves = r.saves.length ? r.saves.map(function (id) { return NAMES[id] || id; }).join(", ") : "nothing saved yet";
+        return '<div class="mrow"><b>' + (r.email || "Member (no email on file)") + '</b>' + when + '<div class="saves">Saved recipes: ' + saves + '</div></div>';
+      }).join("");
+    }).catch(function (err) {
+      if (err && err.code === "permission-denied") {
+        $("owner-count").textContent = "";
+        $("owner-list").innerHTML = '<p style="color:#8c2b2b;">This Pond account is not the owner account, so the member list stays closed. Sign out and sign in with the owner Pond account.</p>';
+      } else {
+        $("owner-list").innerHTML = '<p style="color:#8c2b2b;">The member list could not load just now. Try Refresh in a moment.</p>';
+      }
+    });
+  }
+  function escRep(s) { return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
+  // Member reports (Lucy, Nov 12, 2026): newest first. Only the owner
+  // account can read userReports (the database itself turns anyone else
+  // away), and only the owner can dismiss one.
+  function loadReports() {
+    var box = $("report-list");
+    if (!box) return;
+    getDocs(query(collection(db, "userReports"), orderBy("createdAt", "desc"), limit(50))).then(function (snap) {
+      var rows = [];
+      snap.forEach(function (d) { var v = d.data() || {}; v.id = d.id; rows.push(v); });
+      if (!rows.length) { box.innerHTML = '<p style="color:#5b7d89;">No reports. When a member reports someone or something, it shows up here.</p>'; return; }
+      box.innerHTML = rows.map(function (r) {
+        var when = "";
+        try { if (r.createdAt) when = new Date(r.createdAt).toLocaleString([], { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }); } catch (e) {}
+        return '<div class="mrow"><b>' + escRep(r.reason || "Report") + '</b> · ' + escRep(r.reporterName || "A member") + ' reported <b>@' + escRep(r.targetName || "someone") + '</b>' + (when ? ' · ' + escRep(when) : '') +
+          (r.note ? '<div class="saves">' + escRep(r.note) + '</div>' : "") +
+          '<div class="saves">Where: ' + escRep(r.contentType || "profile") + '</div>' +
+          '<button class="mbtn alt" data-dismiss-report="' + escRep(r.id) + '">Dismiss</button></div>';
+      }).join("");
+    }).catch(function (err) {
+      if (err && err.code === "permission-denied") {
+        box.innerHTML = '<p style="color:#8c2b2b;">This Pond account is not the owner account, so reports stay closed. Sign out and sign in with the owner Pond account.</p>';
+      } else {
+        box.innerHTML = '<p style="color:#8c2b2b;">Reports could not load just now. Try Refresh in a moment.</p>';
+      }
+    });
+  }
+  $("report-list").addEventListener("click", function (e) {
+    var b = e.target.closest ? e.target.closest("[data-dismiss-report]") : null;
+    if (!b) return;
+    var id = b.getAttribute("data-dismiss-report");
+    if (!confirm("Dismiss this report? It will be deleted.")) return;
+    deleteDoc(doc(db, "userReports", id)).then(function () { loadReports(); }).catch(function () {});
+  });
+  $("report-refresh").addEventListener("click", function () { loadReports(); });
+  $("owner-signin").addEventListener("click", function () {
+    var email = $("owner-email").value.trim(), pw = $("owner-pw").value;
+    if (!email || !pw) { showErr("Fill in your Pond account email and password first."); return; }
+    $("owner-err").style.display = "none";
+    signInWithEmailAndPassword(auth, email, pw).catch(function () { showErr("That email and password do not match a Pond account. Check them and try again."); });
+  });
+  $("owner-signout").addEventListener("click", function () { signOut(auth); });
+  function nstat(msg, ok) { var s = $("nstat"); s.textContent = msg; s.style.color = ok ? "#1e5c33" : "#8c2b2b"; }
+  $("npost").addEventListener("click", function () {
+    var title = $("ntitle").value.trim(), msg = $("nmsg").value.trim(), link = $("nlink").value.trim();
+    if (!title || !msg) { nstat("Write a headline and a short message first."); return; }
+    if (link && link.indexOf("https://") !== 0) { nstat("The deal link needs to be a full https:// link, or leave it blank."); return; }
+    if (!auth.currentUser) { nstat("Sign in above with your Pond account first, then post."); return; }
+    addDoc(collection(db, "announcements"), { title: title, message: msg, link: link, tag: $("ntag").value, from: "TYD", createdAt: serverTimestamp() })
+      .then(function () { nstat("Posted! Members will see this alert in their Pond Account under Deal Alerts.", true); })
+      .catch(function (err) {
+        if (err && err.code === "permission-denied") nstat("The database has not flipped your owner switch yet. Tell Goose once your Pond account is made and this will light up.");
+        else nstat("Posting hiccuped. Try again in a moment.");
+      });
+  });
+  $("nemail").addEventListener("click", function () {
+    var title = $("ntitle").value.trim(), msg = $("nmsg").value.trim(), link = $("nlink").value.trim();
+    if (!title || !msg) { nstat("Write a headline and a short message first, then tap Email it too."); return; }
+    if (!memberEmails.length) { nstat("No member emails loaded yet. Sign in above so your member list loads, then tap Email it too."); return; }
+    var body = "Category: " + $("ntag").selectedOptions[0].textContent.replace("Category: ", "") + "\n\n" + msg + (link ? "\n\nSee the deal: " + link : "") + "\n\nFrom TreatYourselfDiscounts, the Pond. Deals can end or sell out anytime.";
+    window.location.href = "mailto:?bcc=" + encodeURIComponent(memberEmails.join(",")) + "&subject=" + encodeURIComponent("🔔 Pond deal alert: " + title) + "&body=" + encodeURIComponent(body);
+    nstat("Your mail app should open with every member in BCC, so members never see each other's emails. Just tap send there.", true);
+  });
+  $("owner-refresh").addEventListener("click", function () { loadMembers(); });
+  onAuthStateChanged(auth, function (user) {
+    $("owner-login").style.display = user ? "none" : "block";
+    $("owner-view").style.display = user ? "block" : "none";
+    if (user) { loadMembers(); loadReports(); }
+  });
+</script>
+<script src="pond-staging.js"></script>
+</body>
+</html>

@@ -1,0 +1,1597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="color-scheme" content="light dark">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="apple-touch-icon-v2.png">
+<meta name="theme-color" content="#ffd94d">
+<meta name="description" content="Your Pond Account: sign up or log in to TreatYourselfDiscounts. Accounts are free and optional, and every deal stays public.">
+<meta property="og:title" content="Pond Account | TreatYourselfDiscounts">
+<meta property="og:description" content="Your Pond Account: sign up or log in to TreatYourselfDiscounts. Accounts are free and optional, and every deal stays public.">
+<meta property="og:image" content="/icon-512.png">
+<meta property="og:url" content="/account">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Pond Account | TreatYourselfDiscounts">
+<meta name="twitter:description" content="Your Pond Account: sign up or log in to TreatYourselfDiscounts. Accounts are free and optional, and every deal stays public.">
+<meta name="twitter:image" content="/icon-512.png">
+<title>Pond Account | TreatYourselfDiscounts</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #d9f0f7; color: #23414d; }
+  .app { max-width: 560px; margin: 0 auto; min-height: 100vh; background: #bfe6f2; box-shadow: 0 0 24px rgba(35,65,77,.12); padding: 16px 16px 40px; }
+  a.back { color: #1f5f74; font-weight: 700; text-decoration: none; font-size: 14px; }
+  header.top { text-align: center; margin: 10px 0 4px; }
+  h1 { margin: 0; font-size: 28px; color: #1f5f74; }
+  .sub { margin: 6px 0 0; color: #3f6b7a; font-size: 14.5px; line-height: 1.5; }
+  .card { background: #fff; border-radius: 18px; padding: 18px; margin: 16px 0; box-shadow: 0 2px 8px rgba(35,65,77,.08); }
+  .card h2 { margin: 0 0 6px; font-size: 19px; color: #1f5f74; }
+  .card p { margin: 6px 0; font-size: 14.5px; line-height: 1.5; }
+  label { display: block; font-size: 13px; font-weight: 700; color: #1f5f74; margin: 12px 0 4px; }
+  input { width: 100%; border: 2px solid #bcd9e4; border-radius: 12px; padding: 11px 12px; font-size: 15px; font-family: inherit; color: #23414d; background: #fbfdfe; }
+  input:focus { outline: none; border-color: #1f5f74; }
+  .btn { display: block; width: 100%; border: none; cursor: pointer; font-family: inherit; font-weight: 800; font-size: 15px; border-radius: 999px; padding: 12px; margin-top: 12px; transition: transform .2s ease; }
+  .btn:hover { transform: translateY(-2px); }
+  .btn-main { background: #1f5f74; color: #fff; }
+  .btn-alt { background: #fff3b0; color: #6b5900; }
+  .btn-ghost { background: transparent; color: #1f5f74; font-size: 13.5px; font-weight: 700; padding: 8px; }
+  .status { display: none; border-radius: 12px; padding: 10px 12px; font-size: 14px; margin-top: 12px; line-height: 1.45; }
+  .status.show { display: block; }
+  .status.err { background: #fdecec; color: #8c2b2b; border: 1.5px solid #f0b4b4; }
+  .status.ok { background: #e9f9ee; color: #1e5c33; border: 1.5px solid #a8dcb8; }
+  .savedlist a { display: inline-block; background: #eaf7fb; border-radius: 999px; padding: 6px 12px; margin: 0 6px 6px 0; color: #1f5f74; font-weight: 700; font-size: 13.5px; text-decoration: none; }
+  #notifications { scroll-margin-top: 120px; border: 2px solid #bcd9e4; border-radius: 14px; padding: 2px 14px 12px; margin-top: 18px; }
+  html[data-theme="dark"] #notifications { border-color: #2e4a5f; }
+  .alertrow { background: #fffbe8; border: 1.5px solid #f0df9a; border-radius: 12px; padding: 10px 12px; margin: 0 0 8px; font-size: 14px; line-height: 1.45; }
+  .alertrow b { color: #1f5f74; display: block; font-size: 14.5px; }
+  .alertrow .when { color: #8a7a2e; font-size: 12px; font-weight: 700; }
+  .alertrow a { color: #1f5f74; font-weight: 800; }
+  .dashitem { background: #fbfdfe; border: 1.5px solid #e3f0f5; border-radius: 12px; padding: 9px 12px; margin: 0 0 7px; font-size: 14px; line-height: 1.45; }
+  .dashitem a { color: #1f5f74; font-weight: 700; }
+  .frow { display: flex; align-items: center; gap: 8px; background: #fbfdfe; border: 1.5px solid #e3f0f5; border-radius: 12px; padding: 8px 12px; margin: 0 0 7px; font-size: 14px; }
+  .frow .grow { flex: 1; }
+  .sbtn { border: 2px solid #bcd9e4; background: #eaf7fb; border-radius: 999px; padding: 5px 12px; font-size: 12.5px; font-weight: 800; cursor: pointer; font-family: inherit; color: #1f5f74; display: inline-block; }
+  .sbtn.main { background: #1f5f74; color: #fff; border-color: #1f5f74; }
+  .sbtn.del { background: #fdecec; border-color: #f2c1c1; color: #8c2b2b; }
+  .avhead { display: flex; align-items: center; gap: 10px; }
+  .avcircle { width: 44px; height: 44px; border-radius: 50%; background: #bfe6f2; display: inline-flex; align-items: center; justify-content: center; font-size: 22px; overflow: hidden; flex: none; }
+  .avcircle img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: block; }
+  .avcircle.avsm { width: 32px; height: 32px; font-size: 16px; }
+  .avgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(74px, 1fr)); gap: 8px; margin-top: 6px; }
+  .avpick { border: 3px solid #e3f0f5; border-radius: 14px; padding: 4px; background: #fff; cursor: pointer; text-align: center; font-family: inherit; }
+  .avpick img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 50%; display: block; background: #bfe6f2; }
+  .avpick .avnm { display: block; font-size: 11.5px; font-weight: 800; color: #1f5f74; margin-top: 3px; }
+  .avpick.on { border-color: #f0c93e; background: #fffbe8; box-shadow: 0 0 0 2px #ffd94d; }
+  .avpick .avnone { display: flex; align-items: center; justify-content: center; aspect-ratio: 1; border-radius: 50%; background: #bfe6f2; font-size: 30px; }
+  .prefrow { display: flex; flex-wrap: wrap; gap: 6px 14px; margin: 8px 0 4px; }
+  .prefrow .prefgroup { flex: 0 0 100%; font-weight: 800; color: #1f5f74; font-size: 13px; margin-top: 8px; }
+    .prefrow label { display: inline-flex; align-items: center; gap: 6px; margin: 0; font-size: 14px; font-weight: 600; color: #23414d; cursor: pointer; }
+  .prefrow input { width: auto; accent-color: #1f5f74; }
+  footer { margin-top: 26px; text-align: center; }
+  .disc { font-size: 12px; color: #5b7d89; line-height: 1.5; max-width: 480px; margin: 10px auto 0; }
+  @media (prefers-reduced-motion: reduce) { .btn { transition: none; } }
+#cat-lists, #cat-friends, #cat-comments, #cat-sessions { scroll-margin-top: 110px; }
+    .catchip { display:inline-block; background:#fff3b0; color:#6b5900; font-weight:800; font-size:13px; text-decoration:none; border-radius:999px; padding:7px 13px; }
+    .reactbtn { background:#eef7fa; border:1.5px solid #cfe6ee; border-radius:999px; padding:3px 10px; font-size:13.5px; cursor:pointer; font-family:inherit; }
+    .reactbtn.mine { background:#ffd94d; border-color:#e8b93c; }
+    .accbtn { display:inline-flex; align-items:center; gap:8px; border:2px solid #bcd9e4; background:#fff; border-radius:999px; padding:8px 14px; font-size:14px; font-weight:700; color:#1f5f74; cursor:pointer; font-family:inherit; }
+    .accbtn .dot { width:18px; height:18px; border-radius:50%; border:2px solid rgba(35,65,77,.25); flex:none; }
+    .accbtn.on { border-color:#f0c93e; background:#fffbe8; box-shadow:0 0 0 2px #ffd94d; }
+    .bellrow { display:flex; align-items:flex-start; gap:10px; padding:9px 0; border-bottom:1px solid #eaf3f6; }
+    .bellrow:last-child { border-bottom:none; }
+    .bellrow .grow { flex:1; }
+    .bellrow .bt { font-weight:800; font-size:14px; color:#23414d; display:block; }
+    .bellrow .bd { font-size:13px; color:#5b7d89; line-height:1.45; display:block; }
+    .bellrow input { width:auto; accent-color:#1f5f74; margin-top:3px; transform:scale(1.25); }
+    .bellrow.off { opacity:.55; }
+    html[data-theme="dark"] .bellrow .bt { color:#f8fdff; }
+    html[data-theme="dark"] .bellrow .bd { color:#9fc3d4; }
+    html[data-theme="dark"] .accbtn { background:var(--tyd-acc-dark, #172635); border-color:#2e4a5f; color:#d7ecf5; }
+    html[data-theme="dark"] .accbtn.on { background:#23414d; }
+    html[data-theme="dark"] .frow { background:var(--tyd-acc-dark, #172635) !important; border-color:#2e4a5f !important; }
+    html[data-theme="dark"] #deleteaccthead { color:#ff9d9d !important; }
+  </style>
+<meta name="robots" content="noindex,nofollow">
+<link rel="stylesheet" href="pond-travel.css">
+<script>window.__TYD_PREVIEW__=true;</script>
+</head>
+<body>
+<div class="app">
+
+  <header class="top">
+    <h1>🦆 Your Pond Account</h1>
+    <p class="sub">Free and optional, always. Every deal on this site stays public for everyone, account or not. Your account is your own little nest: a place for your saved favorites.</p>
+  </header>
+
+  <div class="card" id="auth-card">
+    <h2>Log in or sign up</h2>
+    <p>New to the Pond? Create an account with your email and a password. Already have one? Log in with the same email.</p>
+    <label for="email">Email</label>
+    <input id="email" type="email" autocomplete="email" placeholder="you@example.com">
+    <label for="password">Password</label>
+    <input id="password" type="password" autocomplete="current-password" placeholder="At least 6 characters">
+    <button class="btn btn-main" id="login">Log in</button>
+    <button class="btn btn-alt" id="signup">Create my account</button>
+    <button class="btn btn-alt" id="google" style="background:#fff; border:2px solid #bcd9e4; color:#1f5f74;">Continue with Google</button>
+    <button class="btn btn-ghost" id="forgot">Forgot your password?</button>
+    <div id="secure-login" style="border-top:1.5px dashed #bcd9e4; margin-top:16px; padding-top:12px;">
+      <h3 style="margin:0 0 4px; font-size:16px; color:#1f5f74;">More secure ways to sign in</h3>
+      <p style="margin:4px 0 6px;">Optional, only if you want them. The email and password above stay exactly as they are, and nobody has to use these. Your account does not change.</p>
+      <button class="btn btn-alt" id="secure-link-btn" type="button" style="background:#fff; border:2px solid #bcd9e4; color:#1f5f74;">✉️ Email me a sign-in link</button>
+      <button class="btn btn-alt" id="secure-code-btn" type="button" style="background:#fff; border:2px solid #bcd9e4; color:#1f5f74;">🔢 Email me a 6-digit code</button>
+      <div id="secure-link-box" hidden>
+        <p style="margin:10px 0 4px;">We will email you a link. Tap it and you are signed in, with no password to type.</p>
+        <label for="secure-link-email">Email for the sign-in link</label>
+        <input id="secure-link-email" type="email" autocomplete="email" placeholder="you@example.com">
+        <button class="btn btn-main" id="secure-link-send" type="button">Send me the link</button>
+        <button class="btn btn-main" id="secure-link-finish" type="button" hidden>Finish signing in</button>
+        <div class="status" id="secure-link-status"></div>
+      </div>
+      <div id="secure-code-box" hidden>
+        <p style="margin:10px 0 4px;">We will email you a 6-digit code. Type it below and you are signed in, with no password to type. The code works for 10 minutes.</p>
+        <label for="secure-code-email">Email for the code</label>
+        <input id="secure-code-email" type="email" autocomplete="email" placeholder="you@example.com">
+        <button class="btn btn-main" id="secure-code-send" type="button">Send me a code</button>
+        <div id="secure-code-verify-row" hidden>
+          <label for="secure-code-input">Your 6-digit code</label>
+          <input id="secure-code-input" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="123456">
+          <button class="btn btn-main" id="secure-code-verify" type="button">Sign in with this code</button>
+        </div>
+        <p id="secure-code-coming" hidden style="background:#fffbe8; border:1.5px solid #f0df9a; border-radius:12px; padding:10px 12px; font-size:14px; line-height:1.45; margin-top:12px;">The 6-digit code is coming soon. The email sender is not connected yet, so codes cannot go out. The usual sign-in above still works.</p>
+        <div class="status" id="secure-code-status"></div>
+      </div>
+    </div>
+    <div class="status" id="status"></div>
+  </div>
+
+  <div class="card" id="account-card" style="display:none;">
+    <h2>Welcome to your nest 🪺</h2>
+    <p class="avhead"><span id="whoavatar" class="avcircle">🦆</span><span>You are logged in as <b id="who"></b>.</span></p>
+    <div id="ownernote" class="dashitem" style="display:none;">👑 <b>Pond owner</b> · This is the master TreatYourselfDiscounts account. Your Pond name is <b>@TYD</b>, and <b>@TreatYourselfDiscounts</b> stays reserved for this account so nobody else can take it.</div>
+    <div style="display:flex; gap:7px; flex-wrap:wrap; margin:12px 0 2px;">
+      <a class="catchip" href="#cat-lists">🧺 My Lists</a>
+      <a class="catchip" href="#cat-friends">👥 Friends</a>
+      <a class="catchip" href="#cat-comments">💬 Comments</a>
+      <a class="catchip" href="#cat-sessions">📱 Logged in</a>
+      <a class="catchip" href="#notifications">🔔 Notifications</a>
+    </div>
+    <h3 style="color:#1f5f74; font-size:15px; margin:16px 0 6px;">Your username</h3>
+    <div id="usernamebox"><p style="color:#5b7d89;">Loading your username…</p></div>
+    <h3 style="color:#1f5f74; font-size:15px; margin:16px 0 6px;">Your duck picture 🦆</h3>
+    <div id="avatarbox"><p style="color:#5b7d89;">Loading ducks…</p></div>
+    <h3 style="color:#1f5f74; font-size:15px; margin:16px 0 6px;">Your Pond profile 🦆</h3>
+    <div id="profilebox">
+      <p style="font-size:14px; color:#3f6b7a; margin:0 0 8px;">A little card other members see when they tap your name on a share or comment. Only what you write here is shared, nothing else. Leave it blank and your card just shows your name and duck.</p>
+      <label for="profilebio" style="margin-top:0;">A short bio about you (140 characters max)</label>
+      <textarea id="profilebio" rows="2" maxlength="140" placeholder="Example: Deal hunter, recipe collector, and professional bargain spotter." style="width:100%; box-sizing:border-box; font-family:inherit; font-size:14px; border:2px solid #bcd9e4; border-radius:12px; padding:10px 12px; resize:vertical;"></textarea>
+      <p id="biocount" style="font-size:12.5px; color:#5b7d89; margin:4px 0 10px; text-align:right;">0 / 140</p>
+      <label style="margin-top:0;">Your favorite sections (pick up to 3)</label>
+      <div class="prefrow" id="profilefavs" style="margin-top:4px;">
+        <label><input type="checkbox" value="deals"> 🔥 Deals</label>
+        <label><input type="checkbox" value="news"> 📰 The Pond Post</label>
+        <label><input type="checkbox" value="food"> 🍳 Food</label>
+        <label><input type="checkbox" value="pantry"> 🥫 Pantry</label>
+        <label><input type="checkbox" value="travel"> ✈️ Travel</label>
+        <label><input type="checkbox" value="korean"> 🇰🇷 Korean</label>
+        <label><input type="checkbox" value="planner"> 📓 Planner</label>
+        <label><input type="checkbox" value="nest"> 🪺 My Nest</label>
+        <label><input type="checkbox" value="books"> 📖 Book Nook</label>
+        <label><input type="checkbox" value="gifts"> 🎁 Gift Planner</label>
+        <label><input type="checkbox" value="bills"> 🧾 Nest Egg</label>
+        <label><input type="checkbox" value="stuff"> 📦 My Stuff</label>
+        <label><input type="checkbox" value="pets"> 🐾 Pet Corner</label>
+        <label><input type="checkbox" value="countdowns"> ⏳ Countdowns</label>
+        <label><input type="checkbox" value="polls"> 📊 Pond Polls</label>
+        <label><input type="checkbox" value="chat"> 💬 The Quack Shack</label>
+      </div>
+      <button class="btn btn-main" id="profilesave" type="button" style="margin-top:10px;">Save my profile</button>
+      <div class="status" id="profilestatus"></div>
+    </div>
+    <h3 style="color:#1f5f74; font-size:15px; margin:16px 0 6px;">Recovery email 📧</h3>
+    <div id="recoverybox">
+      <p style="font-size:14px; color:#3f6b7a; margin:0 0 8px;">Add a spare email address. If you ever lose access to the email on this account, email Lucy from this spare address and she can help you get back in. Only you can see this, it never shows on your profile card or to anyone else.</p>
+      <label for="recoveryemail" style="margin-top:0;">Your spare email address</label>
+      <input id="recoveryemail" type="email" autocomplete="email" placeholder="Example: another email you can still reach" style="width:100%; box-sizing:border-box; font-family:inherit; font-size:14px; border:2px solid #bcd9e4; border-radius:12px; padding:10px 12px;">
+      <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;">
+        <button class="btn btn-main" id="recoverysave" type="button">Save recovery email</button>
+        <button class="btn btn-alt" id="recoveryremove" type="button" hidden>Remove it</button>
+      </div>
+      <div class="status" id="recoverystatus"></div>
+    </div>
+    <h3 style="color:#1f5f74; font-size:15px; margin:16px 0 6px;">📊 My Pond, by the numbers</h3>
+    <div id="pondstats" style="display:none">
+      <p style="font-size:13px;color:#5b7d89;margin:0 0 8px;">Your own little scoreboard, counted from your account.</p>
+      <div id="statsgrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px"></div>
+    </div>
+    <h3 style="color:#1f5f74; font-size:15px; margin:16px 0 6px;">💾 Backup my Pond</h3>
+    <div>
+      <p style="font-size:13px;color:#5b7d89;margin:0 0 8px;">Download one file with everything in your Pond: your account, corners, trips, lists, photos and drawings. Keep it somewhere safe; it is yours.</p>
+      <button id="backupbtn" type="button" style="background:#ffd94d;border:2px solid #e8c93a;color:#5a4a00;font-weight:800;font-size:14px;border-radius:999px;padding:10px 18px;cursor:pointer;">Download my backup</button>
+      <p id="backupstatus" style="font-size:13px;color:#1e5c33;margin:8px 0 0;"></p>
+    </div>
+    <h3 style="color:#1f5f74; font-size:15px; margin:16px 0 6px;">Text size</h3>
+    <div id="textsizebox">
+      <p style="font-size:14px; color:#3f6b7a; margin:0 0 4px;">Make the words bigger everywhere in the Pond. It saves to your account and follows you on every page.</p>
+      <button class="btn btn-alt" id="ts-std" type="button" style="display:inline-block; width:auto; padding:10px 20px; margin-right:8px;">Standard</button>
+      <button class="btn btn-alt" id="ts-large" type="button" style="display:inline-block; width:auto; padding:10px 20px;">Larger text</button>
+      <div class="status" id="tsstatus"></div>
+    </div>
+    <h3 style="color:#1f5f74; font-size:15px; margin:16px 0 6px;">Accent color 🎨</h3>
+    <div id="accentbox">
+      <p style="font-size:14px; color:#3f6b7a; margin:0 0 8px;">Pick the Pond's accent color. It recolors buttons, links, and highlights everywhere, in light and dark mode. It saves to your account and follows you on every device. Pond Blue is the standard color everyone starts with.</p>
+      <div id="accentopts" style="display:flex; flex-wrap:wrap; gap:8px;">
+        <button class="accbtn" type="button" data-accent="pond"><span class="dot" style="background:#ffd94d;"></span>Pond Blue</button>
+        <button class="accbtn" type="button" data-accent="sunset"><span class="dot" style="background:#ff9e57;"></span>Sunset</button>
+        <button class="accbtn" type="button" data-accent="lavender"><span class="dot" style="background:#c9a7eb;"></span>Lavender</button>
+        <button class="accbtn" type="button" data-accent="forest"><span class="dot" style="background:#8fce9b;"></span>Forest</button>
+        <button class="accbtn" type="button" data-accent="rose"><span class="dot" style="background:#f2a0c0;"></span>Rose</button>
+        <button class="accbtn" type="button" data-accent="ocean"><span class="dot" style="background:#6fbcd4;"></span>Ocean</button>
+        <button class="accbtn" type="button" data-accent="mono"><span class="dot" style="background:#9aa3ab;"></span>Black &amp; White</button>
+      </div>
+      <div class="status" id="accstatus"></div>
+    </div>
+    <h3 id="cat-friends" style="color:#1f5f74; font-size:15px; margin:16px 0 6px;">Pond friends 🤝</h3>
+    <div id="friendsbox">
+      <label for="fsearch" style="margin-top:0;">Add a friend · Email or @username</label>
+      <input id="fsearch" type="text" placeholder="friend@email.com or @username" autocomplete="off">
+      <button class="btn btn-main" id="fadd">Add friend</button>
+      <div class="status" id="fstatus"></div>
+      <div id="fincoming"></div>
+      <div id="foutgoing"></div>
+      <div id="flist"></div>
+    </div>
+    <h3 style="color:#1f5f74; font-size:15px; margin:16px 0 6px;">Blocked members 🚫</h3>
+    <div id="blockedbox">
+      <p style="font-size:14px; color:#5b7d89; margin:0 0 6px;">Blocking hides a member's chat messages, comments, and shares from you, everywhere in the Pond. They are not told. Unblock to see them again.</p>
+      <div id="blockedlist"><p style="color:#5b7d89; font-size:14px;">You haven't blocked anyone.</p></div>
+    </div>
+    <h3 style="color:#1f5f74; font-size:15px; margin:16px 0 6px;">Friends-only interactions 🤝</h3>
+    <div id="friendsonlybox">
+      <p style="font-size:14px; color:#5b7d89; margin:0 0 6px;">When this is on, you only see chat and comments from people you have added as friends. Your own messages still show. Turn it off to see everyone in the Pond again.</p>
+      <div class="bellrow">
+        <input type="checkbox" id="fo-toggle" aria-label="Friends-only interactions">
+        <span class="grow"><span class="bt">🦆 Friends-only interactions</span><span class="bd">Only chat and comments from your Pond friends show. Everyone else is hidden from you until you turn this off.</span></span>
+      </div>
+      <p id="fostat" style="font-size:13px; color:#5b7d89; margin:6px 0 0;"></p>
+    </div>
+    <h3 style="color:#1f5f74; font-size:15px; margin:14px 0 6px;">Your saved recipes, synced to your account</h3>
+    <div class="savedlist" id="savedlist"><p style="color:#5b7d89;">Nothing saved yet. Head to <a href="recipes.html" style="color:#1f5f74; font-weight:700;">Lucy's Recipes</a> and tap Save recipe on a favorite.</p></div>
+    <h3 id="cat-lists" style="color:#1f5f74; font-size:15px; margin:16px 0 6px;">Your deal lists</h3>
+    <div id="dashlists"><p style="color:#5b7d89;">Nothing saved yet. Tap + Save to list on any deal and it shows up here.</p></div>
+    <h3 style="color:#1f5f74; font-size:15px; margin:16px 0 6px;">Your grocery list</h3>
+    <div id="dashgrocery"><p style="color:#5b7d89;">No groceries yet. Add a recipe's ingredients from <a href="recipes.html" style="color:#1f5f74; font-weight:700;">Lucy's Recipes</a>.</p></div>
+    <h3 style="color:#1f5f74; font-size:15px; margin:16px 0 6px;">Your meal plan</h3>
+    <div id="dashplan"><p style="color:#5b7d89;">No meals planned yet. Plan one from any recipe.</p></div>
+    <h3 style="color:#1f5f74; font-size:15px; margin:16px 0 6px;">Your cooking journal</h3>
+    <div id="dashjournal"><p style="color:#5b7d89;">No cooks logged yet. Open a recipe and tap + I cooked this in its journal.</p></div>
+    <section id="notifications">
+<p>Want emails about your Pond account filed in their own folder? <a href="email-folders.html">See how to set that up in your email app ›</a></p>
+    <h3 style="color:#1f5f74; font-size:15px; margin:16px 0 6px;">Notification settings 🔔</h3>
+    <p style="font-size:14px;">One place for every kind of alert the Pond can show you. Switch a kind off and the bell stops showing it and stops counting it. The bell itself still works the same for everything you leave on.</p>
+    <div id="bellprefs">
+      <div class="bellrow" data-bell="pondpost">
+        <input type="checkbox" id="bp-pondpost" checked aria-label="Pond Post notifications">
+        <span class="grow"><span class="bt">📰 The Pond Post</span><span class="bd">New posts from the sections you follow. Pick the sections in the Pond Post, under Arrange the news.</span> <a href="news.html" style="color:#1f5f74; font-weight:700; font-size:13px;">Open the Pond Post ›</a></span>
+      </div>
+      <div class="bellrow" data-bell="announcements">
+        <input type="checkbox" id="bp-announcements" checked aria-label="Announcements">
+        <span class="grow"><span class="bt">📣 Announcements</span><span class="bd">News from the Pond, like new features and big updates.</span></span>
+      </div>
+      <div class="bellrow" data-bell="upd-feature">
+        <input type="checkbox" id="bp-upd-feature" checked aria-label="New feature updates">
+        <span class="grow"><span class="bt">✨ New feature</span><span class="bd">When a new feature lands on the Pond, like a new page or a big new function.</span></span>
+      </div>
+      <div class="bellrow" data-bell="upd-category">
+        <input type="checkbox" id="bp-upd-category" checked aria-label="New category updates">
+        <span class="grow"><span class="bt">📂 New category</span><span class="bd">When a new section or category opens up in the Pond.</span></span>
+      </div>
+      <div class="bellrow" data-bell="upd-fix">
+        <input type="checkbox" id="bp-upd-fix" checked aria-label="Fix updates">
+        <span class="grow"><span class="bt">🔧 Fix</span><span class="bd">When something gets fixed or tidied up on the Pond.</span></span>
+      </div>
+      <div class="bellrow" data-bell="gifts">
+        <input type="checkbox" id="bp-gifts" checked aria-label="Gift reminders">
+        <span class="grow"><span class="bt">🎁 Gift reminders</span><span class="bd">A nudge when a birthday or occasion in your Gift Planner is coming up in the next 14 days.</span></span>
+      </div>
+      <div class="bellrow" data-bell="pantry">
+        <input type="checkbox" id="bp-pantry" checked aria-label="Pantry Watch">
+        <span class="grow"><span class="bt">🥫 Pantry Watch</span><span class="bd">A nudge when a food you marked as a usual in your Pantry is running low or out, and when a food is about to expire, at the lead time you picked for it.</span></span>
+      </div>
+      <div class="bellrow" data-bell="codes">
+        <input type="checkbox" id="bp-codes" checked aria-label="Codes expiring soon">
+        <span class="grow"><span class="bt">🏷️ Codes expiring soon</span><span class="bd">A nudge when a deal code you clipped is about to expire, in the next 7 days. Pick the codes in your Planner, under Month.</span></span>
+      </div>
+      <div class="bellrow" data-bell="friends">
+        <input type="checkbox" id="bp-friends" checked aria-label="Friend requests">
+        <span class="grow"><span class="bt">👥 Friend requests</span><span class="bd">When another member asks to be your Pond friend.</span></span>
+      </div>
+      <div class="bellrow" data-bell="comments">
+        <input type="checkbox" id="bp-comments" checked aria-label="Comments on your shares">
+        <span class="grow"><span class="bt">💬 Comments on your shares</span><span class="bd">When someone comments on something you shared in the Pond.</span></span>
+      </div>
+      <div class="bellrow" data-bell="pond">
+        <input type="checkbox" id="bp-pond" checked aria-label="New in the Pond shares">
+        <span class="grow"><span class="bt">🦆 New in the Pond shares</span><span class="bd">When a member shares something new with the whole Pond.</span></span>
+      </div>
+    </div>
+    <p id="bellprefstat" style="font-size:13px; color:#5b7d89; margin:6px 0 0;"></p>
+    <h3 style="color:#1f5f74; font-size:15px; margin:16px 0 6px;">Deal alert topics 🔔</h3>
+    <p style="font-size:14px;">Pick the kinds of alerts you want to see. Leave everything unchecked to see them all.</p>
+    <div class="prefrow" id="alertprefs">
+      <span class="prefgroup">Shopping</span>
+      <label><input type="checkbox" value="amazon-baby"> 🛍️ Amazon &amp; Baby</label>
+      <label><input type="checkbox" value="amazon"> 🛒 Amazon Deals</label>
+      <label><input type="checkbox" value="clothes"> 👕 Clothes &amp; Shoes</label>
+      <label><input type="checkbox" value="essentials"> 🧺 Everyday Essentials</label>
+      <label><input type="checkbox" value="home"> 🏠 Home</label>
+      <label><input type="checkbox" value="kitchen"> 🍳 Kitchen</label>
+      <label><input type="checkbox" value="tech"> 🔌 Tech</label>
+      <label><input type="checkbox" value="beauty"> 💄 Beauty &amp; Self-Care</label>
+      <label><input type="checkbox" value="health"> 💪 Health &amp; Wellness</label>
+      <label><input type="checkbox" value="pets"> 🐾 Pets</label>
+      <label><input type="checkbox" value="kids"> 🧸 Kids, Toys &amp; Games</label>
+      <span class="prefgroup">Ways to save</span>
+      <label><input type="checkbox" value="price-drops"> 📉 Big price drops</label>
+      <label><input type="checkbox" value="coupons"> 🎟️ Coupon Codes</label>
+      <label><input type="checkbox" value="freebies"> 🎁 Freebies &amp; Samples</label>
+      <label><input type="checkbox" value="back-in-stock"> 🔔 Back in Stock</label>
+      <label><input type="checkbox" value="seasonal"> 🎉 Seasonal Sales</label>
+      <span class="prefgroup">Around the Pond</span>
+      <label><input type="checkbox" value="food"> 🍝 Food &amp; Recipes</label>
+      <label><input type="checkbox" value="new-brands"> ✨ New Brands &amp; Drops</label>
+      <label><input type="checkbox" value="giveaways"> 🏆 Giveaways</label>
+      <label><input type="checkbox" value="travel"> ✈️ Travel Deals</label>
+    </div>
+    <p id="prefstat" style="font-size:13px; color:#5b7d89; margin:2px 0 0;"></p>
+    </section>
+    <h3 style="color:#1f5f74; font-size:15px; margin:16px 0 6px;">Deal alerts from TYD 🔔</h3>
+    <div id="alertlist"><p style="color:#5b7d89; font-size:14px;">No deal alerts yet. When TYD posts a hot deal for members, it lands right here.</p></div>
+    <a class="btn btn-alt" href="my-lists.html" style="text-align:center; text-decoration:none; color:#6b5900;">🧺 My deal lists</a>
+    <h3 style="color:#1f5f74; font-size:15px; margin:16px 0 6px;">Your Travel Planner ✈️</h3>
+    <div class="dashitem">✈️ <b>Travel Planner</b> · Your private trip planner, just for you: trips, places, reminders and budgets. What you plan here stays in your account and on your devices, never public. <a href="travel.html">Open your Travel Planner</a></div>
+    <h3 style="color:#1f5f74; font-size:15px; margin:16px 0 6px;">Your Collections 🗂️</h3>
+    <div class="dashitem">🗂️ <b>Collections</b> · Folder-style collections of your favorite recipes. Keep one just for you, or share one with a Pond friend and build it together, in gallery or list view, with your own icon and cover color.<span id="dashcollcounts"></span> <a href="my-lists.html#collections">Open your Collections</a></div>
+    <h3 id="cat-comments" style="color:#1f5f74; font-size:15px; margin:16px 0 6px;">Comments 💬</h3>
+    <p style="font-size:14px;">Comments on things you shared, and comments you wrote. Reply right here, or tap an emoji to react.</p>
+    <div id="dashcomments"><p style="color:#5b7d89;">Loading your comments…</p></div>
+    <h3 id="cat-sessions" style="color:#1f5f74; font-size:15px; margin:16px 0 6px;">Where you're logged in 📱</h3>
+    <p style="font-size:14px;">Your Pond account stays signed in on each device and browser you use. This shows the sign-ins this site has seen: a device appears here after it opens My Account once. It is a history, not a live tracker.</p>
+    <div id="sessionbox"><p style="color:#5b7d89;">Loading…</p></div>
+    <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;">
+      <button class="btn btn-main" id="logoutall" type="button">Log out of all devices</button>
+      <button class="btn btn-alt" id="resetpw" type="button">Reset password</button>
+    </div>
+    <div class="status" id="sessionstatus"></div>
+    <button class="btn btn-main" id="logout">Log out</button>
+    <h3 id="deleteaccthead" style="color:#b3261e; font-size:15px; margin:16px 0 6px;">Delete my Pond Account 🗑️</h3>
+    <div id="deletebox" style="border:2px solid #f0b4b4; border-radius:14px; padding:12px; background:#fdf6f6;">
+      <p style="font-size:14px; color:#5b7d89; margin:0 0 8px;">Leaving the Pond for good? Deleting your account removes it and everything tied to it: your username, profile, saved recipes, lists, trips, pantry, planner, messages, comments, shares and friend requests. This cannot be undone. Download a backup first if you want to keep anything.</p>
+      <button id="deleteacct" type="button" style="background:#b3261e; border:2px solid #8c1d18; color:#fff; font-weight:800; font-size:14px; border-radius:999px; padding:10px 18px; cursor:pointer;">Delete my Pond Account</button>
+      <div id="deleteconfirm" hidden style="margin-top:10px;">
+        <p style="font-size:14px; color:#8c2b2b; margin:0 0 8px;"><b>Are you sure?</b> This deletes your Pond Account and everything in it, right now. There is no way to get it back.</p>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <button id="deleteyes" type="button" style="background:#b3261e; border:2px solid #8c1d18; color:#fff; font-weight:800; font-size:14px; border-radius:999px; padding:10px 18px; cursor:pointer;">Yes, delete my account</button>
+          <button id="deleteno" type="button" class="btn btn-alt">Keep my account</button>
+        </div>
+      </div>
+      <div id="deletereauth" hidden style="margin-top:10px;">
+        <p style="font-size:14px; color:#5b7d89; margin:0 0 8px;">For safety, sign in again to finish deleting your account.</p>
+        <div id="deletereauth-pw">
+          <label for="deletepw">Your password</label>
+          <input id="deletepw" type="password" autocomplete="current-password" placeholder="Your Pond password">
+          <button id="deletepwgo" type="button" class="btn btn-main">Sign in and delete</button>
+        </div>
+        <div id="deletereauth-google" hidden>
+          <button id="deletegooglego" type="button" class="btn btn-main">Continue with Google and delete</button>
+        </div>
+      </div>
+      <p id="deletestatus" class="status"></p>
+    </div>
+  </div>
+
+  <footer>
+    <p class="disc">Passwords are handled by Firebase, Google's secure account service. This site never sees or stores your password. Part of TreatYourselfDiscounts, the Pond. Welcome to the Pond!</p>
+  <p style="text-align:center;font-size:12.5px;color:#4a6b78">© 2026 TreatYourselfDiscounts™. All rights reserved. · <a href="terms.html">Terms of Use</a></p></footer>
+</div>
+
+<script src="auth-secure.js"></script>
+<script type="module">
+  import { initializeApp } from "./pond-firebase-stub.js";
+  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, sendPasswordResetEmail, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, deleteUser, reauthenticateWithCredential, EmailAuthProvider, reauthenticateWithPopup, sendSignInLinkToEmail, signInWithEmailLink, isSignInWithEmailLink, signInWithCustomToken } from "./pond-firebase-stub.js";
+  import { getFirestore, doc, getDoc, setDoc, serverTimestamp, collection, getDocs, query, orderBy, limit, where, addDoc, updateDoc, deleteDoc, writeBatch, deleteField } from "./pond-firebase-stub.js";
+
+  var firebaseConfig = {
+    apiKey: "preview-disabled",
+    authDomain: "pond-preview-disabled.firebaseapp.com",
+    projectId: "pond-preview-disabled",
+    storageBucket: "pond-preview-disabled.firebasestorage.app",
+    messagingSenderId: "000000000000",
+    appId: "1:000000000000:web:previewdisabled"
+  };
+  var app = initializeApp(firebaseConfig);
+  var auth = getAuth(app);
+  var db = getFirestore(app);
+
+  var NAMES = { "recipe-ice-cream": "Churned Vanilla Ice Cream", "recipe-root-beer": "Fermented Root Beer", "recipe-chicken-wraps": "Chicken Wraps" };
+  function $(id) { return document.getElementById(id); }
+  function showStatus(msg, ok) {
+    var s = $("status");
+    s.textContent = msg;
+    s.className = "status show " + (ok ? "ok" : "err");
+  }
+  function friendly(err) {
+    var c = (err && err.code) || "";
+    if (c === "auth/email-already-in-use") return "That email already has an account. Try logging in instead.";
+    if (c === "auth/invalid-credential" || c === "auth/wrong-password" || c === "auth/user-not-found") return "That email and password do not match. Check them and try again, or use Forgot your password.";
+    if (c === "auth/weak-password") return "That password is too short. Please use at least 6 characters.";
+    if (c === "auth/invalid-email") return "That email address does not look complete. Check it and try again.";
+    if (c === "auth/too-many-requests") return "Too many tries in a row. Please wait a little and try again.";
+    if (c === "auth/network-request-failed") return "The connection hiccuped. Check your internet and try again.";
+    if (c === "auth/popup-closed-by-user" || c === "auth/cancelled-popup-request") return "The Google window closed before finishing. Tap Continue with Google to try again.";
+    if (c === "auth/operation-not-allowed") return "Google sign in is still being switched on. Give it a little while, or use your email and password below.";
+    if (c === "auth/invalid-action-code") return "That sign-in link is not valid any more. Ask for a fresh link and try again.";
+    if (c === "auth/expired-action-code") return "That sign-in link has expired. Ask for a fresh link and try again.";
+    return "Something did not work. Please try again in a moment.";
+  }
+  function creds() { return { email: $("email").value.trim(), pw: $("password").value }; }
+
+  $("signup").addEventListener("click", function () {
+    var c = creds();
+    if (!c.email || !c.pw) { showStatus("Please fill in both your email and a password first."); return; }
+    createUserWithEmailAndPassword(auth, c.email, c.pw)
+      .then(function (cred) {
+        showStatus("Your Pond account is created. Welcome in!", true);
+        setDoc(doc(db, "users", cred.user.uid), { email: cred.user.email, joinedAt: serverTimestamp() }, { merge: true }).catch(function () {});
+      })
+      .catch(function (e) { showStatus(friendly(e)); });
+  });
+  $("login").addEventListener("click", function () {
+    var c = creds();
+    if (!c.email || !c.pw) { showStatus("Please fill in both your email and your password first."); return; }
+    signInWithEmailAndPassword(auth, c.email, c.pw)
+      .then(function () { showStatus("Logged in. Welcome back!", true); })
+      .catch(function (e) { showStatus(friendly(e)); });
+  });
+  $("forgot").addEventListener("click", function () {
+    var email = $("email").value.trim();
+    if (!email) { showStatus("Type your email above first, then tap Forgot your password and we will send you a reset link."); return; }
+    sendPasswordResetEmail(auth, email)
+      .then(function () { showStatus("Password reset email sent to " + email + ". Check your inbox (and spam, just in case).", true); })
+      .catch(function (e) { showStatus(friendly(e)); });
+  });
+  $("logout").addEventListener("click", function () { signOut(auth); });
+  $("google").addEventListener("click", function () {
+    signInWithPopup(auth, new GoogleAuthProvider())
+      .then(function (cred) {
+        var ref = doc(db, "users", cred.user.uid);
+        getDoc(ref).then(function (snap) {
+          var data = { email: cred.user.email };
+          if (!snap.exists() || !(snap.data() && snap.data().joinedAt)) data.joinedAt = serverTimestamp();
+          setDoc(ref, data, { merge: true }).catch(function () {});
+        }).catch(function () {});
+        showStatus("Logged in with Google. Welcome to the Pond!", true);
+      })
+      .catch(function (e) { showStatus(friendly(e)); });
+  });
+
+  /* v342: optional secure sign-in (email link + 6-digit code, auth-secure.js).
+     The email/password and Google sign-in above are unchanged and stay the
+     default. This only wires the extra choices; it never forces anyone
+     into them. A link or code sign-in writes the same users doc as Google. */
+  if (window.TYDSecureLogin) {
+    window.TYDSecureLogin.init(auth, {
+      sendSignInLinkToEmail: sendSignInLinkToEmail,
+      signInWithEmailLink: signInWithEmailLink,
+      isSignInWithEmailLink: isSignInWithEmailLink,
+      signInWithCustomToken: signInWithCustomToken
+    }, {
+      onSignedIn: function (user, method) {
+        var ref = doc(db, "users", user.uid);
+        getDoc(ref).then(function (snap) {
+          var data = { email: user.email };
+          if (!snap.exists() || !(snap.data() && snap.data().joinedAt)) data.joinedAt = serverTimestamp();
+          setDoc(ref, data, { merge: true }).catch(function () {});
+        }).catch(function () {});
+        showStatus("Logged in" + (method === "link" ? " with your sign-in link" : " with your email code") + ". Welcome back!", true);
+      }
+    });
+  }
+
+  function esc(s) { return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
+  function loadAlerts() {
+    var q = query(collection(db, "announcements"), orderBy("createdAt", "desc"), limit(10));
+    getDocs(q).then(function (snap) {
+      if (snap.empty) return;
+      var html = "";
+      var prefs = alertPrefs();
+      snap.forEach(function (d) {
+        var v = d.data() || {};
+        if (prefs.length && v.tag && v.tag !== "general" && prefs.indexOf(v.tag) === -1) return;
+        var when = "";
+        try { if (v.createdAt && v.createdAt.toDate) when = v.createdAt.toDate().toLocaleDateString(); } catch (e) {}
+        html += '<div class="alertrow"><b>' + esc(v.title || "Deal alert") + '</b>' + esc(v.message || "");
+        if (v.link) html += '<br><a href="' + esc(v.link) + '" target="_blank" rel="noopener">See the deal &#8250;</a>';
+        if (when) html += '<div class="when">' + when + '</div>';
+        html += '</div>';
+      });
+      $("alertlist").innerHTML = html;
+    }).catch(function () {});
+  }
+
+  var RECIPE_NAMES = {}, lastSaved = [];
+  fetch("search-index.json").then(function (r) { return r.json(); }).then(function (d) {
+    (d.entries || []).forEach(function (e) { if (e.t === "Recipe") RECIPE_NAMES[e.href.split("#")[1]] = e.title; });
+    if (lastSaved.length) renderSavedList(lastSaved);
+    renderDash();
+  }).catch(function () {});
+  function prettyId(id) { return id.replace(/^recipe-/, "").replace(/-/g, " ").replace(/\b\w/g, function (c) { return c.toUpperCase(); }); }
+  function renderSavedList(saved) {
+    lastSaved = saved;
+    if (!saved.length) return;
+    $("savedlist").innerHTML = saved.map(function (id) {
+      return '<a href="recipes.html#' + id + '">' + esc(RECIPE_NAMES[id] || NAMES[id] || prettyId(id)) + '</a>';
+    }).join("");
+  }
+  function statTile(n, label) {
+    return '<div style="background:#eaf7fb;border-radius:14px;padding:10px 6px;text-align:center">' +
+      '<div style="font-size:22px;font-weight:800;color:#1f5f74;line-height:1.1">' + n + '</div>' +
+      '<div style="font-size:11.5px;font-weight:700;color:#3d6a7a;margin-top:2px">' + label + '</div></div>';
+  }
+  function wireBackup() {
+    var b = document.getElementById("backupbtn");
+    if (!b || b.dataset.bound) return;
+    b.dataset.bound = "1";
+    b.addEventListener("click", function () {
+      if (!myUid) return;
+      var st = document.getElementById("backupstatus");
+      b.disabled = true;
+      if (st) st.textContent = "Gathering your Pond...";
+      Promise.all([
+        getDoc(doc(db, "users", myUid)).catch(function () { return null; }),
+        getDocs(query(collection(db, "sharedCollections"), where("owner", "==", myUid))).catch(function () { return null; }),
+        getDocs(collection(db, "users", myUid, "photos")).catch(function () { return null; })
+      ]).then(function (res) {
+        var out = { pond: "TreatYourselfDiscounts backup", exportedAt: new Date().toISOString(), account: {}, data: {}, sharedCollections: [], photos: {}, device: {} };
+        if (res[0] && res[0].exists()) { var d = res[0].data(); out.account = { email: d.email || "" }; out.data = d; }
+        if (res[1]) res[1].forEach(function (dc) { var v = dc.data(); v.id = dc.id; out.sharedCollections.push(v); });
+        if (res[2]) res[2].forEach(function (dc) { out.photos[dc.id] = dc.data(); });
+        try {
+          for (var i = 0; i < localStorage.length; i++) {
+            var k = localStorage.key(i);
+            if (k && k.indexOf("tyd") === 0) { try { out.device[k] = JSON.parse(localStorage.getItem(k)); } catch (e) { out.device[k] = localStorage.getItem(k); } }
+          }
+        } catch (e) {}
+        var blob = new Blob([JSON.stringify(out, null, 2)], { type: "application/json" });
+        var aEl = document.createElement("a");
+        aEl.href = URL.createObjectURL(blob);
+        aEl.download = "my-pond-backup-" + new Date().toISOString().slice(0, 10) + ".json";
+        document.body.appendChild(aEl);
+        aEl.click();
+        setTimeout(function () { URL.revokeObjectURL(aEl.href); aEl.remove(); }, 400);
+        if (st) st.textContent = "✓ Saved! Look in your downloads for the backup file.";
+        b.disabled = false;
+      }).catch(function () {
+        if (st) st.textContent = "That did not work. Try again in a moment.";
+        b.disabled = false;
+      });
+    });
+  }
+  function loadStats(uid) {
+    var box = document.getElementById("pondstats");
+    if (!box) return;
+    Promise.all([
+      getDoc(doc(db, "users", uid)).catch(function () { return null; }),
+      getDocs(query(collection(db, "pollVotes"), where("uid", "==", uid))).catch(function () { return null; }),
+      Promise.all([
+        getDocs(query(collection(db, "friendRequests"), where("fromUid", "==", uid))).catch(function () { return null; }),
+        getDocs(query(collection(db, "friendRequests"), where("toUid", "==", uid))).catch(function () { return null; })
+      ]).catch(function () { return null; })
+    ]).then(function (res) {
+      var d = (res[0] && res[0].exists()) ? res[0].data() : {};
+      var saved = Array.isArray(d.savedRecipes) ? d.savedRecipes.slice() : [];
+      try { (JSON.parse(localStorage.getItem("tydSavedRecipes")) || []).forEach(function (id) { if (saved.indexOf(id) === -1) saved.push(id); }); } catch (e) {}
+      var mine = 0;
+      try { mine = (JSON.parse(localStorage.getItem("tydMyRecipes")) || []).length; } catch (e) {}
+      var voted = res[1] ? res[1].size : 0;
+      var friends = 0, seenF = {};
+      if (res[2]) res[2].forEach(function (qs) { if (qs) qs.forEach(function (docu) { var r = docu.data(); if (r.status === "accepted" && !seenF[docu.id]) { seenF[docu.id] = 1; friends++; } }); });
+      document.getElementById("statsgrid").innerHTML = [
+        statTile(saved.length, "\u{1F4CC} Recipes saved"),
+        statTile(mine, "\u{1F373} Recipes added"),
+        statTile(Array.isArray(d.travelTrips) ? d.travelTrips.length : 0, "\u{1F9F3} Trips planned"),
+        statTile(Array.isArray(d.countdowns) ? d.countdowns.length : 0, "\u23F3 Countdowns"),
+        statTile(voted, "\u{1F5F3}\uFE0F Polls voted in"),
+        statTile(friends, "\u{1F465} Pond friends")
+      ].join("");
+      box.style.display = "block";
+    }).catch(function () {});
+  }
+  function renderSaved(user) {
+    var local = [];
+    try { local = JSON.parse(localStorage.getItem("tydSavedRecipes")) || []; } catch (e) {}
+    renderSavedList(local);
+    if (!user) return;
+    getDoc(doc(db, "users", user.uid)).then(function (snap) {
+      var remote = (snap.exists() && snap.data().savedRecipes) || [];
+      var merged = remote.slice();
+      local.forEach(function (id) { if (merged.indexOf(id) === -1) merged.push(id); });
+      renderSavedList(merged);
+    }).catch(function () {});
+  }
+  function loadJSON(k, dflt) { try { var v = JSON.parse(localStorage.getItem(k)); return v == null ? dflt : v; } catch (e) { return dflt; } }
+  function alertPrefs() { return loadJSON("tydAlertPrefs", []); }
+  function renderDash() {
+    var lists = loadJSON("tydDealLists", []);
+    if (lists.length) {
+      $("dashlists").innerHTML = lists.map(function (L) {
+        return '<div class="dashitem">🧺 <b>' + esc(L.name) + '</b> · ' + (L.items || []).length + ' saved · <a href="my-lists.html">Open</a></div>';
+      }).join("");
+    }
+    var g = loadJSON("tydGrocery", []);
+    if (g.length) {
+      var left = g.filter(function (i) { return !i.done; }).length;
+      $("dashgrocery").innerHTML = '<div class="dashitem">🛒 ' + g.length + ' items · ' + left + ' still to get · <a href="recipes.html">Open in Recipes</a></div>';
+    }
+    var plan = loadJSON("tydMealPlan", {});
+    var dates = Object.keys(plan).sort();
+    if (dates.length) {
+      var today = new Date(); today.setHours(0, 0, 0, 0);
+      $("dashplan").innerHTML = dates.slice(0, 6).map(function (dt) {
+        var p = plan[dt];
+        var label = dt;
+        try { label = new Date(dt + "T12:00:00").toLocaleDateString(undefined, { weekday: "short", month: "short", day: "numeric" }); } catch (e) {}
+        return '<div class="dashitem">📅 ' + esc(label) + ' · <a href="recipes.html#' + esc(p.slug || "") + '">' + esc(p.name || "Recipe") + '</a></div>';
+      }).join("");
+    }
+    var journal = loadJSON("tydCookLog", {});
+    var jids = Object.keys(journal).filter(function (id) { return journal[id] && (journal[id].count > 0 || (journal[id].notes || "").trim()); });
+    if (jids.length) {
+      jids.sort(function (x, y) { return (journal[y].ts || 0) - (journal[x].ts || 0); });
+      var total = jids.reduce(function (sum, id) { return sum + (journal[id].count || 0); }, 0);
+      var jhtml = '<div class="dashitem">📓 ' + total + ' cook' + (total === 1 ? '' : 's') + ' logged across ' + jids.length + ' recipe' + (jids.length === 1 ? '' : 's') + '</div>';
+      jhtml += jids.slice(0, 10).map(function (id) {
+        var e = journal[id];
+        var nm = RECIPE_NAMES[id] || NAMES[id] || prettyId(id);
+        var meta = [];
+        if (e.count > 0) meta.push('cooked ' + e.count + '×');
+        if (e.last) meta.push('last ' + e.last);
+        var h = '<div class="dashitem"><a href="recipes.html#' + id + '">' + esc(nm) + '</a>';
+        if (meta.length) h += ' · ' + esc(meta.join(' · '));
+        if ((e.notes || "").trim()) h += '<br><span style="color:#3f6b7a;">“' + esc(e.notes.trim().slice(0, 160)) + (e.notes.trim().length > 160 ? '…' : '') + '”</span>';
+        return h + '</div>';
+      }).join("");
+      $("dashjournal").innerHTML = jhtml;
+    }
+    var prefs = alertPrefs();
+    document.querySelectorAll("#alertprefs input").forEach(function (cb) { cb.checked = prefs.indexOf(cb.value) > -1; });
+  }
+  document.querySelectorAll("#alertprefs input").forEach(function (cb) {
+    cb.addEventListener("change", function () {
+      var prefs = [];
+      document.querySelectorAll("#alertprefs input:checked").forEach(function (c) { prefs.push(c.value); });
+      try { localStorage.setItem("tydAlertPrefs", JSON.stringify(prefs)); } catch (e) {}
+      $("prefstat").textContent = prefs.length ? "Got it! You will see " + prefs.length + " kind" + (prefs.length === 1 ? "" : "s") + " of alerts, plus general ones." : "You will see every alert.";
+      if (auth.currentUser) setDoc(doc(db, "users", auth.currentUser.uid), { alertPrefs: prefs }, { merge: true }).catch(function () {});
+      loadAlerts();
+    });
+  });
+  var collCounts = { priv: null, collab: null };
+  function renderCollCounts() {
+    var el = $("dashcollcounts");
+    if (!el) return;
+    if (collCounts.priv == null && collCounts.collab == null) { el.innerHTML = ""; return; }
+    var p = collCounts.priv || 0, c = collCounts.collab || 0;
+    if (p + c === 0) { el.innerHTML = "<br>No collections yet."; return; }
+    el.innerHTML = "<br><b>" + p + " private · " + c + " collaborative</b>";
+  }
+  function loadCollCounts(user) {
+    var seen = {}, n = 0;
+    Promise.all([
+      getDocs(query(collection(db, "sharedCollections"), where("owner", "==", user.uid))),
+      getDocs(query(collection(db, "sharedCollections"), where("members", "array-contains", user.uid)))
+    ]).then(function (rs) {
+      rs.forEach(function (qs) { qs.forEach(function (d) { if (!seen[d.id]) { seen[d.id] = 1; n++; } }); });
+      collCounts.collab = n;
+      renderCollCounts();
+    }).catch(function () {});
+  }
+  function syncPondData(user) {
+    getDoc(doc(db, "users", user.uid)).then(function (snap) {
+      var data = snap.exists() ? snap.data() : {};
+      collCounts.priv = Array.isArray(data.recipeCollections) ? data.recipeCollections.length : 0;
+      renderCollCounts();
+      var localG = loadJSON("tydGrocery", []), remoteG = data.groceryList || [];
+      var gids = {}, mergedG = remoteG.slice();
+      remoteG.forEach(function (i) { gids[i.id] = 1; });
+      localG.forEach(function (i) { if (!gids[i.id]) mergedG.push(i); });
+      var localP = loadJSON("tydMealPlan", {}), remoteP = data.mealPlan || {}, mergedP = {};
+      Object.keys(remoteP).forEach(function (k) { mergedP[k] = remoteP[k]; });
+      Object.keys(localP).forEach(function (k) { mergedP[k] = localP[k]; });
+      var localJ = loadJSON("tydCookLog", {}), remoteJ = data.cookLog || {}, mergedJ = {};
+      Object.keys(remoteJ).forEach(function (id) { mergedJ[id] = remoteJ[id]; });
+      Object.keys(localJ).forEach(function (id) { if (!mergedJ[id] || (localJ[id].ts || 0) > (mergedJ[id].ts || 0)) mergedJ[id] = localJ[id]; });
+      var prefs = data.alertPrefs || alertPrefs();
+      try {
+        localStorage.setItem("tydGrocery", JSON.stringify(mergedG));
+        localStorage.setItem("tydMealPlan", JSON.stringify(mergedP));
+        localStorage.setItem("tydAlertPrefs", JSON.stringify(prefs));
+        localStorage.setItem("tydCookLog", JSON.stringify(mergedJ));
+      } catch (e) {}
+      setDoc(doc(db, "users", user.uid), { groceryList: mergedG, mealPlan: mergedP, alertPrefs: prefs, cookLog: mergedJ }, { merge: true }).catch(function () {});
+      renderDash();
+    }).catch(function () { renderDash(); });
+  }
+  /* ---- usernames + Pond friends ---- */
+  var myUid = null, myEmail = null, myUsername = null, myAvatar = null;
+  var isOwnerAccount = false, ownerClaimConflict = false;
+  var OWNER_EMAIL = "treatyourselfdiscounts@gmail.com", OWNER_USERNAME = "TYD", OWNER_RESERVED = "TreatYourselfDiscounts";
+  var UNAME_RE = /^[A-Za-z0-9_]{3,20}$/;
+  function validateUsername(v) { return UNAME_RE.test(v || ""); }
+  async function hashEmail(email) {
+    var buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(String(email || "").trim().toLowerCase()));
+    return Array.prototype.map.call(new Uint8Array(buf), function (b) { return ("0" + b.toString(16)).slice(-2); }).join("");
+  }
+  function fshow(msg, ok) { var s = $("fstatus"); if (!s) return; s.textContent = msg; s.className = "status show " + (ok ? "ok" : "err"); }
+  function ustat(msg, ok) { var s = $("unamestatus"); if (!s) return; s.textContent = msg; s.className = "status show " + (ok ? "ok" : "err"); }
+  function renderUsername() {
+    var box = $("usernamebox");
+    if (!box) return;
+    if (ownerClaimConflict) {
+      box.innerHTML = '<p style="background:#fdecec; border:1.5px solid #f0b4b4; color:#8c2b2b; border-radius:12px; padding:10px 12px;"><b>Heads up:</b> the username @TYD is currently held by a different Pond account, so this owner account could not claim it automatically. Nothing was overwritten. This needs a manual fix in the Pond account records.</p>';
+      return;
+    }
+    if (myUsername) {
+      box.innerHTML = '<p>You are <b>@' + esc(myUsername) + '</b> in the Pond. Friends can find you by your email or by @' + esc(myUsername) + ', and your shared trips carry your username. Want a different name? Type a new one and save.</p>' +
+        '<label for="uname">Change your username</label><input id="uname" type="text" value="' + esc(myUsername) + '" autocomplete="off">' +
+        '<button class="btn btn-main" id="unamesave">Save username</button><div class="status" id="unamestatus"></div>';
+    } else {
+      box.innerHTML = '<p>Pick a username so friends can find you and your shared trips carry your name instead of your email. 3 to 20 characters: letters, numbers and underscores.</p>' +
+        '<label for="uname">Pick your username</label><input id="uname" type="text" placeholder="like pond_hopper" autocomplete="off">' +
+        '<button class="btn btn-main" id="unamesave">Save username</button><div class="status" id="unamestatus"></div>';
+    }
+    $("unamesave").addEventListener("click", saveUsername);
+  }
+  async function saveUsername() {
+    var v = $("uname").value.trim();
+    if (!validateUsername(v)) { ustat("Usernames are 3 to 20 characters, letters, numbers and underscores only."); return; }
+    if (window.TYDBadWords && TYDBadWords.test(v, true)) { ustat("That username includes a word we don't allow in the Pond. Please pick another name."); return; }
+    var lower = v.toLowerCase();
+    if (myUsername && myUsername.toLowerCase() === lower) { ustat("That is already your username.", true); return; }
+    try {
+      var claim = await getDoc(doc(db, "usernames", lower));
+      if (claim.exists() && claim.data().uid !== myUid) { ustat("Sorry, @" + v + " is already taken. Try another name."); return; }
+      var hash = await hashEmail(myEmail);
+      var wb = writeBatch(db);
+      wb.set(doc(db, "usernames", lower), { uid: myUid });
+      if (myUsername && myUsername.toLowerCase() !== lower && !(isOwnerAccount && myUsername.toLowerCase() === OWNER_RESERVED.toLowerCase())) wb.delete(doc(db, "usernames", myUsername.toLowerCase()));
+      wb.set(doc(db, "profiles", myUid), { username: v, usernameLower: lower, updatedAt: Date.now() });
+      wb.set(doc(db, "emailLookup", hash), { uid: myUid, username: v });
+      await wb.commit();
+      myUsername = v;
+      renderUsername();
+      ustat("You are now @" + v + ". Friends can add you by email or by @" + v + ".", true);
+    } catch (e) { ustat("That did not save. The Pond account service may still be switching this on; try again in a little while."); }
+  }
+  async function loadIdentity(user) {
+    myUid = user.uid; myEmail = user.email || "";
+    isOwnerAccount = (myEmail || "").toLowerCase() === OWNER_EMAIL;
+    var note = $("ownernote");
+    if (note) note.style.display = isOwnerAccount ? "block" : "none";
+    try {
+      var snap = await getDoc(doc(db, "profiles", user.uid));
+      myUsername = snap.exists() ? (snap.data().username || null) : null;
+      myAvatar = snap.exists() && validAvatar(snap.data().avatar) ? snap.data().avatar : null;
+    } catch (e) { myUsername = null; myAvatar = null; }
+    if (isOwnerAccount && !myUsername) {
+      try { await autoClaimOwner(); } catch (e) {}
+    }
+    renderUsername();
+    renderAvatarPicker();
+    renderWhoAvatar();
+    if (myUsername && myEmail) {
+      try { var h = await hashEmail(myEmail); await setDoc(doc(db, "emailLookup", h), { uid: myUid, username: myUsername }, { merge: true }); } catch (e) {}
+    }
+  }
+  async function autoClaimOwner() {
+    var lower = OWNER_USERNAME.toLowerCase();
+    var claim = await getDoc(doc(db, "usernames", lower));
+    if (claim.exists() && claim.data().uid !== myUid) { ownerClaimConflict = true; return; }
+    var hash = await hashEmail(myEmail);
+    var wb = writeBatch(db);
+    wb.set(doc(db, "usernames", lower), { uid: myUid });
+    wb.set(doc(db, "usernames", OWNER_RESERVED.toLowerCase()), { uid: myUid });
+    wb.set(doc(db, "profiles", myUid), { username: OWNER_USERNAME, usernameLower: lower, avatar: "duck-master", updatedAt: Date.now() });
+    wb.set(doc(db, "emailLookup", hash), { uid: myUid, username: OWNER_USERNAME });
+    await wb.commit();
+    myUsername = OWNER_USERNAME;
+  }
+  /* ---- duck avatar picker ---- */
+  var AVATARS = [
+    { id: "duck-chef", name: "Chef" }, { id: "duck-pirate", name: "Pirate" }, { id: "duck-astronaut", name: "Astronaut" },
+    { id: "duck-detective", name: "Detective" }, { id: "duck-superhero", name: "Superhero" }, { id: "duck-wizard", name: "Wizard" },
+    { id: "duck-beach", name: "Beach" }, { id: "duck-bookworm", name: "Bookworm" }, { id: "duck-sleepy", name: "Sleepy" },
+    { id: "duck-rockstar", name: "Rockstar" }, { id: "duck-cowboy", name: "Cowboy" }, { id: "duck-artist", name: "Artist" },
+    { id: "duck-firefighter", name: "Firefighter" }, { id: "duck-doctor", name: "Doctor" }, { id: "duck-sailor", name: "Sailor" },
+    { id: "duck-royal", name: "Royal" }, { id: "duck-gamer", name: "Gamer" }, { id: "duck-scientist", name: "Scientist" },
+    { id: "duck-winter", name: "Winter" }, { id: "duck-flower", name: "Flower" }
+  ];
+  function validAvatar(id) { return id === "duck-master" || AVATARS.some(function (a) { return a.id === id; }); }
+  function pickerAvatars() { return isOwnerAccount ? [{ id: "duck-master", name: "Mama Goose" }].concat(AVATARS) : AVATARS; }
+  function avatarImg(id) { return validAvatar(id) ? '<img src="images/avatars/' + id + '.jpg" alt="">' : "🦆"; }
+  function renderWhoAvatar() { var el = $("whoavatar"); if (el) el.innerHTML = avatarImg(myAvatar); }
+  function renderAvatarPicker() {
+    var box = $("avatarbox");
+    if (!box) return;
+    var cur = validAvatar(myAvatar) ? pickerAvatars().filter(function (a) { return a.id === myAvatar; })[0] : null;
+    var h = '<div class="avhead"><span class="avcircle">' + avatarImg(myAvatar) + '</span><span style="font-size:14px;">' + (cur ? (cur.id === "duck-master" ? "Your picture is your <b>Mama Goose</b> duck, made only for your account. It shows next to your name around the Pond." : "Your picture is the <b>" + esc(cur.name) + "</b> duck. It shows next to your name around the Pond.") : "No duck picked yet, so you get the classic pond duck. Pick one below.") + "</span></div>";
+    h += '<div class="avgrid">';
+    h += '<button type="button" class="avpick' + (!cur ? " on" : "") + '" data-avatar=""><span class="avnone">🦆</span><span class="avnm">Classic</span></button>';
+    h += pickerAvatars().map(function (a) {
+      return '<button type="button" class="avpick' + (myAvatar === a.id ? " on" : "") + '" data-avatar="' + a.id + '"><img src="images/avatars/' + a.id + '.jpg" alt="' + a.name + ' duck" loading="lazy" onerror="this.remove()"><span class="avnm">' + (a.id === "duck-master" ? "👑 Mama Goose" : a.name) + "</span></button>";
+    }).join("");
+    h += "</div>";
+    box.innerHTML = h;
+  }
+  $("avatarbox").addEventListener("click", function (e) {
+    var b = e.target.closest ? e.target.closest("[data-avatar]") : null;
+    if (!b || !myUid) return;
+    var id = b.getAttribute("data-avatar");
+    if (!id) {
+      setDoc(doc(db, "profiles", myUid), { avatar: deleteField() }, { merge: true }).then(function () { myAvatar = null; renderAvatarPicker(); renderWhoAvatar(); }).catch(function () {});
+      return;
+    }
+    if (!validAvatar(id)) return;
+    if (id === "duck-master" && !isOwnerAccount) return;
+    setDoc(doc(db, "profiles", myUid), { avatar: id }, { merge: true }).then(function () { myAvatar = id; renderAvatarPicker(); renderWhoAvatar(); }).catch(function () {});
+  });
+  function fetchMyRequests() {
+    return Promise.all([
+      getDocs(query(collection(db, "friendRequests"), where("fromUid", "==", myUid))),
+      getDocs(query(collection(db, "friendRequests"), where("toUid", "==", myUid)))
+    ]).then(function (ress) {
+      var seen = {}, out = [];
+      ress.forEach(function (qs) { qs.forEach(function (d) { if (!seen[d.id]) { seen[d.id] = 1; out.push(Object.assign({ id: d.id }, d.data())); } }); });
+      return out;
+    });
+  }
+  function avSpan(uid) { return '<span class="avcircle avsm" data-avfor="' + uid + '">🦆</span>'; }
+  function fillAvatars() {
+    var seen = {};
+    document.querySelectorAll("[data-avfor]").forEach(function (el) {
+      var uid = el.getAttribute("data-avfor");
+      if (!uid || seen[uid]) return;
+      seen[uid] = 1;
+      getDoc(doc(db, "profiles", uid)).then(function (snap) {
+        var av = snap.exists() ? snap.data().avatar : null;
+        if (validAvatar(av)) document.querySelectorAll('[data-avfor="' + uid + '"]').forEach(function (e2) { e2.innerHTML = '<img src="images/avatars/' + av + '.jpg" alt="">'; });
+      }).catch(function () {});
+    });
+  }
+  function renderFriends(reqs) {
+    var inc = reqs.filter(function (r) { return r.toUid === myUid && r.status === "pending"; });
+    var out = reqs.filter(function (r) { return r.fromUid === myUid && r.status === "pending"; });
+    var fr = reqs.filter(function (r) { return r.status === "accepted"; });
+    $("fincoming").innerHTML = inc.length ? '<h4 style="color:#1f5f74; margin:14px 0 6px;">Requests for you</h4>' + inc.map(function (r) {
+      return '<div class="frow">' + avSpan(r.fromUid) + '<span class="grow">@' + esc(r.fromUsername || "someone") + ' wants to be Pond friends</span><button class="sbtn main" data-faccept="' + r.id + '">Accept</button><button class="sbtn del" data-fdecline="' + r.id + '">Decline</button></div>';
+    }).join("") : "";
+    $("foutgoing").innerHTML = out.length ? '<h4 style="color:#1f5f74; margin:14px 0 6px;">Requests you sent</h4>' + out.map(function (r) {
+      return '<div class="frow">' + avSpan(r.toUid) + '<span class="grow">Waiting on @' + esc(r.toUsername || "someone") + '</span><button class="sbtn" data-fcancel="' + r.id + '">Cancel</button></div>';
+    }).join("") : "";
+    $("flist").innerHTML = '<h4 style="color:#1f5f74; margin:14px 0 6px;">Your Pond friends</h4>' + (fr.length ? fr.map(function (r) {
+      var other = r.fromUid === myUid ? r.toUsername : r.fromUsername;
+      var otherUid = r.fromUid === myUid ? r.toUid : r.fromUid;
+      return '<div class="frow">' + avSpan(otherUid) + '<span class="grow">@' + esc(other || "friend") + '</span><a class="sbtn" style="text-decoration:none;" href="travel.html">Share a trip</a></div>';
+    }).join("") : '<p style="color:#5b7d89; font-size:14px;">No Pond friends yet. Add one above by email or @username.</p>');
+  }
+  function loadFriendsPanel() { fetchMyRequests().then(function (reqs) { renderFriends(reqs); fillAvatars(); }).catch(function () {}); }
+  // Blocked members (Lucy, Nov 12, 2026): who you have hidden. Unblock
+  // brings their messages, comments and shares back everywhere.
+  function renderBlocked() {
+    var box = $("blockedlist");
+    if (!box) return;
+    var list = (window.TYDBlock && window.TYDBlock.getBlocked()) || [];
+    if (!list.length) {
+      box.innerHTML = "<p style=\"color:#5b7d89; font-size:14px;\">You haven't blocked anyone.</p>";
+      return;
+    }
+    box.innerHTML = list.map(function (b) {
+      return '<div class="frow">' + avSpan(b.uid) + '<span class="grow">@' + esc(b.name || "Pond member") + '</span><button class="sbtn del" data-unblock="' + esc(b.uid) + '">Unblock</button></div>';
+    }).join("");
+    fillAvatars();
+  }
+  window.addEventListener("tyd-block-changed", renderBlocked);
+  $("blockedbox").addEventListener("click", function (e) {
+    var b = e.target.closest ? e.target.closest("[data-unblock]") : null;
+    if (!b) return;
+    if (window.TYDBlock) window.TYDBlock.unblock(b.getAttribute("data-unblock"));
+  });
+  // Friends-only interactions (Lucy, Nov 12, 2026): a persistent
+  // per-member mode. The shared helper (friends-only.js) owns the
+  // setting (localStorage tydFriendsOnly + users/{uid}.friendsOnly)
+  // and the filtering; this just paints the toggle and hands it the
+  // change. The helper may not be loaded yet when this module runs,
+  // so the toggle writes localStorage directly as a fallback and the
+  // helper picks it up when it loads.
+  function paintFriendsOnly() {
+    var t = $("fo-toggle");
+    if (!t) return;
+    var on = false;
+    try { on = localStorage.getItem("tydFriendsOnly") === "1"; } catch (e) {}
+    t.checked = on;
+    var st = $("fostat");
+    if (st) st.textContent = on ? "On: only your Pond friends show in chat and comments." : "Off: everyone in the Pond shows.";
+  }
+  function setFriendsOnly(v) {
+    try { localStorage.setItem("tydFriendsOnly", v ? "1" : "0"); } catch (e) {}
+    if (window.TYDFriendsOnly) window.TYDFriendsOnly.set(v);
+    else { try { window.dispatchEvent(new CustomEvent("tyd-friends-only-changed")); } catch (e) {} }
+    paintFriendsOnly();
+  }
+  var foToggle = $("fo-toggle");
+  if (foToggle) foToggle.addEventListener("change", function () { setFriendsOnly(foToggle.checked); });
+  window.addEventListener("tyd-friends-only-changed", paintFriendsOnly);
+  async function resolveFriendTarget(raw) {
+    var v = String(raw || "").trim();
+    if (!v) return { error: "Type an email or a @username first." };
+    if (v.indexOf("@") > 0 && /\.[A-Za-z]{2,}$/.test(v.split("@")[1] || "")) {
+      var h = await hashEmail(v);
+      var snap = await getDoc(doc(db, "emailLookup", h));
+      if (!snap.exists()) return { notfound: true };
+      return { uid: snap.data().uid, username: snap.data().username };
+    }
+    var lower = v.replace(/^@/, "").toLowerCase();
+    if (!lower) return { error: "Type an email or a @username first." };
+    var c = await getDoc(doc(db, "usernames", lower));
+    if (!c.exists()) return { notfound: true };
+    var p = await getDoc(doc(db, "profiles", c.data().uid));
+    return { uid: c.data().uid, username: (p.exists() && p.data().username) || lower };
+  }
+  async function addFriend() {
+    if (!myUsername) { fshow("Pick a username above first, then you can add friends."); return; }
+    var target;
+    try { target = await resolveFriendTarget($("fsearch").value); } catch (e) { target = { notfound: true }; }
+    if (target.error) { fshow(target.error); return; }
+    if (target.notfound) { fshow("No Pond account with that email or username yet. They can join at treatyourselfdiscounts.com and pick a username, then you can add them."); return; }
+    if (target.uid === myUid) { fshow("That is your own account. Even the Pond duck cannot friend herself."); return; }
+    var reqs = [];
+    try { reqs = await fetchMyRequests(); } catch (e) {}
+    var rel = reqs.filter(function (r) { return r.fromUid === target.uid || r.toUid === target.uid; });
+    if (rel.some(function (r) { return r.status === "accepted"; })) { fshow("You are already Pond friends with @" + target.username + "."); return; }
+    if (rel.some(function (r) { return r.status === "pending"; })) { fshow("A friend request between you and @" + target.username + " is already waiting."); return; }
+    try {
+      await addDoc(collection(db, "friendRequests"), { fromUid: myUid, fromUsername: myUsername, toUid: target.uid, toUsername: target.username, status: "pending", createdAt: Date.now() });
+      fshow("Request sent to @" + target.username + ".", true);
+      $("fsearch").value = "";
+      loadFriendsPanel();
+    } catch (e) { fshow("That request did not go through. Try again in a moment."); }
+  }
+  $("fadd").addEventListener("click", addFriend);
+  $("friendsbox").addEventListener("click", function (e) {
+    var b = e.target.closest ? e.target.closest("[data-faccept],[data-fdecline],[data-fcancel]") : null;
+    if (!b) return;
+    if (b.hasAttribute("data-faccept")) updateDoc(doc(db, "friendRequests", b.getAttribute("data-faccept")), { status: "accepted" }).then(loadFriendsPanel).catch(function () {});
+    else if (b.hasAttribute("data-fdecline")) updateDoc(doc(db, "friendRequests", b.getAttribute("data-fdecline")), { status: "declined" }).then(loadFriendsPanel).catch(function () {});
+    else deleteDoc(doc(db, "friendRequests", b.getAttribute("data-fcancel"))).then(loadFriendsPanel).catch(function () {});
+  });
+
+  /* Comments inbox + sessions (Lucy, Nov 10, 2026) */
+  var CMT_ROWS = [], CMT_SHARES = {}, CMT_REACT = {}, CMT_MYREACT = {}, CMT_USER = null;
+  var EMOJIS = [["❤️","heart"],["👍","thumbsup"],["🦆","duck"],["😂","laugh"],["😮","wow"]];
+  function fmtWhen(ts) { try { return new Date(ts).toLocaleDateString([], { month: "short", day: "numeric" }) + ", " + new Date(ts).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" }); } catch (e) { return ""; } }
+  async function loadComments(user) {
+    CMT_USER = user;
+    var box = $("dashcomments"); if (!box) return;
+    try {
+      var res = await Promise.all([
+        getDocs(query(collection(db, "nestComments"), where("shareOwner", "==", user.uid), limit(50))),
+        getDocs(query(collection(db, "nestComments"), where("author", "==", user.uid), limit(50)))
+      ]);
+      var seen = {}, rows = [];
+      res[0].forEach(function (d) { seen[d.id] = 1; var r = d.data(); r.id = d.id; r.onMine = true; rows.push(r); });
+      res[1].forEach(function (d) { if (!seen[d.id]) { var r = d.data(); r.id = d.id; r.onMine = false; rows.push(r); } });
+      rows.sort(function (x, y) { return (y.createdAt || 0) - (x.createdAt || 0); });
+      CMT_ROWS = rows.slice(0, 30);
+      if (!CMT_ROWS.length) { box.innerHTML = '<p style="color:#5b7d89;">No comments yet. When someone comments on something you shared, or you comment on a friend\'s share, it shows up here.</p>'; return; }
+      var sids = Array.from(new Set(CMT_ROWS.map(function (r) { return r.shareId; })));
+      await Promise.all(sids.map(async function (sid) {
+        try { var s = await getDoc(doc(db, "nestShares", sid)); if (s.exists()) CMT_SHARES[sid] = s.data(); } catch (e) {}
+      }));
+      await Promise.all(CMT_ROWS.map(async function (r) {
+        CMT_REACT[r.id] = {}; 
+        try {
+          var rs = await getDocs(query(collection(db, "commentReactions"), where("commentId", "==", r.id)));
+          rs.forEach(function (rd) { var d2 = rd.data(); CMT_REACT[r.id][d2.emoji] = (CMT_REACT[r.id][d2.emoji] || 0) + 1; if (d2.uid === user.uid) CMT_MYREACT[r.id + "|" + d2.emoji] = rd.id; });
+        } catch (e) {}
+      }));
+      renderComments();
+    } catch (e) { box.innerHTML = '<p style="color:#5b7d89;">Comments could not load right now.</p>'; }
+  }
+  function renderComments() {
+    var box = $("dashcomments"); if (!box) return;
+    box.innerHTML = CMT_ROWS.map(function (r) {
+      var sh = CMT_SHARES[r.shareId] || {};
+      var title = sh.title || "Shared item";
+      var tag = r.onMine ? ' <span style="color:#5b7d89;">· on your share</span>' : ' <span style="color:#5b7d89;">· your comment</span>';
+      var reacts = EMOJIS.map(function (pr) {
+        var c = (CMT_REACT[r.id] || {})[pr[0]] || 0;
+        var mine = CMT_MYREACT[r.id + "|" + pr[0]] ? ' mine' : '';
+        return '<button type="button" class="reactbtn' + mine + '" data-react="' + r.id + '" data-emoji="' + pr[0] + '">' + pr[0] + (c ? ' ' + c : '') + '</button>';
+      }).join(" ");
+      var authorHtml = r.author ? '<b class="tydprof" data-profile-uid="' + esc(r.author) + '">' + esc(r.authorName || "Pond member") + '</b>' : '<b>' + esc(r.authorName || "Pond member") + '</b>';
+      return '<div class="dashitem">' + authorHtml + ' on <b>' + esc(title) + '</b>' + tag + '<br><span style="color:#5b7d89; font-size:12.5px;">' + fmtWhen(r.createdAt) + '</span><br>' + esc(r.text) +
+        '<div style="display:flex; gap:5px; flex-wrap:wrap; margin-top:7px; align-items:center;">' + reacts +
+        '<button type="button" class="reactbtn" data-reply="' + r.id + '">↩️ Reply</button></div>' +
+        '<div id="reply-' + r.id + '" style="display:none; margin-top:7px;"><input type="text" id="replyin-' + r.id + '" maxlength="500" placeholder="Write a reply…" style="width:100%; box-sizing:border-box; padding:9px 11px; border:1.5px solid #cfe6ee; border-radius:10px; font-family:inherit; font-size:14px;"><button type="button" class="btn btn-main" data-send="' + r.id + '" style="margin-top:6px;">Send reply</button></div></div>';
+    }).join("");
+  }
+  document.addEventListener("click", async function (ev) {
+    var t = ev.target; if (!t || !CMT_USER) return;
+    var rb = t.closest ? t.closest("[data-react]") : null;
+    if (rb) {
+      var cid = rb.getAttribute("data-react"), em = rb.getAttribute("data-emoji");
+      var key = cid + "|" + em, docId = cid + "_" + CMT_USER.uid + "_" + (EMOJIS.filter(function (p) { return p[0] === em; })[0] || [])[1];
+      try {
+        if (CMT_MYREACT[key]) { await deleteDoc(doc(db, "commentReactions", docId)); delete CMT_MYREACT[key]; CMT_REACT[cid][em] = Math.max(0, (CMT_REACT[cid][em] || 1) - 1); }
+        else { await setDoc(doc(db, "commentReactions", docId), { commentId: cid, uid: CMT_USER.uid, emoji: em, createdAt: Date.now() }); CMT_MYREACT[key] = docId; CMT_REACT[cid] = CMT_REACT[cid] || {}; CMT_REACT[cid][em] = (CMT_REACT[cid][em] || 0) + 1; }
+        renderComments();
+      } catch (e) {}
+      return;
+    }
+    var rp = t.closest ? t.closest("[data-reply]") : null;
+    if (rp) { var box2 = $("reply-" + rp.getAttribute("data-reply")); if (box2) box2.style.display = box2.style.display === "none" ? "block" : "none"; return; }
+    var sd = t.closest ? t.closest("[data-send]") : null;
+    if (sd) {
+      var cid2 = sd.getAttribute("data-send");
+      var row = CMT_ROWS.filter(function (r) { return r.id === cid2; })[0];
+      var inp = $("replyin-" + cid2);
+      var text = inp ? inp.value.trim() : "";
+      if (!row || !text) return;
+      if (window.TYDBadWords && TYDBadWords.test(text)) { alert("That comment includes a word we don't allow in the Pond. Please reword it and try again."); return; }
+      var sh2 = CMT_SHARES[row.shareId] || {};
+      try {
+        await addDoc(collection(db, "nestComments"), { shareId: row.shareId, shareOwner: row.shareOwner, kind: sh2.kind || row.kind || "", author: CMT_USER.uid, authorName: myUsername || CMT_USER.email, text: text.slice(0, 500), visibility: sh2.visibility || row.visibility || "friends", members: sh2.members || row.members || [], memberNames: sh2.memberNames || {}, createdAt: Date.now() });
+        loadComments(CMT_USER);
+      } catch (e) {}
+    }
+  });
+  function deviceLabel() {
+    var ua = navigator.userAgent || "";
+    var dev = /iPhone/.test(ua) ? "iPhone" : /iPad/.test(ua) ? "iPad" : /Android/.test(ua) ? "Android" : /Macintosh/.test(ua) ? "Mac" : /Windows/.test(ua) ? "Windows PC" : "Device";
+    var br = /CriOS/.test(ua) ? "Chrome" : /FxiOS/.test(ua) ? "Firefox" : /Edg/.test(ua) ? "Edge" : /Chrome/.test(ua) ? "Chrome" : /Safari/.test(ua) ? "Safari" : "Browser";
+    return dev + " · " + br;
+  }
+  function providerLabel(user) { var p = (user.providerData && user.providerData[0] && user.providerData[0].providerId) || ""; return p === "google.com" ? "Google" : p === "password" ? "Email & password" : "Pond account"; }
+  async function initSessions(user) {
+    var box = $("sessionbox"); if (!box) return;
+    var dev = deviceLabel(), method = providerLabel(user);
+    var since = user.metadata && user.metadata.lastSignInTime ? new Date(user.metadata.lastSignInTime).toLocaleString([], { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }) : "";
+    var acts = [];
+    try {
+      var snap = await getDoc(doc(db, "users", user.uid));
+      acts = (snap.exists() && snap.data().loginActivity) || [];
+      var last = acts[acts.length - 1];
+      if (!last || last.device !== dev || (Date.now() - (last.ts || 0)) > 30 * 60 * 1000) {
+        acts.push({ ts: Date.now(), device: dev, method: method });
+        acts = acts.slice(-8);
+        setDoc(doc(db, "users", user.uid), { loginActivity: acts }, { merge: true }).catch(function () {});
+      }
+    } catch (e) {}
+    var html = '<div class="dashitem">📍 <b>This device</b> · ' + esc(dev) + ' · ' + esc(method) + (since ? '<br><span style="color:#5b7d89; font-size:12.5px;">Signed in since ' + esc(since) + '</span>' : '') + '</div>';
+    var others = acts.slice(0, -1).reverse();
+    if (others.length) html += others.map(function (x) { return '<div class="dashitem">🕓 ' + esc(x.device || "Device") + ' · ' + esc(x.method || "") + '<br><span style="color:#5b7d89; font-size:12.5px;">Last seen ' + fmtWhen(x.ts) + '</span></div>'; }).join("");
+    else html += '<p style="color:#5b7d89; font-size:13.5px;">No other sign-ins seen yet.</p>';
+    box.innerHTML = html;
+    var lo = $("logoutall"), rp2 = $("resetpw");
+    if (lo) lo.onclick = async function () {
+      if (!confirm("Log out of every device? Other devices sign out the next time they open the Pond, and this device signs out now.")) return;
+      try { await setDoc(doc(db, "users", user.uid), { sessionsRevokedAt: Date.now() }, { merge: true }); } catch (e) {}
+      $("sessionstatus").textContent = "Signing out everywhere…";
+      signOut(auth);
+    };
+    if (rp2) rp2.onclick = function () {
+      sendPasswordResetEmail(auth, user.email).then(function () { $("sessionstatus").textContent = "Password reset email sent to " + user.email + ". Follow the link in it to pick a new password."; }).catch(function () { $("sessionstatus").textContent = "The reset email could not be sent right now. If you signed in with Google, your password lives with Google."; });
+    };
+  }
+
+  onAuthStateChanged(auth, function (user) {
+    if (user) {
+      loadStats(user.uid);
+      wireBackup();
+      setDoc(doc(db, "users", user.uid), { email: user.email }, { merge: true }).catch(function () {});
+      $("auth-card").style.display = "none";
+      $("account-card").style.display = "block";
+      $("who").textContent = user.email;
+      renderSaved(user);
+      renderDash();
+      syncPondData(user);
+      loadAlerts();
+      loadCollCounts(user);
+      loadIdentity(user);
+      loadFriendsPanel();
+      renderBlocked();
+      paintFriendsOnly();
+      loadComments(user);
+      initSessions(user);
+      initTextSize(user);
+      initAccent(user);
+      initBellPrefs(user);
+      initProfile(user);
+      initRecoveryEmail(user);
+      initDeleteAccount(user);
+    } else {
+      $("auth-card").style.display = "block";
+      $("account-card").style.display = "none";
+      renderDash();
+    }
+  });
+
+  /* Text size setting (Lucy, Nov 10, 2026): Standard or Larger, saved to
+     users/{uid}.textSize and applied site-wide by site-nav.js (device
+     copy in localStorage tydTextSize; bell.js re-applies the account
+     copy on sign-in everywhere else). */
+  function tsPaint(v) {
+    var std = $("ts-std"), lg = $("ts-large");
+    if (!std || !lg) return;
+    std.style.background = v === "large" ? "#fff3b0" : "#1f5f74";
+    std.style.color = v === "large" ? "#6b5900" : "#ffffff";
+    lg.style.background = v === "large" ? "#1f5f74" : "#fff3b0";
+    lg.style.color = v === "large" ? "#ffffff" : "#6b5900";
+  }
+  function tsApply(v) {
+    if (window.TYDSetTextSize) window.TYDSetTextSize(v);
+    else {
+      try { localStorage.setItem("tydTextSize", v); } catch (e) {}
+      document.documentElement.classList.toggle("tyd-lg", v === "large");
+    }
+    tsPaint(v);
+  }
+  function initTextSize(user) {
+    var v = "standard";
+    try { v = localStorage.getItem("tydTextSize") || "standard"; } catch (e) {}
+    tsApply(v);
+    ["ts-std", "ts-large"].forEach(function (id) {
+      var b = $(id);
+      if (!b || b.dataset.bound) return;
+      b.dataset.bound = "1";
+      b.addEventListener("click", function () {
+        var nv = id === "ts-large" ? "large" : "standard";
+        tsApply(nv);
+        if (auth.currentUser) setDoc(doc(db, "users", auth.currentUser.uid), { textSize: nv }, { merge: true }).catch(function () {});
+        var st = $("tsstatus");
+        if (st) st.textContent = nv === "large" ? "Saved. Larger text is on everywhere in the Pond." : "Saved. Standard text size is back on.";
+      });
+    });
+    if (user) {
+      getDoc(doc(db, "users", user.uid)).then(function (snap) {
+        var d = snap.exists() ? snap.data() : {};
+        if (d && d.textSize) tsApply(d.textSize);
+      }).catch(function () {});
+    }
+  }
+
+  /* Accent color (Lucy, Nov 12, 2026; Rose, Ocean and Black & White added
+     Nov 13, 2026): Pond Blue is the standard default
+     everyone starts with; Sunset, Lavender, Forest, Rose and Ocean recolor
+     the site's accent in both light and dark mode, and Black & White is a
+     greys-only monochrome accent. The choice lives in localStorage
+     tydAccent and, when signed in, in users/{uid}.themeAccent so it
+     follows the member. site-nav.js owns the class and the sync; this
+     page only paints the buttons and forwards taps to TYDSetAccent. */
+  function accPaint(v) {
+    document.querySelectorAll("#accentopts .accbtn").forEach(function (b) {
+      b.classList.toggle("on", b.getAttribute("data-accent") === v);
+    });
+  }
+  window.TYDAccentPaint = accPaint;
+  function initAccent(user) {
+    var cur = "pond";
+    try { cur = localStorage.getItem("tydAccent") || "pond"; } catch (e) {}
+    if (window.TYDGetAccent) cur = window.TYDGetAccent();
+    accPaint(cur);
+    document.querySelectorAll("#accentopts .accbtn").forEach(function (b) {
+      if (b.dataset.bound) return;
+      b.dataset.bound = "1";
+      b.addEventListener("click", function () {
+        var v = b.getAttribute("data-accent");
+        if (window.TYDSetAccent) window.TYDSetAccent(v);
+        else {
+          try { localStorage.setItem("tydAccent", v); } catch (e) {}
+          document.documentElement.classList.remove("tyd-accent-sunset", "tyd-accent-lavender", "tyd-accent-forest", "tyd-accent-rose", "tyd-accent-ocean", "tyd-accent-mono");
+          if (v !== "pond") document.documentElement.classList.add("tyd-accent-" + v);
+        }
+        accPaint(v);
+        var st = $("accstatus");
+        if (st) st.textContent = "Saved. Your accent is now " + (v === "pond" ? "Pond Blue" : v === "sunset" ? "Sunset" : v === "lavender" ? "Lavender" : v === "forest" ? "Forest" : v === "rose" ? "Rose" : v === "ocean" ? "Ocean" : "Black & White") + ", everywhere in the Pond.";
+        if (auth.currentUser) setDoc(doc(db, "users", auth.currentUser.uid), { themeAccent: v }, { merge: true }).catch(function () {});
+      });
+    });
+    if (user) {
+      getDoc(doc(db, "users", user.uid)).then(function (snap) {
+        var d = snap.exists() ? snap.data() : {};
+        if (d && ["pond", "sunset", "lavender", "forest", "rose", "ocean", "mono"].indexOf(d.themeAccent) > -1) accPaint(d.themeAccent);
+      }).catch(function () {});
+    }
+  }
+
+  /* Notification settings (Lucy, Nov 12, 2026): one place for every kind
+     of bell alert. The Pond Post row is only a master switch for Pond
+     Post news; the per-section Notify toggles live in the Pond Post
+     Arrange panel, linked from there. Announcements stay gated by the
+     deal-alert topics (alertPrefs) below. The other five kinds live in
+     users/{uid}.bellPrefs (a missing key means on) and localStorage
+     tydBellPrefs; bell.js reads the same field and hides what is off. */
+  var BELL_KEYS = ["pondpost", "announcements", "upd-feature", "upd-category", "upd-fix", "gifts", "pantry", "codes", "friends", "comments", "pond"];
+  var BELL_LABELS = { pondpost: "Pond Post", announcements: "Announcements", "upd-feature": "New feature updates", "upd-category": "New category updates", "upd-fix": "Fix updates", gifts: "Gift reminders", pantry: "Pantry Watch", codes: "Codes expiring soon", friends: "Friend requests", comments: "Comments on your shares", pond: "New in the Pond shares" };
+  function bellPrefsRead() {
+    var p = null;
+    try { p = JSON.parse(localStorage.getItem("tydBellPrefs") || "null"); } catch (e) { p = null; }
+    if (!p || typeof p !== "object") p = {};
+    return p;
+  }
+  function bellPrefsPaint(p) {
+    BELL_KEYS.forEach(function (k) {
+      var cb = $("bp-" + k);
+      var row = cb ? cb.closest(".bellrow") : null;
+      var on = p[k] !== false;
+      if (cb) cb.checked = on;
+      if (row) row.classList.toggle("off", !on);
+    });
+  }
+  function initBellPrefs(user) {
+    var p = bellPrefsRead();
+    bellPrefsPaint(p);
+    BELL_KEYS.forEach(function (k) {
+      var cb = $("bp-" + k);
+      if (!cb || cb.dataset.bound) return;
+      cb.dataset.bound = "1";
+      cb.addEventListener("change", function () {
+        var cur = bellPrefsRead();
+        cur[k] = cb.checked;
+        try { localStorage.setItem("tydBellPrefs", JSON.stringify(cur)); } catch (e) {}
+        bellPrefsPaint(cur);
+        var st = $("bellprefstat");
+        if (st) st.textContent = cb.checked ? "Saved. " + BELL_LABELS[k] + " alerts are on." : "Saved. " + BELL_LABELS[k] + " alerts are off; the bell will not show them.";
+        if (auth.currentUser) setDoc(doc(db, "users", auth.currentUser.uid), { bellPrefs: cur }, { merge: true }).catch(function () {});
+      });
+    });
+    if (user) {
+      getDoc(doc(db, "users", user.uid)).then(function (snap) {
+        var d = snap.exists() ? snap.data() : {};
+        var saved = d && d.bellPrefs && typeof d.bellPrefs === "object" ? d.bellPrefs : null;
+        if (saved) {
+          try { localStorage.setItem("tydBellPrefs", JSON.stringify(saved)); } catch (e) {}
+          bellPrefsPaint(saved);
+        } else if (Object.keys(bellPrefsRead()).length) {
+          setDoc(doc(db, "users", user.uid), { bellPrefs: bellPrefsRead() }, { merge: true }).catch(function () {});
+        }
+      }).catch(function () {});
+    }
+  }
+
+  /* Delete my Pond Account (Lucy, Nov 13, 2026): self-service account
+     deletion for Google Play. Two taps to confirm, then the account's
+     own Firestore docs and content are deleted best effort in batches
+     of 500, then the Firebase Auth user is deleted. If Firebase asks
+     the member to sign in again first, the re-sign-in panel appears
+     and the delete is retried once. Needs Firestore rules v12 (own
+     profiles doc delete + recipient-side friend request delete); until
+     Lucy publishes v12, the Firestore deletes fail and the member is
+     pointed to the email fallback instead of being told it worked. */
+  var deleteBusy = false;
+  function dstat(msg, ok) { var s = $("deletestatus"); if (!s) return; s.textContent = msg || ""; s.className = "status" + (msg ? " show " + (ok ? "ok" : "err") : ""); }
+  async function deleteDocsInBatches(docs) {
+    for (var i = 0; i < docs.length; i += 500) {
+      var b = writeBatch(db);
+      docs.slice(i, i + 500).forEach(function (r) { b.delete(r); });
+      await b.commit();
+    }
+  }
+  async function deleteOwnData(uid) {
+    var failed = false;
+    var jobs = [];
+    // Single docs: account data, public profile, username claim, email lookup.
+    jobs.push((async function () {
+      try {
+        var dels = [doc(db, "users", uid), doc(db, "profiles", uid)];
+        if (myUsername) dels.push(doc(db, "usernames", myUsername.toLowerCase()));
+        if (myEmail) { var h = await hashEmail(myEmail); dels.push(doc(db, "emailLookup", h)); }
+        var b = writeBatch(db);
+        dels.forEach(function (r) { b.delete(r); });
+        await b.commit();
+      } catch (e) { failed = true; }
+    })());
+    // Photos the member uploaded (users/{uid}/photos).
+    jobs.push((async function () {
+      try {
+        var snap = await getDocs(collection(db, "users", uid, "photos"));
+        var refs = [];
+        snap.forEach(function (d) { refs.push(d.ref); });
+        await deleteDocsInBatches(refs);
+      } catch (e) { failed = true; }
+    })());
+    // Own content, by owner/author field.
+    var contentQueries = [
+      [collection(db, "nestShares"), "owner", uid],
+      [collection(db, "nestComments"), "author", uid],
+      [collection(db, "pondChat"), "uid", uid],
+      [collection(db, "newsComments"), "uid", uid],
+      [collection(db, "newsCommentReactions"), "uid", uid],
+      [collection(db, "commentReactions"), "uid", uid],
+      [collection(db, "pollVotes"), "uid", uid],
+      [collection(db, "sharedCollections"), "owner", uid]
+    ];
+    contentQueries.forEach(function (q) {
+      jobs.push((async function () {
+        try {
+          var snap = await getDocs(query(q[0], where(q[1], "==", q[2])));
+          var refs = [];
+          snap.forEach(function (d) { refs.push(d.ref); });
+          await deleteDocsInBatches(refs);
+        } catch (e) { failed = true; }
+      })());
+    });
+    // Friend requests in either direction (two queries; no OR query here).
+    ["fromUid", "toUid"].forEach(function (field) {
+      jobs.push((async function () {
+        try {
+          var snap = await getDocs(query(collection(db, "friendRequests"), where(field, "==", uid)));
+          var refs = [];
+          snap.forEach(function (d) { refs.push(d.ref); });
+          await deleteDocsInBatches(refs);
+        } catch (e) { failed = true; }
+      })());
+    });
+    await Promise.all(jobs);
+    return failed;
+  }
+  async function runAccountDelete() {
+    var u = auth.currentUser;
+    if (!u || deleteBusy) return;
+    // The Pond owner account can never be deleted from here (Lucy, Nov 13, 2026).
+    if (u.uid === "1hbpZnS7gfPd0ptzygwiaDBfjo63") { dstat("The Pond owner account cannot be deleted from here."); return; }
+    deleteBusy = true;
+    dstat("Deleting your Pond Account…");
+    var dataFailed = false;
+    try { dataFailed = await deleteOwnData(u.uid); } catch (e) { dataFailed = true; }
+    try {
+      await deleteUser(u);
+    } catch (e) {
+      deleteBusy = false;
+      if (e && e.code === "auth/requires-recent-login") {
+        showDeleteReauth();
+        dstat("For safety, sign in again below to finish deleting your account.");
+        return;
+      }
+      dstat("That did not delete your account. Please email treatyourselfdiscounts@gmail.com from the email on your account and we will remove it for you.");
+      return;
+    }
+    finishDeleteRedirect(dataFailed);
+  }
+  function showDeleteReauth() {
+    var u = auth.currentUser;
+    var panel = $("deletereauth");
+    if (!panel || !u) return;
+    var isGoogle = (u.providerData || []).some(function (p) { return p.providerId === "google.com"; });
+    var pw = $("deletereauth-pw"), gg = $("deletereauth-google");
+    if (pw) pw.hidden = isGoogle;
+    if (gg) gg.hidden = !isGoogle;
+    panel.hidden = false;
+  }
+  function finishDeleteRedirect(dataFailed) {
+    try {
+      ["tydBlocked", "tydFriendsOnly", "tydCommentFilter", "tydFriendUids", "tydAccent", "tydTheme", "tydTextSize", "tydProfileBio", "tydProfileFavs", "tydHomeOrder", "tydHomeHidden", "tydNewsOrder", "tydNewsHidden", "tydNewsNotify", "tydBellPrefs", "tydBellReadIds", "tydClippedNews", "tydWelcomeSeen"].forEach(function (k) { localStorage.removeItem(k); });
+    } catch (e) {}
+    location.href = "index.html?deleted=" + (dataFailed ? "partial" : "1");
+  }
+  function initDeleteAccount(user) {
+    // The Pond owner account can never be deleted from here (Lucy, Nov 13, 2026):
+    // hide the whole delete section for the owner and bind nothing.
+    if (user && user.uid === "1hbpZnS7gfPd0ptzygwiaDBfjo63") {
+      var dh = $("deleteaccthead"), dbx = $("deletebox");
+      if (dh) dh.hidden = true;
+      if (dbx) dbx.hidden = true;
+      return;
+    }
+    var open = $("deleteacct"), yes = $("deleteyes"), no = $("deleteno");
+    if (!open || open.dataset.bound) return;
+    open.dataset.bound = "1";
+    open.addEventListener("click", function () {
+      var c = $("deleteconfirm");
+      if (c) c.hidden = false;
+      open.hidden = true;
+    });
+    if (no) no.addEventListener("click", function () {
+      var c = $("deleteconfirm");
+      if (c) c.hidden = true;
+      open.hidden = false;
+      var r = $("deletereauth");
+      if (r) r.hidden = true;
+      dstat("");
+    });
+    if (yes) yes.addEventListener("click", function () {
+      var c = $("deleteconfirm");
+      if (c) c.hidden = true;
+      runAccountDelete();
+    });
+    var pwgo = $("deletepwgo");
+    if (pwgo) pwgo.addEventListener("click", async function () {
+      var u = auth.currentUser;
+      var pw = $("deletepw");
+      if (!u || !pw || !pw.value) { dstat("Type your password first."); return; }
+      dstat("Signing you in again…");
+      try {
+        await reauthenticateWithCredential(u, EmailAuthProvider.credential(u.email, pw.value));
+        var r = $("deletereauth");
+        if (r) r.hidden = true;
+        deleteBusy = false;
+        runAccountDelete();
+      } catch (e) {
+        dstat("That password did not match. Check it and try again, or use Forgot your password above.");
+      }
+    });
+    var gggo = $("deletegooglego");
+    if (gggo) gggo.addEventListener("click", async function () {
+      var u = auth.currentUser;
+      if (!u) return;
+      dstat("Signing you in again…");
+      try {
+        await reauthenticateWithPopup(u, new GoogleAuthProvider());
+        var r = $("deletereauth");
+        if (r) r.hidden = true;
+        deleteBusy = false;
+        runAccountDelete();
+      } catch (e) {
+        dstat("The Google window closed before finishing. Tap Continue with Google and delete to try again.");
+      }
+    });
+  }
+
+  /* Member profile (Lucy, Nov 12, 2026): a short bio (140 characters
+     max) and up to 3 favorite sections. Saved to users/{uid} (private
+     account copy) and profiles/{uid} (the public card other members see
+     when they tap the name). Only what the member writes here is ever
+     shared; a blank bio and no favorites means the card shows just the
+     name and duck. */
+  var PROFILE_SECTIONS = ["deals", "news", "food", "pantry", "travel", "korean", "planner", "nest", "books", "gifts", "bills", "stuff", "pets", "countdowns", "polls", "chat"];
+  function updateBioCount() {
+    var ta = $("profilebio"), c = $("biocount");
+    if (!ta || !c) return;
+    c.textContent = ta.value.length + " / 140";
+  }
+  function initProfile(user) {
+    var ta = $("profilebio");
+    if (ta && !ta.dataset.bound) {
+      ta.dataset.bound = "1";
+      ta.addEventListener("input", updateBioCount);
+    }
+    document.querySelectorAll("#profilefavs input").forEach(function (cb) {
+      if (cb.dataset.bound) return;
+      cb.dataset.bound = "1";
+      cb.addEventListener("change", function () {
+        var checked = document.querySelectorAll("#profilefavs input:checked");
+        if (checked.length > 3) {
+          cb.checked = false;
+          var st = $("profilestatus");
+          if (st) { st.textContent = "Pick up to 3 favorite sections."; st.classList.add("show"); }
+        }
+      });
+    });
+    var save = $("profilesave");
+    if (save && !save.dataset.bound) {
+      save.dataset.bound = "1";
+      save.addEventListener("click", async function () {
+        var u = auth.currentUser;
+        if (!u) return;
+        var bio = (ta ? ta.value : "").trim().slice(0, 140);
+        var favs = [];
+        document.querySelectorAll("#profilefavs input:checked").forEach(function (c) { favs.push(c.value); });
+        favs = favs.slice(0, 3);
+        var st = $("profilestatus");
+        try {
+          await setDoc(doc(db, "users", u.uid), { profileBio: bio, profileFavs: favs }, { merge: true });
+          await setDoc(doc(db, "profiles", u.uid), { profileBio: bio, profileFavs: favs, updatedAt: Date.now() }, { merge: true });
+          try {
+            localStorage.setItem("tydProfileBio", bio);
+            localStorage.setItem("tydProfileFavs", JSON.stringify(favs));
+          } catch (e) {}
+          if (st) { st.textContent = "Saved. Other members see your bio and favorite sections when they tap your name."; st.classList.add("show"); }
+        } catch (e) {
+          if (st) { st.textContent = "That did not save. Check your connection and try again."; st.classList.add("show"); }
+        }
+      });
+    }
+    if (!user) return;
+    try {
+      var lb = localStorage.getItem("tydProfileBio") || "";
+      var lf = JSON.parse(localStorage.getItem("tydProfileFavs") || "null");
+      if (ta && lb) ta.value = lb;
+      if (Array.isArray(lf)) {
+        document.querySelectorAll("#profilefavs input").forEach(function (cb) { cb.checked = lf.indexOf(cb.value) > -1; });
+      }
+      updateBioCount();
+    } catch (e) {}
+    getDoc(doc(db, "users", user.uid)).then(function (snap) {
+      var d = snap.exists() ? snap.data() : {};
+      if (!d) return;
+      if (ta && typeof d.profileBio === "string") ta.value = d.profileBio;
+      if (Array.isArray(d.profileFavs)) {
+        document.querySelectorAll("#profilefavs input").forEach(function (cb) { cb.checked = d.profileFavs.indexOf(cb.value) > -1; });
+      }
+      updateBioCount();
+      try {
+        localStorage.setItem("tydProfileBio", typeof d.profileBio === "string" ? d.profileBio : "");
+        localStorage.setItem("tydProfileFavs", JSON.stringify(Array.isArray(d.profileFavs) ? d.profileFavs : []));
+      } catch (e) {}
+    }).catch(function () {});
+  }
+
+  /* Recovery email (Lucy, Nov 13, 2026): an optional spare email a
+     member can add, saved only to their own users/{uid}.recoveryEmail
+     (merge, never to the public profile). If they ever lose access to
+     the email on the account, they email Lucy from this spare address
+     and she helps them get back in. No verification email is sent;
+     the recovery path is manual. Clearing the field and saving, or
+     tapping Remove it, deletes the saved recovery email. */
+  function initRecoveryEmail(user) {
+    var input = $("recoveryemail"), save = $("recoverysave"), rem = $("recoveryremove"), st = $("recoverystatus");
+    if (!input || !save) return;
+    function rstat(msg, ok) { if (!st) return; st.textContent = msg || ""; st.className = "status" + (msg ? " show " + (ok ? "ok" : "err") : ""); }
+    function showRemove(on) { if (rem) rem.hidden = !on; }
+    async function removeRecovery() {
+      var u = auth.currentUser;
+      if (!u) return;
+      try {
+        await setDoc(doc(db, "users", u.uid), { recoveryEmail: deleteField() }, { merge: true });
+        input.value = "";
+        try { localStorage.removeItem("tydRecoveryEmail"); } catch (e) {}
+        showRemove(false);
+        rstat("Recovery email removed.", true);
+      } catch (e) { rstat("That did not save. Check your connection and try again."); }
+    }
+    if (!save.dataset.bound) {
+      save.dataset.bound = "1";
+      save.addEventListener("click", async function () {
+        var u = auth.currentUser;
+        if (!u) return;
+        var v = (input.value || "").trim().toLowerCase();
+        if (!v) { removeRecovery(); return; }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) { rstat("That does not look like an email address. Check it and try again."); return; }
+        if (u.email && v === u.email.toLowerCase()) { rstat("That is the email already on this account. Add a different spare address."); return; }
+        try {
+          await setDoc(doc(db, "users", u.uid), { recoveryEmail: v }, { merge: true });
+          try { localStorage.setItem("tydRecoveryEmail", v); } catch (e) {}
+          showRemove(true);
+          rstat("Saved. If you ever lose access to this account, email Lucy from this address and she can help you get back in.", true);
+        } catch (e) { rstat("That did not save. Check your connection and try again."); }
+      });
+    }
+    if (rem && !rem.dataset.bound) {
+      rem.dataset.bound = "1";
+      rem.addEventListener("click", removeRecovery);
+    }
+    if (!user) return;
+    try { var lv = localStorage.getItem("tydRecoveryEmail") || ""; if (lv && !input.value) { input.value = lv; showRemove(true); } } catch (e) {}
+    getDoc(doc(db, "users", user.uid)).then(function (snap) {
+      var d = snap.exists() ? snap.data() : {};
+      if (d && typeof d.recoveryEmail === "string" && d.recoveryEmail) {
+        input.value = d.recoveryEmail;
+        showRemove(true);
+        try { localStorage.setItem("tydRecoveryEmail", d.recoveryEmail); } catch (e) {}
+      } else if (d && !d.recoveryEmail) {
+        input.value = "";
+        showRemove(false);
+        try { localStorage.removeItem("tydRecoveryEmail"); } catch (e) {}
+      }
+    }).catch(function () {});
+  }
+</script>
+<script type="module" src="lists.js"></script>
+<script src="badwords.js"></script>
+<script src="site-nav.js?v=372"></script>
+<script src="pull-refresh.js?v=341"></script>
+<script src="auth-pill.js"></script>
+<script src="pond-staging.js"></script>
+</body>
+</html>

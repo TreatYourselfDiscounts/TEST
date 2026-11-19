@@ -1,0 +1,19 @@
+# Keep the app shell script and service worker fresh so a new site version
+# lands on the next visit instead of waiting out a long browser cache.
+# (Lucy, Nov 13, 2026: the accent-background and dark-ducks changes in
+# v176/v177 did not show in a browser that had cached an older site-nav.js.)
+# v358: pond-home.js joins them -- it loaded unversioned, so the custom
+# domain's 4-hour cache could serve the previous version's pond code
+# after a deploy, and the pond came back small after a back-navigation.
+/site-nav.js
+  Cache-Control: public, max-age=60, must-revalidate
+/sw.js
+  Cache-Control: public, max-age=60, must-revalidate
+/pond-home.js
+  Cache-Control: public, max-age=60, must-revalidate
+/pond-travel.css
+  Cache-Control: public, max-age=60, must-revalidate
+/pond-staging.js
+  Cache-Control: public, max-age=60, must-revalidate
+/pond-firebase-stub.js
+  Cache-Control: public, max-age=60, must-revalidate
